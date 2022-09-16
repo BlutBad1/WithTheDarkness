@@ -16,7 +16,7 @@ public class Gun : MonoBehaviour
     float timeSinceLastShot;
     int difference;
     [SerializeField]
-    float x, y, z;
+   
   
 
     private void Start()
@@ -71,12 +71,11 @@ public class Gun : MonoBehaviour
     private bool CanShoot() => !gunData.reloading && timeSinceLastShot >2f / (gunData.fireRate / 60f);
     public void ShootRaycast()
     {
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hitInfo, gunData.maxDistance))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hitInfo, gunData.maxDistance,~(1<<20)))
         {
 
             IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
             damageable?.TakeDamage(gunData.damage);
-
             GameObject t_newHole = Instantiate(bulletHole, hitInfo.point + hitInfo.normal * 0.0001f, Quaternion.LookRotation(hitInfo.normal));
 
 

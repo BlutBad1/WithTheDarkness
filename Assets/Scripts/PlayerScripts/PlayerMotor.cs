@@ -7,7 +7,8 @@ public class PlayerMotor : MonoBehaviour
    
     private CharacterController character;
     private Vector3 playerVelocity;
-    private bool isGrounded;
+    [HideInInspector]
+    public bool isGrounded;
     private bool lerpCrounch;
     private bool crounching;
     private bool sprinting;
@@ -25,6 +26,8 @@ public class PlayerMotor : MonoBehaviour
     private float speed; // main speed that is using for everything
     [HideInInspector]
     public Vector3 currentVelocity;
+    [HideInInspector]
+    public Vector3 moveDirection = Vector3.zero;
 
     void Start()
     {
@@ -84,7 +87,7 @@ public class PlayerMotor : MonoBehaviour
     }
     public void ProcessMove(Vector2 input)
     {
-        Vector3 moveDirection = Vector3.zero;
+        
         moveDirection.x = input.x;
         moveDirection.z = input.y;
         character.Move(transform.TransformDirection(moveDirection)*speed * Time.deltaTime);

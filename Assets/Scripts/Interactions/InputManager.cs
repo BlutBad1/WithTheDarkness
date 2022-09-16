@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
     public PlayerInput.OnFootActions onFoot;
     private PlayerMotor motor;
     private PlayerLook look;
+    public bool isTeleporting = false;
     void Awake()
     {
        
@@ -25,7 +26,11 @@ public class InputManager : MonoBehaviour
 
     void FixedUpdate()
     {
-        motor.ProcessMove(onFoot.Movement.ReadValue<Vector2>());
+        if (!isTeleporting)
+        {
+            motor.ProcessMove(onFoot.Movement.ReadValue<Vector2>());
+        }
+    
     }
     private void LateUpdate()
     {

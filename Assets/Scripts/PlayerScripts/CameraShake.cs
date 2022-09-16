@@ -17,6 +17,7 @@ public class CameraShake : MonoBehaviour
     public void FooCameraShake()
     {
         CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
+    
     }
 
   

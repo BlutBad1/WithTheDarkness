@@ -13,7 +13,7 @@ public class LampLight : MonoBehaviour
     void Start()
     {
         currentTime = startingTime;
-        startingIntenstity = light.intensity; // 0 - main light 
+        startingIntenstity = light.intensity; 
     }
 
     // Update is called once per frame
@@ -21,8 +21,10 @@ public class LampLight : MonoBehaviour
     {
         currentTime -= 1 * Time.deltaTime;
         light.intensity = light.intensity>startingIntenstity?startingIntenstity:(startingIntenstity * currentTime) / startingTime;
-     
-        halo.enabled = light.intensity < 0.2 ? false: true;
+        if (halo !=null)
+        {
+            halo.enabled = light.intensity < 0.2 ? false : true;
+        }
         currentTime = currentTime < 0 ? 0 : currentTime;
         
 
