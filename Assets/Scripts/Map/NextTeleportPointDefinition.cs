@@ -5,11 +5,15 @@ using UnityEngine;
 public class NextTeleportPointDefinition : MonoBehaviour
 {
    
-    [SerializeField]
+   
     MapData mapData;
     [SerializeField]
     TeleportTrigger teleportTrigger;
     bool isActiveted = false;
+    private void Start()
+    {
+        mapData = GameObject.Find("Maps").GetComponent<MapData>();
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (!isActiveted)
@@ -17,8 +21,8 @@ public class NextTeleportPointDefinition : MonoBehaviour
             if (mapData.iterator < mapData.mainLocationsArr.Length)
             {
                 teleportTrigger.teleportPoint = mapData.mainLocationsArr[mapData.iterator].mainTeleportTrigger.teleportPointToHere;
-                teleportTrigger.teleportPoint.position = new Vector3(teleportTrigger.teleportPoint.position.x, 0.98f, teleportTrigger.teleportPoint.position.z);
-                teleportTrigger.teleportPointToHere.position = new Vector3(teleportTrigger.teleportPointToHere.position.x, 0.98f, teleportTrigger.teleportPointToHere.position.z);
+                teleportTrigger.teleportPoint.position = new Vector3(teleportTrigger.teleportPoint.position.x, teleportTrigger.teleportPoint.position.y, teleportTrigger.teleportPoint.position.z);
+                teleportTrigger.teleportPointToHere.position = new Vector3(teleportTrigger.teleportPointToHere.position.x, teleportTrigger.teleportPointToHere.position.y, teleportTrigger.teleportPointToHere.position.z);
                 mapData.mainLocationsArr[mapData.iterator].mainTeleportTrigger.teleportPoint = teleportTrigger.teleportPointToHere;
 
                 isActiveted = !isActiveted;
@@ -27,8 +31,8 @@ public class NextTeleportPointDefinition : MonoBehaviour
             else
             {
                 teleportTrigger.teleportPoint = mapData.theLastLocation.teleportPointToHere;
-                teleportTrigger.teleportPoint.position = new Vector3(teleportTrigger.teleportPoint.position.x, 0.98f, teleportTrigger.teleportPoint.position.z);
-                teleportTrigger.teleportPointToHere.position = new Vector3(teleportTrigger.teleportPointToHere.position.x, 0.98f, teleportTrigger.teleportPointToHere.position.z);
+                teleportTrigger.teleportPoint.position = new Vector3(teleportTrigger.teleportPoint.position.x, teleportTrigger.teleportPoint.position.y, teleportTrigger.teleportPoint.position.z);
+                teleportTrigger.teleportPointToHere.position = new Vector3(teleportTrigger.teleportPointToHere.position.x, teleportTrigger.teleportPoint.position.y, teleportTrigger.teleportPointToHere.position.z);
                 mapData.theLastLocation.teleportPoint = teleportTrigger.teleportPointToHere;
                 isActiveted = !isActiveted;
             }

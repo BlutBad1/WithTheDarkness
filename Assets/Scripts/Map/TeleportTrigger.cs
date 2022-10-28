@@ -1,11 +1,11 @@
+
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TeleportTrigger : MonoBehaviour
 {
-    [SerializeField]
+  
     GameObject player;
     [SerializeField]
     public Transform teleportPointToHere;
@@ -15,24 +15,56 @@ public class TeleportTrigger : MonoBehaviour
     float automaticallySpawnTimer = 2;
     float timeElapsed = 0;
 
-
-    private void OnTriggerStay(Collider other)
+    GameObject dimming ;
+    GameObject audioManager;
+    bool isActivated = false;
+    //private void OnTriggerStay(Collider other)
+    //{
+    //    timeElapsed += Time.deltaTime;
+    //    if (timeElapsed >= automaticallySpawnTimer)
+    //    {
+    //        StartCoroutine(Teleport());
+    //        timeElapsed = 0;
+    //    }
+    //}
+    private void Start()
     {
-        timeElapsed += Time.deltaTime;
-        if (timeElapsed >= automaticallySpawnTimer)
+        dimming = GameObject.Find("BlackScreenDimming");
+        dimming.GetComponent<BlackScreenDimming>().fadeSpeed = 0.5f;
+        audioManager = GameObject.Find("MainAudioManager");
+        player = GameObject.Find("Player");
+    }
+    private void Update()
+    {
+        if (isActivated)
         {
-            StartCoroutine(Teleport());
-            timeElapsed = 0;
+            timeElapsed += Time.deltaTime;
+            if (timeElapsed >= automaticallySpawnTimer)
+            {
+                StartCoroutine(Teleport());
+                dimming.GetComponent<BlackScreenDimming>().DimmingDisable();
+                timeElapsed = 0;
+                isActivated = false;
+                
+            }
         }
     }
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-      
-        timeElapsed = 0;
-        StartCoroutine(Teleport());
-
+        isActivated =true;
+        dimming.GetComponent<BlackScreenDimming>().DimmingEnable();
+        audioManager.GetComponent<AudioManager>().PlayWithoutRep("transitionSound");
 
     }
+    //private void OnTriggerExit(Collider other)
+    //{
+      
+    //    timeElapsed = 0;
+    //    //isScreenDimmed = false;
+    //    StartCoroutine(Teleport());
+    //    dimmingOff.Invoke();
+
+    //}
     IEnumerator Teleport()
     {
         player.GetComponent<InputManager>().isTeleporting = true;
@@ -43,5 +75,6 @@ public class TeleportTrigger : MonoBehaviour
         player.GetComponent<InputManager>().isTeleporting = false;
 
     }
-   
+  
+
 }

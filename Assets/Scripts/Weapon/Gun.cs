@@ -71,7 +71,7 @@ public class Gun : MonoBehaviour
     private bool CanShoot() => !gunData.reloading && timeSinceLastShot >2f / (gunData.fireRate / 60f);
     public void ShootRaycast()
     {
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hitInfo, gunData.maxDistance,~(1<<20)))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hitInfo, gunData.maxDistance,~(1<<20 | 1<<2)))
         {
 
             IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();

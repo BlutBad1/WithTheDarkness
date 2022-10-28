@@ -11,6 +11,7 @@ public class PlayerInteract : MonoBehaviour
     private LayerMask mask;
     private PlayerUi playerUi;
     private InputManager inputManager;
+    Ray ray;
     void Start()
     {
         cam = GetComponent<PlayerLook>().cam;
@@ -22,21 +23,31 @@ public class PlayerInteract : MonoBehaviour
     void Update()
     {
         playerUi.UpdateText(string.Empty);
-        Ray ray = new Ray(cam.transform.position, cam.transform.forward);
+         ray = new Ray(cam.transform.position, cam.transform.forward);
         RaycastHit hitInfo;
+     
       
-        if(Physics.Raycast(ray, out hitInfo,distance,mask))
+     
+        if (Physics.SphereCast(ray, 0.1f, out hitInfo, distance, mask))
         {
+          
             if (hitInfo.collider.GetComponent<Interactable> ()!= null)
             {
                 
                 Interactable interactable = hitInfo.collider.GetComponent<Interactable>();
                 playerUi.UpdateText(interactable.promptMessage);
+               
                 if (inputManager.onFoot.Interact.triggered)
                 {
                     interactable.BaseInteract();
                 }
             }
         }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        
+        Gizmos.DrawWireSphere(ray.origin + ray.direction * distance, 0.1f);
     }
 }
