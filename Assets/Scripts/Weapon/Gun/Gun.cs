@@ -21,11 +21,28 @@ public class Gun : MonoBehaviour
 
     private void Start()
     {
+        
         PlayerShoot.shootInput += Shoot;
         PlayerShoot.reloadInput += StartReload;
         gunData.currentAmmo = gunData.magSize;
         gunData.reloading = false;
     }
+    public void PickingUpAnim(int status)
+    {
+        switch (status)
+        {
+            case 1:
+                gun.GetComponent<Animator>().SetBool("IsPickingUp", true);
+                break;
+            case 0:
+                gun.GetComponent<Animator>().SetBool("IsPickingUp", false);
+                break;
+            default:
+                break;
+        }
+
+    }
+
     public void StartReload()
     {
         if (gunData.currentAmmo!=gunData.magSize&&gunData.reserveAmmo!=0)
@@ -37,8 +54,9 @@ public class Gun : MonoBehaviour
         }
        
     }
-    public void ReloadingSound(){audioManager.PlayAFewTimes("RevolverReloading","RevolverCylinder",difference);
-        
+    public void ReloadingSound()
+    {
+        audioManager.PlayAFewTimes("RevolverReloading","RevolverCylinder",difference);   
     }
     public void ReloadAnim(float difference)
     {

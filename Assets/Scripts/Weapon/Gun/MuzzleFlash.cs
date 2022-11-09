@@ -11,30 +11,26 @@ public class MuzzleFlash : MonoBehaviour
     [SerializeField]
     private float timer;
     private float MuzzleTimer;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
     public void MuzzleFlashEnable()
     {
         MuzzleTimer = 0;
-
-        muzzleFlash.Play();
         muzzleLight.enabled = true;
+        muzzleFlash.Play();
+        StartCoroutine(MuzzleLight());
+
+
+    }
+    IEnumerator MuzzleLight()
+    {
+        while (MuzzleTimer < timer)
+        {
+            yield return null;
+            MuzzleTimer += Time.deltaTime;
+        }
         muzzleLight.enabled = false;
 
-
+      
     }
-    private void Update()
-    {
-
-
-        MuzzleTimer += Time.deltaTime;
-        muzzleLight.enabled = MuzzleTimer >= timer ? false : true;
-       
-
-    }
+  
 }

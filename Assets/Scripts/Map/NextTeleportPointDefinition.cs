@@ -31,8 +31,6 @@ public class NextTeleportPointDefinition : MonoBehaviour
             else
             {
                 teleportTrigger.teleportPoint = mapData.theLastLocation.teleportPointToHere;
-                teleportTrigger.teleportPoint.position = new Vector3(teleportTrigger.teleportPoint.position.x, teleportTrigger.teleportPoint.position.y, teleportTrigger.teleportPoint.position.z);
-                teleportTrigger.teleportPointToHere.position = new Vector3(teleportTrigger.teleportPointToHere.position.x, teleportTrigger.teleportPoint.position.y, teleportTrigger.teleportPointToHere.position.z);
                 mapData.theLastLocation.teleportPoint = teleportTrigger.teleportPointToHere;
                 isActiveted = !isActiveted;
             }
