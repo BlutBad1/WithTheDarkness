@@ -2,16 +2,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LampLight : MonoBehaviour
+public class LampLightTimer : MonoBehaviour
 {
+    [HideInInspector]
     public Light light;
+    [HideInInspector]
     public Behaviour halo;
-    public float startingTime=300f;
+    [HideInInspector]
+    public float startingTime=10;
     float currentTime = 0f;
     private float startingIntenstity;
    
     void Start()
     {
+        light = GetComponent<Light>();
+        
+        halo = GetComponent<Behaviour>();
+        startingTime=GameObject.Find("LightsTimers").GetComponent<LightsTimers>().time;
         currentTime = startingTime;
         startingIntenstity = light.intensity; 
     }

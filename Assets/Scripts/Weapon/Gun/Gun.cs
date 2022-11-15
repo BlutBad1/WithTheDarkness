@@ -15,13 +15,12 @@ public class Gun : MonoBehaviour
     private AudioManager audioManager;
     float timeSinceLastShot;
     int difference;
-    [SerializeField]
-   
-  
+
+
 
     private void Start()
     {
-        
+     
         PlayerShoot.shootInput += Shoot;
         PlayerShoot.reloadInput += StartReload;
         gunData.currentAmmo = gunData.magSize;
@@ -29,6 +28,7 @@ public class Gun : MonoBehaviour
     }
     public void PickingUpAnim(int status)
     {
+      
         switch (status)
         {
             case 1:
