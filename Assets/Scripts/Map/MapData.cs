@@ -35,7 +35,7 @@ public class MapData : MonoBehaviour
                 if (new System.Random().Next()%100<=map.spawnChance)
                 {
                     Array.Resize(ref mainLocationsArr, mainLocationsArr.Length + 1);
-                     mainLocationsArr[^1] = map;
+                    mainLocationsArr[^1] = map;
                   
                 }
               

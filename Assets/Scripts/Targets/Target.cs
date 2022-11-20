@@ -8,9 +8,14 @@ public class Target : MonoBehaviour, IDamageable
     public void TakeDamage(float damage)
     {
         health -= damage;
-       
+
         if (health <= 0)
             Destroy(gameObject);
-    
+
+    }
+
+    public void TakeDamage(float damage, RaycastHit hit)
+    {
+       
     }
 }

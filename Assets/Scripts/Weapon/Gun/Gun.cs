@@ -6,7 +6,8 @@ using UnityEngine;
 public class Gun : MonoBehaviour
 {
     [SerializeField] GunData gunData;
-    [SerializeField] GameObject bulletHole;
+    [SerializeField] GameObject defaultBulletHole;
+    [SerializeField] GameObject enemyBulletHole;
     [SerializeField]
     private GameObject gun;
     [SerializeField]
@@ -89,12 +90,22 @@ public class Gun : MonoBehaviour
     private bool CanShoot() => !gunData.reloading && timeSinceLastShot >2f / (gunData.fireRate / 60f);
     public void ShootRaycast()
     {
+
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hitInfo, gunData.maxDistance,~(1<<20 | 1<<2)))
         {
 
             IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-            damageable?.TakeDamage(gunData.damage);
-            GameObject t_newHole = Instantiate(bulletHole, hitInfo.point + hitInfo.normal * 0.0001f, Quaternion.LookRotation(hitInfo.normal));
+            damageable?.TakeDamage(gunData.damage, hitInfo);
+         
+            if (hitInfo.collider.gameObject.layer==13)
+            {
+                GameObject t_newHole = Instantiate(enemyBulletHole, hitInfo.point + hitInfo.normal * 0.0001f, Quaternion.LookRotation(hitInfo.normal),parent:hitInfo.transform);
+            }
+            else
+            {
+             
+                GameObject t_newHole = Instantiate(defaultBulletHole, hitInfo.point + hitInfo.normal * 0.0001f, Quaternion.LookRotation(hitInfo.normal)); 
+            }
 
 
 
