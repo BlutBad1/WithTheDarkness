@@ -1,4 +1,6 @@
 # WithTheDarkness
+Video report (Ukrainian): https://youtu.be/iRZu8lFtU4I
+
 Unity game is currently under development. 
 
 The game is a first-person horror game with roguelike elements.
