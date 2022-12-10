@@ -1,4 +1,5 @@
 # WithTheDarkness
+#Assets -> Scripts
 Video report (Ukrainian): https://youtu.be/iRZu8lFtU4I
 
 Unity game is currently under development. 
