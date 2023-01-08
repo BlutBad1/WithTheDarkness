@@ -70,3 +70,5 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+/Assets/Sounds/DeleteIT/wolves_-_kanye-6b019add-71f7-4a31-8363-ed112937445e.mp3
+/Assets/Sounds/DeleteIT/wolves_-_kanye-6b019add-71f7-4a31-8363-ed112937445e.mp3.meta

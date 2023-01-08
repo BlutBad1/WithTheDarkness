@@ -8,6 +8,7 @@ using UnityEngine;
 public struct Location{
     [SerializeField]
     string mapName;
+    public GameObject mapData;
     public float spawnChance;
     public TeleportTrigger mainTeleportTrigger;
    
@@ -35,8 +36,13 @@ public class MapData : MonoBehaviour
                 if (new System.Random().Next()%100<=map.spawnChance)
                 {
                     Array.Resize(ref mainLocationsArr, mainLocationsArr.Length + 1);
+           
                     mainLocationsArr[^1] = map;
                   
+                }
+                else
+                {
+                   Destroy(map.mapData);
                 }
               
             

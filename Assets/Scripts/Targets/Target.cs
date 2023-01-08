@@ -5,15 +5,20 @@ using UnityEngine;
 
 public class Target : MonoBehaviour, IDamageable
 {
-    private float health = 25f;
-   
+    public float health = 25f;
+    public float speed=250;
 
     public void TakeDamage(float damage, RaycastHit hit)
     {
         health -= damage;
 
         if (health <= 0)
-            transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1000, transform.position.z),500).SetUpdate(UpdateType.Normal,true);
+        { 
+            GetComponent<AudioSource>().Play();
+            transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1000, transform.position.z), speed).SetUpdate(UpdateType.Normal, true);
+          
+        }
+           
        
     }
 }

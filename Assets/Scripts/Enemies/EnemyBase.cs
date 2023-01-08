@@ -6,39 +6,29 @@ using UnityEngine.AI;
 public  class EnemyBase : MonoBehaviour, IDamageable
 {
 
-    public bool isMovable;
+    public bool doesHaveKnockout, knockoutPhysics;
     public float force;
     [HideInInspector]
     public bool isInKnockout=false;
-    public float knockoutTimer = 0.3f;
-    public virtual void TakeDamage(float damage)
-    {
-        if (isMovable)
-        {
-           
-            GetComponent<NavMeshAgent>().velocity = Vector3.zero;
-            if (!isInKnockout)
-            {
-                isInKnockout = true;
-                StartCoroutine(KnockBackTimer());
-            }
-        }
-    }
+    public float inKnockoutTime = 0.3f;
+    
 
     public virtual void TakeDamage(float damage, RaycastHit hit) 
     {
-        if (isMovable)
+        if (doesHaveKnockout)
         {
             Vector3 moveDirection =  transform.position - hit.point;
           
             if (!isInKnockout)
             {
                 isInKnockout = true;
-                GetComponent<NavMeshAgent>().velocity = Vector3.zero;
-
-                GetComponent<NavMeshAgent>().enabled = false;
-                GetComponent<Rigidbody>().isKinematic = false;
-                GetComponent<Rigidbody>().AddForce(moveDirection.normalized * force, ForceMode.Impulse);
+                if (knockoutPhysics)
+                {
+                    GetComponent<NavMeshAgent>().velocity = Vector3.zero;
+                    GetComponent<NavMeshAgent>().enabled = false;
+                    GetComponent<Rigidbody>().isKinematic = false;
+                    GetComponent<Rigidbody>().AddForce(moveDirection.normalized * force, ForceMode.Impulse);
+                }
                 StartCoroutine(KnockBackTimer());
 
             }    
@@ -49,7 +39,7 @@ public  class EnemyBase : MonoBehaviour, IDamageable
     IEnumerator KnockBackTimer()
     {
         float timeElapsed=0f;
-        while (timeElapsed < knockoutTimer)
+        while (timeElapsed < inKnockoutTime)
         {
             timeElapsed += Time.deltaTime;
             yield return null;
