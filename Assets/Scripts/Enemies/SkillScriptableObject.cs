@@ -8,12 +8,12 @@ public class SkillScriptableObject : ScriptableObject
     protected float UseTime;
 
 
-    //public virtual void UseSkill(Enemy enemy , Player player )
-    //{
-    //    IsActivating = true;
-    //}
-    //public virtual bool CanUseSkill(Enemy enemy, Player player)
-    //{
-    //    return true;
-    //}
+    public virtual void UseSkill(Enemy enemy, GameObject player)
+    {
+        IsActivating = true;
+    }
+    public virtual bool CanUseSkill(Enemy enemy, GameObject player)
+    {
+        return true;
+    }
 }

@@ -91,14 +91,18 @@ public class Gun : MonoBehaviour
     public void ShootRaycast()
     {
 
-        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hitInfo, gunData.maxDistance,~(1<<20 | 1<<2)))
+        if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hitInfo, gunData.maxDistance, ~(1 << 20 | 1 << 2)))
         {
 
             IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-            damageable?.TakeDamage(gunData.damage, hitInfo);
-         
+           
+
             if (hitInfo.collider.gameObject.layer==13)
             {
+                if (damageable.doesHaveKnockout)
+                    damageable?.TakeDamage(gunData.damage, hitInfo);
+                else
+                    damageable?.TakeDamage(gunData.damage);
                 GameObject t_newHole = Instantiate(enemyBulletHole, hitInfo.point + hitInfo.normal * 0.0001f, Quaternion.LookRotation(hitInfo.normal),parent:hitInfo.transform);
             }
             else

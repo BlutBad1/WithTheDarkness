@@ -1,51 +1,85 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-[RequireComponent (typeof(NavMeshAgent), typeof(AgentLinkMover))]
+
+[RequireComponent(typeof(NavMeshAgent), typeof(AgentLinkMover))]
 public class EnemyMovement : MonoBehaviour
 {
-    public Transform Target;
-    [SerializeField]
-    private Animator Animator;
-    public float UpdateSpeed = 0.1f;
-    private NavMeshAgent Agent;
+    public Transform Player;
+    protected NavMeshAgent Agent;
     private AgentLinkMover LinkMover;
-    private const string IsWalking = "IsWalking";
-    private const string Jump = "Jump";
-    private const string Landed = "Landed";
-
+    [SerializeField]
+    private Animator Animator = null;
+    public AudioSource movementSound;
+    public const string IsWalking = "IsWalking";
+    public const string Jump = "Jump";
+    public const string Landed = "Landed";
+    public delegate void StateChangeEvent(EnemyState oldState, EnemyState newState);
+    public StateChangeEvent OnStateChange;
+    public EnemyState DefaultState;
+    private EnemyState _state;
+    public EnemyState State
+    {
+        get
+        {
+            return _state;
+        }
+        set
+        {
+            OnStateChange?.Invoke(_state, value);
+            _state = value;
+        }
+    }
+    private Coroutine FollowCoroutine;
+    void Start()
+    {
+        StartCoroutine(FollowTarget());
+    }
     private void Awake()
     {
         Agent = GetComponent<NavMeshAgent>();
         LinkMover = GetComponent<AgentLinkMover>();
-        LinkMover.OnLinkEnd += HandleLinkEnd;
+
         LinkMover.OnLinkStart += HandleLinkStart;
+        LinkMover.OnLinkEnd += HandleLinkEnd;
     }
-    void Start()
+
+    public void StartChasing()
     {
-        StartCoroutine(FollowTarget());
+        if (FollowCoroutine == null)
+        {
+            FollowCoroutine = StartCoroutine(FollowTarget());
+        }
+        else
+        {
+            Debug.LogWarning("Called StartChasing on Enemy that is already chasing! This is likely a bug in some calling class!");
+        }
+    }
+
+    protected virtual IEnumerator FollowTarget() // override  
+    {
+    
+
+        while (gameObject.activeSelf)
+        {
+            Agent.SetDestination(Player.transform.position);
+            yield return null;
+        }
     }
 
     private void HandleLinkStart()
     {
         Animator.SetTrigger(Jump);
     }
+
     private void HandleLinkEnd()
     {
         Animator.SetTrigger(Landed);
     }
+
     private void Update()
     {
         Animator.SetBool(IsWalking, Agent.velocity.magnitude > 0.01f);
-    }
-    private IEnumerator FollowTarget()
-    {
-        WaitForSeconds Wait = new WaitForSeconds(UpdateSpeed);
-        while (enabled)
-        {
-            Agent.SetDestination(Target.transform.position);
-            yield return Wait;
-        }
+       
     }
 }

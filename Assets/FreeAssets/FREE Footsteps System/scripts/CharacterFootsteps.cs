@@ -24,7 +24,7 @@ namespace Footsteps {
 
 		[Tooltip("The method of triggering footsteps.")]
 		[SerializeField] TriggeredBy triggeredBy;
-
+	
 		[Tooltip("This is used to determine what distance has to be traveled in order to play the footstep sound.")]
 		[SerializeField] float distanceBetweenSteps = 1.8f;
 

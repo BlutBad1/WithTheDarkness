@@ -23,14 +23,14 @@ namespace Footsteps {
 
 			Rect rect = new Rect();
 			SerializedProperty triggeredBy = serializedObject.FindProperty("triggeredBy");
-
+		
 			GUILayout.Box("Hover over every setting to see what it means, for more info on them, read the documentation.");
-
+		
 			EditorGUILayout.LabelField("Trigger Settings", new GUIStyle() { fontStyle = FontStyle.BoldAndItalic });
 			EditorGUILayout.PropertyField(triggeredBy);
-
+			
 			// If the dropwdown shows COLLISION_DETECTION
-			if(triggeredBy.enumValueIndex == 0) {
+			if (triggeredBy.enumValueIndex == 0) {
 				GUILayout.Box("You need to have a footstep trigger properly sized for each foot, for this method to work, please look into documentation for more info.");
 			}
 			// If the dropdown shows DISTANCE_TRAVELED
@@ -140,21 +140,23 @@ namespace Footsteps {
 			SerializedProperty surfaceIndex = property.FindPropertyRelative("surfaceIndex");
 
 			// Showing labels for the fields
+			position.y -= 11f;
 			GUI.Label(position, "Texture");
-			position.x = position.width / 2f;
+			position.x = (position.width / 2f) + 50f;
 			GUI.Label(position, "GroundType");
 
 			// Set the new rect 
-			position.height = 16f;
-			position.y = position.yMax;
-			position.x = 0f;
+			position.height = 12f;
+			position.y = position.yMax + 14f;
+			position.x = 48f;
 			position.width /= 2.2f;
 
 			// Draw the texture field
 			EditorGUI.PropertyField(position, texture, GUIContent.none);
 
 			// Draw the type field
-			position.x = position.xMax;
+			position.x = position.xMax + 15f;
+			position.y -= 2f;
 			surfaceIndex.intValue = EditorGUI.Popup(position, surfaceIndex.intValue, surfManag.GetAllSurfaceNames());
 		}
 

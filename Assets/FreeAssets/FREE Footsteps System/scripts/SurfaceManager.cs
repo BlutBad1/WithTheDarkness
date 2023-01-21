@@ -16,7 +16,7 @@ public struct RegisteredMaterial {
 
 public class SurfaceManager : MonoBehaviour {
 
-	public static SurfaceManager singleton;
+	public  static SurfaceManager singleton;
 
 	[SerializeField] SurfaceDefinition[] definedSurfaces;
 	[SerializeField] RegisteredMaterial[] registeredTextures;
@@ -38,7 +38,7 @@ public class SurfaceManager : MonoBehaviour {
 
 		// Getting the footstep sounds based on surface index.
 		AudioClip[] footsteps = definedSurfaces[surfaceIndex].footsteps;
-		n = Random.Range(1, footsteps.Length);
+		n = Random.Range(0, footsteps.Length);
 
 		// Move picked sound to index 0 so it's not picked next time.
 		AudioClip temp = footsteps[n];
