@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(SphereCollider))]
 public class AttackRadius : MonoBehaviour
 {
+    [HideInInspector]
     public SphereCollider Collider;
    
     public int Damage = 10;

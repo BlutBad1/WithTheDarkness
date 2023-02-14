@@ -12,7 +12,7 @@ public class TeleportTrigger : MonoBehaviour
     [HideInInspector]
     public Transform teleportPoint; // position of the next spawn point of a next location 
     [SerializeField]
-    float automaticallySpawnTimer = 2;
+    float spawnAfter = 2;
     float timeElapsed = 0;
 
     GameObject dimming ;
@@ -39,7 +39,7 @@ public class TeleportTrigger : MonoBehaviour
         if (isActivated)
         {
             timeElapsed += Time.deltaTime;
-            if (timeElapsed >= automaticallySpawnTimer)
+            if (timeElapsed >= spawnAfter)
             {
                 StartCoroutine(Teleport());
                 dimming.GetComponent<BlackScreenDimming>().DimmingDisable();

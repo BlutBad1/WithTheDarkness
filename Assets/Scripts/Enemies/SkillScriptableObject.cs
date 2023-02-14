@@ -4,10 +4,15 @@ public class SkillScriptableObject : ScriptableObject
 {
     public float Cooldown = 10f;
     public int Damage = 5;
+    [HideInInspector]
     public bool IsActivating;
-    protected float UseTime;
+    protected float UseTime=0f;
 
-
+    private void OnEnable()
+    {
+        UseTime = 0f;
+        IsActivating = false;
+    }
     public virtual void UseSkill(Enemy enemy, GameObject player)
     {
         IsActivating = true;

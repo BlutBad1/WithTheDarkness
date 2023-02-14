@@ -13,13 +13,40 @@ MonoBehaviour:
   m_Name: Jump Skill
   m_EditorClassIdentifier: 
   Cooldown: 10
-  Damage: 5
+  Damage: 25
   IsActivating: 0
-  MinJumpDistance: 1.5
-  MaxJumpDistance: 5
+  MinJumpDistance: 2
+  MaxJumpDistance: 7
   HeightCurve:
     serializedVersion: 2
-    m_Curve: []
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.21580124
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.20842436
+      value: 0.25576487
+      inSlope: -0.00040230638
+      outSlope: -0.00040230638
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.105011
+      value: -0.0015563965
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4

@@ -18,6 +18,7 @@ public class MessagePrint : MonoBehaviour
     {
         this.disapperingSpeed = disapperingSpeed;
         StopAllCoroutines();
+      
         infoMessage.text = message;
         infoMessage.alpha = 1;
         StartCoroutine(MessageDisappering());
@@ -32,11 +33,15 @@ public class MessagePrint : MonoBehaviour
         while (tempAlpha > 0)
         {
             infoMessage.color = new Color(infoMessage.color.r, infoMessage.color.g, infoMessage.color.b, tempAlpha);
+            if (tempAlpha>=0.1)
+                tempAlpha -= Time.deltaTime * disapperingSpeed;
 
-            tempAlpha -= Time.deltaTime * disapperingSpeed;
+            else
+                tempAlpha = 0;
+         
             yield return null;
 
         }
-
+        infoMessage.text = "";
     }
 }

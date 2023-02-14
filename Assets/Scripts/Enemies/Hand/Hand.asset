@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a77e88ae2f251334d9e866e883156793, type: 3}
   m_Name: Hand
   m_EditorClassIdentifier: 
+  Skills:
+  - {fileID: 11400000, guid: 003065127fc7067498a2baecc646e534, type: 2}
   Health: 10000
   AttackDelay: 1.5
   Damage: 25

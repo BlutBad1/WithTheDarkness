@@ -5,63 +5,61 @@ using UnityEngine.AI;
 [RequireComponent (typeof(NavMeshAgent), typeof(AgentLinkMover))]
 public class HandMovement :  EnemyMovement
 {
-  
 
-  
-    public LayerMask whatIsPlayer;
-    //Patroling
-    [HideInInspector]
+    public float hiddenSightRange = 10f;
+     [HideInInspector]
     public Vector3 walkPoint;
     [HideInInspector]
-    public bool walkPointSet;
+    public bool walkPointIsSet;
 
-    //States
-    public float sightRange;
-    public float hiddenSightRange;
-    [HideInInspector]
-    public bool playerInSightRange;
+    public override void HandleStateChange(EnemyState oldState, EnemyState newState)
+    {
+        if (oldState != EnemyState.Idle)
+            walkPointIsSet = false;
+        base.HandleStateChange(oldState, newState);
+        
+    
+    }
 
-    [HideInInspector]
-    public bool isInKnockout =false;
-  
-
-
-
-  
-    protected override IEnumerator FollowTarget()
+    protected override void HandleGainSight(GameObject player)
     {
       
-        while (enabled)
+        base.HandleGainSight(player);
+    }
+    public  void ChasePlayer()
+    {
+      
+        Agent.SetDestination(Player.position);
+       
+    }
+    protected override IEnumerator DoIdleMotion()
+    {
+        while (true)
         {
             if (Agent.enabled)
             {
-                playerInSightRange = Physics.CheckSphere(transform.position, sightRange, whatIsPlayer);
+                if (walkPointIsSet)
+                {
+                    Agent.SetDestination(walkPoint);
+                }
+                if (!walkPointIsSet)
+                {
+                    SearchWalkPoint();
+                }
 
-                Vector3 distanceToPlayer = transform.position - Player.position;
-              
-                if (!playerInSightRange) Patroling();
-                if (playerInSightRange ) ChasePlayer();
-             
+                Vector3 distanceToWalkPoint = transform.position - walkPoint;
 
+                //Walkpoint reached
+                if (distanceToWalkPoint.magnitude <= Agent.stoppingDistance + 0.3f)
+                {
+                    walkPointIsSet = false;
+                }
 
             }
             yield return null;
         }
-    }
-    protected  void Patroling()
-    {
 
-        if (!walkPointSet) 
-            SearchWalkPoint();
-        if (walkPointSet)
-            Agent.SetDestination(walkPoint);
-
-
-        Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
-        //Walkpoint reached
-        if (distanceToWalkPoint.magnitude < 1f)
-            walkPointSet = false;
+      
     }
     protected void SearchWalkPoint()
     {
@@ -69,16 +67,8 @@ public class HandMovement :  EnemyMovement
         if (distanceToPlayer <= hiddenSightRange)
         {
             walkPoint = Player.position;
-            walkPointSet = true;
+            walkPointIsSet = true;
         }
 
     }
-
-    public  void ChasePlayer()
-    {
-        Agent.SetDestination(Player.position);
-       
-    }
-
-  
 }

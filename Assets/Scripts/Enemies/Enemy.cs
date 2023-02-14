@@ -13,6 +13,7 @@ public class Enemy :  MonoBehaviour, IDamageable
     public EnemyScriptableObject EnemyScriptableObject;
     [HideInInspector]
     public int Health = 100;
+    [HideInInspector]
     public SkillScriptableObject[] Skills;
     public bool knockoutEnable =false, knockoutPhysics;
     public float force;
@@ -35,8 +36,10 @@ public class Enemy :  MonoBehaviour, IDamageable
     {
         for (int i = 0; i < Skills.Length; i++)
         {
+          
             if (Skills[i].CanUseSkill(this,Player))
             {
+               
                 Skills[i].UseSkill(this, Player);
             }
         }
@@ -92,6 +95,7 @@ public class Enemy :  MonoBehaviour, IDamageable
         (AttackRadius.Collider == null ? AttackRadius.GetComponent<SphereCollider>() : AttackRadius.Collider).radius = EnemyScriptableObject.AttackRadius;
         AttackRadius.AttackDelay = EnemyScriptableObject.AttackDelay;
         AttackRadius.Damage = EnemyScriptableObject.Damage;
+        Skills = EnemyScriptableObject.Skills;
     }
 
     public virtual void TakeDamage(int Damage)
@@ -117,10 +121,10 @@ public class Enemy :  MonoBehaviour, IDamageable
             TakeDamage((int)damage);
             if (!isInKnockout)
             {
-                isInKnockout = true;
-                GetComponent<NavMeshAgent>().velocity = Vector3.zero;
                 GetComponent<NavMeshAgent>().enabled = false;
                 GetComponent<Rigidbody>().isKinematic = false;
+                isInKnockout = true;
+                GetComponent<NavMeshAgent>().velocity = Vector3.zero;
                 if (knockoutPhysics)
                     GetComponent<Rigidbody>().AddForce(moveDirection.normalized * force, ForceMode.Impulse);
               

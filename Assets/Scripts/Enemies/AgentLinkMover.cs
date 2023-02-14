@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.AI;
 using System.Collections;
+using System;
+using System.Collections.Generic;
 
 public enum OffMeshLinkMoveMethod
 {
@@ -13,11 +15,14 @@ public enum OffMeshLinkMoveMethod
 [RequireComponent(typeof(NavMeshAgent))]
 public class AgentLinkMover : MonoBehaviour
 {
-    public OffMeshLinkMoveMethod m_Method = OffMeshLinkMoveMethod.Parabola;
-    public AnimationCurve m_Curve = new AnimationCurve();
-    public delegate void LinkEvent();
+    public OffMeshLinkMoveMethod DefaultMoveMethod = OffMeshLinkMoveMethod.Parabola;
+    public AnimationCurve Curve = new AnimationCurve();
+    public float ParabolaHeight = 8f;
+    public delegate void LinkEvent(OffMeshLinkMoveMethod MoveMethod);
     public LinkEvent OnLinkStart;
     public LinkEvent OnLinkEnd;
+    public List<LinkTraversalConfiguration> NavMeshLinkTraversalTypes = new List<LinkTraversalConfiguration>();
+
     IEnumerator Start()
     {
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
@@ -26,21 +31,47 @@ public class AgentLinkMover : MonoBehaviour
         {
             if (agent.isOnOffMeshLink)
             {
-                OnLinkStart?.Invoke();
-                if (m_Method == OffMeshLinkMoveMethod.NormalSpeed)
-                    yield return StartCoroutine(NormalSpeed(agent));
-                else if (m_Method == OffMeshLinkMoveMethod.Parabola)
-                    yield return StartCoroutine(Parabola(agent, 2.0f, 0.5f));
-                else if (m_Method == OffMeshLinkMoveMethod.Curve)
-                    yield return StartCoroutine(Curve(agent, 0.5f));
+                OffMeshLinkData offMeshLinkData = agent.currentOffMeshLinkData;
+                NavMeshLink link = (NavMeshLink)agent.navMeshOwner;
+                int AreaType = link.area;
+
+                if (Vector3.Distance(offMeshLinkData.endPos, agent.destination) < Vector3.Distance(offMeshLinkData.startPos, agent.destination))
+                {
+                    LinkTraversalConfiguration configuration = NavMeshLinkTraversalTypes.Find((type) => type.AreaType == AreaType);
+
+                    if ((configuration != null && configuration.MoveMethod == OffMeshLinkMoveMethod.NormalSpeed) || (configuration == null && DefaultMoveMethod == OffMeshLinkMoveMethod.NormalSpeed))
+                    {
+                        OnLinkStart?.Invoke(OffMeshLinkMoveMethod.NormalSpeed);
+                        yield return StartCoroutine(MoveAtNormalSpeed(agent));
+                        OnLinkEnd?.Invoke(OffMeshLinkMoveMethod.NormalSpeed);
+                    }
+                    else if ((configuration != null && configuration.MoveMethod == OffMeshLinkMoveMethod.Parabola) || (configuration == null && DefaultMoveMethod == OffMeshLinkMoveMethod.Parabola))
+                    {
+                        OnLinkStart?.Invoke(OffMeshLinkMoveMethod.Parabola);
+                        yield return StartCoroutine(MoveParabola(agent, ParabolaHeight, Vector3.Distance(offMeshLinkData.startPos, offMeshLinkData.endPos) / agent.speed));
+                        OnLinkEnd?.Invoke(OffMeshLinkMoveMethod.Parabola);
+                    }
+                    else if ((configuration != null && configuration.MoveMethod == OffMeshLinkMoveMethod.Curve) || (configuration == null && DefaultMoveMethod == OffMeshLinkMoveMethod.Curve))
+                    {
+                        OnLinkStart?.Invoke(OffMeshLinkMoveMethod.Curve);
+                        yield return StartCoroutine(MoveCurve(agent, Vector3.Distance(offMeshLinkData.startPos, offMeshLinkData.endPos) / agent.speed));
+                        OnLinkEnd?.Invoke(OffMeshLinkMoveMethod.Curve);
+                    }
+                    else if ((configuration != null && configuration.MoveMethod == OffMeshLinkMoveMethod.Teleport) || (configuration == null && DefaultMoveMethod == OffMeshLinkMoveMethod.Teleport))
+                    {
+                        OnLinkStart?.Invoke(OffMeshLinkMoveMethod.Teleport);
+                        OnLinkEnd?.Invoke(OffMeshLinkMoveMethod.Teleport);
+                    }
+                }
+
                 agent.CompleteOffMeshLink();
-                OnLinkEnd?.Invoke();
             }
+
             yield return null;
         }
     }
 
-    IEnumerator NormalSpeed(NavMeshAgent agent)
+    IEnumerator MoveAtNormalSpeed(NavMeshAgent agent)
     {
         OffMeshLinkData data = agent.currentOffMeshLinkData;
         Vector3 endPos = data.endPos + Vector3.up * agent.baseOffset;
@@ -51,7 +82,7 @@ public class AgentLinkMover : MonoBehaviour
         }
     }
 
-    IEnumerator Parabola(NavMeshAgent agent, float height, float duration)
+    IEnumerator MoveParabola(NavMeshAgent agent, float height, float duration)
     {
         OffMeshLinkData data = agent.currentOffMeshLinkData;
         Vector3 startPos = agent.transform.position;
@@ -59,14 +90,14 @@ public class AgentLinkMover : MonoBehaviour
         float normalizedTime = 0.0f;
         while (normalizedTime < 1.0f)
         {
-            float yOffset = height * 4.0f * (normalizedTime - normalizedTime * normalizedTime);
+            float yOffset = height * (normalizedTime - normalizedTime * normalizedTime);
             agent.transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + yOffset * Vector3.up;
             normalizedTime += Time.deltaTime / duration;
             yield return null;
         }
     }
 
-    IEnumerator Curve(NavMeshAgent agent, float duration)
+    IEnumerator MoveCurve(NavMeshAgent agent, float duration)
     {
         OffMeshLinkData data = agent.currentOffMeshLinkData;
         Vector3 startPos = agent.transform.position;
@@ -74,10 +105,17 @@ public class AgentLinkMover : MonoBehaviour
         float normalizedTime = 0.0f;
         while (normalizedTime < 1.0f)
         {
-            float yOffset = m_Curve.Evaluate(normalizedTime);
+            float yOffset = Curve.Evaluate(normalizedTime);
             agent.transform.position = Vector3.Lerp(startPos, endPos, normalizedTime) + yOffset * Vector3.up;
             normalizedTime += Time.deltaTime / duration;
             yield return null;
         }
+    }
+
+    [Serializable]
+    public class LinkTraversalConfiguration
+    {
+        public OffMeshLinkMoveMethod MoveMethod;
+        public int AreaType;
     }
 }
