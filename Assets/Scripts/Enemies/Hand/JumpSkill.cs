@@ -10,7 +10,7 @@ public class JumpSkill : SkillScriptableObject
     public float MaxJumpDistance = 5f;
     public AnimationCurve HeightCurve;
     public float JumpSpeed = 1;
-    private Vector3 endingPosition;
+
 
     public override bool CanUseSkill(Enemy enemy, GameObject player)
     {
@@ -32,17 +32,23 @@ public class JumpSkill : SkillScriptableObject
     }
     private IEnumerator Jump(Enemy enemy, GameObject player)
     {
-      
+        Vector3 endingPosition = enemy.transform.position,
+        startingPosition = enemy.transform.position;
+
+     
+
         enemy.Agent.enabled = false;
         enemy.Movement.enabled = false;
-        endingPosition.y = enemy.transform.position.y;
         enemy.Movement.State = EnemyState.UsingAbility;
-        Vector3 startingPosition = enemy.transform.position;
+       
         enemy.Animator.SetTrigger(EnemyMovement.Jump);
         for (float time = 0; time < 1; time+=Time.deltaTime*JumpSpeed)
         {
             endingPosition.x = player.transform.position.x;
             endingPosition.z = player.transform.position.z;
+         
+          
+           
             enemy.transform.position = Vector3.Lerp(startingPosition, endingPosition, time)+Vector3.up*HeightCurve.Evaluate(time);
             enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, Quaternion.LookRotation(endingPosition - enemy.transform.position),time);
             yield return null;

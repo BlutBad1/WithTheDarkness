@@ -15,6 +15,7 @@ public class EnemyMovement : MonoBehaviour
     [SerializeField]
     private Animator Animator = null;
 
+
     public EnemyState DefaultState;
     private EnemyState _state;
     public EnemyState State
@@ -41,11 +42,17 @@ public class EnemyMovement : MonoBehaviour
     private const string IsWalking = "IsWalking";
     public const string Jump = "Jump";
     public const string Landed = "Landed";
-
+    [HideInInspector]
+    public Vector3 walkPoint;
+    [HideInInspector]
+    public bool walkPointIsSet;
+    [HideInInspector]
+    public Vector3 defaultPositon;
     private Coroutine FollowCoroutine;
  
     private void Awake()
     {
+        defaultPositon = transform.position;
         Agent = GetComponent<NavMeshAgent>();
         LinkMover = GetComponent<AgentLinkMover>();
 
@@ -100,8 +107,19 @@ public class EnemyMovement : MonoBehaviour
         {
             Animator.SetBool(IsWalking, Agent.velocity.magnitude > 0.01f);
         }
+        if (State== EnemyState.Idle)
+        {
+            BackToDefaultPosition();
+        }
     }
-
+    public virtual void BackToDefaultPosition()
+    {
+        if ((transform.position - Player.transform.position).magnitude > 50)
+        {
+            walkPointIsSet = false;
+            Agent.Warp(defaultPositon);
+        }
+    }
     public virtual void HandleStateChange(EnemyState oldState, EnemyState newState)
     {
         if (oldState != newState)

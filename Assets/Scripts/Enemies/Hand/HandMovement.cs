@@ -7,10 +7,7 @@ public class HandMovement :  EnemyMovement
 {
 
     public float hiddenSightRange = 10f;
-     [HideInInspector]
-    public Vector3 walkPoint;
-    [HideInInspector]
-    public bool walkPointIsSet;
+    
 
     public override void HandleStateChange(EnemyState oldState, EnemyState newState)
     {
@@ -68,6 +65,22 @@ public class HandMovement :  EnemyMovement
         {
             walkPoint = Player.position;
             walkPointIsSet = true;
+        }
+
+    }
+    public override void BackToDefaultPosition()
+    {
+        if ((transform.position - Player.transform.position).magnitude > hiddenSightRange * 2.5)
+        {
+            walkPointIsSet = false;
+            Agent.Warp(defaultPositon);
+        }
+        else if ((transform.position - Player.transform.position).magnitude > hiddenSightRange)
+        {
+           
+                walkPointIsSet = true;
+                walkPoint = defaultPositon;
+          
         }
 
     }

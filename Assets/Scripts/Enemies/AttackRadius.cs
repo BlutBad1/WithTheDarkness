@@ -10,6 +10,7 @@ public class AttackRadius : MonoBehaviour
    
     public int Damage = 10;
     public float AttackDelay = 0.5f;
+    public float AttackRange = 0.5f;
     public delegate void AttackEvent(IDamageable Target);
     public AttackEvent OnAttack;
     private IDamageable Damageable;
@@ -20,21 +21,18 @@ public class AttackRadius : MonoBehaviour
     {
         Collider = GetComponent<SphereCollider>();
     }
-
+  
     private void OnTriggerEnter(Collider other)
     {
 
-       
+      
         if ((1<<other.gameObject.layer)==whatIsPlayer)
         {
             Damageable = other.GetComponent<IDamageable>();
        
             if (AttackCoroutine == null)
-            {
-             
-               
                 AttackCoroutine = StartCoroutine(Attack());
-            }
+          
 
         }
             
@@ -50,7 +48,6 @@ public class AttackRadius : MonoBehaviour
             if (Damageable!=null)
             {
                 Damageable = null;
-              
                 StopCoroutine(AttackCoroutine);
                 AttackCoroutine = null;
             }
@@ -73,7 +70,8 @@ public class AttackRadius : MonoBehaviour
             Damageable.TakeDamage(Damage);
             yield return Wait;
         }
-      
+
+       
 
 
         //IDamageable player = null;
@@ -92,9 +90,6 @@ public class AttackRadius : MonoBehaviour
 
 
         /////////////////
-
-
-
 
     }
 

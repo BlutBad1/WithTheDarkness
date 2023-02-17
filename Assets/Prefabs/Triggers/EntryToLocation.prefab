@@ -186,6 +186,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: d5f2db55aeb7c1945b8c7fdcdaddae55, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.99997735
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: d5f2db55aeb7c1945b8c7fdcdaddae55, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.00049432885
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: d5f2db55aeb7c1945b8c7fdcdaddae55, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.00059458596
+      objectReference: {fileID: 0}
+    - target: {fileID: -5477749408508380018, guid: d5f2db55aeb7c1945b8c7fdcdaddae55, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.006690547
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d5f2db55aeb7c1945b8c7fdcdaddae55, type: 3}
       propertyPath: m_Name
       value: Tunnelsign 1
@@ -197,3 +213,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: d5f2db55aeb7c1945b8c7fdcdaddae55, type: 3}
   m_PrefabInstance: {fileID: 1196659952704554929}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2459608037333076401 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5568371526223589888, guid: d5f2db55aeb7c1945b8c7fdcdaddae55, type: 3}
+  m_PrefabInstance: {fileID: 1196659952704554929}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &5968631564905744064
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2459608037333076401}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.06, y: 2.6599998, z: 0.06}
+  m_Center: {x: 0, y: 0, z: 0}

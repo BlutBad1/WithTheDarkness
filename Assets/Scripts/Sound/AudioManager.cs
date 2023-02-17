@@ -42,7 +42,7 @@ public class AudioManager : MonoBehaviour
             Debug.Log($"Sound \"{name}\" is not found!");
             return;
         }
-        if (!s.source.isPlaying)//:(
+        if (!s.source.isPlaying)
             s.source.Play();
        
     }
@@ -59,30 +59,40 @@ public class AudioManager : MonoBehaviour
         s.source.Play();   
         
     }
-    public void PlayAFewTimes(string name, string name2, int times)
+    public void PlayAFewTimes(string[] names,  int times)
     {
-        StartCoroutine(PlayTimes(name, name2, times));
+        StartCoroutine(PlayTimes(names, times));
     }
-    IEnumerator PlayTimes(string name, string name2, int times)
+  
+    IEnumerator PlayTimes(string []names, int times)
     {
             yield return null;
-            Sound s = Array.Find(sounds, sound => sound.name == name);
+        Sound[] currentSounds = new Sound[name.Length]; 
+        for (int i = 0; i < names.Length; i++)
+        {
+            currentSounds[i] = Array.Find(sounds, sound => sound.name == names[i]);
+            if (currentSounds[i] == null)
+            {
+                Debug.Log($"Sound \"{names[i]}\" is not found!");
+            }
+        }
      
-        Sound s2 = Array.Find(sounds, sound => sound.name == name2);
+           
+
        
         for (int i = 0; i < times; i++)
             {
-                s.source.Play();
-                s2.source.Play();
-            while (s.source.isPlaying)
+            for (int j = 0; j < names.Length; j++)
+            {
+                currentSounds[j].source.Play();
+            }
+            for (int j = 0; j < names.Length; j++)
+            {
+                while (currentSounds[j].source.isPlaying)
                 {
                     yield return null;
                 }
-            while (s2.source.isPlaying)
-            {
-                yield return null;
             }
-
 
         }
     }
