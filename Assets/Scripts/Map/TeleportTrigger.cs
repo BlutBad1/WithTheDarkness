@@ -67,12 +67,12 @@ public class TeleportTrigger : MonoBehaviour
     //}
     IEnumerator Teleport()
     {
-        player.GetComponent<InputManager>().isTeleporting = true;
+        player.GetComponent<InputManager>().IsTeleporting = true;
         yield return new WaitForSeconds(0.05f);
         player.transform.position = teleportPoint.position;
         player.transform.localRotation = teleportPoint.rotation;
         yield return new WaitForSeconds(0.05f);
-        player.GetComponent<InputManager>().isTeleporting = false;
+        player.GetComponent<InputManager>().IsTeleporting = false;
 
     }
   

@@ -8,7 +8,7 @@ public class Enemy :  MonoBehaviour, IDamageable
     public Animator Animator;
     public GameObject Player;
     public EnemyMovement Movement;
-    public AttackRadius AttackRadius;
+    public EnemyAttack EnemyAttack;
     public NavMeshAgent Agent;
     public EnemyScriptableObject EnemyScriptableObject;
     [HideInInspector]
@@ -23,12 +23,14 @@ public class Enemy :  MonoBehaviour, IDamageable
     public bool doesHaveKnockout { get; set; }
     private Coroutine LookCoroutine;
     private const string ATTACK_TRIGGER = "Attack";
+    private const string PLAYER = "Player";
+
 
     private void Awake()
     {
-        AttackRadius.OnAttack += OnAttack;
+        EnemyAttack.OnAttack += OnAttack;
         doesHaveKnockout = knockoutEnable;
-        Player = GameObject.Find("Player");
+        Player = GameObject.Find(PLAYER);
         
     }
    
@@ -43,6 +45,12 @@ public class Enemy :  MonoBehaviour, IDamageable
                 Skills[i].UseSkill(this, Player);
             }
         }
+    }
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Ray ray = new Ray(transform.position, Player.transform.position - transform.position);
+        Gizmos.DrawWireSphere(ray.origin + ray.direction * (Player.transform.position - transform.position).magnitude, 0.6f);
     }
     protected virtual void OnAttack(IDamageable Target)
     {
@@ -92,9 +100,11 @@ public class Enemy :  MonoBehaviour, IDamageable
         Agent.speed = EnemyScriptableObject.Speed;
         Agent.stoppingDistance = EnemyScriptableObject.StoppingDistance;
         Health = EnemyScriptableObject.Health;
-        (AttackRadius.Collider == null ? AttackRadius.GetComponent<SphereCollider>() : AttackRadius.Collider).radius = EnemyScriptableObject.AttackRadius;
-        AttackRadius.AttackDelay = EnemyScriptableObject.AttackDelay;
-        AttackRadius.Damage = EnemyScriptableObject.Damage;
+        EnemyAttack.AttackRadius = EnemyScriptableObject.AttackRadius;
+        EnemyAttack.AttackDistance = EnemyScriptableObject.AttackDistance;
+        EnemyAttack.AttackDelay = EnemyScriptableObject.AttackDelay;
+        EnemyAttack.Damage = EnemyScriptableObject.Damage;
+
         Skills = EnemyScriptableObject.Skills;
     }
 

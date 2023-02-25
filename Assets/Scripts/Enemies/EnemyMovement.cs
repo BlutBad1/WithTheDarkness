@@ -103,6 +103,7 @@ public class EnemyMovement : MonoBehaviour
 
     private void Update()
     {
+     
         if (!Agent.isOnOffMeshLink)
         {
             Animator.SetBool(IsWalking, Agent.velocity.magnitude > 0.01f);

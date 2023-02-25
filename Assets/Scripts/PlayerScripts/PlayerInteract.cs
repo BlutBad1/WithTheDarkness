@@ -23,12 +23,11 @@ public class PlayerInteract : MonoBehaviour
     void Update()
     {
         playerUi.UpdateText(string.Empty);
-         ray = new Ray(cam.transform.position, cam.transform.forward);
-        RaycastHit hitInfo;
-     
+        ray = new Ray(cam.transform.position, cam.transform.forward);
+       
       
      
-        if (Physics.SphereCast(ray, 0.1f, out hitInfo, distance, mask))
+        if (Physics.SphereCast(ray, 0.1f, out RaycastHit hitInfo, distance, mask))
         {
           
             if (hitInfo.collider.GetComponent<Interactable> ()!= null)
@@ -37,7 +36,7 @@ public class PlayerInteract : MonoBehaviour
                 Interactable interactable = hitInfo.collider.GetComponent<Interactable>();
                 playerUi.UpdateText(interactable.promptMessage);
                
-                if (inputManager.onFoot.Interact.triggered)
+                if (inputManager.OnFoot.Interact.triggered)
                 {
                     interactable.BaseInteract();
                 }

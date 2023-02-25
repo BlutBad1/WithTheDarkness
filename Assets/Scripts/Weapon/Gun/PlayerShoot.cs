@@ -19,7 +19,7 @@ public class PlayerShoot : MonoBehaviour
     public void Update()
     {
 
-        if (inputManager.onFoot.Firing.triggered)
+        if (inputManager.OnFoot.Firing.triggered)
         {
           
             shootInput?.Invoke();
@@ -27,7 +27,7 @@ public class PlayerShoot : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
         }
        
-       if(inputManager.onFoot.Reloading.triggered)
+       if(inputManager.OnFoot.Reloading.triggered)
         {
           
             reloadInput?.Invoke();

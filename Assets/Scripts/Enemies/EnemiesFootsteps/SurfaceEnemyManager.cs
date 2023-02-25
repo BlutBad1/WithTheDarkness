@@ -24,14 +24,16 @@ public class SurfaceEnemyManager : MonoBehaviour
 	[SerializeField] EnemyRegisteredMaterial[] registeredTextures;
     
 	int n;
-   
-	
+	int surfaceIndex;
 
 
-   
-    public AudioClip GetFootstep(Collider groundCollider, Vector3 worldPosition)
+
+
+
+	public AudioClip GetFootstep(Collider groundCollider, Vector3 worldPosition)
 	{
-		int surfaceIndex = GetSurfaceIndex(groundCollider, worldPosition);
+		
+		surfaceIndex = groundCollider==null?-1: GetSurfaceIndex(groundCollider, worldPosition);
 
 		if (surfaceIndex == -1)
 		{
@@ -51,7 +53,11 @@ public class SurfaceEnemyManager : MonoBehaviour
 	}
 	public AudioClip GetLandsound(Collider groundCollider, Vector3 worldPosition)
 	{
-		int surfaceIndex = GetSurfaceIndex(groundCollider, worldPosition);
+        if (groundCollider!=null)
+        {
+			surfaceIndex = GetSurfaceIndex(groundCollider, worldPosition);
+		}
+	
 
 		if (surfaceIndex == -1)
 		{
@@ -119,6 +125,7 @@ public class SurfaceEnemyManager : MonoBehaviour
 		string textureName = "";
 
 		// Case when the ground is a terrain.
+
 		if (col.GetType() == typeof(TerrainCollider))
 		{
 			Terrain terrain = col.GetComponent<Terrain>();

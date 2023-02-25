@@ -23,7 +23,7 @@ public class HandMovement :  EnemyMovement
       
         base.HandleGainSight(player);
     }
-    public  void ChasePlayer()
+    public void ChasePlayer()
     {
       
         Agent.SetDestination(Player.position);

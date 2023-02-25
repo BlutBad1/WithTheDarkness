@@ -6,42 +6,43 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour
 {
     private PlayerInput playerInput;
-    public PlayerInput.OnFootActions onFoot;
+    public PlayerInput.OnFootActions OnFoot;
     private PlayerMotor motor;
     private PlayerLook look;
-    public bool isTeleporting = false;
+    [HideInInspector]
+    public bool IsTeleporting = false;
     void Awake()
     {
        
         playerInput = new PlayerInput();
-        onFoot = playerInput.OnFoot;
+        OnFoot = playerInput.OnFoot;
         motor = GetComponent<PlayerMotor>();
         look = GetComponent<PlayerLook>();
-        onFoot.Jump.performed+=ctx=>motor.Jump();
-        onFoot.Crouch.performed += ctx => motor.Crounch();
-        onFoot.Sprint.performed += ctx => motor.Sprint();
+        OnFoot.Jump.performed+=ctx=>motor.Jump();
+        OnFoot.Crouch.performed += ctx => motor.Crounch();
+        OnFoot.Sprint.performed += ctx => motor.Sprint();
     }
    
     // Update is called once per frame
 
     void FixedUpdate()
     {
-        if (!isTeleporting)
+        if (!IsTeleporting)
         {
-            motor.ProcessMove(onFoot.Movement.ReadValue<Vector2>());
+            motor.ProcessMove(OnFoot.Movement.ReadValue<Vector2>());
         }
     
     }
     private void LateUpdate()
     {
-        look.ProcessLook(onFoot.Look.ReadValue<Vector2>());
+        look.ProcessLook(OnFoot.Look.ReadValue<Vector2>());
     }
     private void OnEnable()
     {
-        onFoot.Enable();
+        OnFoot.Enable();
     }
     private void OnDisable()
     {
-        onFoot.Disable();
+        OnFoot.Disable();
     }
 }

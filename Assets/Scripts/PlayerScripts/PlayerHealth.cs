@@ -21,10 +21,14 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         GetComponent<CameraShake>().FooCameraShake();
       
         Health -= damage;
-        Debug.Log($"Damage {damage}");
-        if (Health<=0)
+        
+        if (Health <= 0)
         {
-            Debug.Log("You're Dead");
+            Debug.Log($"Damage {damage}. You're Dead!");
+        }
+        else
+        {
+            Debug.Log($"Damage {damage}");
         }
     }
 }

@@ -21,7 +21,7 @@ public class Revolver : ShotingWeapon
     }
     public override void ReloadAnim()
     {
-        Debug.Log(gunData.reloading);
+     
         AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0); 
         if (gunData.reloading && info.IsName(RELOADING_ENDING))
         {

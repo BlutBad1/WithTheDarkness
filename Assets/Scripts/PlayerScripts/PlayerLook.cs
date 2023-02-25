@@ -17,7 +17,7 @@ public class PlayerLook : MonoBehaviour
     }
     private void Update()//dev
     {
-        if (inputManager.onFoot.CurFreeze.triggered)
+        if (inputManager.OnFoot.CurFreeze.triggered)
         {
             if (!isFreez)
             {

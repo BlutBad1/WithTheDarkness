@@ -17,10 +17,11 @@ MonoBehaviour:
   Health: 10000
   AttackDelay: 1.5
   Damage: 25
-  AttackRadius: 2
+  AttackRadius: 2.1
+  AttackDistance: 1.6
   AIUpdateInterval: 0.1
   Acceleration: 10
-  AngularSpeed: 120
+  AngularSpeed: 150
   AreaMask: -1
   AvoidancePriority: 50
   BaseOffset: 0.54

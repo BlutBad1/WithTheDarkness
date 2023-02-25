@@ -92,7 +92,7 @@ public class EnemyFootsteps : MonoBehaviour
 		}
 	}
 
-	void PlayLandSound()
+	public void PlayLandSound()
 	{
 
 		audioSource.PlayOneShot(surfaceEnemyManager.GetLandsound(currentGroundInfo.collider, currentGroundInfo.point), landVolume);
