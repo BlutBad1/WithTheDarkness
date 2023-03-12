@@ -37,7 +37,7 @@ public class JumpSkill : SkillScriptableObject
     private IEnumerator Jump(Enemy enemy, GameObject player)
     {
         RaycastHit groundHit;
-        Vector3 endingPosition = enemy.transform.position,
+        Vector3 endingPosition = player.transform.position,
             startingPosition = enemy.transform.position;
 
         Ray ray = new Ray(enemy.transform.position, -Vector3.up);
@@ -52,12 +52,14 @@ public class JumpSkill : SkillScriptableObject
         enemy.Animator.SetTrigger(EnemyMovement.Jump);
         for (float time = 0; time < 1; time += Time.deltaTime * JumpSpeed)
         {
-            endingPosition.x = player.transform.position.x;
-            endingPosition.z = player.transform.position.z;
+            if (time<=0.7)
+            {
+                endingPosition = player.transform.position;
+            }
             ray = new Ray(enemy.transform.position, -Vector3.up);
             if (Physics.Raycast(ray, out groundHit))
             {
-                endingPosition.y = groundHit.point.y;
+                endingPosition.y = groundHit.point.y + 0.4f;
             }
 
             enemy.transform.position = Vector3.Lerp(startingPosition, endingPosition, time) + Vector3.up * HeightCurve.Evaluate(time);
@@ -71,7 +73,8 @@ public class JumpSkill : SkillScriptableObject
         enemy.Agent.enabled = true;
         if (NavMesh.SamplePosition(endingPosition, out NavMeshHit hit, 1f, enemy.Agent.areaMask))
         {
-            enemy.Agent.Warp(hit.position);
+           // enemy.Agent.Warp(hit.position);
+          
             enemy.Movement.State = EnemyState.Chase;
         }
         IsActivating = false;

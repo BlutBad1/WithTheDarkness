@@ -4,8 +4,8 @@ using UnityEngine;
 
 public interface IDamageable
 {
-    public bool doesHaveKnockout { get; set; }
-    public void TakeDamage(int damage, RaycastHit hit);
+  
+    public void TakeDamage(GunData weapon, RaycastHit hit);
     public void TakeDamage(int damage);
     Transform GetTransform();
 }

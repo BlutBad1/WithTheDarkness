@@ -11,7 +11,7 @@ public class GunData : ScriptableObject
     public int damage;
     public float maxDistance;
     public float firingTime;
-
+    public float force = 1f;
     [Header("Reloading")]
     public int currentAmmo;
     public int magSize;

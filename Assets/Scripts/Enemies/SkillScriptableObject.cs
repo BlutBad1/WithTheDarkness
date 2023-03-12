@@ -19,6 +19,7 @@ public class SkillScriptableObject : ScriptableObject
     }
     public virtual bool CanUseSkill(Enemy enemy, GameObject player)
     {
-        return true;
+
+        return enemy.Health > 0;
     }
 }

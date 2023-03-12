@@ -72,17 +72,14 @@ public class ShotingWeapon : MonoBehaviour
 
         if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hitInfo, gunData.maxDistance, ~(1 << 20 | 1 << 2)))
         {
-            if (hitInfo.collider.GetType() != typeof(SphereCollider))
-            {
+           
                 IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
 
 
                 if (hitInfo.collider.gameObject.layer == 13)
-                {
-                    if (damageable.doesHaveKnockout)
-                        damageable?.TakeDamage(gunData.damage, hitInfo);
-                    else
-                        damageable?.TakeDamage(gunData.damage);
+                {           
+                        damageable?.TakeDamage(gunData, hitInfo);
+                  
                    Instantiate(enemyBulletHole, hitInfo.point + hitInfo.normal * 0.0001f, Quaternion.LookRotation(hitInfo.normal), parent: hitInfo.transform);
                 }
                 else
@@ -90,7 +87,7 @@ public class ShotingWeapon : MonoBehaviour
 
                   Instantiate(defaultBulletHole, hitInfo.point + hitInfo.normal * 0.0001f, Quaternion.LookRotation(hitInfo.normal));
                 }
-            }
+           
 
 
 

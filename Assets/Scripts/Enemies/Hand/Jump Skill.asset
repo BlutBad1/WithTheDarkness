@@ -15,7 +15,7 @@ MonoBehaviour:
   Cooldown: 10
   Damage: 25
   IsActivating: 0
-  MinJumpDistance: 2
+  MinJumpDistance: 3.5
   MaxJumpDistance: 7
   HeightCurve:
     serializedVersion: 2

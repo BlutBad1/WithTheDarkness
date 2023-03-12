@@ -33,7 +33,7 @@ public class Target : MonoBehaviour, IDamageable
 
     }
 
-    public void TakeDamage(int damage, RaycastHit hit)
+    public void TakeDamage(GunData weapon, RaycastHit hit)
     {
      
     }

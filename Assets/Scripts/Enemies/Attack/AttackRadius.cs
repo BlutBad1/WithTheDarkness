@@ -21,7 +21,7 @@ public class AttackRadius : EnemyAttack
 
 
           
-            damageable = other.GetComponent<IDamageable>();
+            playerDamageable = other.GetComponent<IDamageable>();
 
                 if (attackCoroutine == null)
                     attackCoroutine = StartCoroutine(Attack());
@@ -42,9 +42,9 @@ public class AttackRadius : EnemyAttack
             if ((other.TryGetComponent(out ILastTouched lastTouched)&& lastTouched.iLastExited is SphereCollider) || (transform.position-other.transform.position).magnitude>AttackDistance)
             {
             
-                if (damageable != null)
+                if (playerDamageable != null)
                 {
-                    damageable = null;
+                    playerDamageable = null;
                     StopCoroutine(attackCoroutine);
                     attackCoroutine = null;
                 }

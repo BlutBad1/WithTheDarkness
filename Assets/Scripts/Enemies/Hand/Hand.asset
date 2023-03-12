@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Skills:
   - {fileID: 11400000, guid: 003065127fc7067498a2baecc646e534, type: 2}
-  Health: 10000
+  Health: 150
   AttackDelay: 1.5
   Damage: 25
-  AttackRadius: 2.1
+  AttackRadius: 1.1
   AttackDistance: 1.6
   AIUpdateInterval: 0.1
   Acceleration: 10
-  AngularSpeed: 150
+  AngularSpeed: 450
   AreaMask: -1
   AvoidancePriority: 50
   BaseOffset: 0.54
@@ -29,4 +29,4 @@ MonoBehaviour:
   ObstacleAvoidanceType: 4
   Radius: 0.5
   Speed: 3
-  StoppingDistance: 1.4
+  StoppingDistance: 1.1

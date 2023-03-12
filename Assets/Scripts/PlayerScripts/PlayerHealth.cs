@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    public bool doesHaveKnockout { get ; set; }
+   
     public int Health=100;
     public Transform GetTransform()
     {
         return transform;
     }
 
-    public void TakeDamage(int damage, RaycastHit hit)
+    public void TakeDamage(GunData weapon, RaycastHit hit)
     {
-        TakeDamage(damage);
+        TakeDamage(weapon.damage);
     }
 
     public void TakeDamage(int damage)

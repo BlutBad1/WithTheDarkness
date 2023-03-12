@@ -12,24 +12,30 @@ public class Enemy :  MonoBehaviour, IDamageable
     public NavMeshAgent Agent;
     public EnemyScriptableObject EnemyScriptableObject;
     [HideInInspector]
-    public int Health = 100;
-    [HideInInspector]
     public SkillScriptableObject[] Skills;
-    public bool knockoutEnable =false, knockoutPhysics;
-    public float force;
+    private Coroutine lookCoroutine;
+    protected const string ATTACK_TRIGGER = "Attack";
+    protected const string DEATH_TRIGGER = "Death";
+    protected const string PLAYER = "Player";
+    [SerializeField]
+    private RagdollEnabler ragdollEnabler;
+    public delegate void TakeDamageEvent(GunData weapon, RaycastHit hit);
+    public TakeDamageEvent OnTakeDamage;
+    public delegate void DeathEvent();
+    public DeathEvent OnDeath;
     [HideInInspector]
-    public bool isInKnockout = false;
-    public float inKnockoutTime = 0.3f;
-    public bool doesHaveKnockout { get; set; }
-    private Coroutine LookCoroutine;
-    private const string ATTACK_TRIGGER = "Attack";
-    private const string PLAYER = "Player";
-
-
+    public int Health = 100;
+    [Tooltip("Time while object in ragdoll.")]
+    public float RagdollTime=1f;
+    [Tooltip("Delay to fade out.")]
+    public float FadeOutDelay=1f;
+    [Tooltip("Fade out speed.")]
+    public float FadeOutSpeed = 0.05f;
     private void Awake()
     {
+        
         EnemyAttack.OnAttack += OnAttack;
-        doesHaveKnockout = knockoutEnable;
+      
         Player = GameObject.Find(PLAYER);
         
     }
@@ -54,13 +60,16 @@ public class Enemy :  MonoBehaviour, IDamageable
     }
     protected virtual void OnAttack(IDamageable Target)
     {
-        if (LookCoroutine != null)
+        if (lookCoroutine != null)
         {
-            StopCoroutine(LookCoroutine);
+            StopCoroutine(lookCoroutine);
         }
-
-        LookCoroutine = StartCoroutine(LookAt(Target.GetTransform()));
-        Animator.SetTrigger(ATTACK_TRIGGER);
+       
+            lookCoroutine = StartCoroutine(LookAt(Target.GetTransform()));
+            Animator.SetTrigger(ATTACK_TRIGGER);
+      
+      
+  
 
        
      
@@ -108,14 +117,23 @@ public class Enemy :  MonoBehaviour, IDamageable
         Skills = EnemyScriptableObject.Skills;
     }
 
-    public virtual void TakeDamage(int Damage)
+    public virtual void TakeDamage(int damage)
     {
-        Health -= Damage;
-
+        Health -= damage;
+       
         if (Health <= 0)
         {
-            Destroy(gameObject);
+            Agent.enabled = false;
+            Movement.enabled = false;
+            //EnemyAttack.enabled = false;
+            OnDeath?.Invoke();
+            ragdollEnabler.EnableRagdoll();
+            StartCoroutine(FadeOut());
         }
+    }
+    public virtual void Death()
+    {
+        Destroy(gameObject);
     }
 
     public virtual Transform GetTransform()
@@ -123,43 +141,32 @@ public class Enemy :  MonoBehaviour, IDamageable
         return transform;
     }
 
-    public virtual void TakeDamage(int damage, RaycastHit hit)
+    public virtual void TakeDamage(GunData weapon, RaycastHit hit)
     {
-        if (doesHaveKnockout)
-        {
-            Vector3 moveDirection = transform.position - hit.point;
-            TakeDamage((int)damage);
-            if (!isInKnockout)
-            {
-                GetComponent<NavMeshAgent>().enabled = false;
-                GetComponent<Rigidbody>().isKinematic = false;
-                isInKnockout = true;
-                GetComponent<NavMeshAgent>().velocity = Vector3.zero;
-                if (knockoutPhysics)
-                    GetComponent<Rigidbody>().AddForce(moveDirection.normalized * force, ForceMode.Impulse);
-              
-                StartCoroutine(KnockBackTimer());
+        TakeDamage(weapon.damage);
+        OnTakeDamage?.Invoke(weapon, hit);
 
-            }
-
-
-        }
 
     }
-    IEnumerator KnockBackTimer()
+    private IEnumerator FadeOut()
     {
-        float timeElapsed = 0f;
-        while (timeElapsed < inKnockoutTime)
+        yield return new WaitForSeconds(RagdollTime);
+        if (ragdollEnabler != null)
         {
-            timeElapsed += Time.deltaTime;
-            yield return null;
+            ragdollEnabler.DisableAllRigidbodies();
+        }
+        yield return new WaitForSeconds(FadeOutDelay);
 
+
+
+        float time = 0;
+        while (time < 1)
+        {
+            transform.position += (Vector3.down * Time.deltaTime) * FadeOutSpeed;
+            time += Time.deltaTime * FadeOutSpeed;
+            yield return null;
         }
 
-        GetComponent<NavMeshAgent>().enabled = true;
-        if (TryGetComponent(out Rigidbody rigidbody))
-            rigidbody.isKinematic = true;
-
-        isInKnockout = false;
+        gameObject.SetActive(false);
     }
 }

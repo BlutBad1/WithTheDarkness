@@ -5,7 +5,7 @@ using UnityEngine.AI;
 [RequireComponent(typeof(NavMeshAgent), typeof(AgentLinkMover))]
 public class EnemyMovement : MonoBehaviour
 {
-      public Transform Player;
+    public Transform Player;
     public EnemyLineOfSightChecker LineOfSightChecker;
     public NavMeshTriangulation Triangulation = new NavMeshTriangulation();
     public float UpdateRate = 0.1f;
@@ -38,10 +38,10 @@ public class EnemyMovement : MonoBehaviour
     public Vector3[] Waypoints = new Vector3[4];
     [SerializeField]
     private int WaypointIndex = 0;
-
-    private const string IsWalking = "IsWalking";
+    public const string IsWalking = "IsWalking";
     public const string Jump = "Jump";
     public const string Landed = "Landed";
+   
     [HideInInspector]
     public Vector3 walkPoint;
     [HideInInspector]
@@ -106,6 +106,7 @@ public class EnemyMovement : MonoBehaviour
      
         if (!Agent.isOnOffMeshLink)
         {
+         
             Animator.SetBool(IsWalking, Agent.velocity.magnitude > 0.01f);
         }
         if (State== EnemyState.Idle)

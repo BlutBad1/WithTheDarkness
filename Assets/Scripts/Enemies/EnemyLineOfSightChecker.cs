@@ -1,10 +1,9 @@
 using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(SphereCollider))]
 public class EnemyLineOfSightChecker : MonoBehaviour
 {
-    public GameObject player;
+    public GameObject Player;
     public float FieldOfView = 90f;
     public float CheckRaduis = 10f;
    
@@ -12,36 +11,28 @@ public class EnemyLineOfSightChecker : MonoBehaviour
     public GainSightEvent OnGainSight;
     public delegate void LoseSightEvent(GameObject player);
     public LoseSightEvent OnLoseSight;
-    public LayerMask whatIsPlayer;
-    private Coroutine CheckForLineOfSightCoroutine;
+    public LayerMask WhatIsPlayer;
+    private Coroutine checkForLineOfSightCoroutine;
     
   
     private void Update()
     {
 
-        float distanceToPlayer = Vector3.Distance(player.transform.position, transform.position);
-            if (CheckLineOfSight(player)&& distanceToPlayer <= CheckRaduis)
+          float distanceToPlayer = Vector3.Distance(Player.transform.position, transform.position);
+            if (checkLineOfSight(Player)&& distanceToPlayer <= CheckRaduis)
             {            
-                OnGainSight?.Invoke(player);
+                OnGainSight?.Invoke(Player);
             }
             else
             {
-                OnLoseSight?.Invoke(player);
+                OnLoseSight?.Invoke(Player);
             }
-       
-            //if(!CheckLineOfSight(player) && isBeenChasing)
-            //{
-            //    OnLoseSight?.Invoke(player);
-            //    //if (CheckForLineOfSightCoroutine != null)
-            //    //{
-            //    //    StopCoroutine(CheckForLineOfSightCoroutine);
-            //    //}
-            //}
+   
         
     }
     
 
-    private bool CheckLineOfSight(GameObject player)
+    private bool checkLineOfSight(GameObject player)
     {
         Vector3 Direction = (player.transform.position - transform.position).normalized;
         float DotProduct = Vector3.Dot(transform.forward, Direction);
@@ -49,9 +40,9 @@ public class EnemyLineOfSightChecker : MonoBehaviour
         {
             RaycastHit Hit;
 
-            if (Physics.Raycast(transform.position, Direction, out Hit, CheckRaduis, whatIsPlayer))
+            if (Physics.Raycast(transform.position, Direction, out Hit, CheckRaduis, WhatIsPlayer))
             {
-                if ((1<<Hit.collider.gameObject.layer)==whatIsPlayer)
+                if ((1<<Hit.collider.gameObject.layer)==WhatIsPlayer)
                 {
                    
                   
@@ -63,11 +54,11 @@ public class EnemyLineOfSightChecker : MonoBehaviour
         return false;
     }
 
-    private IEnumerator CheckForLineOfSight(GameObject player)
+    private IEnumerator checkForLineOfSight(GameObject player)
     {
         WaitForSeconds Wait = new WaitForSeconds(0.1f);
 
-        while (!CheckLineOfSight(player))
+        while (!checkLineOfSight(player))
         {
             yield return Wait;
         }
