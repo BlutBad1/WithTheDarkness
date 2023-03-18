@@ -1,7 +1,10 @@
 
+using HudNS;
 using System;
 using System.Collections;
 using UnityEngine;
+namespace LocationManagementNS
+{ 
 
 public class TeleportTrigger : MonoBehaviour
 {
@@ -67,14 +70,15 @@ public class TeleportTrigger : MonoBehaviour
     //}
     IEnumerator Teleport()
     {
-        player.GetComponent<InputManager>().IsTeleporting = true;
+        player.GetComponent<InputManager>().IsMovingEnable = false;
         yield return new WaitForSeconds(0.05f);
         player.transform.position = teleportPoint.position;
         player.transform.localRotation = teleportPoint.rotation;
         yield return new WaitForSeconds(0.05f);
-        player.GetComponent<InputManager>().IsTeleporting = false;
+        player.GetComponent<InputManager>().IsMovingEnable = true;
 
     }
   
 
+}
 }

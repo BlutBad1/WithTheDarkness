@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace HudNS
+{
+
+
 public class PlayerHealthBar : MonoBehaviour
 {
   
@@ -101,4 +105,5 @@ public class PlayerHealthBar : MonoBehaviour
         health += healAmount;
         lerpTimer = 0f;
     }
+}
 }

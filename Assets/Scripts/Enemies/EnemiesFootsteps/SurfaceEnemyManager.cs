@@ -1,5 +1,7 @@
 using UnityEngine;
 
+namespace EnemyFootstepsNS
+{
 [System.Serializable]
 public struct EnemySurfaceDefinition
 {
@@ -252,4 +254,5 @@ public class SurfaceEnemyManager : MonoBehaviour
 
 		return maxIndex;
 	}
+}
 }

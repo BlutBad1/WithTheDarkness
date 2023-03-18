@@ -1,11 +1,15 @@
+
 using UnityEngine;
 
+namespace EnemyAttackNS
+{ 
 [RequireComponent(typeof(SphereCollider))]
 public class AttackRadius : EnemyAttack
 {
     [HideInInspector]
     public SphereCollider Collider;
     public LayerMask WhatIsPlayer;
+  
 
     protected void Awake()
     {
@@ -57,4 +61,5 @@ public class AttackRadius : EnemyAttack
 
 
 
+}
 }

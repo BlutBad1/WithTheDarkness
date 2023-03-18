@@ -2,6 +2,10 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace HudNS
+{
+
+
 public class FPSCounter : MonoBehaviour
 {
 
@@ -35,4 +39,5 @@ public class FPSCounter : MonoBehaviour
             GetComponent<TextMeshProUGUI>().text = fps.ToString("F0") + " FPS";
         }
     }
+}
 }

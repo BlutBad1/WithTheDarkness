@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+namespace HudNS
+{
+
+
 public class HpCount : MonoBehaviour
 {
     [SerializeField]
@@ -18,4 +22,5 @@ public class HpCount : MonoBehaviour
             promptText.text = promptMessage;
         }
    
+}
 }

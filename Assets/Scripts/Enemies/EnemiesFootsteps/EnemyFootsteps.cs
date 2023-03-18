@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+namespace EnemyFootstepsNS
+{ 
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyFootsteps : MonoBehaviour
 {
@@ -157,5 +159,5 @@ public class EnemyFootsteps : MonoBehaviour
 	}
 }
 
-
+}
 

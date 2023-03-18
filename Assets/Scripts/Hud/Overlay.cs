@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace HudNS
+{
+
+
 public class Overlay : MonoBehaviour
 {
     
@@ -59,4 +63,5 @@ public class Overlay : MonoBehaviour
 
     //}
     
+}
 }

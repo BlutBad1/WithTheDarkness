@@ -1,6 +1,10 @@
+using HudNS;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
+namespace InteractableNS
+{ 
 
 public class OilPicking : Interactable
 {
@@ -31,4 +35,5 @@ public class OilPicking : Interactable
 
     }
 
+}
 }

@@ -1,8 +1,10 @@
+using EnemyBaseNS;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
+namespace EnemyAttackNS
+{
 public class StraightAttack : EnemyAttack
 {
     
@@ -29,28 +31,30 @@ public class StraightAttack : EnemyAttack
         AttackColider.radius = AttackRadius;
         AttackColider.enabled = false;
     }
-    public bool CanAttack(GameObject enemy, GameObject player)
+    public override bool  CanAttack(GameObject enemy, GameObject player)
     {
-
-        enemy.TryGetComponent(out Enemy enemyScript);
-        if (enemyScript != null && enemyScript.Health > 0)
+        if (base.CanAttack(enemy,player))
         {
-            Vector3 origin = enemy.transform.position;
-            origin.y = player.transform.position.y;
-
-            Ray ray = new Ray(origin, player.transform.position - origin);
-            if (Physics.SphereCast(ray, 0.3f, (player.transform.position - enemy.transform.position).magnitude, ~(1 << 11 | 1 << 12 | 1 << 20 | 1 << 8 | 1 << 7)))
+            enemy.TryGetComponent(out Enemy enemyScript);
+            if (enemyScript != null && enemyScript.Health > 0)
             {
-                return false;
-            }
+                Vector3 origin = enemy.transform.position;
+                origin.y = player.transform.position.y;
 
-            return true;
+                Ray ray = new Ray(origin, player.transform.position - origin);
+                if (Physics.SphereCast(ray, 0.3f, (player.transform.position - enemy.transform.position).magnitude, ~(1 << 11 | 1 << 12 | 1 << 20 | 1 << 8 | 1 << 7)))
+                {
+                    return false;
+                }
+
+                return true;
+            }
+          
         }
         StopAttack();
         return false;
-        
-        
-       
+
+
     }
 
     protected void Update()
@@ -118,4 +122,5 @@ public class StraightAttack : EnemyAttack
     }
 
 
+}
 }

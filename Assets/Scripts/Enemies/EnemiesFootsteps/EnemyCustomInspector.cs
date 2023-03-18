@@ -1,6 +1,8 @@
 using System;
 using UnityEditor;
 using UnityEngine;
+namespace EnemyFootstepsNS
+{ 
 
 [CustomEditor(typeof(EnemyFootsteps))]
 public class EnemyCustomInspector : Editor
@@ -145,3 +147,4 @@ public class MaterialDrawer : PropertyDrawer
 	}
 }
 
+}

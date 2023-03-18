@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
+namespace HudNS
+{
+
+
 public class MessagePrint : MonoBehaviour
 {
   
@@ -44,4 +48,5 @@ public class MessagePrint : MonoBehaviour
         }
         infoMessage.text = "";
     }
+}
 }

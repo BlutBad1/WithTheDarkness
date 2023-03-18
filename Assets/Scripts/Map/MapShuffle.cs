@@ -2,16 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MapShuffle : MonoBehaviour
+namespace LocationManagementNS
 {
-    [SerializeField]
-    MapData mapData;
-    private void Start()
+    public class MapShuffle : MonoBehaviour
     {
-        mapData.iterator = 0;
-            mapData.isCreated = false;
+        [SerializeField]
+        MapData mapData;
+        private void Start()
+        {
+            mapData.iterator = 0;
+          //  mapData.isCreated = false;
             mapData.ShuffleLocations();
-       
-    }
 
+        }
+
+    }
 }
