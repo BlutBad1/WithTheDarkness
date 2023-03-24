@@ -14,7 +14,7 @@ namespace EnemyHandNS
         public Vector3 walkPoint;
         [HideInInspector]
         public bool walkPointIsSet;
-
+        float reachDestinationHelper = 0.3f;
         protected override void HandleStateChange(EnemyState oldState, EnemyState newState)
         {
             if (oldState != EnemyState.Idle)
@@ -31,23 +31,31 @@ namespace EnemyHandNS
                 if (Agent.enabled)
                 {
 
+              
                     if (walkPointIsSet)
                     {
-                        Agent.SetDestination(walkPoint);
+                        Agent.SetDestination(walkPoint);           
                     }
                     if (!walkPointIsSet)
                     {
-
+                       
                         SearchWalkPoint();
                     }
-
-                    Vector3 distanceToWalkPoint = transform.position - walkPoint;          
+                  
+                    Vector3 distanceToWalkPoint = transform.position - walkPoint;
+                   
                     //Walkpoint reached
-                    if (distanceToWalkPoint.magnitude <= Agent.stoppingDistance + 0.3f)
+                    if (distanceToWalkPoint.magnitude <= Agent.stoppingDistance + reachDestinationHelper)
                     {
+                      
                         walkPointIsSet = false;
+                        reachDestinationHelper = 0.3f;
                     }
-
+                    else if (Agent.velocity.magnitude<=0.01f && walkPointIsSet)
+                    {
+                        reachDestinationHelper += 0.1f;
+                    }
+                  
                 }
                 yield return null;
             }
@@ -59,17 +67,18 @@ namespace EnemyHandNS
             float distanceToPlayer = Vector3.Distance(Player.transform.position, transform.position);
             if (distanceToPlayer <= HiddenSightRange)
             {
-                walkPoint = Player.position;
+                walkPoint = Player.transform.position;
                 walkPointIsSet = true;
             }
             else
             {
+         
                 BackToDefaultPosition();
             }
         }
         protected override bool BackToDefaultPosition()
         {
-    
+        
             if ((transform.position - Player.transform.position).magnitude > HiddenSightRange * 2.5)
             {
              

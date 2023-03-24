@@ -1,6 +1,5 @@
 using EnemyBaseNS;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace EnemyOnDeadNS
@@ -16,21 +15,32 @@ namespace EnemyOnDeadNS
         [Tooltip("Fade out speed.")]
         public float FadeOutSpeed = 0.05f;
         private Enemy enemy;
+        private Coroutine lookCoroutine;
         void Start()
         {
+            if (ragdollEnabler == null)
+            {
+                TryGetComponent(out ragdollEnabler);
+            }
             enemy = GetComponent<Enemy>();
             enemy.OnDeath += OnDead;
         }
-       void OnDead()
+        void OnDead()
         {
+            //if (lookCoroutine==null) //uncomment if ragdoll should be instant without physics 
+            //{
             enemy.Movement.State = EnemyState.Dead;
             enemy.Agent.enabled = false;
             enemy.Movement.enabled = false;
             ragdollEnabler.EnableRagdoll();
-            StartCoroutine(FadeOutCoroutine());
+            lookCoroutine = StartCoroutine(FadeOutCoroutine());
+
+
+            //}
+
         }
         // Update is called once per frame
-        private  IEnumerator FadeOutCoroutine()
+        private IEnumerator FadeOutCoroutine()
         {
             yield return new WaitForSeconds(RagdollTime);
             if (ragdollEnabler != null)

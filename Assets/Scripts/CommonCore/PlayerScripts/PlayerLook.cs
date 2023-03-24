@@ -8,16 +8,16 @@ public class PlayerLook : MonoBehaviour
     private float xRotation = 0f;
     public float xSensitivity = 30f;
     public float ySensitivity = 30f;
-    private InputManager inputManager;//dev
+    private InputManager inputManager;//dev delete it when developing ended  
     private bool isFreez=false;//dev 
     private void Start()
     {
         Cursor.visible = false;
         inputManager = GetComponent<InputManager>();//dev
     }
-    private void Update()//dev
+    private void Update()//dev all Update method for testing   
     {
-        if (inputManager.OnFoot.CurFreeze.triggered)
+        if (inputManager !=null&&inputManager.OnFoot.CurFreeze.triggered)
         {
             if (!isFreez)
             {

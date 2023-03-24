@@ -30,6 +30,7 @@ public class TakeDamageSound : MonoBehaviour
            
             enemy.OnTakeDamage += OnTakeDamage;
         }
+      
         public void PlayRandomHitSound()
         {
             
@@ -46,7 +47,8 @@ public class TakeDamageSound : MonoBehaviour
                 Debug.Log($"Sound is not found!");
                 return;
             }
-
+        
+       
             if (!s.source.isPlaying)
                 s.source.Play();
 

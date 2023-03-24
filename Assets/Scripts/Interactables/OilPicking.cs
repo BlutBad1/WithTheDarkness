@@ -16,20 +16,19 @@ public class OilPicking : Interactable
     private int minTime;
     [SerializeField]
     private int maxTime;
-    [SerializeField]
-    LightsTimers lightTimer;
+ 
     private void Start()
     {
      
 
 
-        lightTimer = GameObject.Find("LightsTimers").GetComponent<LightsTimers>();
+      
     }
     protected override void Interact()
     {
         System.Random rand = new System.Random();
         int addingTime = rand.Next(minTime, maxTime);
-        lightTimer.AddTime(addingTime);
+        LightGlowTimer.AddTime(addingTime);
         message += $"{addingTime} seconds";
         GameObject.Find("InfoText").GetComponent<MessagePrint>().PrintMessage(message, disapperingSpeed);
 

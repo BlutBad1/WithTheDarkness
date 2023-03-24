@@ -14,7 +14,7 @@ namespace EnemyAttackNS
         public float AttackRadius = 2f;
         public delegate void AttackEvent(IDamageable Target);
         public AttackEvent OnAttack;
-        protected IDamageable playerDamageable;
+        protected IDamageable objectDamageable;
         protected Coroutine attackCoroutine;
         [HideInInspector]
         public bool IsAttacking = false;
@@ -32,15 +32,16 @@ namespace EnemyAttackNS
 
 
         }
+       
         protected virtual IEnumerator Attack()
         {
             WaitForSeconds Wait = new WaitForSeconds(AttackDelay);
 
-            while (playerDamageable != null)
+            while (objectDamageable != null)
             {
 
-                OnAttack?.Invoke(playerDamageable);
-                playerDamageable.TakeDamage(Damage);
+                OnAttack?.Invoke(objectDamageable);
+                objectDamageable.TakeDamage(Damage);
                 yield return Wait;
             }
 

@@ -1,6 +1,5 @@
 using PoolableObjectsNS;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -10,20 +9,17 @@ namespace WeaponNS.ShootingWeaponNS
     {
         [SerializeField]
         protected GunData gunData;
-        public BulletHolesPool bulletHolesPool;
-
         [SerializeField]
         protected GameObject gun;
-
-        protected private Animator animator;
-
+        protected Animator animator;
         float timeSinceLastShot;
         protected int difference;
         protected const string RELOADING = "Reloading";
         protected const string FIRING = "Firing";
         protected const string OUT_OF_AMMO = "OutOfAmmo";
         protected const string IDLE = "Idle";
-
+        public delegate void BulletSpread(GunData gunData);
+        public BulletSpread OnBulletSpread;
         private void Start()
         {
 
@@ -49,7 +45,7 @@ namespace WeaponNS.ShootingWeaponNS
 
         public virtual void ReloadAnim()
         {
-            animator.SetTrigger(RELOADING);
+            animator?.SetTrigger(RELOADING);
 
         }
 
@@ -69,38 +65,10 @@ namespace WeaponNS.ShootingWeaponNS
 
         }
         private bool CanShoot() => !gunData.reloading && timeSinceLastShot > 2f / (gunData.fireRate / 60f);
+     
         public virtual void ShootRaycast()
         {
-
-            if (Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out RaycastHit hitInfo, gunData.maxDistance, ~(1 << 20 | 1 << 2)))
-            {
-
-                IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-
-
-                if (hitInfo.collider.gameObject.layer == 13)
-                {
-                    damageable?.TakeDamage(gunData.damage, gunData.force, hitInfo.point);
-                    GameObject bulletHole = bulletHolesPool.GetObject("EnemyBulletHole");
-                    bulletHole.transform.position = hitInfo.point + hitInfo.normal * 0.0001f;
-                    bulletHole.transform.rotation = Quaternion.LookRotation(hitInfo.normal);
-                   // bulletHole.transform.parent = hitInfo.transform;
-                    bulletHole.SetActive(true);
-                }
-                else
-                {
-                    GameObject bulletHole = bulletHolesPool.GetObject("DefaultBulletHole");
-                    bulletHole.transform.position = hitInfo.point + hitInfo.normal * 0.0001f;
-                    bulletHole.transform.rotation = Quaternion.LookRotation(hitInfo.normal);
-                    bulletHole.SetActive(true);
-
-                }
-
-
-
-
-
-            }
+            OnBulletSpread?.Invoke(gunData);
 
         }
         public virtual void Shoot()
@@ -110,7 +78,7 @@ namespace WeaponNS.ShootingWeaponNS
                 if (gunData.currentAmmo > 0)
                 {
 
-                    animator.SetTrigger(FIRING);
+                    animator?.SetTrigger(FIRING);
                     gunData.currentAmmo--;
                     timeSinceLastShot = 0;
                     return;
@@ -120,7 +88,7 @@ namespace WeaponNS.ShootingWeaponNS
                 {
 
 
-                    animator.SetTrigger(OUT_OF_AMMO);
+                    animator?.SetTrigger(OUT_OF_AMMO);
                     timeSinceLastShot = 0;
 
 

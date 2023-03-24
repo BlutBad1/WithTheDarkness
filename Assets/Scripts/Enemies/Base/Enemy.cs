@@ -1,8 +1,8 @@
+using EnemyAttackNS;
+using EnemySkillsNS;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using EnemyAttackNS;
-using EnemySkillsNS;
 
 namespace EnemyBaseNS
 {
@@ -21,26 +21,34 @@ namespace EnemyBaseNS
         protected const string ATTACK_TRIGGER = "Attack";
         protected const string DEATH_TRIGGER = "Death";
         protected const string PLAYER = "Player";
-   
+
         private void Awake()
         {
+            if (EnemyAttack!=null)
+                EnemyAttack.OnAttack += OnAttack;
+         
+            if (Player == null)
+                Player = GameObject.Find(PLAYER);
+         
 
-            EnemyAttack.OnAttack += OnAttack;
-            Player = GameObject.Find(PLAYER);
 
         }
 
         private void Update()
         {
-            for (int i = 0; i < Skills.Length; i++)
+            if (Skills!=null)
             {
-
-                if (Skills[i].CanUseSkill(this, Player))
+                for (int i = 0; i < Skills.Length; i++)
                 {
 
-                    Skills[i].UseSkill(this, Player);
+                    if (Skills[i].CanUseSkill(this, Player))
+                    {
+
+                        Skills[i].UseSkill(this, Player);
+                    }
                 }
             }
+           
         }
         private void OnDrawGizmos()
         {
@@ -84,7 +92,8 @@ namespace EnemyBaseNS
 
         public virtual void OnEnable()
         {
-            SetupAgentFromConfiguration();
+            if (EnemyScriptableObject!=null)
+             SetupAgentFromConfiguration();
         }
         public virtual void SetupAgentFromConfiguration()
         {
@@ -107,23 +116,7 @@ namespace EnemyBaseNS
             Skills = EnemyScriptableObject.Skills;
         }
 
-        public override void TakeDamage(int damage)
-        {
-            Health -= damage;
 
-            if (Health <= 0)
-            {
-                OnDeath?.Invoke();
-            
 
-            }
-        }
-
-        public override void TakeDamage(int damage, float force, Vector3 hit)
-        {
-            TakeDamage(damage);
-            OnTakeDamage?.Invoke(force, hit);
-        }
-     
     }
 }

@@ -20,18 +20,19 @@ public class JumpSkill : SkillScriptableObject
     {
         if (base.CanUseSkill(enemy, player) && enemy.Movement.State==EnemyState.Chase)
         {
-            
-          
+
+
             float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
 
             Ray ray = new Ray(enemy.transform.position, player.transform.position - enemy.transform.position);
             if (Physics.SphereCast(ray, 0.6f, (player.transform.position - enemy.transform.position).magnitude, ~(1 << 11| 1<<12)))
             {
-                return false;
+                  
+                    return false;
             }
 
-
-            return !IsActivating && UseTime + Cooldown < Time.time && distance >= MinJumpDistance && distance <= MaxJumpDistance;
+               
+                return !IsActivating && UseTime + Cooldown < Time.time && distance >= MinJumpDistance && distance <= MaxJumpDistance;
         }
         return false;
     }
@@ -56,7 +57,7 @@ public class JumpSkill : SkillScriptableObject
         enemy.Agent.enabled = false;
         enemy.Movement.enabled = false;
         enemy.Movement.State = EnemyState.UsingAbility;
-        enemy.Animator.SetTrigger(EnemyMovement.Jump);
+        enemy.Animator?.SetTrigger(EnemyMovement.Jump);
         for (float time = 0; time < 1; time += Time.deltaTime * JumpSpeed)
         {
             if (time<=0.6)

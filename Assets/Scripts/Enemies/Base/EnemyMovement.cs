@@ -7,7 +7,7 @@ namespace EnemyBaseNS
     [RequireComponent(typeof(NavMeshAgent), typeof(AgentLinkMover))]
     public class EnemyMovement : MonoBehaviour
     {
-        public Transform Player;
+        public GameObject Player;
         public EnemyLineOfSightChecker LineOfSightChecker;
         public NavMeshTriangulation Triangulation = new NavMeshTriangulation();
         public float UpdateRate = 0.1f;
@@ -40,7 +40,7 @@ namespace EnemyBaseNS
         public const string IsWalking = "IsWalking";
         public const string Jump = "Jump";
         public const string Landed = "Landed";
-   
+
         [HideInInspector]
         public Vector3 DefaultPositon;
         private Coroutine followCoroutine;
@@ -53,7 +53,8 @@ namespace EnemyBaseNS
 
             linkMover.OnLinkStart += HandleLinkStart;
             linkMover.OnLinkEnd += HandleLinkEnd;
-
+            if (LineOfSightChecker == null)
+                LineOfSightChecker = GetComponent<EnemyLineOfSightChecker>();
             LineOfSightChecker.OnGainSight += HandleGainSight;
             LineOfSightChecker.OnLoseSight += HandleLoseSight;
             OnStateChange += HandleStateChange;
@@ -71,6 +72,7 @@ namespace EnemyBaseNS
 
         protected virtual void HandleLoseSight(GameObject player)
         {
+
             State = DefaultState;
         }
 
@@ -102,7 +104,7 @@ namespace EnemyBaseNS
             if (!Agent.isOnOffMeshLink)
             {
 
-                animator.SetBool(IsWalking, Agent.velocity.magnitude > 0.01f);
+                animator?.SetBool(IsWalking, Agent.velocity.magnitude > 0.01f);
             }
 
         }
@@ -110,7 +112,7 @@ namespace EnemyBaseNS
         {
             if ((transform.position - Player.transform.position).magnitude > 50)
             {
-             
+
                 Agent.Warp(DefaultPositon);
                 return true;
             }
@@ -118,6 +120,7 @@ namespace EnemyBaseNS
         }
         protected virtual void HandleStateChange(EnemyState oldState, EnemyState newState)
         {
+          
             if (oldState != newState)
             {
 
@@ -144,6 +147,7 @@ namespace EnemyBaseNS
                         followCoroutine = StartCoroutine(FollowTarget());
                         break;
                     case EnemyState.Dead:
+                        DefaultState= EnemyState.Dead;
                         followCoroutine = StartCoroutine(DeadCoroutine());
                         break;
                 }
@@ -153,8 +157,8 @@ namespace EnemyBaseNS
         {
             WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
             Agent.enabled = false;
-            
-          
+
+
             while (true)
             {
                 yield return Wait;
@@ -172,7 +176,7 @@ namespace EnemyBaseNS
                 {
                     yield return Wait;
                 }
-                else if (!BackToDefaultPosition()&& Agent.remainingDistance <= Agent.stoppingDistance)
+                else if (!BackToDefaultPosition() && Agent.remainingDistance <= Agent.stoppingDistance)
                 {
                     Vector2 point = Random.insideUnitCircle * IdleLocationRadius;
                     NavMeshHit hit;
@@ -221,7 +225,7 @@ namespace EnemyBaseNS
                 if (Agent.enabled)
                 {
                     Agent.SetDestination(Player.transform.position);
-
+               
                 }
                 yield return null;
             }

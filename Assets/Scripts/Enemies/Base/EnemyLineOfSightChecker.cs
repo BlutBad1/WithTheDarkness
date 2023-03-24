@@ -15,36 +15,53 @@ namespace EnemyBaseNS
         public LayerMask WhatIsPlayer;
         private Coroutine checkForLineOfSightCoroutine;
         float distanceToPlayer;
+        protected const string PLAYER = "Player";
 
-
+        private void Start()
+        {
+            if (Player == null)
+            {
+                Player = GameObject.Find(PLAYER);
+                if (Player==null)
+                {
+                    Debug.LogError("Player not found");
+                }
+            }
+        }
         private void Update()
         {
-
+            if (checkForLineOfSightCoroutine == null)
+            {
                 distanceToPlayer = Vector3.Distance(Player.transform.position, transform.position);
-                if (distanceToPlayer <= ViewDistance&&checkLineOfSight(Player))
+                if (distanceToPlayer <= ViewDistance)
                 {
-                    OnGainSight?.Invoke(Player);
+                    checkForLineOfSightCoroutine = StartCoroutine(checkForLineOfSight(Player));
                 }
                 else
                 {
+                  
                     OnLoseSight?.Invoke(Player);
                 }
-          
 
+            }
 
         }
 
 
         private bool checkLineOfSight(GameObject player)
         {
+
             Vector3 Direction = (player.transform.position - transform.position).normalized;
             float DotProduct = Vector3.Dot(transform.forward, Direction);
             if (DotProduct >= Mathf.Cos(FieldOfView))
             {
-                RaycastHit Hit;
 
+                RaycastHit Hit;
+               
                 if (Physics.Raycast(transform.position, Direction, out Hit, ViewDistance, WhatIsPlayer))
                 {
+
+              
                     if ((1 << Hit.collider.gameObject.layer) == WhatIsPlayer)
                     {
 
@@ -63,8 +80,13 @@ namespace EnemyBaseNS
 
             while (!checkLineOfSight(player))
             {
+             
+                OnLoseSight?.Invoke(Player);
                 yield return Wait;
             }
+          
+            OnGainSight?.Invoke(Player);
+            checkForLineOfSightCoroutine = null;
         }
     }
 }

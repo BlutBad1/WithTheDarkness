@@ -67,7 +67,7 @@ namespace PoolableObjectsNS
                 pool.Iterator = 0;
             }
             GameObject instance = pool.poolableObjects[pool.Iterator];
-            instance.SetActive(false);
+            instance.SetActive(true);
 
             pool.Iterator++;
             return instance;

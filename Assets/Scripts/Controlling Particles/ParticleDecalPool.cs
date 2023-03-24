@@ -38,7 +38,7 @@ namespace ControllingParticlesNS
             }
             particleData[particleDecalIndex].Position = particleCollisionEvent.intersection;
             Vector3 particleRotationEuler = Quaternion.LookRotation(particleCollisionEvent.normal).eulerAngles ;
-           particleRotationEuler.z = Random.Range(0, 360);
+               particleRotationEuler.z = Random.Range(0, 360);
             particleData[particleDecalIndex].Rotation = particleRotationEuler;
             particleData[particleDecalIndex].Size = Random.Range(decalsMinSize,decalsMaxSize);
             particleData[particleDecalIndex].Color = colorGradient.Evaluate(Random.Range(0f,1f));
