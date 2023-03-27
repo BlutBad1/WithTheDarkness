@@ -1,17 +1,25 @@
 # WithTheDarkness
+### About the project 
+  This is a 3D first-person horror game with survival and roguelike elements. 
+  The point of the game is to pass stages, which are arranged differently in each session.
+Each game session has its own path, consisting of pre-created locations. Alternatively, these locations may not appear at all. In addition, items 
+(currently bullets and oil) and opponents appear at random.
 
-## Assets -> Scripts
+  The game is still under development. 
+### <ins>All code in the folder: Assets -> Scripts</ins>
+
+## Lab№2
+  #### The <ins>unit tests</ins> are in the <ins>Assets -> Tests</ins> folder.
+  
+  #### PDF A description of all patterns can be found in the <ins>Patterns</ins> folder. (Ukrainian language)
+  ##
+
+
+## Project (Old description of 2022) 
+
+
 
 Video report (Ukrainian): Will be soon. (Probably) 
-
-Unity game is currently under development. 
-
-The game is a first-person horror game with roguelike elements.
-
-The meaning of the game is the passage of stages, which are located differently in each session.
-
-
-Each game session has a different path consisting of pre-made locations. Also, these locations may not appear at all. In addition to this, objects (at the moment these are bullets and oil) and opponents also randomly appear.
 
 
 At the moment the following things have been implemented:
