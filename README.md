@@ -15,7 +15,7 @@ Each game session has its own path, consisting of pre-created locations. Alterna
   ##
 
 
-## About Project (Old description of 2022) 
+## Project (Old description of 2022) 
 
 
 
