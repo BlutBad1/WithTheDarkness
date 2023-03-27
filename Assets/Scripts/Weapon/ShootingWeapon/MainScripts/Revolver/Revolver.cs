@@ -1,3 +1,4 @@
+using MyConstants;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,7 +35,7 @@ public class Revolver : ShootingWeapon
         else if (gunData.reloading)
         {
             base.ReloadAnim();
-            lamp.GetComponent<Animator>().SetTrigger(RELOADING);
+            lamp.GetComponent<Animator>().SetTrigger(ShootingWeaponConstants.RELOADING);
             animator.SetFloat(RELOADING_ANIMATION_SPEED, 1 / (difference * gunData.reloadTime));
             lamp.GetComponent<Animator>().SetFloat(RELOADING_ANIMATION_SPEED, 1 / (difference * gunData.reloadTime));
 

@@ -1,3 +1,4 @@
+using MyConstants;
 using PoolableObjectsNS;
 using System.Collections;
 using UnityEngine;
@@ -8,18 +9,15 @@ namespace WeaponNS.ShootingWeaponNS
     public class ShootingWeapon : MonoBehaviour
     {
         [SerializeField]
-        protected GunData gunData;
+        public GunData gunData;
         [SerializeField]
-        protected GameObject gun;
+        public GameObject gun;
         protected Animator animator;
         float timeSinceLastShot;
         protected int difference;
-        protected const string RELOADING = "Reloading";
-        protected const string FIRING = "Firing";
-        protected const string OUT_OF_AMMO = "OutOfAmmo";
-        protected const string IDLE = "Idle";
+      
         public delegate void BulletSpread(GunData gunData);
-        public BulletSpread OnBulletSpread;
+        public BulletSpread OnShootRaycast;
         private void Start()
         {
 
@@ -45,7 +43,7 @@ namespace WeaponNS.ShootingWeaponNS
 
         public virtual void ReloadAnim()
         {
-            animator?.SetTrigger(RELOADING);
+            animator?.SetTrigger(ShootingWeaponConstants.RELOADING);
 
         }
 
@@ -68,7 +66,7 @@ namespace WeaponNS.ShootingWeaponNS
      
         public virtual void ShootRaycast()
         {
-            OnBulletSpread?.Invoke(gunData);
+            OnShootRaycast?.Invoke(gunData);
 
         }
         public virtual void Shoot()
@@ -78,7 +76,7 @@ namespace WeaponNS.ShootingWeaponNS
                 if (gunData.currentAmmo > 0)
                 {
 
-                    animator?.SetTrigger(FIRING);
+                    animator?.SetTrigger(ShootingWeaponConstants.FIRING);
                     gunData.currentAmmo--;
                     timeSinceLastShot = 0;
                     return;
@@ -88,7 +86,7 @@ namespace WeaponNS.ShootingWeaponNS
                 {
 
 
-                    animator?.SetTrigger(OUT_OF_AMMO);
+                    animator?.SetTrigger(ShootingWeaponConstants.OUT_OF_AMMO);
                     timeSinceLastShot = 0;
 
 

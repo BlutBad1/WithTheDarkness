@@ -1,3 +1,4 @@
+using MyConstants;
 using System.Collections;
 using UnityEngine;
 namespace EnemyBaseNS
@@ -15,16 +16,16 @@ namespace EnemyBaseNS
         public LayerMask WhatIsPlayer;
         private Coroutine checkForLineOfSightCoroutine;
         float distanceToPlayer;
-        protected const string PLAYER = "Player";
+        
 
         private void Start()
         {
-            if (Player == null)
+            if (!Player)
             {
-                Player = GameObject.Find(PLAYER);
-                if (Player==null)
+                Player = GameObject.Find(CommonConstants.PLAYER);
+                if (!Player)
                 {
-                    Debug.LogError("Player not found");
+                    Debug.LogError("Player is not found");
                 }
             }
         }

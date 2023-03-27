@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
@@ -34,9 +32,9 @@ namespace LocationManagementNS
                 instance = this;
             else
             {
-               Destroy(gameObject);
-               return;
-           }
+                Destroy(gameObject);
+                return;
+            }
             ShuffleLocations();
 
         }
@@ -63,7 +61,7 @@ namespace LocationManagementNS
 
             }
             mainLocationsArr = mainLocationsArr.OrderBy(x => new System.Random().Next()).ToArray();
-          
+
         }
     }
 }

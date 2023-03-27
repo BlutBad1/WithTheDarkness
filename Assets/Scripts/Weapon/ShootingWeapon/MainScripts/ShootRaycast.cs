@@ -11,6 +11,12 @@ namespace WeaponNS.ShootingWeaponNS
         protected BulletHolesPool bulletHolesPool;
         [SerializeField]
         float maxDeviation;
+        [SerializeField]
+        public Camera CameraOrigin;
+        [SerializeField]
+        public LayerMask WhatIsEnemy;
+        [SerializeField]
+        public LayerMask WhatIsRayCastIgnore;
         protected virtual void CreateBulletHole(string bulletHoleName, RaycastHit hitInfo)
         {
             GameObject bulletHole = bulletHolesPool.GetObject(bulletHoleName);
@@ -25,11 +31,15 @@ namespace WeaponNS.ShootingWeaponNS
                 particleSystem.Play();
             }
         }
-        void Start()
+        protected virtual void Start()
         {
-            GetComponent<ShootingWeapon>().OnBulletSpread += OnBulletSpread;
+            if (!CameraOrigin)
+            {
+                CameraOrigin = Camera.main;
+            }
+            GetComponent<ShootingWeapon>().OnShootRaycast += OnShootRaycast;
         }
-        public virtual void OnBulletSpread(GunData gunData)
+        public virtual void OnShootRaycast(GunData gunData)
         {
 
             Vector3 forwardVector = Vector3.forward;
@@ -37,19 +47,25 @@ namespace WeaponNS.ShootingWeaponNS
             float angle = UnityEngine.Random.Range(0f, 360f);
             forwardVector = Quaternion.AngleAxis(deviation, Vector3.up) * forwardVector;
             forwardVector = Quaternion.AngleAxis(angle, Vector3.forward) * forwardVector;
-            forwardVector = Camera.main.transform.rotation * forwardVector;
-            if (Physics.Raycast(Camera.main.transform.position, forwardVector, out RaycastHit hitInfo, gunData.maxDistance, ~(1 << 20 | 1 << 2)))
+            forwardVector = CameraOrigin.transform.rotation * forwardVector;
+          
+            if (Physics.Raycast(CameraOrigin.transform.position, forwardVector, out RaycastHit hitInfo, gunData.maxDistance, ~WhatIsRayCastIgnore))
             {
+               
                 IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-                if (hitInfo.collider.gameObject.layer == 13)
+                if (hitInfo.collider.gameObject.layer == WhatIsEnemy)
                 {
                     damageable?.TakeDamage(gunData.damage, gunData.force, hitInfo.point);
-                    CreateBulletHole("EnemyBulletHole", hitInfo);
+                    if (bulletHolesPool)
+                        CreateBulletHole("EnemyBulletHole", hitInfo);
 
+
+               
                 }
                 else
                 {
-                    CreateBulletHole("DefaultBulletHole", hitInfo);
+                    if (bulletHolesPool)
+                        CreateBulletHole("DefaultBulletHole", hitInfo);
 
                 }
             }

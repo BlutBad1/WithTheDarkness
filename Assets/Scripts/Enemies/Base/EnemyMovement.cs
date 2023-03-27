@@ -1,3 +1,4 @@
+using MyConstants;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -37,9 +38,7 @@ namespace EnemyBaseNS
         public Vector3[] Waypoints = new Vector3[4];
         [SerializeField]
         private int WaypointIndex = 0;
-        public const string IsWalking = "IsWalking";
-        public const string Jump = "Jump";
-        public const string Landed = "Landed";
+        
 
         [HideInInspector]
         public Vector3 DefaultPositon;
@@ -82,11 +81,11 @@ namespace EnemyBaseNS
         {
             if (MoveMethod == OffMeshLinkMoveMethod.NormalSpeed)
             {
-                animator.SetBool(IsWalking, true);
+                animator.SetBool(EnemyConstants.IsWalking, true);
             }
             else if (MoveMethod != OffMeshLinkMoveMethod.Teleport)
             {
-                animator.SetTrigger(Jump);
+                animator.SetTrigger(EnemyConstants.Jump);
             }
         }
 
@@ -94,7 +93,7 @@ namespace EnemyBaseNS
         {
             if (MoveMethod != OffMeshLinkMoveMethod.Teleport && MoveMethod != OffMeshLinkMoveMethod.NormalSpeed)
             {
-                animator.SetTrigger(Landed);
+                animator.SetTrigger(EnemyConstants.Landed);
             }
         }
 
@@ -104,7 +103,7 @@ namespace EnemyBaseNS
             if (!Agent.isOnOffMeshLink)
             {
 
-                animator?.SetBool(IsWalking, Agent.velocity.magnitude > 0.01f);
+                animator?.SetBool(EnemyConstants.IsWalking, Agent.velocity.magnitude > 0.01f);
             }
 
         }

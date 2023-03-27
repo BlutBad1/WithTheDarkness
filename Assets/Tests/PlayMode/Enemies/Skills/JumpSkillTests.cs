@@ -33,7 +33,7 @@ public class JumpSkillTests
             //Arrange
             enemy = GameObject.Instantiate(new GameObject());
             player = GameObject.Instantiate(new GameObject());
-            player.name = "Player";
+            player.name = MyConstants.CommonConstants.PLAYER;
             enemyScript = enemy.AddComponent<Enemy>();
 
         

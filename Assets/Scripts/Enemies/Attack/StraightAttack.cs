@@ -1,4 +1,5 @@
 using EnemyBaseNS;
+using MyConstants;
 using System.Collections;
 using UnityEngine;
 
@@ -8,15 +9,22 @@ namespace EnemyAttackNS
     {
 
         public LayerMask WhatIsPlayer;
-        protected const string PLAYER = "Player";
-        [HideInInspector]
+
         public GameObject ObjectUnderAttack;
         [HideInInspector]
         public SphereCollider AttackColider;
 
         protected void Start()
         {
-            ObjectUnderAttack = GameObject.Find(PLAYER);
+            if (!ObjectUnderAttack)
+            {
+                ObjectUnderAttack = GameObject.Find(CommonConstants.PLAYER);
+                if (!ObjectUnderAttack)
+                {
+                    Debug.LogWarning("ObjectUnderAttack is not found");
+                }
+            }
+            
             objectDamageable = ObjectUnderAttack?.GetComponent<IDamageable>();
 
             if (!TryGetComponent(out AttackColider))
@@ -93,13 +101,13 @@ namespace EnemyAttackNS
         {
             AttackColider.enabled = true;
         }
-      
+
         private void OnTriggerEnter(Collider other)
         {
-          
+
             if ((1 << other.gameObject.layer) == WhatIsPlayer)
             {
-              
+
                 if (ObjectUnderAttack == null)
                 {
                     ObjectUnderAttack = other.gameObject;
@@ -107,7 +115,7 @@ namespace EnemyAttackNS
                 }
                 if (IsAttacking)
                 {
-                 
+
 
                     objectDamageable.TakeDamage(Damage);
                 }

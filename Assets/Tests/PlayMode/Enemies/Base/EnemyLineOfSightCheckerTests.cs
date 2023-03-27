@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using EnemyBaseNS;
+using MyConstants;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -32,7 +33,7 @@ public class EnemyLineOfSightCheckerTests
             enemy = GameObject.Instantiate(new GameObject());
             player = GameObject.Instantiate(new GameObject());
             player.AddComponent<Rigidbody>();
-            player.name = "Player";    
+            player.name = CommonConstants.PLAYER;    
             enemyLineOfSight = enemy.AddComponent<EnemyLineOfSightChecker>();
             boxCollider = player.AddComponent<BoxCollider>();
             boxCollider.size = new Vector3(10, 10, 10);

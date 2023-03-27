@@ -6,7 +6,12 @@
         "UnityEditor.TestRunner",
         "CommonCore",
         "ControllingParticles",
-        "Enemies"
+        "Enemies",
+        "Hud",
+        "Unity.TextMeshPro",
+        "Map",
+        "Constants",
+        "Weapon"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

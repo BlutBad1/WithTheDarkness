@@ -1,5 +1,6 @@
 using EnemyAttackNS;
 using EnemySkillsNS;
+using MyConstants;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -18,17 +19,15 @@ namespace EnemyBaseNS
         [HideInInspector]
         public SkillScriptableObject[] Skills;
         private Coroutine lookCoroutine;
-        protected const string ATTACK_TRIGGER = "Attack";
-        protected const string DEATH_TRIGGER = "Death";
-        protected const string PLAYER = "Player";
+     
 
         private void Awake()
         {
-            if (EnemyAttack!=null)
+            if (EnemyAttack)
                 EnemyAttack.OnAttack += OnAttack;
          
-            if (Player == null)
-                Player = GameObject.Find(PLAYER);
+            if (!Player)
+                Player = GameObject.Find(CommonConstants.PLAYER);
          
 
 
@@ -64,7 +63,7 @@ namespace EnemyBaseNS
             }
 
             lookCoroutine = StartCoroutine(LookAt(Target.GetTransform()));
-            Animator.SetTrigger(ATTACK_TRIGGER);
+            Animator.SetTrigger(EnemyConstants.ATTACK_TRIGGER);
 
 
 

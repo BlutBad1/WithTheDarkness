@@ -12,12 +12,12 @@ namespace LocationManagementNS
         private GameObject player;
 
         private bool isSpawned = false;
-        const string PLAYER = "Player";
+       
         void Start()
         {
             if (player==null)
             {
-                player = GameObject.Find(PLAYER);
+                player = GameObject.Find(MyConstants.CommonConstants.PLAYER);
             }
             foreach (var gameObject in GameObjects)
             {

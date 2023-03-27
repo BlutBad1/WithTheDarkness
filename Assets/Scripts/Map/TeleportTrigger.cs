@@ -1,84 +1,88 @@
 
 using HudNS;
-using System;
+using MyConstants;
 using System.Collections;
 using UnityEngine;
 namespace LocationManagementNS
-{ 
-
-public class TeleportTrigger : MonoBehaviour
 {
-  
-    GameObject player;
-    [SerializeField]
-    public Transform teleportPointToHere;
-    [HideInInspector]
-    public Transform teleportPoint; // position of the next spawn point of a next location 
-    [SerializeField]
-    float spawnAfter = 2;
-    float timeElapsed = 0;
 
-    GameObject dimming ;
-    GameObject audioManager;
-    bool isActivated = false;
-    //private void OnTriggerStay(Collider other)
-    //{
-    //    timeElapsed += Time.deltaTime;
-    //    if (timeElapsed >= automaticallySpawnTimer)
-    //    {
-    //        StartCoroutine(Teleport());
-    //        timeElapsed = 0;
-    //    }
-    //}
-    private void Start()
+    public class TeleportTrigger : MonoBehaviour
     {
-        dimming = GameObject.Find("BlackScreenDimming");
-        dimming.GetComponent<BlackScreenDimming>().fadeSpeed = 0.5f;
-        audioManager = GameObject.Find("MainAudioManager");
-        player = GameObject.Find("Player");
-    }
-    private void Update()
-    {
-        if (isActivated)
+        [SerializeField]
+        GameObject player;
+        [SerializeField]
+        public Transform teleportPointToHere;
+        [HideInInspector]
+        public Transform teleportPoint; // position of the next spawn point of a next location 
+        [SerializeField]
+        float spawnAfter = 2;
+        float timeElapsed = 0;
+
+        public GameObject dimming=null;
+        public GameObject audioManager;
+        bool isActivated = false;
+
+        private void Start()
         {
-            timeElapsed += Time.deltaTime;
-            if (timeElapsed >= spawnAfter)
+            if (!dimming)
+                dimming = GameObject.Find(CommonConstants.BLACK_SCREEN_DIMMING);
+            if (dimming != null)
+                dimming.GetComponent<BlackScreenDimming>().fadeSpeed = 0.5f;
+            if (!audioManager)
+                audioManager = GameObject.Find(CommonConstants.MAIN_AUDIO_MANAGER);
+            if (!player)
+                player = GameObject.Find(CommonConstants.PLAYER);
+        }
+        private void Update()
+        {
+
+            if (isActivated)
             {
-                StartCoroutine(Teleport());
-                dimming.GetComponent<BlackScreenDimming>().DimmingDisable();
-                timeElapsed = 0;
-                isActivated = false;
-                
+
+                timeElapsed += Time.deltaTime;
+                if (timeElapsed >= spawnAfter)
+                {
+
+                    StartCoroutine(Teleport());
+                    dimming?.GetComponent<BlackScreenDimming>().DimmingDisable();
+                    timeElapsed = 0;
+                    isActivated = false;
+
+                }
             }
         }
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        isActivated =true;
-        dimming.GetComponent<BlackScreenDimming>().DimmingEnable();
-        audioManager.GetComponent<AudioManager>().PlayWithoutRep("transitionSound");
+        public void StartTeleporting()
+        {
+
+            isActivated = true;
+            dimming?.GetComponent<BlackScreenDimming>().DimmingEnable();
+            audioManager?.GetComponent<AudioManager>().PlayWithoutRep("transitionSound");
+        }
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.name == CommonConstants.PLAYER)
+            {
+                StartTeleporting();
+            }
+
+
+        }
+
+        IEnumerator Teleport()
+        {
+            if (player.TryGetComponent(out InputManager inputManager))
+                inputManager.IsMovingEnable = false;
+            yield return new WaitForSeconds(0.05f);
+            player.transform.position = teleportPoint.position;
+            player.transform.localRotation = teleportPoint.rotation;
+            yield return new WaitForSeconds(0.05f);
+            if (inputManager != null)
+                inputManager.IsMovingEnable = true;
+
+
+
+        }
+
 
     }
-    //private void OnTriggerExit(Collider other)
-    //{
-      
-    //    timeElapsed = 0;
-    //    //isScreenDimmed = false;
-    //    StartCoroutine(Teleport());
-    //    dimmingOff.Invoke();
-
-    //}
-    IEnumerator Teleport()
-    {
-        player.GetComponent<InputManager>().IsMovingEnable = false;
-        yield return new WaitForSeconds(0.05f);
-        player.transform.position = teleportPoint.position;
-        player.transform.localRotation = teleportPoint.rotation;
-        yield return new WaitForSeconds(0.05f);
-        player.GetComponent<InputManager>().IsMovingEnable = true;
-
-    }
-  
-
-}
 }

@@ -15,15 +15,14 @@ namespace WeaponNS.ShootingWeaponNS
 
         public void MuzzleFlashEnable()
         {
-            MuzzleTimer = 0;
-            muzzleLight.enabled = true;
-            muzzleFlash.Play();
+           
             StartCoroutine(MuzzleLight());
-
-
         }
         IEnumerator MuzzleLight()
         {
+            MuzzleTimer = 0;
+            muzzleLight.enabled = true;
+            muzzleFlash.Play();
             while (MuzzleTimer < timer)
             {
                 yield return null;

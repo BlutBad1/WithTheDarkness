@@ -1,4 +1,5 @@
 using EnemyBaseNS;
+using MyConstants;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -57,7 +58,7 @@ public class JumpSkill : SkillScriptableObject
         enemy.Agent.enabled = false;
         enemy.Movement.enabled = false;
         enemy.Movement.State = EnemyState.UsingAbility;
-        enemy.Animator?.SetTrigger(EnemyMovement.Jump);
+        enemy.Animator?.SetTrigger(EnemyConstants.Jump);
         for (float time = 0; time < 1; time += Time.deltaTime * JumpSpeed)
         {
             if (time<=0.6)
@@ -74,7 +75,7 @@ public class JumpSkill : SkillScriptableObject
             enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, Quaternion.LookRotation(endingPosition - enemy.transform.position), time);
             yield return null;
         }
-        enemy.Animator.SetTrigger(EnemyMovement.Landed);
+        enemy.Animator?.SetTrigger(EnemyConstants.Landed);
         UseTime = Time.time;
         enemy.enabled = true;
         enemy.Movement.enabled = true;
