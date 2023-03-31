@@ -13,8 +13,8 @@ public class WeaponSway : MonoBehaviour
     private float rotateSpeed = 4f;
     [SerializeField] 
     private float maxTurn = 3f;
-    [SerializeField]
-    private Camera cam;
+    //[SerializeField]
+    //private Camera cam;
     private void OnEnable()
     {
         _input = new PlayerInput();

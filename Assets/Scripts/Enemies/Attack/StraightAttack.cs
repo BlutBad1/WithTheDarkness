@@ -9,23 +9,23 @@ namespace EnemyAttackNS
     {
 
         public LayerMask WhatIsPlayer;
-
-        public GameObject ObjectUnderAttack;
+        [Tooltip("Default is player")]
+        public GameObject ObjectToAttack;
         [HideInInspector]
         public SphereCollider AttackColider;
-
+        public LayerMask WhatIsRayCastIgnore;
         protected void Start()
         {
-            if (!ObjectUnderAttack)
+            if (!ObjectToAttack)
             {
-                ObjectUnderAttack = GameObject.Find(CommonConstants.PLAYER);
-                if (!ObjectUnderAttack)
+                ObjectToAttack = GameObject.Find(CommonConstants.PLAYER);
+                if (!ObjectToAttack)
                 {
                     Debug.LogWarning("ObjectUnderAttack is not found");
                 }
             }
             
-            objectDamageable = ObjectUnderAttack?.GetComponent<IDamageable>();
+            objectDamageable = ObjectToAttack?.GetComponent<IDamageable>();
 
             if (!TryGetComponent(out AttackColider))
             {
@@ -49,7 +49,7 @@ namespace EnemyAttackNS
                     origin.y = player.transform.position.y;
 
                     Ray ray = new Ray(origin, player.transform.position - origin);
-                    if (Physics.SphereCast(ray, 0.3f, (player.transform.position - enemy.transform.position).magnitude, ~(1 << 11 | 1 << 12 | 1 << 20 | 1 << 8 | 1 << 7)))
+                    if (Physics.SphereCast(ray, 0.3f, (player.transform.position - enemy.transform.position).magnitude, ~WhatIsRayCastIgnore))
                     {
                         return false;
                     }
@@ -68,10 +68,10 @@ namespace EnemyAttackNS
         {
 
 
-            if (ObjectUnderAttack != null && (transform.position - ObjectUnderAttack.transform.position).magnitude <= AttackDistance)
+            if (ObjectToAttack != null && (transform.position - ObjectToAttack.transform.position).magnitude <= AttackDistance)
             {
 
-                if (CanAttack(gameObject, ObjectUnderAttack))
+                if (CanAttack(gameObject, ObjectToAttack))
                 {
                     if (attackCoroutine == null)
                         attackCoroutine = StartCoroutine(Attack());
@@ -105,13 +105,13 @@ namespace EnemyAttackNS
         private void OnTriggerEnter(Collider other)
         {
 
-            if ((1 << other.gameObject.layer) == WhatIsPlayer)
+            if ((WhatIsPlayer|(1 << other.gameObject.layer)) == WhatIsPlayer)
             {
 
-                if (ObjectUnderAttack == null)
+                if (ObjectToAttack == null)
                 {
-                    ObjectUnderAttack = other.gameObject;
-                    objectDamageable = ObjectUnderAttack.GetComponent<IDamageable>();
+                    ObjectToAttack = other.gameObject;
+                    objectDamageable = ObjectToAttack.GetComponent<IDamageable>();
                 }
                 if (IsAttacking)
                 {

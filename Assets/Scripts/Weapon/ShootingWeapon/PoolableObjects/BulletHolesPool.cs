@@ -1,3 +1,4 @@
+using MyConstants;
 using System;
 using UnityEngine;
 
@@ -9,19 +10,24 @@ namespace PoolableObjectsNS
     {
         [SerializeField]
         public BulletHolesPoolableObject[] pools;
-        const string POOLABLE_OBJECTS = "PoolableObjects";
+       
+        static BulletHolesPool instance;
         void Start()
         {
+            if (instance != null)
+                Destroy(this);
+            instance = this;
             CreatePools();
-            GameObject parentPoolableObject = GameObject.Find(POOLABLE_OBJECTS);
+            GameObject parentPoolableObject = GameObject.Find(CommonConstants.POOLABLE_OBJECTS);
             foreach (var pool in pools)
             {
+
                 GameObject poolGameObject = new GameObject(pool.Prefab + " Pool");
-                if (parentPoolableObject!=null)
+                if (parentPoolableObject != null)
                 {
                     poolGameObject.transform.parent = parentPoolableObject.transform;
                 }
-            
+
                 CreateObjects(pool, poolGameObject);
 
             }
@@ -89,6 +95,14 @@ namespace PoolableObjectsNS
                 pools[i].poolableObjects = new GameObject[pools[i].Size];
             }
         }
-
+        public string[] GetAllPoolNames()
+        {
+            string[] names = new string[pools.Length];
+            for (int i = 0; i < pools.Length; i++)
+            {
+                names[i] = pools[i].Name;
+            }
+            return names;
+        }
     }
 }

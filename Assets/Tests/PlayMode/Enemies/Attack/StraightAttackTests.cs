@@ -32,7 +32,7 @@ namespace Enemies.Attack
             attackStraight = enemy.AddComponent<StraightAttackWithoutEnemyMovement>();
             attackStraight.AttackColider = enemy.AddComponent<SphereCollider>();
             boxCollider = player.AddComponent<BoxCollider>();
-            attackStraight.ObjectUnderAttack = player;
+            attackStraight.ObjectToAttack = player;
             boxCollider.size = new Vector3(100, 1000, 1000);
             playerLayerMask = (1 << player.layer);
             attackStraight.WhatIsPlayer = playerLayerMask;

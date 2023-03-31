@@ -4,7 +4,7 @@ namespace PoolableObjectsNS
 {
 
     [Serializable]
-    public class BulletHolesPoolableObject : MonoBehaviour
+    public class BulletHolesPoolableObject 
     {
         public string Name;
         public GameObject Prefab;

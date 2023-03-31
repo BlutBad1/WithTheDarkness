@@ -1,5 +1,4 @@
 using EnemyBaseNS;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -21,48 +20,46 @@ namespace EnemyHandNS
                 walkPointIsSet = false;
             base.HandleStateChange(oldState, newState);
 
-
         }
 
-        protected override IEnumerator DoIdleMotion()
+        protected override void Start()
         {
-            while (true)
+            base.Start();
+            OnIdle += OnIdleState;
+        }
+        void OnIdleState()
+        {
+            if (Agent.enabled)
             {
-                if (Agent.enabled)
+
+
+                if (walkPointIsSet)
+                {
+                    Agent.SetDestination(walkPoint);
+                }
+                if (!walkPointIsSet)
                 {
 
-              
-                    if (walkPointIsSet)
-                    {
-                        Agent.SetDestination(walkPoint);           
-                    }
-                    if (!walkPointIsSet)
-                    {
-                       
-                        SearchWalkPoint();
-                    }
-                  
-                    Vector3 distanceToWalkPoint = transform.position - walkPoint;
-                   
-                    //Walkpoint reached
-                    if (distanceToWalkPoint.magnitude <= Agent.stoppingDistance + reachDestinationHelper)
-                    {
-                      
-                        walkPointIsSet = false;
-                        reachDestinationHelper = 0.3f;
-                    }
-                    else if (Agent.velocity.magnitude<=0.01f && walkPointIsSet)
-                    {
-                        reachDestinationHelper += 0.1f;
-                    }
-                  
+                    SearchWalkPoint();
                 }
-                yield return null;
+
+                Vector3 distanceToWalkPoint = transform.position - walkPoint;
+
+                //Walkpoint reached
+                if (distanceToWalkPoint.magnitude <= Agent.stoppingDistance + reachDestinationHelper)
+                {
+
+                    walkPointIsSet = false;
+                    reachDestinationHelper = 0.3f;
+                }
+                else if (Agent.velocity.magnitude <= 0.01f && walkPointIsSet)
+                {
+                    reachDestinationHelper += 0.1f;
+                }
+
             }
-
-
         }
-        protected void SearchWalkPoint()
+        void SearchWalkPoint()
         {
             float distanceToPlayer = Vector3.Distance(Player.transform.position, transform.position);
             if (distanceToPlayer <= HiddenSightRange)
@@ -72,23 +69,23 @@ namespace EnemyHandNS
             }
             else
             {
-         
+
                 BackToDefaultPosition();
             }
         }
-        protected override bool BackToDefaultPosition()
+        public override bool BackToDefaultPosition()
         {
-        
+
             if ((transform.position - Player.transform.position).magnitude > HiddenSightRange * 2.5)
             {
-             
+
                 walkPointIsSet = false;
                 Agent.Warp(DefaultPositon);
                 return true;
             }
             else if ((transform.position - Player.transform.position).magnitude > HiddenSightRange)
             {
-              
+
                 walkPointIsSet = true;
                 walkPoint = DefaultPositon;
                 return true;

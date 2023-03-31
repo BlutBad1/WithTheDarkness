@@ -13,8 +13,10 @@ GameObject:
   - component: {fileID: 1384210746280815285}
   - component: {fileID: 1384210746279848055}
   - component: {fileID: 1384210746279848054}
-  - component: {fileID: 1384210746279848840}
+  - component: {fileID: 4979913376439078103}
   - component: {fileID: 1384210746279848841}
+  - component: {fileID: 1898241042865767268}
+  - component: {fileID: 8753575695926193075}
   m_Layer: 6
   m_Name: OilCan4
   m_TagString: Untagged
@@ -105,7 +107,6 @@ MonoBehaviour:
   disapperingSpeed: 0.8
   minTime: 60
   maxTime: 90
-  lightTimer: {fileID: 0}
 --- !u!114 &1384210746279848054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,8 +158,8 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!65 &1384210746279848840
-BoxCollider:
+--- !u!64 &4979913376439078103
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -167,9 +168,10 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1.171945, y: 1.1719462, z: 1.2945632}
-  m_Center: {x: -0.000060528517, y: 0, z: 0.64728063}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4300000, guid: 4a84a977d1f57984fa1643fa5e85c9d9, type: 3}
 --- !u!54 &1384210746279848841
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -186,6 +188,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &1898241042865767268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384210746283013237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d0dede48ce2124478f4b51ca54d5e72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8753575695926193075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1384210746283013237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 68e11f66a005dab4dacfacd732e613d2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1384210746283013239
 GameObject:
   m_ObjectHideFlags: 0

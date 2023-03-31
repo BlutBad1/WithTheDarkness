@@ -1,3 +1,4 @@
+using MyConstants;
 using PoolableObjectsNS;
 using UnityEngine;
 namespace WeaponNS.ShootingWeaponNS
@@ -7,30 +8,18 @@ namespace WeaponNS.ShootingWeaponNS
     [RequireComponent(typeof(ShootingWeapon))]
     public class ShootRaycast : MonoBehaviour
     {
-        [SerializeField]
-        protected BulletHolesPool bulletHolesPool;
-        [SerializeField]
+     
+        [SerializeField,Tooltip("Spread coeff")]
         float maxDeviation;
-        [SerializeField]
+        [SerializeField, Tooltip("if not set, will be the main camera")]
         public Camera CameraOrigin;
         [SerializeField]
         public LayerMask WhatIsEnemy;
         [SerializeField]
         public LayerMask WhatIsRayCastIgnore;
-        protected virtual void CreateBulletHole(string bulletHoleName, RaycastHit hitInfo)
-        {
-            GameObject bulletHole = bulletHolesPool.GetObject(bulletHoleName);
-            bulletHole.transform.position = hitInfo.point + (hitInfo.normal * 0.0001f);
-            bulletHole.transform.rotation = Quaternion.LookRotation(hitInfo.normal);
-            if (!bulletHole.TryGetComponent(out ParticleSystem particleSystem))
-            {
-                bulletHole.GetComponentInChildren<ParticleSystem>().Play();
-            }
-            else
-            {
-                particleSystem.Play();
-            }
-        }
+        [Tooltip("if not set, will be the main dataBase")]
+        public BulletHolesDataBase bulletHolesDataBase;
+       
         protected virtual void Start()
         {
             if (!CameraOrigin)
@@ -38,6 +27,10 @@ namespace WeaponNS.ShootingWeaponNS
                 CameraOrigin = Camera.main;
             }
             GetComponent<ShootingWeapon>().OnShootRaycast += OnShootRaycast;
+            if (!bulletHolesDataBase)
+            {
+                bulletHolesDataBase = GameObject.Find(ShootingWeaponConstants.BULLET_HOLES_DATA_BASE).GetComponent<BulletHolesDataBase>();
+            }
         }
         public virtual void OnShootRaycast(GunData gunData)
         {
@@ -53,21 +46,14 @@ namespace WeaponNS.ShootingWeaponNS
             {
                
                 IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-                if (hitInfo.collider.gameObject.layer == WhatIsEnemy)
+              
+                if ((WhatIsEnemy | (1<<hitInfo.collider.gameObject.layer)) == WhatIsEnemy)
                 {
+                  
                     damageable?.TakeDamage(gunData.damage, gunData.force, hitInfo.point);
-                    if (bulletHolesPool)
-                        CreateBulletHole("EnemyBulletHole", hitInfo);
-
-
-               
+                   
                 }
-                else
-                {
-                    if (bulletHolesPool)
-                        CreateBulletHole("DefaultBulletHole", hitInfo);
-
-                }
+                bulletHolesDataBase.MakeBulletHoleByLayer(hitInfo);
             }
         }
 
