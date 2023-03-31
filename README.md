@@ -6,13 +6,19 @@ Each game session has its own path, consisting of pre-created locations. Alterna
 (currently bullets and oil) and opponents appear at random.
 
   The game is still under development. 
-### <ins>All code in the folder: Assets -> Scripts</ins>
+### <ins>[All code](https://github.com/BlutBad1/WithTheDarkness/tree/main/Assets) in the folder: [Assets -> Scripts](https://github.com/BlutBad1/WithTheDarkness/tree/main/Assets)</ins>
 
 ## Lab№2
-  #### The <ins>unit tests</ins> are in the <ins>Assets -> Tests</ins> folder.
+  #### The <ins>[unit tests](https://github.com/BlutBad1/WithTheDarkness/tree/main/Assets/Tests)</ins> are in the <ins>[Assets -> Tests](https://github.com/BlutBad1/WithTheDarkness/tree/main/Assets/Tests)</ins> folder.
   
-  #### PDF A description of all patterns can be found in the <ins>Patterns</ins> folder. (Ukrainian language)
-  ##
+  #### PDF A description of all patterns can be found in the <ins>[Patterns](https://github.com/BlutBad1/WithTheDarkness/tree/main/Patterns)</ins> folder. (Ukrainian language)
+  Realized patterns:
+- [Action](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Action.pdf), in the other project ([Link to the project](https://github.com/TEGTO/SEM2-OOP-Lab-1--2023-))
+- [Adapter](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Adapter.pdf)
+- [Bridge](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Bridge.pdf)
+- [Builder](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Builder.pdf)
+- [Factory Method](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Factory%20Method.pdf)
+- [Intermediary](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Intermediary.pdf)
 
 
 ## Project (Old description of 2022) 
