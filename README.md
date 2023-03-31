@@ -21,7 +21,7 @@ Each game session has its own path, consisting of pre-created locations. Alterna
 - [Intermediary](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Intermediary.pdf)
 
 
-## Project (Old description of 2022) 
+## ~~Project (Old description of 2022)~~
 
 
 
