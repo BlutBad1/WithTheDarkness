@@ -26,7 +26,6 @@ namespace WeaponNS.ShootingWeaponNS.Inspector
             if (!bulletHolesPool)
             {
                 bulletHolesPool = GameObject.FindObjectOfType<BulletHolesPool>();
-
                 return;
             }
             int selectedIndex = 0;

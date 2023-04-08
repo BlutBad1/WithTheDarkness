@@ -102,46 +102,42 @@ public class MaterialDrawer : PropertyDrawer
 
 	public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
 	{
-     
-	
-	
+
+			SerializedProperty texture = property.FindPropertyRelative("texture");
+			SerializedProperty surfaceIndex = property.FindPropertyRelative("surfaceIndex");
+			SerializedProperty attachedSurfaces = property.FindPropertyRelative("attachedSurfaces");
+			string[] attachedSurfacesNames = new string[attachedSurfaces.arraySize];
+			for (int x = 0; x < attachedSurfaces.arraySize; x++)
+			{
+				attachedSurfacesNames[x] = attachedSurfaces.GetArrayElementAtIndex(x).stringValue;
+			}
+			
+
+			// Showing labels for the fields
+			position.y -= 12f;
+			GUI.Label(position, "Texture");
+			position.x = (position.width / 2f) + 50f;
+			GUI.Label(position, "GroundType");
+
+			// Set the new rect 
+			position.height = 16f;
+			position.y = position.yMax + 12f;
+			position.x = 48f;
+			position.width /= 2.2f;
+
+			// Draw the texture field
+			EditorGUI.PropertyField(position, texture, GUIContent.none);
+
+			// Draw the type field
+			position.x = position.xMax + 15f;
+			position.y -= 2f;
+			surfaceIndex.intValue = EditorGUI.Popup(position, surfaceIndex.intValue, attachedSurfacesNames);
 		
-        SerializedProperty texture = property.FindPropertyRelative("texture");
-		SerializedProperty surfaceIndex = property.FindPropertyRelative("surfaceIndex");
+			
 
-       
-		
-
-		
-
-
-
-		// Showing labels for the fields
-		position.y -= 12f;
-		GUI.Label(position, "Texture");
-		position.x = (position.width / 2f)+50f;
-		GUI.Label(position, "GroundType");
-
-		// Set the new rect 
-		position.height = 16f;
-		position.y = position.yMax+12f;
-		position.x = 48f;
-		position.width /= 2.2f;
-
-		// Draw the texture field
-		EditorGUI.PropertyField(position, texture, GUIContent.none);
-		
-		// Draw the type field
-		position.x = position.xMax+15f;
-		position.y -= 2f;
-
-
-
-		surfaceIndex.intValue=EditorGUI.IntSlider(position, surfaceIndex.intValue, 0, 100);
-		
-	}
-
-	public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+		}
+        
+public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
 	{
 		return 32f;
 	}

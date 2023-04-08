@@ -26,7 +26,7 @@ namespace LocationManagementNS
         {
             if (!dimming)
                 dimming = GameObject.Find(CommonConstants.BLACK_SCREEN_DIMMING);
-            if (dimming != null)
+            if (dimming)
                 dimming.GetComponent<BlackScreenDimming>().fadeSpeed = 0.5f;
             if (!audioManager)
                 audioManager = GameObject.Find(CommonConstants.MAIN_AUDIOMANAGER);
@@ -56,7 +56,7 @@ namespace LocationManagementNS
 
             isActivated = true;
             dimming?.GetComponent<BlackScreenDimming>().DimmingEnable();
-            audioManager?.GetComponent<AudioManager>().PlayWithoutRep("transitionSound");
+            audioManager?.GetComponent<AudioManager>().PlayWithoutRep(MainAudioManagerConstants.TRANSITION);
         }
         private void OnTriggerEnter(Collider other)
         {

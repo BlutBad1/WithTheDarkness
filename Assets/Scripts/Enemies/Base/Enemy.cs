@@ -111,7 +111,6 @@ namespace EnemyBaseNS
             EnemyAttack.AttackDistance = EnemyScriptableObject.AttackDistance;
             EnemyAttack.AttackDelay = EnemyScriptableObject.AttackDelay;
             EnemyAttack.Damage = EnemyScriptableObject.Damage;
-
             Skills = EnemyScriptableObject.Skills;
         }
 

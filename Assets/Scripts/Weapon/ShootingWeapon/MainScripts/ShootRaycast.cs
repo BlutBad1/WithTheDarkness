@@ -44,7 +44,7 @@ namespace WeaponNS.ShootingWeaponNS
           
             if (Physics.Raycast(CameraOrigin.transform.position, forwardVector, out RaycastHit hitInfo, gunData.maxDistance, ~WhatIsRayCastIgnore))
             {
-               
+                //беремо з об'єкта по якому попали компонент IDamageable, та визиваємо у нього метод TakeDamage
                 IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
               
                 if ((WhatIsEnemy | (1<<hitInfo.collider.gameObject.layer)) == WhatIsEnemy)

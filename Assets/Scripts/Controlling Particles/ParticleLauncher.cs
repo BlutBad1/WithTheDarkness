@@ -13,7 +13,7 @@ public class ParticleLauncher : MonoBehaviour
         private List<ParticleCollisionEvent> collisionEvents;
         public ParticleDecalPool[] splatDecalPool;
        //public InputManager inputManager;
-        // Start is called before the first frame update
+      
         void Start()
         {
             collisionEvents=new List<ParticleCollisionEvent>();
@@ -30,13 +30,13 @@ public class ParticleLauncher : MonoBehaviour
             }
           
         }
-        void EmitAtLocation(ParticleCollisionEvent particleCollision)
-        {
-          //  splatDecalPool.transform.position = particleCollision.intersection;
-         //   splatDecalPool.transform.rotation = Quaternion.LookRotation(particleCollision.normal);
-          
-        }
-        // Update is called once per frame
+        //void EmitAtLocation(ParticleCollisionEvent particleCollision)
+        //{
+        //    splatDecalPool.transform.position = particleCollision.intersection;
+        //    splatDecalPool.transform.rotation = Quaternion.LookRotation(particleCollision.normal);
+
+        //}
+      
         //void Update()
         //{
         //    if (inputManager.OnFoot.Firing.triggered)

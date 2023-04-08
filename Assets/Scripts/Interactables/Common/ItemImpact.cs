@@ -9,7 +9,7 @@ namespace InteractableNS.Common
     {
         ItemDamagable itemDamagable;
         Rigidbody rigidbody;
-        float ImpactForce = 1f; 
+        public float ImpactForce = 1f;
         void Start()
         {
             if (!itemDamagable)
@@ -23,8 +23,8 @@ namespace InteractableNS.Common
         private void OnTakeDamage(float force, Vector3 hit)
         {
             Vector3 moveDirection = transform.position - hit;
-          
-            rigidbody.AddForce(moveDirection.normalized * force* ImpactForce, ForceMode.Impulse);
+
+            rigidbody.AddForce(moveDirection.normalized * force * ImpactForce, ForceMode.Impulse);
 
         }
     }

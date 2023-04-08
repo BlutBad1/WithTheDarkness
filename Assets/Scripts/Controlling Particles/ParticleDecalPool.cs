@@ -8,13 +8,13 @@ namespace ControllingParticlesNS
 
     public class ParticleDecalPool : MonoBehaviour
     {
-        private int particleDecalIndex;
-        public int maxDecals =100;
-        public float decalsMinSize = 100;
-        public float decalsMaxSize =100;
-        public  ParticleDecalData[] particleData;
-        private ParticleSystem.Particle[] particles;
-        private ParticleSystem decalParticalSystem;
+        private int particleDecalIndex;//ітератор для прохождення по масивам 
+        public int maxDecals =100;//кількість об'єктів в басейні 
+        public float decalsMinSize = 100;//мінімальний розмір об'єкта
+        public float decalsMaxSize =100;//максимальний розмір об'єкта
+        public  ParticleDecalData[] particleData;//масив інформації, позиція, поворот і т.д.
+        private ParticleSystem.Particle[] particles;//масив самих ефектів
+        private ParticleSystem decalParticalSystem;//система, яка запускає ефект 
         void Start()
         {
             decalParticalSystem = GetComponent<ParticleSystem>();

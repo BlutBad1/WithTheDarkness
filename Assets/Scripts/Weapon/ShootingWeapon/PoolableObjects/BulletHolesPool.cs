@@ -5,18 +5,23 @@ using UnityEngine;
 namespace PoolableObjectsNS
 {
 
-
     public class BulletHolesPool : MonoBehaviour
     {
         [SerializeField]
         public BulletHolesPoolableObject[] pools;
-       
+
         static BulletHolesPool instance;
+        static public BulletHolesPool GetInstance()
+        {
+            return instance;
+        }
+
         void Start()
         {
-            if (instance != null)
+            if (instance && instance != this)
                 Destroy(this);
             instance = this;
+
             CreatePools();
             GameObject parentPoolableObject = GameObject.Find(CommonConstants.POOLABLE_OBJECTS);
             foreach (var pool in pools)
@@ -29,6 +34,7 @@ namespace PoolableObjectsNS
                 }
 
                 CreateObjects(pool, poolGameObject);
+
 
             }
         }
@@ -97,6 +103,7 @@ namespace PoolableObjectsNS
         }
         public string[] GetAllPoolNames()
         {
+
             string[] names = new string[pools.Length];
             for (int i = 0; i < pools.Length; i++)
             {

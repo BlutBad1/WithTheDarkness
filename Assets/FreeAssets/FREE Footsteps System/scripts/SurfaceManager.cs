@@ -219,6 +219,10 @@ public class SurfaceManager : MonoBehaviour {
 
 		return maxIndex;
 	}
+	public SurfaceManager GetInstance()
+    {
+		return singleton;
+    }
 }
 
 

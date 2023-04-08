@@ -15,19 +15,17 @@ namespace HudNS
       
         public void DimmingEnable()
         {
-            if (followCoroutine !=null)
-            {
+            if (followCoroutine !=null)  
                 StopCoroutine(followCoroutine);
-            }
+       
             followCoroutine=StartCoroutine(Dimming(true));
 
         }
         public void DimmingDisable()
         {
-            if (followCoroutine!=null)
-            {
+            if (followCoroutine!=null) 
                 StopCoroutine(followCoroutine);
-            }
+          
             followCoroutine= StartCoroutine(Dimming(false));
         }
         IEnumerator Dimming(bool enable)

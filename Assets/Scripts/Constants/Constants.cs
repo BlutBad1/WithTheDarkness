@@ -20,7 +20,7 @@ namespace MyConstants
         public const string FIRING = "Firing";
         public const string OUT_OF_AMMO = "OutOfAmmo";
         public const string IDLE = "Idle";
-        public const string BULLET_HOLES_DATA_BASE = "BulletHolesDataBase";
+        public const string BULLET_HOLES_DATA_BASE = "MainBulletHolesDataBase";
         public const string DEFAULT_BULLET_HOLE = "DefaultBulletHole";
     }
     public class EnemyConstants
@@ -30,6 +30,10 @@ namespace MyConstants
         public const string LANDED = "Landed";
         public const string ATTACK_TRIGGER = "Attack";
         public const string DEATH_TRIGGER = "Death";
+    }
+    public class MainAudioManagerConstants
+    {
+        public const string TRANSITION = "transitionSound";
     }
 
 
