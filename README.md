@@ -17,9 +17,14 @@ Each game session has its own path, consisting of pre-created locations. Alterna
 - [Adapter](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Adapter.pdf)
 - [Bridge](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Bridge.pdf)
 - [Builder](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Builder.pdf)
+- [Facade](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Facade.pdf)
 - [Factory Method](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Factory%20Method.pdf)
+- [Flyweight](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Flyweight.pdf)
 - [Intermediary](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Intermediary.pdf)
-
+- [ObjectPooling](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/ObjectPooling.pdf)
+- [Observer](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Observer.pdf), in the other project ([Link to the project](https://github.com/TEGTO/SEM2-OOP-Lab-1--2023-))
+- [Singleton](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Singleton.pdf)
+- [Template Method](https://github.com/BlutBad1/WithTheDarkness/blob/main/Patterns/Template%20Method.pdf)
 
 ## ~~Project (Old description of 2022)~~
 
