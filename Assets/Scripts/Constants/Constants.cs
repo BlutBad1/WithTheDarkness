@@ -1,10 +1,7 @@
 
 namespace MyConstants
 {
-    public class Constants
-    {
-
-    }
+    public class Constants{}
     public static class CommonConstants
     {
         public const string PLAYER = "Player";
@@ -14,15 +11,8 @@ namespace MyConstants
         public const string BLACK_SCREEN_DIMMING = "BlackScreenDimming";
         public const string POOLABLE_OBJECTS = "PoolableObjects";
     }
-    public class ShootingWeaponConstants
-    {
-        public const string RELOADING = "Reloading";
-        public const string FIRING = "Firing";
-        public const string OUT_OF_AMMO = "OutOfAmmo";
-        public const string IDLE = "Idle";
-        public const string BULLET_HOLES_DATA_BASE = "MainBulletHolesDataBase";
-        public const string DEFAULT_BULLET_HOLE = "DefaultBulletHole";
-    }
+    
+ 
     public class EnemyConstants
     {
         public const string IS_WALKING = "IsWalking";
@@ -36,6 +26,23 @@ namespace MyConstants
         public const string TRANSITION = "transitionSound";
     }
 
+    namespace ShootingWeaponConstants
+    {
+        public class MainShootingWeaponConstants
+        {
+            public const string RELOADING = "Reloading";
+            public const string FIRING = "Firing";
+            public const string OUT_OF_AMMO = "OutOfAmmo";
+            public const string IDLE = "Idle";
+            public const string BULLET_HOLES_DATA_BASE = "MainBulletHolesDataBase";
+            public const string DEFAULT_BULLET_HOLE = "DefaultBulletHole";
+        }
+        public class RevolverConstants
+        {
+            public const string RELOADING_DELAY = "RelodingDelay";
+            public const string RELOADING_ANIMATION_SPEED = "ReloadingSpeed";
+            public const string RELOADING_ENDING = "ReloadingEnding";
+        }
+    }
 
 }
-

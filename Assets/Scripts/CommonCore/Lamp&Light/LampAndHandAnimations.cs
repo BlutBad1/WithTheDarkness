@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace LightNS
+{ 
+
 public class LampAndHandAnimations : MonoBehaviour
 {
     [SerializeField] PlayerMotor characterController;
@@ -19,4 +22,5 @@ public class LampAndHandAnimations : MonoBehaviour
       
         left_hand.GetComponent<Animator>().SetFloat("speed", speed);
     }
+}
 }

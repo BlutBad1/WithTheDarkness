@@ -18,10 +18,9 @@ namespace EnemyOnDeadNS
         private Coroutine lookCoroutine;
         void Start()
         {
-            if (ragdollEnabler == null)
-            {
+            if (!ragdollEnabler)
                 TryGetComponent(out ragdollEnabler);
-            }
+
             enemy = GetComponent<Enemy>();
             enemy.OnDeath += OnDead;
         }
@@ -32,7 +31,9 @@ namespace EnemyOnDeadNS
             enemy.Movement.State = EnemyState.Dead;
             enemy.Agent.enabled = false;
             enemy.Movement.enabled = false;
-            ragdollEnabler.EnableRagdoll();
+            if (ragdollEnabler)
+                ragdollEnabler.EnableRagdoll();
+
             lookCoroutine = StartCoroutine(FadeOutCoroutine());
 
 
@@ -43,10 +44,8 @@ namespace EnemyOnDeadNS
         private IEnumerator FadeOutCoroutine()
         {
             yield return new WaitForSeconds(RagdollTime);
-            if (ragdollEnabler != null)
-            {
+            if (ragdollEnabler)
                 ragdollEnabler.DisableAllRigidbodies();
-            }
             yield return new WaitForSeconds(FadeOutDelay);
 
 

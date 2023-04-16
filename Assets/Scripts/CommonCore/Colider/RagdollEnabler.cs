@@ -15,6 +15,7 @@ public class RagdollEnabler : MonoBehaviour
     private bool StartRagdoll = false;
     private Rigidbody[] rigidbodies;
     private CharacterJoint[] joints;
+    private Collider[] colliders;
 
     void Awake()
     {
@@ -27,14 +28,13 @@ public class RagdollEnabler : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
         rigidbodies = RagdollRoot.GetComponentsInChildren<Rigidbody>();
         joints = RagdollRoot.GetComponentsInChildren<CharacterJoint>();
-        if (StartRagdoll)
-        {
+        colliders = RagdollRoot.GetComponentsInChildren<Collider>();
+        if (StartRagdoll)  
             EnableRagdoll();
-        }
+    
         else
-        {
             EnableAnimator();
-        }
+       
     }
 
     public void EnableAnimator()
@@ -49,16 +49,20 @@ public class RagdollEnabler : MonoBehaviour
         {
             rigidbody.useGravity = false;
             rigidbody.isKinematic = true;
-            rigidbody.detectCollisions = false;
+           rigidbody.detectCollisions = false;
         }
     }
     public void DisableAllRigidbodies()
     {
         foreach (Rigidbody rigidbody in rigidbodies)
         {
-            rigidbody.detectCollisions = false;
+            //rigidbody.detectCollisions = false;
             rigidbody.useGravity = false;
             rigidbody.isKinematic = true;
+        }
+        foreach (Collider collider in colliders)
+        {
+            collider.isTrigger = true;
         }
     }
     public void EnableRagdoll()

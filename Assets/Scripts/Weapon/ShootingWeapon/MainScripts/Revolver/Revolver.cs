@@ -1,14 +1,12 @@
-using MyConstants;
+using MyConstants.ShootingWeaponConstants;
+using SoundNS;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using WeaponNS.ShootingWeaponNS;
 
 public class Revolver : ShootingWeapon
 {
-    protected const string RELOADING_DELAY = "RelodingDelay";
-    protected const string RELOADING_ANIMATION_SPEED = "ReloadingSpeed";
-    protected const string RELOADING_ENDING = "ReloadingEnding";
+
     [SerializeField]
     private GameObject lamp;
     protected override IEnumerator Reload()
@@ -23,26 +21,26 @@ public class Revolver : ShootingWeapon
     }
     public override void ReloadAnim()
     {
-     
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0); 
-        if (gunData.reloading && info.IsName(RELOADING_ENDING))
+
+        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+        if (gunData.reloading && info.IsName(RevolverConstants.RELOADING_ENDING))
         {
-          
-            animator.SetTrigger(RELOADING_ENDING);
-            lamp.GetComponent<Animator>().SetTrigger(RELOADING_ENDING);
+      
+            animator.SetTrigger(RevolverConstants.RELOADING_ENDING);
+            lamp.GetComponent<Animator>().SetTrigger(RevolverConstants.RELOADING_ENDING);
             gunData.reloading = false;
         }
         else if (gunData.reloading)
         {
             base.ReloadAnim();
-            lamp.GetComponent<Animator>().SetTrigger(ShootingWeaponConstants.RELOADING);
-            animator.SetFloat(RELOADING_ANIMATION_SPEED, 1 / (difference * gunData.reloadTime));
-            lamp.GetComponent<Animator>().SetFloat(RELOADING_ANIMATION_SPEED, 1 / (difference * gunData.reloadTime));
+            lamp.GetComponent<Animator>().SetTrigger(MainShootingWeaponConstants.RELOADING);
+            animator.SetFloat(RevolverConstants.RELOADING_ANIMATION_SPEED, 1 / (difference * gunData.reloadTime));
+            lamp.GetComponent<Animator>().SetFloat(RevolverConstants.RELOADING_ANIMATION_SPEED, 1 / (difference * gunData.reloadTime));
 
         }
 
-   
-       
+
+
 
 
 
@@ -50,14 +48,12 @@ public class Revolver : ShootingWeapon
 
     public void ReloadingSound()
     {
-       
         GetComponent<AudioManager>().PlayAFewTimes(new string[2] { "RevolverReloading", "RevolverCylinder" }, difference);
-      
     }
     public void RelodingDelay()
     {
-        animator.SetBool(RELOADING_DELAY, !animator.GetBool(RELOADING_DELAY));
-        lamp.GetComponent<Animator>().SetBool(RELOADING_DELAY, !lamp.GetComponent<Animator>().GetBool(RELOADING_DELAY));
+        animator.SetBool(RevolverConstants.RELOADING_DELAY, !animator.GetBool(RevolverConstants.RELOADING_DELAY));
+        lamp.GetComponent<Animator>().SetBool(RevolverConstants.RELOADING_DELAY, !lamp.GetComponent<Animator>().GetBool(RevolverConstants.RELOADING_DELAY));
 
     }
 }

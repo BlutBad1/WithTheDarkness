@@ -1,4 +1,5 @@
 using MyConstants;
+using MyConstants.ShootingWeaponConstants;
 using PoolableObjectsNS;
 using UnityEngine;
 namespace WeaponNS.ShootingWeaponNS
@@ -29,7 +30,7 @@ namespace WeaponNS.ShootingWeaponNS
             GetComponent<ShootingWeapon>().OnShootRaycast += OnShootRaycast;
             if (!bulletHolesDataBase)
             {
-                bulletHolesDataBase = GameObject.Find(ShootingWeaponConstants.BULLET_HOLES_DATA_BASE).GetComponent<BulletHolesDataBase>();
+                bulletHolesDataBase = GameObject.Find(MainShootingWeaponConstants.BULLET_HOLES_DATA_BASE).GetComponent<BulletHolesDataBase>();
             }
         }
         public virtual void OnShootRaycast(GunData gunData)
@@ -44,12 +45,13 @@ namespace WeaponNS.ShootingWeaponNS
           
             if (Physics.Raycast(CameraOrigin.transform.position, forwardVector, out RaycastHit hitInfo, gunData.maxDistance, ~WhatIsRayCastIgnore))
             {
+               
                 //беремо з об'єкта по якому попали компонент IDamageable, та визиваємо у нього метод TakeDamage
                 IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
               
                 if ((WhatIsEnemy | (1<<hitInfo.collider.gameObject.layer)) == WhatIsEnemy)
                 {
-                  
+                   
                     damageable?.TakeDamage(gunData.damage, gunData.force, hitInfo.point);
                    
                 }

@@ -22,7 +22,6 @@ namespace EnemySkillsNS
             if (base.CanUseSkill(enemy, player) && enemy.Movement.State == EnemyState.Chase)
             {
 
-
                 float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
 
                 Ray ray = new Ray(enemy.transform.position, player.transform.position - enemy.transform.position);

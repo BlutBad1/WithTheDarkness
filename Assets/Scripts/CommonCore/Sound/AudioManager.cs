@@ -2,7 +2,8 @@ using UnityEditor.Audio;
 using UnityEngine;
 using System;
 using System.Collections;
-
+namespace SoundNS
+{
 public class AudioManager : MonoBehaviour
 {
     public Sound[] sounds; // don't rename otherwise all sounds and their settings will be gone 
@@ -25,7 +26,7 @@ public class AudioManager : MonoBehaviour
     }
 
    
-    public void PlayWithoutRep(string name)// bad code, but Play function is using in animation events and their can't call out fun with >1 parameters
+    public void PlayWithoutRep(string name)// bad code, but Play function is be using in animation events and they can't call out functions with >1 parameters
     {
         Sound s = Array.Find(sounds, sound => sound.name == name);
       
@@ -88,4 +89,4 @@ public class AudioManager : MonoBehaviour
     }
 
 }
-
+}

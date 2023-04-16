@@ -1,5 +1,7 @@
 using UnityEditor.Audio;
 using UnityEngine;
+namespace SoundNS
+{
 [System.Serializable]
 public class Sound
 {
@@ -16,4 +18,5 @@ public class Sound
     public AudioSource source;
    
    
+}
 }

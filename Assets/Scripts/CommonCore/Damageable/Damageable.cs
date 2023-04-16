@@ -9,7 +9,7 @@ public class Damageable : MonoBehaviour, IDamageable
     public TakeDamageEvent OnTakeDamage;
     public DeathEvent OnDeath;
     public  int Health = 100;
-   
+    private bool HasEventStarted = false;
     public virtual Transform GetTransform()
     {
         return transform;
@@ -18,7 +18,6 @@ public class Damageable : MonoBehaviour, IDamageable
     public virtual void TakeDamage(int damage, float force, Vector3 hit)
     {
         TakeDamage(damage);
-        
         OnTakeDamage?.Invoke(force, hit);
     }
     public virtual void TakeDamage(int damage)
@@ -28,9 +27,12 @@ public class Damageable : MonoBehaviour, IDamageable
        
         if (Health <= 0)
         {
-         
-            OnDeath?.Invoke();
-         
+            if (!HasEventStarted)
+            {
+                OnDeath?.Invoke();
+                HasEventStarted = true;
+            }
+
         }
     }
 

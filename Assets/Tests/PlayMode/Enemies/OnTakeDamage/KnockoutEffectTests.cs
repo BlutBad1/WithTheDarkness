@@ -1,5 +1,5 @@
 using EnemyBaseNS;
-using EnemyOnTakeDameNS;
+using EnemyOnTakeDamageNS;
 using NUnit.Framework;
 using System.Collections;
 using UnityEngine;

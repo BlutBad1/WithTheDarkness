@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 8028152377221560930}
   - component: {fileID: 6396907626473502151}
   - component: {fileID: 9161050420626342157}
-  - component: {fileID: -1489079408740749391}
+  - component: {fileID: 771611788076981358}
+  - component: {fileID: 5403889071248753160}
   m_Layer: 0
   m_Name: SM_AFS_Log10_LowEndPC
   m_TagString: Untagged
@@ -29,6 +30,7 @@ Transform:
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -52,10 +54,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,8 +84,28 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!65 &-1489079408740749391
-BoxCollider:
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!205 &771611788076981358
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7215446796151021784}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.00020113587, y: 0.1034066, z: 0.00072487444}
+  m_Size: 0.21550687
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.06219252
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 9161050420626342157}
+  m_Enabled: 1
+--- !u!64 &5403889071248753160
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -90,6 +114,7 @@ BoxCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.15643783, y: 0.21550687, z: 0.1445061}
-  m_Center: {x: 0.00020113587, y: 0.10340636, z: 0.00072487816}
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -7042607392785830232, guid: 62c764dcc2402de4fbac5ee6bf6a273f, type: 3}

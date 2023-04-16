@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace LightNS
+{
+
+
 [RequireComponent(typeof(Light))]
 public class LightIntensityControlling : MonoBehaviour
 {
@@ -31,4 +35,5 @@ public class LightIntensityControlling : MonoBehaviour
         }
        
     }
+}
 }

@@ -8,7 +8,7 @@ namespace EnemyTargetNS
 public class Target : Damageable
 {
 
-    public float Speed=250;
+    public float Duration=250;
 
  
 
@@ -25,12 +25,22 @@ public class Target : Damageable
         if (Health <= 0)
         {
             GetComponent<AudioSource>().Play();
-            transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1000, transform.position.z), Speed).SetUpdate(UpdateType.Normal, true);
+
+
+                StartCoroutine(Fly());
+       
 
         }
 
     }
 
+        IEnumerator Fly()
+        {
+            transform.DOLocalRotate(new Vector3(0, transform.position.y + 360, 0), Duration).SetLoops(-1, LoopType.Incremental);
+            yield return new WaitForSeconds(1.5f);
+            transform.DOMove(new Vector3(transform.position.x, transform.position.y + 1000, transform.position.z),3000).SetUpdate(UpdateType.Normal, true);
+            yield return null;
+        }
 
  
 }

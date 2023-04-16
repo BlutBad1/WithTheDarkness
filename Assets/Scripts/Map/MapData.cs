@@ -26,7 +26,7 @@ namespace LocationManagementNS
         public int iterator = 0;
         [HideInInspector]
         static MapData instance;
-        private void Start()
+        private void Awake()
         {
             if (instance == null)
                 instance = this;

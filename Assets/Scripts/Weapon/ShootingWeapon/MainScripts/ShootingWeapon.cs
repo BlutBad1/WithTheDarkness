@@ -1,4 +1,4 @@
-using MyConstants;
+using MyConstants.ShootingWeaponConstants;
 using PoolableObjectsNS;
 using System.Collections;
 using UnityEngine;
@@ -43,7 +43,7 @@ namespace WeaponNS.ShootingWeaponNS
 
         public virtual void ReloadAnim()
         {
-            animator?.SetTrigger(ShootingWeaponConstants.RELOADING);
+            animator?.SetTrigger(MainShootingWeaponConstants.RELOADING);
 
         }
 
@@ -76,7 +76,7 @@ namespace WeaponNS.ShootingWeaponNS
                 if (gunData.currentAmmo > 0)
                 {
 
-                    animator?.SetTrigger(ShootingWeaponConstants.FIRING);
+                    animator?.SetTrigger(MainShootingWeaponConstants.FIRING);
                     gunData.currentAmmo--;
                     timeSinceLastShot = 0;
                     return;
@@ -86,7 +86,7 @@ namespace WeaponNS.ShootingWeaponNS
                 {
 
 
-                    animator?.SetTrigger(ShootingWeaponConstants.OUT_OF_AMMO);
+                    animator?.SetTrigger(MainShootingWeaponConstants.OUT_OF_AMMO);
                     timeSinceLastShot = 0;
 
 

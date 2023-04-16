@@ -1,4 +1,5 @@
 using MyConstants;
+using MyConstants.ShootingWeaponConstants;
 using PoolableObjectsNS;
 using System;
 using UnityEngine;
@@ -32,7 +33,7 @@ namespace WeaponNS.ShootingWeaponNS
             if (bulletHoles == null||bulletHoles.Length == 0)
             {
                 bulletHoles = new BulletObject[1];
-                bulletHoles[0].BulletHoleType = ShootingWeaponConstants.DEFAULT_BULLET_HOLE;
+                bulletHoles[0].BulletHoleType = MainShootingWeaponConstants.DEFAULT_BULLET_HOLE;
             }
             int randomNumber = UnityEngine.Random.Range(0, bulletHoles.Length);
             CreateBulletHole(bulletHoles[randomNumber].BulletHoleType, hitInfo);

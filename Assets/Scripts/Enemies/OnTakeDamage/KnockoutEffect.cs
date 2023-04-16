@@ -2,7 +2,7 @@ using EnemyBaseNS;
 using System.Collections;
 using UnityEngine;
 
-namespace EnemyOnTakeDameNS
+namespace EnemyOnTakeDamageNS
 {
 
 
@@ -23,13 +23,14 @@ namespace EnemyOnTakeDameNS
         }
         private void OnTakeDamage(float force, Vector3 hit)
         {
-
+         
             if (KnockoutEnable && enemy.Health > 0)
             {
 
                 Vector3 moveDirection = transform.position - hit;
                 if (!isInKnockout)
-                { 
+                {
+                
                     enemy.Agent.enabled = false;
                     mainRigidbody.isKinematic = false;
                     isInKnockout = true;
@@ -47,22 +48,16 @@ namespace EnemyOnTakeDameNS
         IEnumerator KnockBackTimer(Rigidbody hittedRigidbody)
         {
 
-            float timeElapsed = 0f;
-            while (timeElapsed < InKnockoutTime)
-            {
-                timeElapsed += Time.deltaTime;
-                yield return null;
-
-            }
+            yield return new WaitForSeconds(InKnockoutTime);
             if (enemy.Health > 0)
             {
                 enemy.Agent.enabled = true;
                 if (hittedRigidbody != null)
                     hittedRigidbody.isKinematic = true;
 
-                isInKnockout = false;
+              
             }
-
+            isInKnockout = false;
 
         }
 

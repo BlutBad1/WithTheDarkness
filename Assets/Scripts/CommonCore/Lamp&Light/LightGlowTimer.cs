@@ -1,4 +1,6 @@
 using UnityEngine;
+namespace LightNS
+{ 
 
 public class LightGlowTimer : MonoBehaviour
 {
@@ -29,4 +31,5 @@ public class LightGlowTimer : MonoBehaviour
         CurrentTimeLeft = CurrentTimeLeft < 0 ? 0 : CurrentTimeLeft;
 
     }
+}
 }
