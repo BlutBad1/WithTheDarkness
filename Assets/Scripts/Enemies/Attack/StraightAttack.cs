@@ -21,7 +21,7 @@ namespace EnemyAttackNS
                 ObjectToAttack = GameObject.Find(CommonConstants.PLAYER);
                 if (!ObjectToAttack)
                 {
-                    Debug.LogWarning("ObjectUnderAttack is not found");
+                    Debug.LogWarning("Object to attack is not found");
                 }
             }
             
@@ -47,7 +47,6 @@ namespace EnemyAttackNS
                 {
                     Vector3 origin = enemy.transform.position;
                     origin.y = player.transform.position.y;
-
                     Ray ray = new Ray(origin, player.transform.position - origin);
                     if (Physics.SphereCast(ray, 0.3f, (player.transform.position - enemy.transform.position).magnitude, ~WhatIsRayCastIgnore))
                     {
@@ -86,9 +85,7 @@ namespace EnemyAttackNS
         public void StopAttack()
         {
             if (attackCoroutine != null)
-            {
                 StopCoroutine(attackCoroutine);
-            }
             attackCoroutine = null;
             AttackColider.enabled = false;
             IsAttacking = false;
@@ -114,11 +111,8 @@ namespace EnemyAttackNS
                     objectDamageable = ObjectToAttack.GetComponent<IDamageable>();
                 }
                 if (IsAttacking)
-                {
-
-
                     objectDamageable.TakeDamage(Damage);
-                }
+              
 
 
             }

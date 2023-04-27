@@ -8,8 +8,7 @@ using UnityEngine.AI;
 namespace EnemyBaseNS
 {
     public class Enemy : Damageable
-    {
-        //  public AttackRadius AttackRadius;
+    { 
         public Animator Animator;
         public GameObject Player;
         public EnemyMovement Movement;
@@ -19,6 +18,7 @@ namespace EnemyBaseNS
         [HideInInspector]
         public SkillScriptableObject[] Skills;
         private Coroutine lookCoroutine;
+        public Coroutine skillCoroutine;
      
 
         private void Awake()
@@ -64,12 +64,6 @@ namespace EnemyBaseNS
 
             lookCoroutine = StartCoroutine(LookAt(Target.GetTransform()));
             Animator.SetTrigger(EnemyConstants.ATTACK_TRIGGER);
-
-
-
-
-
-
         }
 
         private IEnumerator LookAt(Transform Target)

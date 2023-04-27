@@ -28,27 +28,24 @@ namespace EnemyOnDeadNS
         {
             //if (lookCoroutine==null) //uncomment if ragdoll should be instant without physics 
             //{
+            if(enemy.skillCoroutine!=null)
+            enemy.StopCoroutine(enemy.skillCoroutine);
             enemy.Movement.State = EnemyState.Dead;
             enemy.Agent.enabled = false;
-            enemy.Movement.enabled = false;
             if (ragdollEnabler)
                 ragdollEnabler.EnableRagdoll();
-
             lookCoroutine = StartCoroutine(FadeOutCoroutine());
 
 
             //}
 
         }
-        // Update is called once per frame
         private IEnumerator FadeOutCoroutine()
         {
             yield return new WaitForSeconds(RagdollTime);
             if (ragdollEnabler)
                 ragdollEnabler.DisableAllRigidbodies();
             yield return new WaitForSeconds(FadeOutDelay);
-
-
 
             float time = 0;
             while (time < 1)

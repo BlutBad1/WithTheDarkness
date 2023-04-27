@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Skills:
   - {fileID: 11400000, guid: 003065127fc7067498a2baecc646e534, type: 2}
-  Health: 150
+  Health: 25
   AttackDelay: 1.5
   Damage: 25
   AttackRadius: 1.3

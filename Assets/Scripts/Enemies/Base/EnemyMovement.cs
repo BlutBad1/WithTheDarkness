@@ -120,7 +120,7 @@ namespace EnemyBaseNS
         protected virtual void HandleStateChange(EnemyState oldState, EnemyState newState)
         {
 
-            if (oldState != newState)
+            if (oldState != newState && oldState != EnemyState.Dead)
             {
 
                 if (followCoroutine != null)

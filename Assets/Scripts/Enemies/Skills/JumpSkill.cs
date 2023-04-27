@@ -40,19 +40,18 @@ namespace EnemySkillsNS
         public override void UseSkill(Enemy enemy, GameObject player)
         {
             base.UseSkill(enemy, player);
-            enemy.StartCoroutine(Jump(enemy, player)); ;
+          enemy.skillCoroutine=enemy.StartCoroutine(Jump(enemy, player));
         }
         private IEnumerator Jump(Enemy enemy, GameObject player)
         {
             RaycastHit groundHit;
             Vector3 endingPosition = player.transform.position,
-                startingPosition = enemy.transform.position;
+            startingPosition = enemy.transform.position;
 
             Ray ray = new Ray(enemy.transform.position, -Vector3.up);
             if (Physics.Raycast(ray, out groundHit))
-            {
                 startingPosition.y = groundHit.point.y;
-            }
+
 
             enemy.Agent.enabled = false;
             enemy.Movement.enabled = false;
@@ -61,15 +60,10 @@ namespace EnemySkillsNS
             for (float time = 0; time < 1; time += Time.deltaTime * JumpSpeed)
             {
                 if (time <= 0.6)
-                {
                     endingPosition = player.transform.position;
-                }
                 ray = new Ray(enemy.transform.position, -Vector3.up);
                 if (Physics.Raycast(ray, out groundHit))
-                {
                     endingPosition.y = groundHit.point.y + 0.4f;
-                }
-
                 enemy.transform.position = Vector3.Lerp(startingPosition, endingPosition, time) + Vector3.up * HeightCurve.Evaluate(time);
                 enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, Quaternion.LookRotation(endingPosition - enemy.transform.position), time);
                 yield return null;
@@ -83,10 +77,8 @@ namespace EnemySkillsNS
             if (NavMesh.SamplePosition(endingPosition, out NavMeshHit hit, 1f, enemy.Agent.areaMask))
             {
                 // enemy.Agent.Warp(hit.position);
-
                 enemy.Movement.State = EnemyState.Chase;
             }
-
             IsActivating = false;
 
         }

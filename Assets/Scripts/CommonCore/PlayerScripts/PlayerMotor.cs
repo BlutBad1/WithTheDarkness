@@ -113,7 +113,6 @@ public class PlayerMotor : MonoBehaviour
             Physics.SphereCast(transform.position, character.radius, Vector3.down, out RaycastHit groundCheckHit, maxDistance, slopeLayer);
             Vector3 localGroundCheckHitNormal = transform.InverseTransformDirection(groundCheckHit.normal);
             float groundSlopeAngle = Vector3.Angle(localGroundCheckHitNormal, transform.up);
-            Debug.Log(groundSlopeAngle);
             if (groundSlopeAngle > character.slopeLimit)
             {
                 Quaternion slopeAngleRotation = Quaternion.FromToRotation(transform.up, localGroundCheckHitNormal);
