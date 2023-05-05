@@ -59,6 +59,8 @@ namespace EnemyBaseNS
             LineOfSightChecker.OnLoseSight += HandleLoseSight;
             OnStateChange += HandleStateChange;
             HandleStateChange(State, DefaultState);
+            if(!Player)
+            Player = GameObject.Find(CommonConstants.PLAYER);
         }
         protected virtual void Start()
         {

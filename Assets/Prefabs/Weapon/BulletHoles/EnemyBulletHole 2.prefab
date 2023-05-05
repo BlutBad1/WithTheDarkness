@@ -49,6 +49,8 @@ MonoBehaviour:
   maxDecals: 50
   decalsMinSize: 0.2
   decalsMaxSize: 0.3
+  alwaysMultithreading: 1
+  enableAutomaticallyIfGreater: 800
 --- !u!198 &2432724108687348028
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4877,6 +4879,8 @@ MonoBehaviour:
   maxDecals: 50
   decalsMinSize: 0.2
   decalsMaxSize: 0.3
+  alwaysMultithreading: 1
+  enableAutomaticallyIfGreater: 800
 --- !u!198 &2432724109809221072
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -9705,6 +9709,8 @@ MonoBehaviour:
   maxDecals: 50
   decalsMinSize: 0.2
   decalsMaxSize: 0.3
+  alwaysMultithreading: 1
+  enableAutomaticallyIfGreater: 800
 --- !u!198 &2432724110344631335
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -14533,6 +14539,8 @@ MonoBehaviour:
   maxDecals: 50
   decalsMinSize: 0.2
   decalsMaxSize: 0.3
+  alwaysMultithreading: 1
+  enableAutomaticallyIfGreater: 800
 --- !u!198 &2432724110476270189
 ParticleSystem:
   m_ObjectHideFlags: 0

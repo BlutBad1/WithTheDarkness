@@ -5,14 +5,19 @@ namespace MyConstants
     public static class CommonConstants
     {
         public const string PLAYER = "Player";
-        public const string MAPS = "Maps";
+       
         public const string TEXTSHOWER = "InfoText";
         public const string MAIN_AUDIOMANAGER = "MainAudioManager";
         public const string BLACK_SCREEN_DIMMING = "BlackScreenDimming";
         public const string POOLABLE_OBJECTS = "PoolableObjects";
     }
     
- 
+    public static class MapsConstants
+    {
+        public const string MAPS = "Maps";
+        public const string ENTRY_TO_LOCATION = "Triggers/EntryToLocation";
+        
+    }
     public class EnemyConstants
     {
         public const string IS_WALKING = "IsWalking";

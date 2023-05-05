@@ -23,9 +23,7 @@ namespace InteractableNS.Common
         private void OnTakeDamage(float force, Vector3 hit)
         {
             Vector3 moveDirection = transform.position - hit;
-
             rigidbody.AddForce(moveDirection.normalized * force * ImpactForce, ForceMode.Impulse);
-
         }
     }
 }

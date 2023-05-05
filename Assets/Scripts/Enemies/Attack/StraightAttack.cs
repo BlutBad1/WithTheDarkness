@@ -19,20 +19,23 @@ namespace EnemyAttackNS
             if (!ObjectToAttack)
             {
                 ObjectToAttack = GameObject.Find(CommonConstants.PLAYER);
+#if UNITY_EDITOR
                 if (!ObjectToAttack)
                 {
                     Debug.LogWarning("Object to attack is not found");
                 }
+#endif
             }
-            
+
             objectDamageable = ObjectToAttack?.GetComponent<IDamageable>();
 
             if (!TryGetComponent(out AttackColider))
             {
                 AttackColider = GetComponentInChildren(typeof(SphereCollider)) as SphereCollider;
+#if UNITY_EDITOR
                 if (AttackColider == null)
                     Debug.LogError("SphereCollider is not found!");
-
+#endif
 
             }
             AttackColider.radius = AttackRadius;

@@ -1,6 +1,4 @@
-using MyConstants;
 using MyConstants.ShootingWeaponConstants;
-using PoolableObjectsNS;
 using UnityEngine;
 namespace WeaponNS.ShootingWeaponNS
 {
@@ -9,8 +7,8 @@ namespace WeaponNS.ShootingWeaponNS
     [RequireComponent(typeof(ShootingWeapon))]
     public class ShootRaycast : MonoBehaviour
     {
-     
-        [SerializeField,Tooltip("Spread coeff")]
+
+        [SerializeField, Tooltip("Spread coeff")]
         float maxDeviation;
         [SerializeField, Tooltip("if not set, will be the main camera")]
         public Camera CameraOrigin;
@@ -20,7 +18,7 @@ namespace WeaponNS.ShootingWeaponNS
         public LayerMask WhatIsRayCastIgnore;
         [Tooltip("if not set, will be the main dataBase")]
         public BulletHolesDataBase bulletHolesDataBase;
-       
+
         protected virtual void Start()
         {
             if (!CameraOrigin)
@@ -42,19 +40,15 @@ namespace WeaponNS.ShootingWeaponNS
             forwardVector = Quaternion.AngleAxis(deviation, Vector3.up) * forwardVector;
             forwardVector = Quaternion.AngleAxis(angle, Vector3.forward) * forwardVector;
             forwardVector = CameraOrigin.transform.rotation * forwardVector;
-          
+
             if (Physics.Raycast(CameraOrigin.transform.position, forwardVector, out RaycastHit hitInfo, gunData.maxDistance, ~WhatIsRayCastIgnore))
             {
-               
+
                 //беремо з об'єкта по якому попали компонент IDamageable, та визиваємо у нього метод TakeDamage
-                IDamageable damageable = hitInfo.transform.GetComponent<IDamageable>();
-              
-                if ((WhatIsEnemy | (1<<hitInfo.collider.gameObject.layer)) == WhatIsEnemy)
-                {
-                   
-                    damageable?.TakeDamage(gunData.damage, gunData.force, hitInfo.point);
-                   
-                }
+                hitInfo.transform.TryGetComponent(out IDamageable damageable);
+                damageable?.TakeDamage(gunData.damage, gunData.force, hitInfo.point);
+
+
                 bulletHolesDataBase.MakeBulletHoleByLayer(hitInfo);
             }
         }

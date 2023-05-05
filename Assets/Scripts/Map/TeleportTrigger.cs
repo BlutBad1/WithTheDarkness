@@ -1,11 +1,11 @@
 using HudNS;
 using MyConstants;
+using PlayerScriptsNS;
 using SoundNS;
 using System.Collections;
 using UnityEngine;
 namespace LocationManagementNS
 {
-
     public class TeleportTrigger : MonoBehaviour
     {
         [SerializeField]
@@ -18,7 +18,7 @@ namespace LocationManagementNS
         float spawnAfter = 2;
         float timeElapsed = 0;
 
-        public GameObject dimming=null;
+        public GameObject dimming = null;
         public GameObject audioManager;
         bool isActivated = false;
 
@@ -78,8 +78,6 @@ namespace LocationManagementNS
             yield return new WaitForSeconds(0.05f);
             if (inputManager != null)
                 inputManager.IsMovingEnable = true;
-
-
 
         }
 

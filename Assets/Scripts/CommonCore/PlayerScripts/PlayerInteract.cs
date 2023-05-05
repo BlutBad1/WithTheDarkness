@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+namespace PlayerScriptsNS
+{
 public class PlayerInteract : MonoBehaviour
 {
     private Camera cam;
@@ -49,4 +50,5 @@ public class PlayerInteract : MonoBehaviour
         
         Gizmos.DrawWireSphere(ray.origin + ray.direction * distance, 0.1f);
     }
+}
 }

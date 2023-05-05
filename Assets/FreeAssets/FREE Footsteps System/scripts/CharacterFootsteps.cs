@@ -6,6 +6,7 @@
 
 // DISCLAIMER : THIS SCRIPT CAN BE USED IN ANY WAY, MENTIONING MY WORK WILL BE GREATLY APPRECIATED BUT NOT REQUIRED.
 
+using PlayerScriptsNS;
 using UnityEngine;
 
 namespace Footsteps {

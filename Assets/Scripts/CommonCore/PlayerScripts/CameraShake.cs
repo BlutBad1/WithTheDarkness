@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EZCameraShake;
+namespace PlayerScriptsNS
+{
+
 
 public class CameraShake : MonoBehaviour
 {
@@ -35,4 +38,5 @@ public class CameraShake : MonoBehaviour
         CameraShaker.Instance.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
 
     }
+}
 }

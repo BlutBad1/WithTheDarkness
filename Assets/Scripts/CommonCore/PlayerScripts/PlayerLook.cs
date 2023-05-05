@@ -1,7 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+namespace PlayerScriptsNS
+{
 public class PlayerLook : MonoBehaviour
 {
     public Camera cam;
@@ -44,4 +45,5 @@ public class PlayerLook : MonoBehaviour
         }
        
     }
+}
 }

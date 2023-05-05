@@ -103,7 +103,6 @@ namespace PoolableObjectsNS
         }
         public string[] GetAllPoolNames()
         {
-
             string[] names = new string[pools.Length];
             for (int i = 0; i < pools.Length; i++)
             {

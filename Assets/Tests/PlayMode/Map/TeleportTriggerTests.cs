@@ -5,6 +5,8 @@ using NUnit.Framework;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.TestTools;
+namespace Map
+{ 
 
 public class TeleportTriggerTests
 {
@@ -35,4 +37,5 @@ public class TeleportTriggerTests
         //Assert
         Assert.AreEqual(teleportPoint.position, player.transform.position);
     }
+}
 }

@@ -11,25 +11,26 @@ namespace LocationManagementNS
         
         private void Start()
         {
-            mapData = GameObject.Find(CommonConstants.MAPS).GetComponent<MapData>();
+            mapData = MapData.instance;
         }
         private void OnTriggerEnter(Collider other)
         {
 
             if (other.gameObject.name == CommonConstants.PLAYER && !isActivated)
             {
-                if (mapData.iterator < mapData.mainLocationsArr.Length)
+                if (mapData.LocationsArrIterator < mapData.LocationsArr.Length)
                 {
-                    teleportTrigger.teleportPoint = mapData.mainLocationsArr[mapData.iterator].mainTeleportTrigger.teleportPointToHere;
+                    mapData.LocationsArr[mapData.LocationsArrIterator].MapData.SetActive(true);
+                    teleportTrigger.teleportPoint = mapData.LocationsArr[mapData.LocationsArrIterator].MainTeleportTrigger.teleportPointToHere;
                     teleportTrigger.teleportPoint.position = new Vector3(teleportTrigger.teleportPoint.position.x, teleportTrigger.teleportPoint.position.y, teleportTrigger.teleportPoint.position.z);
                     teleportTrigger.teleportPointToHere.position = new Vector3(teleportTrigger.teleportPointToHere.position.x, teleportTrigger.teleportPointToHere.position.y, teleportTrigger.teleportPointToHere.position.z);
-                    mapData.mainLocationsArr[mapData.iterator].mainTeleportTrigger.teleportPoint = teleportTrigger.teleportPointToHere;
-                    mapData.iterator++;
+                    mapData.LocationsArr[mapData.LocationsArrIterator].MainTeleportTrigger.teleportPoint = teleportTrigger.teleportPointToHere;
+                    mapData.LocationsArrIterator++;
                 }
                 else
                 {
-                    teleportTrigger.teleportPoint = mapData.theLastLocation.teleportPointToHere;
-                    mapData.theLastLocation.teleportPoint = teleportTrigger.teleportPointToHere;
+                    teleportTrigger.teleportPoint = mapData.TheLastLocation.teleportPointToHere;
+                    mapData.TheLastLocation.teleportPoint = teleportTrigger.teleportPointToHere;
 
                 }
                 isActivated = true;
