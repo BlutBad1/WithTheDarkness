@@ -24,7 +24,13 @@ namespace EnemyAttackNS
             }
             return false;
         }
-
+        public virtual void StopAttack()
+        {
+            if (attackCoroutine != null)
+                StopCoroutine(attackCoroutine);
+            attackCoroutine = null;
+            IsAttacking = false;
+        }
         protected virtual IEnumerator Attack()
         {
             WaitForSeconds Wait = new WaitForSeconds(AttackDelay);

@@ -4,22 +4,21 @@ namespace SoundNS
 {
     public class AudioSourceManager : MonoBehaviour
     {
-
         public AudioSource AudioSource;
-        public void PlayAudioSoure()
+        public void PlayAudioSource()
         {
             if (!AudioSource.isPlaying)
                 AudioSource.Play();
         }
-        public void PlayDelayedAudioSoure(float delay)
+        public void PlayDelayedAudioSource(float delay)
         {
             AudioSource.PlayDelayed(delay);
         }
-        public void PlayScheduledAudioSoure(double time)
+        public void PlayScheduledAudioSource(double time)
         {
             AudioSource.PlayScheduled(time);
         }
-        public void StopAudioSoure()
+        public void StopAudioSource()
         {
             AudioSource.Stop();
         }

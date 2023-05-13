@@ -2,58 +2,48 @@ using MyConstants.ShootingWeaponConstants;
 using SoundNS;
 using System.Collections;
 using UnityEngine;
-using WeaponNS.ShootingWeaponNS;
 
-public class Revolver : ShootingWeapon
+namespace WeaponNS.ShootingWeaponNS.RevolverNS
 {
-
-    [SerializeField]
-    private GameObject lamp;
-    protected override IEnumerator Reload()
+    public class Revolver : ShootingWeapon
     {
-        difference = gunData.reserveAmmo >= (gunData.magSize - gunData.currentAmmo) ? gunData.magSize - gunData.currentAmmo : gunData.reserveAmmo;
-        gunData.reserveAmmo -= difference;
-        gunData.currentAmmo += difference;
-        gunData.reloading = true;
-        ReloadAnim();
-        yield return new WaitForSeconds(1.40f + (difference * gunData.reloadTime));
-
-    }
-    public override void ReloadAnim()
-    {
-
-        AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-        if (gunData.reloading && info.IsName(RevolverConstants.RELOADING_ENDING))
+        [SerializeField]
+        private GameObject lamp;
+        protected override IEnumerator Reload()
         {
-      
-            animator.SetTrigger(RevolverConstants.RELOADING_ENDING);
-            lamp.GetComponent<Animator>().SetTrigger(RevolverConstants.RELOADING_ENDING);
-            gunData.reloading = false;
-        }
-        else if (gunData.reloading)
-        {
-            base.ReloadAnim();
-            lamp.GetComponent<Animator>().SetTrigger(MainShootingWeaponConstants.RELOADING);
-            animator.SetFloat(RevolverConstants.RELOADING_ANIMATION_SPEED, 1 / (difference * gunData.reloadTime));
-            lamp.GetComponent<Animator>().SetFloat(RevolverConstants.RELOADING_ANIMATION_SPEED, 1 / (difference * gunData.reloadTime));
+            difference = gunData.reserveAmmo >= (gunData.magSize - gunData.currentAmmo) ? gunData.magSize - gunData.currentAmmo : gunData.reserveAmmo;
+            gunData.reserveAmmo -= difference;
+            gunData.currentAmmo += difference;
+            gunData.reloading = true;
+            ReloadAnim();
+            yield return new WaitForSeconds(1.40f + (difference * gunData.reloadTime));
 
         }
-
-
-
-
-
-
-    }
-
-    public void ReloadingSound()
-    {
-        GetComponent<AudioManager>().PlayAFewTimes(new string[2] { "RevolverReloading", "RevolverCylinder" }, difference);
-    }
-    public void RelodingDelay()
-    {
-        animator.SetBool(RevolverConstants.RELOADING_DELAY, !animator.GetBool(RevolverConstants.RELOADING_DELAY));
-        lamp.GetComponent<Animator>().SetBool(RevolverConstants.RELOADING_DELAY, !lamp.GetComponent<Animator>().GetBool(RevolverConstants.RELOADING_DELAY));
-
+        public override void ReloadAnim()
+        {
+            AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
+            if (gunData.reloading && info.IsName(RevolverConstants.RELOADING_ENDING))
+            {
+                animator.SetTrigger(RevolverConstants.RELOADING_ENDING);
+                lamp.GetComponent<Animator>().SetTrigger(RevolverConstants.RELOADING_ENDING);
+                gunData.reloading = false;
+            }
+            else if (gunData.reloading)
+            {
+                base.ReloadAnim();
+                lamp.GetComponent<Animator>().SetTrigger(MainShootingWeaponConstants.RELOADING);
+                animator.SetFloat(RevolverConstants.RELOADING_ANIMATION_SPEED, 1 / (difference * gunData.reloadTime));
+                lamp.GetComponent<Animator>().SetFloat(RevolverConstants.RELOADING_ANIMATION_SPEED, 1 / (difference * gunData.reloadTime));
+            }
+        }
+        public void ReloadingSound()
+        {
+            GetComponent<AudioManager>().PlayAFewTimes(new string[2] { "RevolverReloading", "RevolverCylinder" }, difference);
+        }
+        public void RelodingDelay()
+        {
+            animator.SetBool(RevolverConstants.RELOADING_DELAY, !animator.GetBool(RevolverConstants.RELOADING_DELAY));
+            lamp.GetComponent<Animator>().SetBool(RevolverConstants.RELOADING_DELAY, !lamp.GetComponent<Animator>().GetBool(RevolverConstants.RELOADING_DELAY));
+        }
     }
 }

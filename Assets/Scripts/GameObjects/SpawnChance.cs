@@ -1,15 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnChance : MonoBehaviour
+namespace GameObjectsControllingNS
 {
-    public float chance;
-    private void Start()
+    public class SpawnChance : MonoBehaviour
     {
-        if (new System.Random().Next() % 100 > chance)
+        public float chance;
+        private void Start()
         {
-            Destroy(gameObject);
+            if (new System.Random().Next() % 100 > chance)
+                Destroy(gameObject);
         }
     }
 }

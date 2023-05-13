@@ -30,7 +30,10 @@ namespace MyConstants
     {
         public const string TRANSITION = "transitionSound";
     }
-
+    public class SceneConstants
+    {
+        public const string LOADING = "Loading";
+    }
     namespace ShootingWeaponConstants
     {
         public class MainShootingWeaponConstants

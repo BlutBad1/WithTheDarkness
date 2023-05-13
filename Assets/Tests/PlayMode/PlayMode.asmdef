@@ -7,11 +7,11 @@
         "CommonCore",
         "ControllingParticles",
         "Enemies",
-        "Hud",
         "Unity.TextMeshPro",
         "Map",
         "Constants",
-        "Weapon"
+        "Weapon",
+        "Ui"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

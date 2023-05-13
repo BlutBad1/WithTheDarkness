@@ -1,6 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+
 namespace WeaponNS.ShootingWeaponNS
 {
     public class MuzzleFlash : MonoBehaviour
@@ -15,7 +15,7 @@ namespace WeaponNS.ShootingWeaponNS
 
         public void MuzzleFlashEnable()
         {
-           
+
             StartCoroutine(MuzzleLight());
         }
         IEnumerator MuzzleLight()

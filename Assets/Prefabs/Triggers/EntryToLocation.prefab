@@ -99,9 +99,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3935494a225e1948aef4b926119e9ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
   teleportPointToHere: {fileID: 239825548857660513}
   teleportPoint: {fileID: 0}
   spawnAfter: 2
+  dimming: {fileID: 0}
+  audioManager: {fileID: 0}
+  thisLocIndex: -1
+  connectedLocIndex: -2
 --- !u!1 &4122127057733826166
 GameObject:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace EnemyOnDeadNS
 {
-    public class FadeOutRagdoll : MonoBehaviour
+    public class FadeOutRagdoll : DeadEvent
     {
         [SerializeField]
         private RagdollEnabler ragdollEnabler;
@@ -14,31 +14,22 @@ namespace EnemyOnDeadNS
         public float FadeOutDelay = 1f;
         [Tooltip("Fade out speed.")]
         public float FadeOutSpeed = 0.05f;
-        private Enemy enemy;
         private Coroutine lookCoroutine;
-        void Start()
+        override protected void Start()
         {
+            base.Start();
             if (!ragdollEnabler)
                 TryGetComponent(out ragdollEnabler);
-
-            enemy = GetComponent<Enemy>();
-            enemy.OnDeath += OnDead;
         }
-        void OnDead()
+        override public void OnDead()
         {
             //if (lookCoroutine==null) //uncomment if ragdoll should be instant without physics 
             //{
-            if(enemy.skillCoroutine!=null)
-            enemy.StopCoroutine(enemy.skillCoroutine);
-            enemy.Movement.State = EnemyState.Dead;
-            enemy.Agent.enabled = false;
+            base.OnDead();
             if (ragdollEnabler)
                 ragdollEnabler.EnableRagdoll();
             lookCoroutine = StartCoroutine(FadeOutCoroutine());
-
-
             //}
-
         }
         private IEnumerator FadeOutCoroutine()
         {
@@ -46,7 +37,6 @@ namespace EnemyOnDeadNS
             if (ragdollEnabler)
                 ragdollEnabler.DisableAllRigidbodies();
             yield return new WaitForSeconds(FadeOutDelay);
-
             float time = 0;
             while (time < 1)
             {

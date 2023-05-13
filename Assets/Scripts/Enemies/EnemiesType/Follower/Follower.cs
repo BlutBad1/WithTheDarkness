@@ -16,10 +16,8 @@ namespace EnemyFollowerNS
         public GameObject Player;
         Coroutine followCoroutine;
         public bool alwaysMultithreading = false;
-        /*If count of locations greater that this number, then multithreading would be enable automatically.
-         -1 to disable.
-         */
-        public int enableAutomaticallyIfGreater = 75;
+        [Tooltip("If amount of locations greater that this number, then multithreading would be enable automatically. -1 to disable.")]
+        public int automaticallyEnableAfter = 75;
         TransformAccessArray m_accessArray;
         List<Transform> gameObjectsTransforms;
         private void Awake()
@@ -55,7 +53,7 @@ namespace EnemyFollowerNS
         }
         IEnumerator StartFollow()
         {
-            if ((FollowersObjects?.Length > enableAutomaticallyIfGreater && enableAutomaticallyIfGreater != -1) || alwaysMultithreading)
+            if ((FollowersObjects?.Length > automaticallyEnableAfter && automaticallyEnableAfter != -1) || alwaysMultithreading)
             {
                 m_accessArray = new TransformAccessArray(gameObjectsTransforms.ToArray());
                 var job = new FollowJob()

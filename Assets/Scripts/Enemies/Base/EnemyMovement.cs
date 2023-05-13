@@ -59,8 +59,8 @@ namespace EnemyBaseNS
             LineOfSightChecker.OnLoseSight += HandleLoseSight;
             OnStateChange += HandleStateChange;
             HandleStateChange(State, DefaultState);
-            if(!Player)
-            Player = GameObject.Find(CommonConstants.PLAYER);
+            if (!Player)
+                Player = GameObject.Find(CommonConstants.PLAYER);
         }
         protected virtual void Start()
         {
@@ -74,7 +74,6 @@ namespace EnemyBaseNS
 
         protected virtual void HandleLoseSight(GameObject player)
         {
-
             State = DefaultState;
         }
 
@@ -102,7 +101,6 @@ namespace EnemyBaseNS
 
         private void Update()
         {
-
             if (!Agent.isOnOffMeshLink)
             {
                 if (!animator)
@@ -113,8 +111,6 @@ namespace EnemyBaseNS
         }
         public virtual bool BackToDefaultPosition()
         {
-
-
             Agent.Warp(DefaultPositon);
             return true;
 
@@ -126,14 +122,9 @@ namespace EnemyBaseNS
             {
 
                 if (followCoroutine != null)
-                {
                     StopCoroutine(followCoroutine);
-                }
-
                 if (oldState == EnemyState.Idle)
-                {
                     Agent.speed /= IdleMovespeedMultiplier;
-                }
 
                 switch (newState)
                 {
@@ -156,7 +147,6 @@ namespace EnemyBaseNS
         }
         protected virtual IEnumerator DeadCoroutine()
         {
-
             while (true)
             {
                 Agent.enabled = false;
@@ -170,7 +160,6 @@ namespace EnemyBaseNS
 
             while (true)
             {
-
                 OnIdle?.Invoke();
                 yield return Wait;
             }
@@ -186,7 +175,6 @@ namespace EnemyBaseNS
             while (true)
             {
                 OnPatrol?.Invoke();
-
                 yield return Wait;
             }
         }

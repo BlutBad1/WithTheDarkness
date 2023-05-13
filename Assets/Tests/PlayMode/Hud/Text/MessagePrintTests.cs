@@ -4,6 +4,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.TestTools;
+
 namespace Hud.Text
 {
 
@@ -26,13 +27,13 @@ namespace Hud.Text
         public IEnumerator PrintMessageTest_Expect_PrintedMessageAndChangedOpacity()
         {
             //Act
-            messagePrint.PrintMessage("aaa",1);
+            messagePrint.PrintMessage("aaa", 1);
             //Assert
             Assert.AreEqual("aaa", infoMessenger.GetComponent<TextMeshProUGUI>().text);
             Assert.IsTrue(infoMessenger.GetComponent<TextMeshProUGUI>().alpha == 1f);
             yield return new WaitForSeconds(0.5f);
-            Assert.IsTrue( infoMessenger.GetComponent<TextMeshProUGUI>().alpha<1f);
-         
+            Assert.IsTrue(infoMessenger.GetComponent<TextMeshProUGUI>().alpha < 1f);
+
         }
     }
 }

@@ -62,14 +62,10 @@ namespace EnemyAttackNS
             }
             StopAttack();
             return false;
-
-
         }
 
         protected void Update()
         {
-
-
             if (ObjectToAttack != null && (transform.position - ObjectToAttack.transform.position).magnitude <= AttackDistance)
             {
 
@@ -85,15 +81,10 @@ namespace EnemyAttackNS
             }
 
         }
-        public void StopAttack()
+        public override void StopAttack()
         {
-            if (attackCoroutine != null)
-                StopCoroutine(attackCoroutine);
-            attackCoroutine = null;
+            base.StopAttack();
             AttackColider.enabled = false;
-            IsAttacking = false;
-
-
         }
 
 
@@ -127,7 +118,6 @@ namespace EnemyAttackNS
 
             while (objectDamageable != null)
             {
-
                 OnAttack?.Invoke(objectDamageable);
                 yield return Wait;
             }

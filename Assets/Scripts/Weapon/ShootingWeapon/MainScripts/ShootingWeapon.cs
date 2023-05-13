@@ -20,7 +20,6 @@ namespace WeaponNS.ShootingWeaponNS
         public BulletSpread OnShootRaycast;
         private void Start()
         {
-
             PlayerShoot.shootInput += Shoot;
             PlayerShoot.reloadInput += StartReload;
             animator = gun.GetComponent<Animator>();
@@ -38,17 +37,12 @@ namespace WeaponNS.ShootingWeaponNS
                     StartCoroutine(Reload());
                 }
             }
-
         }
 
         public virtual void ReloadAnim()
         {
             animator?.SetTrigger(MainShootingWeaponConstants.RELOADING);
-
         }
-
-
-
 
         protected virtual IEnumerator Reload()
         {
@@ -57,17 +51,14 @@ namespace WeaponNS.ShootingWeaponNS
             gunData.currentAmmo += difference;
             gunData.reloading = true;
             ReloadAnim();
-
             yield return new WaitForSeconds(gunData.reloadTime);
             gunData.reloading = false;
-
         }
         private bool CanShoot() => !gunData.reloading && timeSinceLastShot > 2f / (gunData.fireRate / 60f);
      
         public virtual void ShootRaycast()
         {
             OnShootRaycast?.Invoke(gunData);
-
         }
         public virtual void Shoot()
         {
@@ -75,21 +66,15 @@ namespace WeaponNS.ShootingWeaponNS
             {
                 if (gunData.currentAmmo > 0)
                 {
-
                     animator?.SetTrigger(MainShootingWeaponConstants.FIRING);
                     gunData.currentAmmo--;
                     timeSinceLastShot = 0;
                     return;
-
                 }
                 else if (gunData.currentAmmo == 0)
                 {
-
-
                     animator?.SetTrigger(MainShootingWeaponConstants.OUT_OF_AMMO);
                     timeSinceLastShot = 0;
-
-
                 }
             }
         }
@@ -98,7 +83,6 @@ namespace WeaponNS.ShootingWeaponNS
 
         private void Update()
         {
-
             timeSinceLastShot += Time.deltaTime;
         }
     }

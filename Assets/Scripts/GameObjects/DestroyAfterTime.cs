@@ -1,24 +1,26 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyAfterTime : MonoBehaviour
+namespace GameObjectsControllingNS
 {
-   public void DestroyAfter (int timeToDestroy)
+    public class DestroyAfterTime : MonoBehaviour
     {
-        
-        StartCoroutine(DestroyAfter_(timeToDestroy));
-    }
-    IEnumerator DestroyAfter_(int timeToDestroy)
-    {
-
-        float timeElapsed = 0f;
-
-        while (timeElapsed < timeToDestroy)
+        public void DestroyAfter(int timeToDestroy)
         {
-            timeElapsed += Time.deltaTime;
-            yield return null;
+
+            StartCoroutine(DestroyAfter_(timeToDestroy));
         }
-        Destroy(gameObject);
+        IEnumerator DestroyAfter_(int timeToDestroy)
+        {
+
+            float timeElapsed = 0f;
+
+            while (timeElapsed < timeToDestroy)
+            {
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+            Destroy(gameObject);
+        }
     }
 }

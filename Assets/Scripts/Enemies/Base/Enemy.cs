@@ -24,13 +24,11 @@ namespace EnemyBaseNS
         private void Awake()
         {
             if (EnemyAttack)
-                EnemyAttack.OnAttack += OnAttack;
-         
+                EnemyAttack.OnAttack += OnAttack; 
             if (!Player)
                 Player = GameObject.Find(CommonConstants.PLAYER);
-         
-
-
+            if (EnemyScriptableObject != null)
+                SetupAgentFromConfiguration();
         }
 
         private void Update()
@@ -39,28 +37,22 @@ namespace EnemyBaseNS
             {
                 for (int i = 0; i < Skills.Length; i++)
                 {
-
                     if (Skills[i].CanUseSkill(this, Player))
-                    {
-
-                        Skills[i].UseSkill(this, Player);
-                    }
+                        Skills[i].UseSkill(this, Player); 
                 }
             }
            
         }
-        private void OnDrawGizmos()
-        {
-            Gizmos.color = Color.red;
-            Ray ray = new Ray(transform.position, Player.transform.position - transform.position);
-            Gizmos.DrawWireSphere(ray.origin + ray.direction * (Player.transform.position - transform.position).magnitude, 0.6f);
-        }
+        //private void OnDrawGizmos()
+        //{
+        //    Gizmos.color = Color.red;
+        //    Ray ray = new Ray(transform.position, Player.transform.position - transform.position);
+        //    Gizmos.DrawWireSphere(ray.origin + ray.direction * (Player.transform.position - transform.position).magnitude, 0.6f);
+        //}
         protected virtual void OnAttack(IDamageable Target)
         {
             if (lookCoroutine != null)
-            {
                 StopCoroutine(lookCoroutine);
-            }
 
             lookCoroutine = StartCoroutine(LookAt(Target.GetTransform()));
             Animator.SetTrigger(EnemyConstants.ATTACK_TRIGGER);
@@ -70,24 +62,20 @@ namespace EnemyBaseNS
         {
             Quaternion lookRotation = Quaternion.LookRotation(Target.position - transform.position);
             float time = 0;
-
             while (time < 1)
             {
                 transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, time);
-
                 time += Time.deltaTime * 2;
                 yield return null;
             }
-
             transform.rotation = lookRotation;
         }
 
-
-        public virtual void OnEnable()
-        {
-            if (EnemyScriptableObject!=null)
-             SetupAgentFromConfiguration();
-        }
+        //public virtual void OnEnable()
+        //{
+        //    if (EnemyScriptableObject!=null)
+        //     SetupAgentFromConfiguration();
+        //}
         public virtual void SetupAgentFromConfiguration()
         {
             Agent.acceleration = EnemyScriptableObject.Acceleration;
@@ -107,8 +95,5 @@ namespace EnemyBaseNS
             EnemyAttack.Damage = EnemyScriptableObject.Damage;
             Skills = EnemyScriptableObject.Skills;
         }
-
-
-
     }
 }

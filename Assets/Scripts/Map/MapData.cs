@@ -15,15 +15,16 @@ namespace LocationManagementNS
         string mapName;
         public GameObject MapData;
         public float SpawnChance;
-        public TeleportTrigger MainTeleportTrigger;
-
+        public TeleportTrigger EntryTeleportTrigger;
     }
     public class MapData : MonoBehaviour
     {
         [SerializeField]
+        public Location TheFirstLocation;
+        [SerializeField]
         Location[] locations; //contains all locations 
         [SerializeField]
-        public TeleportTrigger TheLastLocation;
+        public Location TheLastLocation;
         [HideInInspector]
         public Location[] LocationsArr; //is using after shuffling, contains only active locations 
         [HideInInspector]
@@ -31,12 +32,10 @@ namespace LocationManagementNS
         [HideInInspector]
         static public MapData instance;
         public bool alwaysMultithreading = false;
-        /*If count of locations greater that this number, then multithreading would be enable automatically.
-         -1 to disable.
-         */ 
-        public int enableAutomaticallyIfGreater = 800;
+        [Tooltip("If amount of locations greater that this number, then multithreading would be enable automatically. -1 to disable.")]
+        public int automaticallyEnableAfter = 800;
         public void AddNewLocation(Location location)
-        {   
+        {
             Array.Resize(ref locations, locations.Length + 1);
             locations[^1] = location;
 
@@ -54,12 +53,14 @@ namespace LocationManagementNS
                 ShuffleLocations();
             else
                 locations = new Location[0];
+            TheLastLocation.MapData.SetActive(true);
+            TheLastLocation.MapData.SetActive(false);
         }
         public void ShuffleLocations()
         {
             LocationsArr = new Location[0];
-            int it = 0, mapSpawnPositionY = 30;
-            if ((locations?.Length> enableAutomaticallyIfGreater && enableAutomaticallyIfGreater!=-1) || alwaysMultithreading)
+            int it = 0, mapSpawnPositionY = 40;
+            if ((locations?.Length > automaticallyEnableAfter && automaticallyEnableAfter != -1) || alwaysMultithreading)
             {
                 var locationsSpawnChance = new NativeArray<float>(locations.Length, Allocator.TempJob);
                 var isLocationSpawned = new NativeArray<bool>(locations.Length, Allocator.TempJob);
@@ -75,13 +76,11 @@ namespace LocationManagementNS
                 JobHandle sheduleParralelJobHandle = job.ScheduleParallel(locationsSpawnChance.Length, 64, sheduleJobHandle);
                 sheduleParralelJobHandle.Complete();
                 LocationsArr = new Location[job._isLocationSpawned.Where(c => c).Count()];
-               
+
                 for (int i = 0; i < job._isLocationSpawned.Length; i++)
                 {
                     if (job._isLocationSpawned[i])
-                    {
                         AddMapToArray(i, ref it, ref mapSpawnPositionY);
-                    }
                     else
                     {
                         if (!PrefabUtility.IsPartOfAnyPrefab(locations[i].MapData))
@@ -95,7 +94,7 @@ namespace LocationManagementNS
             }
             else
             {
-               
+
                 for (int i = 0; i < locations?.Length; i++)
                 {
                     if (new System.Random().Next() % 100 <= locations[i].SpawnChance)
@@ -112,18 +111,20 @@ namespace LocationManagementNS
 
 
             }
-            LocationsArr = LocationsArr.OrderBy(x => new System.Random().Next()).ToArray();      
+            LocationsArr = LocationsArr.OrderBy(x => new System.Random().Next()).ToArray();
         }
         void AddMapToArray(int i, ref int it, ref int mapSpawnPositionY)
         {
             if (PrefabUtility.IsPartOfAnyPrefab(locations[i].MapData))
             {
                 locations[i].MapData = Instantiate(locations[i].MapData, new Vector3(0, mapSpawnPositionY, 0), Quaternion.identity);
-                mapSpawnPositionY += 30;
+                locations[i].EntryTeleportTrigger = null;
+                mapSpawnPositionY += 40;
             }
-            if (!locations[i].MainTeleportTrigger)
-                locations[i].MainTeleportTrigger = locations[i].MapData.transform.Find(MapsConstants.ENTRY_TO_LOCATION).GetComponentInChildren<TeleportTrigger>();
+            if (!locations[i].EntryTeleportTrigger)
+                locations[i].EntryTeleportTrigger = locations[i].MapData.transform.Find(MapsConstants.ENTRY_TO_LOCATION).GetComponentInChildren<TeleportTrigger>();
             LocationsArr[it] = locations[i];
+            locations[i].MapData.SetActive(true);
             locations[i].MapData.SetActive(false);
             it++;
         }
