@@ -5,18 +5,18 @@ namespace MyConstants
     public static class CommonConstants
     {
         public const string PLAYER = "Player";
-       
+        public const string MAIN_CAMERA_PATH = "Player/MainCamera";
         public const string TEXTSHOWER = "InfoText";
         public const string MAIN_AUDIOMANAGER = "MainAudioManager";
         public const string BLACK_SCREEN_DIMMING = "BlackScreenDimming";
         public const string POOLABLE_OBJECTS = "PoolableObjects";
     }
     
-    public static class MapsConstants
+    public static class LocationsConstants
     {
         public const string MAPS = "Maps";
         public const string ENTRY_TO_LOCATION = "Triggers/EntryToLocation";
-        
+        public const string MAIN_MENU = "MainMenu";
     }
     public class EnemyConstants
     {
@@ -33,6 +33,7 @@ namespace MyConstants
     public class SceneConstants
     {
         public const string LOADING = "Loading";
+        public const string GAMEPLAY = "Gameplay";
     }
     namespace ShootingWeaponConstants
     {

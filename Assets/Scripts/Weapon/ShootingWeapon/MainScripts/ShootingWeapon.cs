@@ -20,11 +20,12 @@ namespace WeaponNS.ShootingWeaponNS
         public BulletSpread OnShootRaycast;
         private void Start()
         {
-            PlayerShoot.shootInput += Shoot;
-            PlayerShoot.reloadInput += StartReload;
+            Debug.Log("Start");
             animator = gun.GetComponent<Animator>();
             gunData.currentAmmo = gunData.magSize;
             gunData.reloading = false;
+            PlayerShoot.shootInput += Shoot;
+            PlayerShoot.reloadInput += StartReload;
         }
 
 
@@ -61,7 +62,7 @@ namespace WeaponNS.ShootingWeaponNS
             OnShootRaycast?.Invoke(gunData);
         }
         public virtual void Shoot()
-        {
+        { 
             if (CanShoot())
             {
                 if (gunData.currentAmmo > 0)

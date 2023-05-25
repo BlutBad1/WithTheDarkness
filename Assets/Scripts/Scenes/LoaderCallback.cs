@@ -10,8 +10,9 @@ namespace ScenesManagementNS
             if (isFirstUpdate)
             {
                 isFirstUpdate = false;
-                if (!Loader.LoaderCallback())
-                    StartCoroutine(Loader.LoadAndMoveGameObject());
+                Loader.LoaderCallbackInstance = this;
+                Loader.LoaderCallback();
+                   
             }
         }
     }

@@ -12,16 +12,14 @@ namespace WeaponNS.ShootingWeaponNS
         //  [SerializeField] private KeyCode reloadKey;
         void Start()
         {
-
-
+            shootInput = null;
+            reloadInput = null;
             inputManager = GetComponent<InputManager>();
         }
         public void Update()
         {
-
             if (inputManager.OnFoot.Firing.triggered)
             {
-
                 shootInput?.Invoke();
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
@@ -29,11 +27,8 @@ namespace WeaponNS.ShootingWeaponNS
 
             if (inputManager.OnFoot.Reloading.triggered)
             {
-
                 reloadInput?.Invoke();
             }
-
-
         }
     }
 }

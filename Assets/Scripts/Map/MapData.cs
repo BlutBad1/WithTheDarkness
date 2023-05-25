@@ -97,7 +97,7 @@ namespace LocationManagementNS
 
                 for (int i = 0; i < locations?.Length; i++)
                 {
-                    if (new System.Random().Next() % 100 <= locations[i].SpawnChance)
+                    if (new System.Random().Next() % 100 <= locations[i].SpawnChance && locations[i].SpawnChance != 0)
                     {
                         Array.Resize(ref LocationsArr, LocationsArr.Length + 1);
                         AddMapToArray(i, ref it, ref mapSpawnPositionY);
@@ -118,11 +118,12 @@ namespace LocationManagementNS
             if (PrefabUtility.IsPartOfAnyPrefab(locations[i].MapData))
             {
                 locations[i].MapData = Instantiate(locations[i].MapData, new Vector3(0, mapSpawnPositionY, 0), Quaternion.identity);
+                locations[i].MapData.transform.parent = GameObject.Find(LocationsConstants.MAPS).transform;
                 locations[i].EntryTeleportTrigger = null;
                 mapSpawnPositionY += 40;
             }
             if (!locations[i].EntryTeleportTrigger)
-                locations[i].EntryTeleportTrigger = locations[i].MapData.transform.Find(MapsConstants.ENTRY_TO_LOCATION).GetComponentInChildren<TeleportTrigger>();
+                locations[i].EntryTeleportTrigger = locations[i].MapData.transform.Find(LocationsConstants.ENTRY_TO_LOCATION).GetComponentInChildren<TeleportTrigger>();
             LocationsArr[it] = locations[i];
             locations[i].MapData.SetActive(true);
             locations[i].MapData.SetActive(false);

@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace EnemyTargetNS
+namespace VictorNS
 { 
-public class Target : Damageable
+public class VictorFly : Damageable
 {
 
     public float Duration=250;

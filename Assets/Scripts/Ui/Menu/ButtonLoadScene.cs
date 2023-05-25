@@ -7,9 +7,9 @@ namespace UiNS
     {
         [SerializeField]
         public GameObject gameObject;
-        public void LoadSceneAndMoveGameObject(string scene)
+        public void LoadTest(string scene)
         {
-            Loader.Load(scene, gameObject, true);
+            Loader.LoadWithGameplay(scene);
         }
         public void LoadScene(string scene)
         {
