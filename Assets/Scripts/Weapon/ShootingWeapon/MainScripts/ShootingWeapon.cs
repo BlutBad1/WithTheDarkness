@@ -1,8 +1,6 @@
 using MyConstants.ShootingWeaponConstants;
-using PoolableObjectsNS;
 using System.Collections;
 using UnityEngine;
-
 
 namespace WeaponNS.ShootingWeaponNS
 {
@@ -15,12 +13,10 @@ namespace WeaponNS.ShootingWeaponNS
         protected Animator animator;
         float timeSinceLastShot;
         protected int difference;
-      
         public delegate void BulletSpread(GunData gunData);
         public BulletSpread OnShootRaycast;
         private void Start()
         {
-            Debug.Log("Start");
             animator = gun.GetComponent<Animator>();
             gunData.currentAmmo = gunData.magSize;
             gunData.reloading = false;
@@ -32,12 +28,8 @@ namespace WeaponNS.ShootingWeaponNS
         public void StartReload()
         {
             if (gunData.currentAmmo != gunData.magSize && gunData.reserveAmmo != 0)
-            {
                 if (!gunData.reloading)
-                {
                     StartCoroutine(Reload());
-                }
-            }
         }
 
         public virtual void ReloadAnim()
@@ -56,13 +48,13 @@ namespace WeaponNS.ShootingWeaponNS
             gunData.reloading = false;
         }
         private bool CanShoot() => !gunData.reloading && timeSinceLastShot > 2f / (gunData.fireRate / 60f);
-     
+
         public virtual void ShootRaycast()
         {
             OnShootRaycast?.Invoke(gunData);
         }
         public virtual void Shoot()
-        { 
+        {
             if (CanShoot())
             {
                 if (gunData.currentAmmo > 0)

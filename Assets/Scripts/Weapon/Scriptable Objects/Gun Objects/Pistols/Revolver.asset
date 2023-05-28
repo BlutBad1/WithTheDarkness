@@ -19,7 +19,7 @@ MonoBehaviour:
   force: 1.3
   currentAmmo: 7
   magSize: 7
-  reserveAmmo: 786
+  reserveAmmo: 7
   fireRate: 150
   reloadTime: 1
-  reloading: 1
+  reloading: 0

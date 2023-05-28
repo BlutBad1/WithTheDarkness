@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 855079969149436440}
   - component: {fileID: 855079969149436443}
   - component: {fileID: 855079969149436442}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: ThreeBullets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -182,7 +182,7 @@ GameObject:
   - component: {fileID: 855079970547925427}
   - component: {fileID: 855079970547925424}
   - component: {fileID: 855079970547925425}
-  m_Layer: 6
+  m_Layer: 20
   m_Name: ThreeBullets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -312,7 +312,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19026177839507540, guid: b7ae10a17e67dc74eade85509a3d702f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 794965158903345902, guid: b7ae10a17e67dc74eade85509a3d702f, type: 3}
       propertyPath: m_RootOrder
@@ -378,7 +378,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19026177839507540, guid: b7ae10a17e67dc74eade85509a3d702f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 794965158903345902, guid: b7ae10a17e67dc74eade85509a3d702f, type: 3}
       propertyPath: m_RootOrder
@@ -444,7 +444,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19026177839507540, guid: b7ae10a17e67dc74eade85509a3d702f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 794965158903345902, guid: b7ae10a17e67dc74eade85509a3d702f, type: 3}
       propertyPath: m_RootOrder
