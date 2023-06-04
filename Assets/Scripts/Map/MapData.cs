@@ -94,7 +94,6 @@ namespace LocationManagementNS
             }
             else
             {
-
                 for (int i = 0; i < locations?.Length; i++)
                 {
                     if (new System.Random().Next() % 100 <= locations[i].SpawnChance && locations[i].SpawnChance != 0)
@@ -136,7 +135,7 @@ namespace LocationManagementNS
 
             public void Execute(int i)
             {
-                if (new System.Random().Next() % 100 <= _locationsSpawnChance[i])
+                if (new System.Random().Next() % 100 <= _locationsSpawnChance[i] && _locationsSpawnChance[i] != 0)
                     _isLocationSpawned[i] = true;
                 else
                     _isLocationSpawned[i] = false;

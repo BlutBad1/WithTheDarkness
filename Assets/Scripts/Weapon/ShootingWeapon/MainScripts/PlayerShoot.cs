@@ -10,7 +10,7 @@ namespace WeaponNS.ShootingWeaponNS
         private InputManager inputManager;
 
         //  [SerializeField] private KeyCode reloadKey;
-        void Start()
+        void Awake()
         {
             shootInput = null;
             reloadInput = null;
@@ -24,11 +24,9 @@ namespace WeaponNS.ShootingWeaponNS
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
             }
-
             if (inputManager.OnFoot.Reloading.triggered)
-            {
                 reloadInput?.Invoke();
-            }
+           
         }
     }
 }

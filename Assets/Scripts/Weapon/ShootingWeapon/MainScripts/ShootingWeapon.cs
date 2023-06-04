@@ -1,4 +1,5 @@
 using MyConstants.ShootingWeaponConstants;
+using MyConstants.WeaponConstants;
 using System.Collections;
 using UnityEngine;
 
@@ -20,23 +21,30 @@ namespace WeaponNS.ShootingWeaponNS
             animator = gun.GetComponent<Animator>();
             gunData.currentAmmo = gunData.magSize;
             gunData.reloading = false;
+            timeSinceLastShot = 2;
             PlayerShoot.shootInput += Shoot;
             PlayerShoot.reloadInput += StartReload;
         }
-
-
+        private void OnDisable()
+        {
+            PlayerShoot.shootInput = null;
+            PlayerShoot.reloadInput = null;
+        }
+        private void OnEnable()
+        {
+            PlayerShoot.shootInput = null;
+            PlayerShoot.reloadInput = null;
+            PlayerShoot.shootInput += Shoot;
+            PlayerShoot.reloadInput += StartReload;
+        }
         public void StartReload()
         {
             if (gunData.currentAmmo != gunData.magSize && gunData.reserveAmmo != 0)
-                if (!gunData.reloading)
+                if (!gunData.reloading && !animator.GetCurrentAnimatorStateInfo(0).IsName(WeaponConstants.PUTTING_DOWN))
                     StartCoroutine(Reload());
         }
 
-        public virtual void ReloadAnim()
-        {
-            animator?.SetTrigger(MainShootingWeaponConstants.RELOADING);
-        }
-
+        public virtual void ReloadAnim() => animator?.SetTrigger(MainShootingWeaponConstants.RELOADING);
         protected virtual IEnumerator Reload()
         {
             difference = gunData.reserveAmmo >= (gunData.magSize - gunData.currentAmmo) ? gunData.magSize - gunData.currentAmmo : gunData.reserveAmmo;
@@ -49,10 +57,8 @@ namespace WeaponNS.ShootingWeaponNS
         }
         private bool CanShoot() => !gunData.reloading && timeSinceLastShot > 2f / (gunData.fireRate / 60f);
 
-        public virtual void ShootRaycast()
-        {
-            OnShootRaycast?.Invoke(gunData);
-        }
+        public virtual void ShootRaycast() => OnShootRaycast?.Invoke(gunData);
+
         public virtual void Shoot()
         {
             if (CanShoot())
@@ -71,8 +77,7 @@ namespace WeaponNS.ShootingWeaponNS
                 }
             }
         }
-        public void GetAmmo(int ammo) { gunData.reserveAmmo += ammo; }
-
+        public void GetAmmo(int ammo) => gunData.reserveAmmo += ammo;
 
         private void Update()
         {

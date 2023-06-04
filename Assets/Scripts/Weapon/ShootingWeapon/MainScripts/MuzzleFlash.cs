@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace WeaponNS.ShootingWeaponNS
+namespace WeaponNS.WeaponEffectsNS
 {
     public class MuzzleFlash : MonoBehaviour
     {
@@ -15,7 +15,6 @@ namespace WeaponNS.ShootingWeaponNS
 
         public void MuzzleFlashEnable()
         {
-
             StartCoroutine(MuzzleLight());
         }
         IEnumerator MuzzleLight()
@@ -29,8 +28,6 @@ namespace WeaponNS.ShootingWeaponNS
                 MuzzleTimer += Time.deltaTime;
             }
             muzzleLight.enabled = false;
-
-
         }
 
     }

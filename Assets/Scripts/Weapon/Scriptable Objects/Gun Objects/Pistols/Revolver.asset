@@ -17,9 +17,9 @@ MonoBehaviour:
   maxDistance: 350
   firingTime: 0.5
   force: 1.3
-  currentAmmo: 7
+  currentAmmo: 6
   magSize: 7
-  reserveAmmo: 7
+  reserveAmmo: 495
   fireRate: 150
   reloadTime: 1
   reloading: 0

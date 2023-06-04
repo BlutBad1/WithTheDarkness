@@ -35,6 +35,14 @@ namespace MyConstants
         public const string LOADING = "Loading";
         public const string GAMEPLAY = "Gameplay";
     }
+    namespace WeaponConstants
+    {
+        public class WeaponConstants
+        {
+            public const string LAMP = "LeftHand";
+            public const string PUTTING_DOWN = "PuttingDown";
+        }
+    }
     namespace ShootingWeaponConstants
     {
         public class MainShootingWeaponConstants
@@ -51,6 +59,9 @@ namespace MyConstants
             public const string RELOADING_DELAY = "RelodingDelay";
             public const string RELOADING_ANIMATION_SPEED = "ReloadingSpeed";
             public const string RELOADING_ENDING = "ReloadingEnding";
+            public const string REVOLVER_RELOADING_SOUND = "RevolverReloading";
+            public const string REVOLVER_RELOADING_CYLINDER_SOUND = "RevolverCylinder";
+
         }
     }
 
