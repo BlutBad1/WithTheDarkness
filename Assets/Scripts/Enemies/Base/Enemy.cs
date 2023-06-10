@@ -8,7 +8,7 @@ using UnityEngine.AI;
 namespace EnemyBaseNS
 {
     public class Enemy : Damageable
-    { 
+    {
         public Animator Animator;
         public GameObject Player;
         public EnemyMovement Movement;
@@ -19,12 +19,10 @@ namespace EnemyBaseNS
         public SkillScriptableObject[] Skills;
         private Coroutine lookCoroutine;
         public Coroutine skillCoroutine;
-     
-
         private void Awake()
         {
             if (EnemyAttack)
-                EnemyAttack.OnAttack += OnAttack; 
+                EnemyAttack.OnAttack += OnAttack;
             if (!Player)
                 Player = GameObject.Find(CommonConstants.PLAYER);
             if (EnemyScriptableObject != null)
@@ -33,15 +31,14 @@ namespace EnemyBaseNS
 
         private void Update()
         {
-            if (Skills!=null)
+            if (Skills != null)
             {
                 for (int i = 0; i < Skills.Length; i++)
                 {
                     if (Skills[i].CanUseSkill(this, Player))
-                        Skills[i].UseSkill(this, Player); 
+                        Skills[i].UseSkill(this, Player);
                 }
             }
-           
         }
         //private void OnDrawGizmos()
         //{
@@ -53,7 +50,6 @@ namespace EnemyBaseNS
         {
             if (lookCoroutine != null)
                 StopCoroutine(lookCoroutine);
-
             lookCoroutine = StartCoroutine(LookAt(Target.GetTransform()));
             Animator.SetTrigger(EnemyConstants.ATTACK_TRIGGER);
         }
@@ -93,6 +89,7 @@ namespace EnemyBaseNS
             EnemyAttack.AttackDistance = EnemyScriptableObject.AttackDistance;
             EnemyAttack.AttackDelay = EnemyScriptableObject.AttackDelay;
             EnemyAttack.Damage = EnemyScriptableObject.Damage;
+            EnemyAttack.AttackForce = EnemyScriptableObject.AttackForce;
             Skills = EnemyScriptableObject.Skills;
         }
     }

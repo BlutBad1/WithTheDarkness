@@ -11,7 +11,8 @@
         "Map",
         "Constants",
         "Weapon",
-        "Ui"
+        "Ui",
+        "LampNLight"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

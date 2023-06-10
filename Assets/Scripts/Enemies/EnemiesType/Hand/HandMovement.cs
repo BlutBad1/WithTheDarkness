@@ -31,12 +31,9 @@ namespace EnemyHandNS
             {
                 if (walkPointIsSet)
                     Agent.SetDestination(walkPoint);
-
                 if (!walkPointIsSet)
                     SearchWalkPoint();
-
                 Vector3 distanceToWalkPoint = transform.position - walkPoint;
-
                 //Walkpoint reached
                 if (distanceToWalkPoint.magnitude <= Agent.stoppingDistance + reachDestinationHelper)
                 {
@@ -60,7 +57,6 @@ namespace EnemyHandNS
         }
         public override bool BackToDefaultPosition()
         {
-
             if ((transform.position - Player.transform.position).magnitude > HiddenSightRange * 2.5)
             {
                 walkPointIsSet = false;

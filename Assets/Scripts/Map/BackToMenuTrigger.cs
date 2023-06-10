@@ -1,6 +1,6 @@
+using HudNS;
 using System.Collections;
 using UnityEngine;
-using HudNS;
 namespace ScenesManagementNS
 {
     public class BackToMenuTrigger : MonoBehaviour
@@ -10,18 +10,21 @@ namespace ScenesManagementNS
         {
             if (other.name == MyConstants.CommonConstants.PLAYER)
             {
-                bSD = GameObject.Find(MyConstants.CommonConstants.BLACK_SCREEN_DIMMING).GetComponent<BlackScreenDimming>();
+                bSD = GameObject.Find(MyConstants.HUDConstants.BLACK_SCREEN_DIMMING).GetComponent<BlackScreenDimming>();
                 bSD.fadeSpeed = 0.8f;
                 bSD.DimmingEnable();
-                StartCoroutine(BackToMenu());
+                StartCoroutine(ToTheNextLocation());
             }
         }
-        IEnumerator BackToMenu()
+        IEnumerator ToTheNextLocation()
         {
             while (bSD.blackScreen.color.a < 0.9f)
                 yield return null;
-
-            Loader.Load(MyConstants.LocationsConstants.MAIN_MENU);
+            SceneManager sceneManager = GameObject.Find(MyConstants.SceneConstants.SCENE_MANAGER).GetComponent<SceneManager>();
+            if (sceneManager)
+                Loader.Load((int)sceneManager.NextScene);
+            else
+                Loader.Load(MyConstants.SceneConstants.MAIN_MENU);
         }
     }
 }

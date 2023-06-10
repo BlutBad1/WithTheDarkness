@@ -1,7 +1,7 @@
-
-using UnityEngine;
-
-public class EventsOnlyInteractable : Interactable
+namespace InteractableNS
 {
- 
+    public class EventsOnlyInteractable : Interactable
+    {
+
+    }
 }

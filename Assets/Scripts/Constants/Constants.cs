@@ -1,22 +1,24 @@
-
 namespace MyConstants
 {
-    public class Constants{}
+    public class Constants { }
     public static class CommonConstants
     {
         public const string PLAYER = "Player";
         public const string MAIN_CAMERA_PATH = "Player/MainCamera";
-        public const string TEXTSHOWER = "InfoText";
         public const string MAIN_AUDIOMANAGER = "MainAudioManager";
-        public const string BLACK_SCREEN_DIMMING = "BlackScreenDimming";
         public const string POOLABLE_OBJECTS = "PoolableObjects";
+        public const string WEAPON_HOLDER = "WeaponHolder";
     }
-    
+    public static class HUDConstants
+    {
+        public const string TEXTSHOWER = "InfoText";
+        public const string BLACK_SCREEN_DIMMING = "BlackScreenDimming";
+        public const string LIGHT_INTERES_LEFT = "LightInterestLeft";
+    }
     public static class LocationsConstants
     {
         public const string MAPS = "Maps";
         public const string ENTRY_TO_LOCATION = "Triggers/EntryToLocation";
-        public const string MAIN_MENU = "MainMenu";
     }
     public class EnemyConstants
     {
@@ -32,8 +34,14 @@ namespace MyConstants
     }
     public class SceneConstants
     {
+        public enum AvailableScenes
+        {
+            MAIN_MENU = 0, LEVEL1, LOADING, TEST2, GAMEPLAY
+        }
+        public const string SCENE_MANAGER = "SceneManager";
         public const string LOADING = "Loading";
         public const string GAMEPLAY = "Gameplay";
+        public const string MAIN_MENU = "MainMenu";
     }
     namespace WeaponConstants
     {
@@ -61,7 +69,6 @@ namespace MyConstants
             public const string RELOADING_ENDING = "ReloadingEnding";
             public const string REVOLVER_RELOADING_SOUND = "RevolverReloading";
             public const string REVOLVER_RELOADING_CYLINDER_SOUND = "RevolverCylinder";
-
         }
     }
 

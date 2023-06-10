@@ -1,32 +1,59 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace PlayerScriptsNS
 {
-public class PlayerHealth : Damageable
-{
-   
-
-    public override void TakeDamage(int damage)
+    public class PlayerHealth : Damageable
     {
-        if(TryGetComponent(out CameraShake cameraShake))
+        public int HealthRegenPerCycle = 1;
+        public float TimeAfterHitToRegen = 3f;
+        public float HeatlRegenCycleTime = 0.1f;
+        float timeSinceLastHit;
+        public Coroutine CurrentRegenCoroutine;
+        bool HasRegenStarted = false;
+        private void Update()
         {
-            cameraShake.FooCameraShake(damage / 20);
+            timeSinceLastHit += Time.deltaTime;
+            if (Health < 100 && timeSinceLastHit > TimeAfterHitToRegen && !HasRegenStarted)
+                RegenStart();
         }
-        Health -= damage;
-        
-        if (Health <= 0)
+        public override void TakeDamage(int damage, float force, Vector3 hit)
         {
-            Debug.Log($"Damage {damage}. You're Dead!");
-            OnDeath?.Invoke();
+            TakeDamage(damage);
+            OnTakeDamage?.Invoke(damage, force, hit);
         }
-        else
+        public override void TakeDamage(int damage)
         {
-            Debug.Log($"Damage {damage}");
+            if (CurrentRegenCoroutine != null)
+                StopCoroutine(CurrentRegenCoroutine);
+            timeSinceLastHit = 0f;
+            HasRegenStarted = false;
+            Health -= damage;
+            if (Health <= 0)
+            {
+                Debug.Log($"Damage {damage}. You're Dead!");
+                OnDeath?.Invoke();
+            }
+            else
+                Debug.Log($"Damage {damage}");
+        }
+        public void RegenStart()
+        {
+            HasRegenStarted = true;
+            if (CurrentRegenCoroutine != null)
+                StopCoroutine(CurrentRegenCoroutine);
+            CurrentRegenCoroutine = StartCoroutine(RegenStartCoroutine());
+        }
+        IEnumerator RegenStartCoroutine()
+        {
+            while (Health < 100)
+            {
+                Health += HealthRegenPerCycle;
+                yield return new WaitForSeconds(HeatlRegenCycleTime);
+            }
+            if (Health > 100)
+                Health = 0;
+            HasRegenStarted = false;
         }
     }
-
-   
-}
 }

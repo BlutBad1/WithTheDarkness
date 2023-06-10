@@ -34,7 +34,7 @@ namespace LocationManagementNS
         private void Start()
         {
             if (!dimming)
-                dimming = GameObject.Find(CommonConstants.BLACK_SCREEN_DIMMING);
+                dimming = GameObject.Find(HUDConstants.BLACK_SCREEN_DIMMING);
             if (dimming)
                 dimming.GetComponent<BlackScreenDimming>().fadeSpeed = 0.5f;
             if (!audioManager)
@@ -71,7 +71,6 @@ namespace LocationManagementNS
                 StartTeleporting();
             }
         }
-
         IEnumerator Teleport()
         {
             if (player.TryGetComponent(out InputManager inputManager))

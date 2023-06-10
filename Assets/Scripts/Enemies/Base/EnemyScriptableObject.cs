@@ -16,6 +16,7 @@ namespace EnemyBaseNS
         public int Health = 100;
         public float AttackDelay = 1f;
         public int Damage = 5;
+        public float AttackForce = 5f;
         public float AttackRadius = 1.5f;
         public float AttackDistance = 1.5f;
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 namespace SoundNS
@@ -10,17 +11,25 @@ namespace SoundNS
             if (!AudioSource.isPlaying)
                 AudioSource.Play();
         }
-        public void PlayDelayedAudioSource(float delay)
-        {
+        public void PlayDelayedAudioSource(float delay) =>
             AudioSource.PlayDelayed(delay);
-        }
-        public void PlayScheduledAudioSource(double time)
-        {
+
+        public void PlayScheduledAudioSource(double time) =>
             AudioSource.PlayScheduled(time);
-        }
-        public void StopAudioSource()
-        {
+
+        public void StopAudioSource() =>
             AudioSource.Stop();
+
+        public void DestroyAfterPlaying()
+        {
+            PlayAudioSource();
+            StartCoroutine(DestroyAfterPlayingCoroutine());
+        }
+        IEnumerator DestroyAfterPlayingCoroutine()
+        {
+            while (AudioSource.isPlaying)
+                yield return null;
+            Destroy(gameObject);
         }
     }
 }

@@ -795,6 +795,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 10
+  AttackForce: 5
   AttackDelay: 0.5
   AttackDistance: 2
   AttackRadius: 2
@@ -806,7 +807,7 @@ MonoBehaviour:
   AttackColider: {fileID: 0}
   WhatIsRayCastIgnore:
     serializedVersion: 2
-    m_Bits: 1055104
+    m_Bits: 1063332
 --- !u!114 &2028816773438981919
 MonoBehaviour:
   m_ObjectHideFlags: 0

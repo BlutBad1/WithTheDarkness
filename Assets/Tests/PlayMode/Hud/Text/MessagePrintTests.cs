@@ -19,9 +19,8 @@ namespace Hud.Text
             //Arrange
             infoMessenger = GameObject.Instantiate(new GameObject());
             infoMessenger.AddComponent<TextMeshProUGUI>();
-            infoMessenger.name = MyConstants.CommonConstants.TEXTSHOWER;
+            infoMessenger.name = MyConstants.HUDConstants.TEXTSHOWER;
             messagePrint = infoMessenger.AddComponent<MessagePrint>();
-
         }
         [UnityTest]
         public IEnumerator PrintMessageTest_Expect_PrintedMessageAndChangedOpacity()
@@ -33,7 +32,6 @@ namespace Hud.Text
             Assert.IsTrue(infoMessenger.GetComponent<TextMeshProUGUI>().alpha == 1f);
             yield return new WaitForSeconds(0.5f);
             Assert.IsTrue(infoMessenger.GetComponent<TextMeshProUGUI>().alpha < 1f);
-
         }
     }
 }

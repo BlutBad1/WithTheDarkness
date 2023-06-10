@@ -17,7 +17,8 @@ MonoBehaviour:
   Health: 75
   AttackDelay: 1.5
   Damage: 25
-  AttackRadius: 0.6
+  AttackForce: 5
+  AttackRadius: 0.8
   AttackDistance: 1.6
   AIUpdateInterval: 0.1
   Acceleration: 10

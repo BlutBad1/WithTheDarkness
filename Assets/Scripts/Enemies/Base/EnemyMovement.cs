@@ -8,7 +8,6 @@ namespace EnemyBaseNS
     [RequireComponent(typeof(NavMeshAgent), typeof(AgentLinkMover))]
     public class EnemyMovement : MonoBehaviour
     {
-
         public GameObject Player;
         public EnemyLineOfSightChecker LineOfSightChecker;
         [SerializeField]
@@ -36,9 +35,7 @@ namespace EnemyBaseNS
         }
         public delegate void StateChangeEvent(EnemyState oldState, EnemyState newState);
         public StateChangeEvent OnStateChange;
-
         public float IdleMovespeedMultiplier = 0.5f;
-
         [HideInInspector]
         public Vector3 DefaultPositon;
         private Coroutine followCoroutine;
@@ -76,27 +73,18 @@ namespace EnemyBaseNS
         {
             State = DefaultState;
         }
-
-
-
         private void HandleLinkStart(OffMeshLinkMoveMethod MoveMethod)
         {
             if (MoveMethod == OffMeshLinkMoveMethod.NormalSpeed)
-            {
                 animator.SetBool(EnemyConstants.IS_WALKING, true);
-            }
             else if (MoveMethod != OffMeshLinkMoveMethod.Teleport)
-            {
                 animator.SetTrigger(EnemyConstants.JUMP);
-            }
         }
 
         private void HandleLinkEnd(OffMeshLinkMoveMethod MoveMethod)
         {
             if (MoveMethod != OffMeshLinkMoveMethod.Teleport && MoveMethod != OffMeshLinkMoveMethod.NormalSpeed)
-            {
                 animator.SetTrigger(EnemyConstants.LANDED);
-            }
         }
 
         private void Update()
@@ -113,19 +101,15 @@ namespace EnemyBaseNS
         {
             Agent.Warp(DefaultPositon);
             return true;
-
         }
         protected virtual void HandleStateChange(EnemyState oldState, EnemyState newState)
         {
-
             if (oldState != newState && oldState != EnemyState.Dead)
             {
-
                 if (followCoroutine != null)
                     StopCoroutine(followCoroutine);
                 if (oldState == EnemyState.Idle)
                     Agent.speed /= IdleMovespeedMultiplier;
-
                 switch (newState)
                 {
                     case EnemyState.Idle:
@@ -157,7 +141,6 @@ namespace EnemyBaseNS
         {
             WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
             Agent.speed *= IdleMovespeedMultiplier;
-
             while (true)
             {
                 OnIdle?.Invoke();
@@ -168,10 +151,7 @@ namespace EnemyBaseNS
         protected virtual IEnumerator DoPatrolMotion()
         {
             WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
-
             yield return new WaitUntil(() => Agent.enabled && Agent.isOnNavMesh);
-
-
             while (true)
             {
                 OnPatrol?.Invoke();
@@ -181,21 +161,15 @@ namespace EnemyBaseNS
 
         protected virtual IEnumerator FollowTarget()
         {
-
-
             while (true)
             {
                 if (Agent.enabled)
                 {
                     OnFollow?.Invoke();
                     Agent.SetDestination(Player.transform.position);
-
                 }
                 yield return null;
             }
-
         }
-
-
     }
 }

@@ -103,10 +103,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: '[E]'
-  message: 'Added '
   disapperingSpeed: 0.8
-  minTime: 60
-  maxTime: 90
+  percentMinTime: 41
+  percentMaxTime: 61
 --- !u!114 &8063800875420913122
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,7 +20,7 @@ namespace ScenesManagementNS
         {
             if (isFirstUpdate)
             {
-                unloadLoading = SceneManager.UnloadSceneAsync(MyConstants.SceneConstants.LOADING);
+                unloadLoading = UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(MyConstants.SceneConstants.LOADING);
                 isFirstUpdate = false;
             }
             while (unloadLoading.progress < 0.9)

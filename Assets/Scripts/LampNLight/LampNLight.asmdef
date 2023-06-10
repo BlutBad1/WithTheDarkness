@@ -1,0 +1,19 @@
+{
+    "name": "LampNLight",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2a8b6f87de7a3754eb5b9726b9982ce3",
+        "GUID:c5ee2e1b2c570564c9bd1e6fe39430e7",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:e0a95ea987b27704e8a945954f8d7f29"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
