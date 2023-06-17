@@ -5,7 +5,7 @@ namespace PlayerScriptsNS
 {
     public class PlayerHealth : Damageable
     {
-        public int HealthRegenPerCycle = 1;
+        public float HealthRegenPerCycle = 1;
         public float TimeAfterHitToRegen = 3f;
         public float HeatlRegenCycleTime = 0.1f;
         float timeSinceLastHit;
@@ -17,12 +17,12 @@ namespace PlayerScriptsNS
             if (Health < 100 && timeSinceLastHit > TimeAfterHitToRegen && !HasRegenStarted)
                 RegenStart();
         }
-        public override void TakeDamage(int damage, float force, Vector3 hit)
+        public override void TakeDamage(float damage, float force, Vector3 hit)
         {
             TakeDamage(damage);
             OnTakeDamage?.Invoke(damage, force, hit);
         }
-        public override void TakeDamage(int damage)
+        public override void TakeDamage(float damage)
         {
             if (CurrentRegenCoroutine != null)
                 StopCoroutine(CurrentRegenCoroutine);
@@ -31,8 +31,8 @@ namespace PlayerScriptsNS
             Health -= damage;
             if (Health <= 0)
             {
-                Debug.Log($"Damage {damage}. You're Dead!");
-                OnDeath?.Invoke();
+                OnDeath?.Invoke(); 
+                OnDeath = null;
             }
             else
                 Debug.Log($"Damage {damage}");

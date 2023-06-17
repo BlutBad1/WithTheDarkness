@@ -9,7 +9,7 @@ namespace EnemyHandNS
     {
         private void Start() =>
             OnTakeDamage += OnTakeDamageHandBehaviour;
-        private void OnTakeDamageHandBehaviour(int damage, float force, Vector3 hit)
+        private void OnTakeDamageHandBehaviour(float damage, float force, Vector3 hit)
         {
             if (Health > 0)
             {

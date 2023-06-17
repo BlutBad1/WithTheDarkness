@@ -1,4 +1,3 @@
-using EnemyBaseNS;
 using System.Collections;
 using UnityEngine;
 
@@ -14,12 +13,17 @@ namespace EnemyOnDeadNS
         public float FadeOutDelay = 1f;
         [Tooltip("Fade out speed.")]
         public float FadeOutSpeed = 0.05f;
-        private Coroutine lookCoroutine;
+        private Coroutine fadeOutCoroutine;
         override protected void Start()
         {
             base.Start();
             if (!ragdollEnabler)
                 TryGetComponent(out ragdollEnabler);
+        }
+        private void OnDisable()
+        {
+            if (fadeOutCoroutine != null)
+                Destroy(gameObject);
         }
         override public void OnDead()
         {
@@ -28,7 +32,7 @@ namespace EnemyOnDeadNS
             base.OnDead();
             if (ragdollEnabler)
                 ragdollEnabler.EnableRagdoll();
-            lookCoroutine = StartCoroutine(FadeOutCoroutine());
+            fadeOutCoroutine = StartCoroutine(FadeOutCoroutine());
             //}
         }
         private IEnumerator FadeOutCoroutine()
@@ -44,7 +48,7 @@ namespace EnemyOnDeadNS
                 time += Time.deltaTime * FadeOutSpeed;
                 yield return null;
             }
-            gameObject.SetActive(false);
+            Destroy(gameObject);
         }
     }
 

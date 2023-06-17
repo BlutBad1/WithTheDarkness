@@ -9,7 +9,7 @@ namespace VictorNS
         public float Duration = 250;
         private void Awake() =>
             Health = 25;
-        public override void TakeDamage(int damage)
+        public override void TakeDamage(float damage)
         {
             Health -= damage;
             if (Health <= 0)

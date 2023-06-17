@@ -44,7 +44,7 @@ public class SurfaceManager : MonoBehaviour
 
         // Getting the footstep sounds based on surface index.
         AudioClip[] footsteps = definedSurfaces[surfaceIndex].footsteps;
-        n = Random.Range(1, footsteps.Length);
+        n = Random.Range(footsteps.Length > 1 ? 1 : 0, footsteps.Length);
 
         // Move picked sound to index 0 so it's not picked next time.
         AudioClip temp = footsteps[n];

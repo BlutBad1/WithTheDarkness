@@ -2,22 +2,25 @@ using UnityEngine;
 
 namespace GameObjectsControllingNS
 {
-    public class ActiveObjectsByTrigger : MonoBehaviour
+    public class ChangeObjectsActivityByTrigger : MonoBehaviour
     {
         [SerializeField]
         public GameObject[] gameObjects;
-        void Start()
+        public bool IsEnabledAfterTrigger = true;
+        private void Start()
         {
             foreach (var gameObject in gameObjects)
-                gameObject.SetActive(false);
+            {
+                if (gameObject.activeInHierarchy == isActiveAndEnabled)
+                    gameObject.SetActive(!IsEnabledAfterTrigger);
+            }
         }
-
         private void OnTriggerEnter(Collider other)
         {
             if (other.name == MyConstants.CommonConstants.PLAYER)
             {
                 foreach (var gameObject in gameObjects)
-                    gameObject.SetActive(true);
+                    gameObject.SetActive(IsEnabledAfterTrigger);
                 Destroy(gameObject);
             }
         }

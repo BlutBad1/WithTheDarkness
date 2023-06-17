@@ -20,7 +20,7 @@ namespace ScenesManagementNS
         {
             while (bSD.blackScreen.color.a < 0.9f)
                 yield return null;
-            SceneManager sceneManager = GameObject.Find(MyConstants.SceneConstants.SCENE_MANAGER).GetComponent<SceneManager>();
+            SceneDeterminant sceneManager = GameObject.Find(MyConstants.SceneConstants.SCENE_MANAGER).GetComponent<SceneDeterminant>();
             if (sceneManager)
                 Loader.Load((int)sceneManager.NextScene);
             else

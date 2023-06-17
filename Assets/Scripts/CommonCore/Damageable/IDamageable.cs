@@ -5,7 +5,7 @@ using UnityEngine;
 public interface IDamageable
 {
   
-    public void TakeDamage(int damage, float force, Vector3 hit);
-    public void TakeDamage(int damage);
+    public void TakeDamage(float damage, float force, Vector3 hit);
+    public void TakeDamage(float damage);
     public Transform GetTransform();
 }

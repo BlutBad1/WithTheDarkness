@@ -20,4 +20,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Gameplay.unity
     guid: 620ac5dc0117eb4438b50a7cc5091930
+  - enabled: 1
+    path: Assets/Scenes/Forest_Map4(Run).unity
+    guid: 8ba16129a73d7f34aa315c907ebb729b
+  - enabled: 1
+    path: Assets/Scenes/Forest_Map1.unity
+    guid: 4d1cad71fdd068f42af6fbb20d7a61aa
   m_configObjects: {}

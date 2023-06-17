@@ -33,14 +33,20 @@ namespace SoundNS
             s.source.Play();
         }
         //It creates a new AudioSource component and destroys the component after the sound is played.
-        public void CreateAndPlay(string name)
+        public AudioSource CreateAndPlay(string name)
         {
             Sound s = Array.Find(sounds, sound => sound.name == name);
             if (s == null)
             {
+#if UNITY_EDITOR
                 Debug.Log($"Sound \"{name}\" is not found!");
-                return;
+#endif
+                return null;
             }
+            return CreateAndPlay(s);
+        }
+        public AudioSource CreateAndPlay(Sound s)
+        {
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
             s.source.volume = s.volume;
@@ -49,19 +55,16 @@ namespace SoundNS
             s.source.playOnAwake = false;
             s.source.Play();
             StartCoroutine(DeleteAudioSourceAfterPlaying(s.source));
+            return s.source;
         }
-
         IEnumerator DeleteAudioSourceAfterPlaying(AudioSource source)
         {
             while (source.isPlaying)
                 yield return null;
             Destroy(source);
         }
-        public void PlayAFewTimes(string[] names, int times)
-        {
+        public void PlayAFewTimes(string[] names, int times) =>
             StartCoroutine(PlayTimes(names, times));
-        }
-
         IEnumerator PlayTimes(string[] names, int times)
         {
             yield return null;
@@ -72,7 +75,6 @@ namespace SoundNS
                 if (currentSounds[i] == null)
                     Debug.Log($"Sound \"{names[i]}\" is not found!");
             }
-
             for (int i = 0; i < times; i++)
             {
                 for (int j = 0; j < names.Length; j++)
@@ -82,9 +84,7 @@ namespace SoundNS
                     while (currentSounds[j].source.isPlaying)
                         yield return null;
                 }
-
             }
         }
-
     }
 }

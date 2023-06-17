@@ -45,7 +45,7 @@ namespace SoundNS
             if (!s.source.isPlaying)
                 s.source.Play();
         }
-        private void OnTakeDamage(int damage, float force, Vector3 hit) =>
+        private void OnTakeDamage(float damage, float force, Vector3 hit) =>
             PlayRandomSoundFromCollection(OnTakeDamageSounds);
 
         private void OnDeath()

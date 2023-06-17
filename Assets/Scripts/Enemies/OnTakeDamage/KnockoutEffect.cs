@@ -18,7 +18,7 @@ namespace EnemyOnTakeDamageNS
             mainRigidbody = GetComponent<Rigidbody>();
             enemy.OnTakeDamage += OnTakeDamage;
         }
-        private void OnTakeDamage(int damage, float force, Vector3 hit)
+        private void OnTakeDamage(float damage, float force, Vector3 hit)
         {
             if (KnockoutEnable && enemy.Health > 0)
             {

@@ -378,12 +378,12 @@ GameObject:
   - component: {fileID: 2028816773438981988}
   - component: {fileID: 2028816773438981989}
   - component: {fileID: 2028816773438981990}
-  - component: {fileID: 2028816773438981991}
   - component: {fileID: 2028816773438981984}
   - component: {fileID: 2028816773438981985}
   - component: {fileID: 2028816773438981986}
   - component: {fileID: 2028816773438981987}
   - component: {fileID: 2028816773438981996}
+  - component: {fileID: 5779815279807567639}
   m_Layer: 13
   m_Name: Hand
   m_TagString: Untagged
@@ -1237,19 +1237,6 @@ NavMeshAgent:
   m_BaseOffset: 0.45
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &2028816773438981991
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2028816773438981998}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b0ba918cef87544e9a0c9f58e79c5d8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  chance: 100
 --- !u!114 &2028816773438981984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1337,6 +1324,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 36
   m_CollisionDetection: 0
+--- !u!114 &5779815279807567639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028816773438981998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8482ed417fb12f46ad7b5f29accccee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Chance: 100
 --- !u!1 &2028816774616304098
 GameObject:
   m_ObjectHideFlags: 0

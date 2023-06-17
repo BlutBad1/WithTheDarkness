@@ -2,11 +2,11 @@ using UnityEngine;
 
 namespace ScenesManagementNS
 {
-    public class SceneManager : MonoBehaviour
+    public class SceneDeterminant : MonoBehaviour
     {
         public MyConstants.SceneConstants.AvailableScenes NextScene;
         public MyConstants.SceneConstants.AvailableScenes SceneAfterLose;
-        SceneManager instance;
+        SceneDeterminant instance;
         private void Start()
         {
             if (instance == null)

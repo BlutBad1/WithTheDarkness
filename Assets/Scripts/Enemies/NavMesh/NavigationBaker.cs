@@ -6,10 +6,8 @@ namespace EnemyNavigationNS
     public class NavigationBaker : MonoBehaviour
     {
         public NavMeshSurface[] surfaces;
-        private void Awake()
-        {
+        private void Awake() =>
             StartCoroutine(BakeSurfaces());
-        }
         IEnumerator BakeSurfaces()
         {
             //while (playerInputManager.IsMovingEnable)
@@ -25,12 +23,9 @@ namespace EnemyNavigationNS
             else
             {
                 for (int i = 0; i < surfaces.Length; i++)
-                {
                     surfaces[i].BuildNavMesh();
-                }
             }
             yield return null;
         }
-
     }
 }
