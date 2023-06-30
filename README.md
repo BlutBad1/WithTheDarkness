@@ -11,10 +11,10 @@ You have to fight the enemies and try to survive, and to do this you have to con
 
 Some screenshots: 
 
-![Here was the main menu img :(](https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81oVKdbQ0azqm1pOTTLoAJrNaSueNOcYUedKaSwkg8sANvm5qehGdLtPsaseAoeXEN8a4D-Phd3U9SbwRxFTMbM7J0cD=w1920-h969)
+![Here was the main menu img :(](https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81prhHhv9HThiBoaVok9qOibTz-lNGub2j8jIyMBsgPVXN8TV8y348N2G07C0KTm8AuqtMkFckQjsZUKw5V7T01KQwlf=w1920-h968)
 
-![Here was the img1 :(](https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81o4IBU_2dBkO6rBPmQtwKmf4TjLBOmwheMqP8RgKE6JksQgUQUkDOha29p02F71Xzy-llB66_E2MaL9qG97CsWonEuCSA=w1920-h969)
-![Here was the img2 :(](https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81pa0zcGhRJ4X7S5KsnBFIGvOYVzPEHQMjO1acH528VxoSpp78l5RxrFvroHpTq-__79RHF4ZiCGDE3jTDo2S2foPT7vAA=w1920-h969)
+![Here was the img1 :(](https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81oA1VN90mdeTMUibTbOJtAHlm6pMY-GIDTmiVzU2tF8UbNN9U-uEmCHsAeHekYA93GNVW9EfdqOJkUrgvO36IbqO2RAKA=w1920-h968)
+![Here was the img2 :(](https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81p1rYRvPrD9ntsiutc6J57i--dKd0YwS368c88Ainx-f34rCxjR3XqU90-sfkJ_I1aXKN1F8YV6nI_xHCBWS5JSXTRoyg=w1920-h969)
 
   The game is still under development. 
   
