@@ -38,6 +38,10 @@ namespace WeaponNS.ShootingWeaponNS
         protected virtual void CreateBulletHole(string bulletHoleName, RaycastHit hitInfo)
         {
             GameObject bulletHole = bulletHolesPool.GetObject(bulletHoleName);
+            bulletHole.SetActive(true);
+            for (int i = 0; i < bulletHole.transform.childCount; i++)
+                bulletHole.transform.GetChild(i).gameObject.SetActive(true);
+            bulletHole.transform.parent = null;
             bulletHole.transform.position = hitInfo.point + (hitInfo.normal * 0.0001f);
             bulletHole.transform.rotation = Quaternion.LookRotation(hitInfo.normal);
             bulletHole.transform.parent = hitInfo.collider.gameObject.transform;

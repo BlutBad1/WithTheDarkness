@@ -6,6 +6,7 @@ namespace WeaponNS.ShootingWeaponNS
     public class PlayerShoot : MonoBehaviour
     {
         public static Action shootInput;
+        public static Action altFireInput;
         public static Action reloadInput;
         private InputManager inputManager;
 
@@ -13,6 +14,7 @@ namespace WeaponNS.ShootingWeaponNS
         void Awake()
         {
             shootInput = null;
+            altFireInput = null;
             reloadInput = null;
             inputManager = GetComponent<InputManager>();
         }
@@ -24,9 +26,10 @@ namespace WeaponNS.ShootingWeaponNS
                 Cursor.visible = false;
                 Cursor.lockState = CursorLockMode.Locked;
             }
+            if (inputManager.OnFoot.AlternativeFiring.triggered)
+                altFireInput?.Invoke();
             if (inputManager.OnFoot.Reloading.triggered)
                 reloadInput?.Invoke();
-           
         }
     }
 }

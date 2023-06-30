@@ -20,5 +20,4 @@ namespace EnemyHandNS
                 GetComponent<HandMovement>().walkPointIsSet = false;
         }
     }
-
 }

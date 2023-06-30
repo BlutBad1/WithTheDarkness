@@ -18,17 +18,48 @@ namespace WeaponManagement
         public GameObject Lamp;
         [SerializeField]
         public Weapon[] Weapons;
+        [HideInInspector]
         //-1 is default state without any weapon to use
-        int currentSelection = -1;
-        private void Start()
+        public int currentSelection = -1;
+        public delegate void WeaponChange();
+        public WeaponChange OnWeaponChange;
+        private void Awake()
         {
             if (!Lamp)
                 Lamp = GameObject.Find(WeaponConstants.LAMP);
             if (Weapons == null)
                 Weapons = new Weapon[0];
-            currentSelection = Array.FindIndex(Weapons, weapon => weapon.IsUnlocked == true);
-            if (currentSelection != -1 && !Weapons[currentSelection].WeaponGameObject.activeInHierarchy)
+            DefineSelection();
+        }
+        void DefineSelection()
+        {
+            foreach (var item in Array.FindAll(Weapons, weapon => weapon.WeaponGameObject.activeInHierarchy && !weapon.IsUnlocked))
+                item.WeaponGameObject.SetActive(false);
+            Weapon[] activeWeapon = Array.FindAll(Weapons, weapon => weapon.WeaponGameObject.activeInHierarchy);
+            if (activeWeapon != null && activeWeapon?.Length > 0)
+            {
+                currentSelection = Array.FindIndex(Weapons, weapon => weapon == activeWeapon[0]);
+                if (activeWeapon?.Length > 1)
+                {
+                    for (int i = 0; i < Weapons.Length; i++)
+                    {
+                        if (Weapons[i] != Weapons[currentSelection])
+                            Weapons[i].WeaponGameObject.SetActive(false);
+                    }
+                }
+            }
+            else
+                currentSelection = Array.FindIndex(Weapons, weapon => weapon.IsUnlocked == true);
+            if (currentSelection != -1)
+            {
                 Weapons[currentSelection].WeaponGameObject.SetActive(true);
+                if (Weapons[currentSelection].IsTwoHanded)
+                    Lamp.SetActive(false);
+                else
+                    Lamp.SetActive(true);
+            }
+            else
+                Lamp.SetActive(true);
         }
         public void ChangeWeaponLockStatus(string name, bool newStatus) =>
             ChangeWeaponLockStatus(Array.FindIndex(Weapons, weapon => weapon.Name == name), newStatus);
@@ -81,6 +112,7 @@ namespace WeaponManagement
                 Weapons[currentSelection].WeaponGameObject.SetActive(false);
             Weapons[index].WeaponGameObject.SetActive(true);
             currentSelection = index;
+            OnWeaponChange?.Invoke();
         }
     }
 }

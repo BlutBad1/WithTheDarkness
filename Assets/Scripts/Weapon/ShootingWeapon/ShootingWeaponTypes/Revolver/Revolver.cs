@@ -17,7 +17,6 @@ namespace WeaponNS.ShootingWeaponNS.RevolverNS
             gunData.reloading = true;
             ReloadAnim();
             yield return new WaitForSeconds(1.40f + (difference * gunData.reloadTime));
-
         }
         public override void ReloadAnim()
         {

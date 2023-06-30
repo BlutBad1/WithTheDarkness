@@ -116,6 +116,15 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AlternativeFiring"",
+                    ""type"": ""Button"",
+                    ""id"": ""12bd803e-18f4-430d-a373-c163a5f52097"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -281,6 +290,17 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
                     ""processors"": ""Scale(factor=3)"",
                     ""groups"": """",
                     ""action"": ""SwitchWeapon"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""959e4a76-249e-4f13-86d8-fdbbfedecae9"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""AlternativeFiring"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -817,6 +837,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         m_OnFoot_Reloading = m_OnFoot.FindAction("Reloading", throwIfNotFound: true);
         m_OnFoot_CurFreeze = m_OnFoot.FindAction("CurFreeze", throwIfNotFound: true);
         m_OnFoot_SwitchWeapon = m_OnFoot.FindAction("SwitchWeapon", throwIfNotFound: true);
+        m_OnFoot_AlternativeFiring = m_OnFoot.FindAction("AlternativeFiring", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -900,6 +921,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
     private readonly InputAction m_OnFoot_Reloading;
     private readonly InputAction m_OnFoot_CurFreeze;
     private readonly InputAction m_OnFoot_SwitchWeapon;
+    private readonly InputAction m_OnFoot_AlternativeFiring;
     public struct OnFootActions
     {
         private @PlayerInput m_Wrapper;
@@ -914,6 +936,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         public InputAction @Reloading => m_Wrapper.m_OnFoot_Reloading;
         public InputAction @CurFreeze => m_Wrapper.m_OnFoot_CurFreeze;
         public InputAction @SwitchWeapon => m_Wrapper.m_OnFoot_SwitchWeapon;
+        public InputAction @AlternativeFiring => m_Wrapper.m_OnFoot_AlternativeFiring;
         public InputActionMap Get() { return m_Wrapper.m_OnFoot; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -953,6 +976,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @SwitchWeapon.started += instance.OnSwitchWeapon;
             @SwitchWeapon.performed += instance.OnSwitchWeapon;
             @SwitchWeapon.canceled += instance.OnSwitchWeapon;
+            @AlternativeFiring.started += instance.OnAlternativeFiring;
+            @AlternativeFiring.performed += instance.OnAlternativeFiring;
+            @AlternativeFiring.canceled += instance.OnAlternativeFiring;
         }
 
         private void UnregisterCallbacks(IOnFootActions instance)
@@ -987,6 +1013,9 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
             @SwitchWeapon.started -= instance.OnSwitchWeapon;
             @SwitchWeapon.performed -= instance.OnSwitchWeapon;
             @SwitchWeapon.canceled -= instance.OnSwitchWeapon;
+            @AlternativeFiring.started -= instance.OnAlternativeFiring;
+            @AlternativeFiring.performed -= instance.OnAlternativeFiring;
+            @AlternativeFiring.canceled -= instance.OnAlternativeFiring;
         }
 
         public void RemoveCallbacks(IOnFootActions instance)
@@ -1134,6 +1163,7 @@ public partial class @PlayerInput: IInputActionCollection2, IDisposable
         void OnReloading(InputAction.CallbackContext context);
         void OnCurFreeze(InputAction.CallbackContext context);
         void OnSwitchWeapon(InputAction.CallbackContext context);
+        void OnAlternativeFiring(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

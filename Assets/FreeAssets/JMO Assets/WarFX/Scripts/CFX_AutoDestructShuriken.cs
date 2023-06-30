@@ -5,9 +5,10 @@ using System.Collections;
 public class CFX_AutoDestructShuriken : MonoBehaviour
 {
 	public bool OnlyDeactivate;
-	
 	void OnEnable()
 	{
+		StopAllCoroutines();
+		this.gameObject.SetActive(true);
 		StartCoroutine("CheckIfAlive");
 	}
 	

@@ -8,12 +8,14 @@ namespace MyConstants
         public const string MAIN_AUDIOMANAGER = "MainAudioManager";
         public const string POOLABLE_OBJECTS = "PoolableObjects";
         public const string WEAPON_HOLDER = "WeaponHolder";
+        public const string MAIN_LIGHT = "SpotLight(MainLight)";
     }
     public static class HUDConstants
     {
         public const string TEXTSHOWER = "InfoText";
         public const string BLACK_SCREEN_DIMMING = "BlackScreenDimming";
         public const string LIGHT_INTERES_LEFT = "LightInterestLeft";
+        public const string AMMO_LEFT = "AmmoLeft";
     }
     public static class LocationsConstants
     {
@@ -49,6 +51,7 @@ namespace MyConstants
         {
             public const string LAMP = "LeftHand";
             public const string PUTTING_DOWN = "PuttingDown";
+            public const string PICKING_UP = "PickingUp";
         }
     }
     namespace ShootingWeaponConstants
@@ -57,7 +60,9 @@ namespace MyConstants
         {
             public const string RELOADING = "Reloading";
             public const string FIRING = "Firing";
+            public const string ALT_FIRING = "AltFiring";
             public const string OUT_OF_AMMO = "OutOfAmmo";
+            public const string DIFFERENCE = "Difference";
             public const string IDLE = "Idle";
             public const string BULLET_HOLES_DATA_BASE = "MainBulletHolesDataBase";
             public const string DEFAULT_BULLET_HOLE = "DefaultBulletHole";
@@ -71,5 +76,4 @@ namespace MyConstants
             public const string REVOLVER_RELOADING_CYLINDER_SOUND = "RevolverCylinder";
         }
     }
-
 }

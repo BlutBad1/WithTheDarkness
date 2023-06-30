@@ -35,7 +35,9 @@ namespace PlayerScriptsNS
                 OnDeath = null;
             }
             else
+#if UNITY_EDITOR
                 Debug.Log($"Damage {damage}");
+#endif
         }
         public void RegenStart()
         {

@@ -46,11 +46,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44696c6bad09e674e98d5e07e9d55296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDecals: 50
+  maxDecals: 10
   decalsMinSize: 0.2
   decalsMaxSize: 0.3
-  alwaysMultithreading: 1
-  enableAutomaticallyIfGreater: 800
 --- !u!198 &2432724108687348028
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4876,11 +4874,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44696c6bad09e674e98d5e07e9d55296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDecals: 50
+  maxDecals: 10
   decalsMinSize: 0.2
   decalsMaxSize: 0.3
-  alwaysMultithreading: 1
-  enableAutomaticallyIfGreater: 800
 --- !u!198 &2432724109809221072
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -9706,11 +9702,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44696c6bad09e674e98d5e07e9d55296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDecals: 50
+  maxDecals: 10
   decalsMinSize: 0.2
   decalsMaxSize: 0.3
-  alwaysMultithreading: 1
-  enableAutomaticallyIfGreater: 800
 --- !u!198 &2432724110344631335
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -14536,11 +14530,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44696c6bad09e674e98d5e07e9d55296, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxDecals: 50
+  maxDecals: 10
   decalsMinSize: 0.2
   decalsMaxSize: 0.3
-  alwaysMultithreading: 1
-  enableAutomaticallyIfGreater: 800
 --- !u!198 &2432724110476270189
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -28926,7 +28918,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1
+      scalar: 3
       minScalar: 0.4
       maxCurve:
         serializedVersion: 2

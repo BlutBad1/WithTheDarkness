@@ -2031,36 +2031,6 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: RightHand/RightHand.001/Bone.020/Bone.024/Bone.025/Bone.026/Bone.070/Bone.071/Bone.072/Bone.028/Bone.029/Bone.030/Bone.052/Bone.053/Bone.054/Bone.055
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.y
-    path: RightHand/RightHand.001/Bone.020/Bone.024/Bone.025/Bone.026/Bone.070/Bone.071/Bone.072/Bone.028/Bone.029/Bone.030/Bone.052/Bone.053/Bone.054/Bone.055
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: RightHand/RightHand.001/Bone.020/Bone.024/Bone.025/Bone.026/Bone.070/Bone.071/Bone.072/Bone.028/Bone.029/Bone.030/Bone.052/Bone.053/Bone.054/Bone.055
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.z
     path: RightHand
     classID: 4
     script: {fileID: 0}
@@ -2082,36 +2052,6 @@ AnimationClip:
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
     path: RightHand
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
-    path: RightHand/RightHand.001/Bone.020/Bone.024/Bone.025/Bone.026
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.y
-    path: RightHand/RightHand.001/Bone.020/Bone.024/Bone.025/Bone.026
-    classID: 4
-    script: {fileID: 0}
-  - curve:
-      serializedVersion: 2
-      m_Curve: []
-      m_PreInfinity: 2
-      m_PostInfinity: 2
-      m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.z
-    path: RightHand/RightHand.001/Bone.020/Bone.024/Bone.025/Bone.026
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -2180,7 +2120,7 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.x
+    attribute: m_LocalEulerAngles.z
     path: Revolver_LP/Hammer
     classID: 4
     script: {fileID: 0}
@@ -2200,8 +2140,68 @@ AnimationClip:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-    attribute: m_LocalEulerAngles.z
+    attribute: m_LocalEulerAngles.x
     path: Revolver_LP/Hammer
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.z
+    path: RightHand/RightHand.001/Bone.020/Bone.024/Bone.025/Bone.026
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.y
+    path: RightHand/RightHand.001/Bone.020/Bone.024/Bone.025/Bone.026
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.x
+    path: RightHand/RightHand.001/Bone.020/Bone.024/Bone.025/Bone.026
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.x
+    path: RightHand/RightHand.001/Bone.020/Bone.024/Bone.025/Bone.026/Bone.070/Bone.071/Bone.072/Bone.028/Bone.029/Bone.030/Bone.052/Bone.053/Bone.054/Bone.055
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.y
+    path: RightHand/RightHand.001/Bone.020/Bone.024/Bone.025/Bone.026/Bone.070/Bone.071/Bone.072/Bone.028/Bone.029/Bone.030/Bone.052/Bone.053/Bone.054/Bone.055
+    classID: 4
+    script: {fileID: 0}
+  - curve:
+      serializedVersion: 2
+      m_Curve: []
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    attribute: m_LocalEulerAngles.z
+    path: RightHand/RightHand.001/Bone.020/Bone.024/Bone.025/Bone.026/Bone.070/Bone.071/Bone.072/Bone.028/Bone.029/Bone.030/Bone.052/Bone.053/Bone.054/Bone.055
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 1

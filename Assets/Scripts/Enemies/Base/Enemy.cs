@@ -17,6 +17,7 @@ namespace EnemyBaseNS
         public EnemyScriptableObject EnemyScriptableObject;
         [HideInInspector]
         public SkillScriptableObject[] Skills;
+        public EnemySize EnemySize;
         private Coroutine lookCoroutine;
         public Coroutine skillCoroutine;
         private void Awake()
@@ -28,7 +29,6 @@ namespace EnemyBaseNS
             if (EnemyScriptableObject != null)
                 SetupAgentFromConfiguration();
         }
-
         private void Update()
         {
             if (Skills != null)
@@ -53,7 +53,6 @@ namespace EnemyBaseNS
             lookCoroutine = StartCoroutine(LookAt(Target.GetTransform()));
             Animator.SetTrigger(EnemyConstants.ATTACK_TRIGGER);
         }
-
         private IEnumerator LookAt(Transform Target)
         {
             Quaternion lookRotation = Quaternion.LookRotation(Target.position - transform.position);
@@ -66,7 +65,6 @@ namespace EnemyBaseNS
             }
             transform.rotation = lookRotation;
         }
-
         //public virtual void OnEnable()
         //{
         //    if (EnemyScriptableObject!=null)
@@ -85,6 +83,7 @@ namespace EnemyBaseNS
             Agent.speed = EnemyScriptableObject.Speed;
             Agent.stoppingDistance = EnemyScriptableObject.StoppingDistance;
             Health = EnemyScriptableObject.Health;
+            EnemySize = EnemyScriptableObject.EnemySize;
             EnemyAttack.AttackRadius = EnemyScriptableObject.AttackRadius;
             EnemyAttack.AttackDistance = EnemyScriptableObject.AttackDistance;
             EnemyAttack.AttackDelay = EnemyScriptableObject.AttackDelay;

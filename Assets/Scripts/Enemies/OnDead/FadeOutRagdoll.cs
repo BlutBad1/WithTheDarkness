@@ -14,6 +14,7 @@ namespace EnemyOnDeadNS
         [Tooltip("Fade out speed.")]
         public float FadeOutSpeed = 0.05f;
         private Coroutine fadeOutCoroutine;
+        private bool isEnabled = false;
         override protected void Start()
         {
             base.Start();
@@ -22,7 +23,7 @@ namespace EnemyOnDeadNS
         }
         private void OnDisable()
         {
-            if (fadeOutCoroutine != null)
+            if (fadeOutCoroutine != null || isEnabled)
                 Destroy(gameObject);
         }
         override public void OnDead()
@@ -33,6 +34,7 @@ namespace EnemyOnDeadNS
             if (ragdollEnabler)
                 ragdollEnabler.EnableRagdoll();
             fadeOutCoroutine = StartCoroutine(FadeOutCoroutine());
+            isEnabled = true;
             //}
         }
         private IEnumerator FadeOutCoroutine()
@@ -48,7 +50,7 @@ namespace EnemyOnDeadNS
                 time += Time.deltaTime * FadeOutSpeed;
                 yield return null;
             }
-            Destroy(gameObject);
+           Destroy(gameObject);
         }
     }
 

@@ -24,7 +24,6 @@ namespace WeaponNS.ShootingWeaponNS
             GetComponent<ShootingWeapon>().OnShootRaycast += OnShootRaycast;
             if (!bulletHolesDataBase)
                 bulletHolesDataBase = GameObject.Find(MainShootingWeaponConstants.BULLET_HOLES_DATA_BASE).GetComponent<BulletHolesDataBase>();
-
         }
         public virtual void OnShootRaycast(GunData gunData)
         {

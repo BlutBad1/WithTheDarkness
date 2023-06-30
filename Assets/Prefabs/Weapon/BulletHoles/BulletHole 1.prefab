@@ -4731,7 +4731,6 @@ GameObject:
   - component: {fileID: 2325169165262908746}
   - component: {fileID: 2325169165277063178}
   - component: {fileID: 2325169165276959146}
-  - component: {fileID: 2325169165268419720}
   m_Layer: 0
   m_Name: BulletHole 1
   m_TagString: Untagged
@@ -9444,19 +9443,6 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
---- !u!114 &2325169165268419720
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2325169165262418282}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fd2e8874f60266498a388d7229a1bac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnlyDeactivate: 0
 --- !u!1 &2325169165262418284
 GameObject:
   m_ObjectHideFlags: 0
@@ -14241,4 +14227,3 @@ MonoBehaviour:
   fadeoutpercent: 15
   frames: {x: 1, y: 1}
   randomRotation: 1
-  deactivate: 0

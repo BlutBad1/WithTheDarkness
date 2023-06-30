@@ -95,13 +95,14 @@ namespace EnemyBaseNS
                     Debug.LogWarning("Enemy movement animator is not set!");
                 animator?.SetBool(EnemyConstants.IS_WALKING, Agent.velocity.magnitude > 0.01f);
             }
-
         }
-        public virtual bool BackToDefaultPosition()
+        protected virtual void OnDisable()
         {
-            Agent.Warp(DefaultPositon);
-            return true;
+            if (State != EnemyState.Dead && gameObject != null)
+                BackToDefaultPosition();
         }
+        public virtual void BackToDefaultPosition() =>
+            Agent.Warp(DefaultPositon);
         protected virtual void HandleStateChange(EnemyState oldState, EnemyState newState)
         {
             if (oldState != newState && oldState != EnemyState.Dead)
