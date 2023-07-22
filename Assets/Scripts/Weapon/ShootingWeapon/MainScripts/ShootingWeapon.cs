@@ -17,12 +17,15 @@ namespace WeaponNS.ShootingWeaponNS
         public delegate void BulletSpread(GunData gunData);
         public BulletSpread OnShootRaycast;
         static bool firstFramePassed = false;
-        private void Start()
+        private void Awake()
         {
             animator = gun.GetComponent<Animator>();
             gunData.currentAmmo = gunData.magSize;
             gunData.reloading = false;
             timeSinceLastShot = 2;
+        }
+        private void Start()
+        {
             if (!firstFramePassed)
             {
                 PlayerShoot.shootInput += Shoot;
@@ -41,9 +44,12 @@ namespace WeaponNS.ShootingWeaponNS
             if (animator && !animator.GetBool(MainShootingWeaponConstants.RELOADING))
                 gunData.reloading = false;
             timeSinceLastShot = 0;
-            PlayerShoot.shootInput += Shoot;
-            PlayerShoot.altFireInput += AltFire;
-            PlayerShoot.reloadInput += StartReload;
+            if (firstFramePassed)
+            {
+                PlayerShoot.shootInput += Shoot;
+                PlayerShoot.altFireInput += AltFire;
+                PlayerShoot.reloadInput += StartReload;
+            }
         }
         public void StartReload()
         {

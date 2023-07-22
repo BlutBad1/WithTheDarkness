@@ -3,22 +3,40 @@ using UnityEngine;
 
 namespace SoundNS
 {
-    public class AudioSourceManager : MonoBehaviour
+    public class AudioSourceManager : AudioSourceSetup
     {
-        public AudioSource AudioSource;
+        [SerializeField]
+        protected AudioSource audioSource;
+        private new void Awake()
+        {
+            base.Awake();
+            availableSources.Add(audioSource, audioSource.volume);
+        }
+        public void SetAudioSource(AudioSource audioSource)
+        {
+            availableSources.Remove(this.audioSource);
+            this.audioSource = audioSource;
+            availableSources.Add(this.audioSource, this.audioSource.volume);
+            this.audioSource.volume = audioSource.volume * SettingsNS.AudioSettings.GetVolumeOfType(AudioType);
+        }
+        public void ChandeAudioSourceVolume(float newVolume)
+        {
+            availableSources[audioSource] = newVolume;
+            audioSource.volume = newVolume * SettingsNS.AudioSettings.GetVolumeOfType(AudioType);
+        }
         public void PlayAudioSource()
         {
-            if (!AudioSource.isPlaying)
-                AudioSource.Play();
+            if (!audioSource.isPlaying)
+                audioSource.Play();
         }
         public void PlayDelayedAudioSource(float delay) =>
-            AudioSource.PlayDelayed(delay);
+            audioSource.PlayDelayed(delay);
 
         public void PlayScheduledAudioSource(double time) =>
-            AudioSource.PlayScheduled(time);
+            audioSource.PlayScheduled(time);
 
         public void StopAudioSource() =>
-            AudioSource.Stop();
+            audioSource.Stop();
 
         public void DestroyAfterPlaying()
         {
@@ -27,7 +45,7 @@ namespace SoundNS
         }
         IEnumerator DestroyAfterPlayingCoroutine()
         {
-            while (AudioSource.isPlaying)
+            while (audioSource.isPlaying)
                 yield return null;
             Destroy(gameObject);
         }

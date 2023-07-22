@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97933acc5cf35cf4fb83f438b511c40a, type: 3}
   m_Name: Jump Skill
   m_EditorClassIdentifier: 
-  Cooldown: 10
+  Cooldown: 7
   Damage: 25
   IsActivating: 0
   MinJumpDistance: 3.5

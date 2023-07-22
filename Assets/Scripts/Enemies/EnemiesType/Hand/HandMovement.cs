@@ -57,15 +57,18 @@ namespace EnemyHandNS
         }
         public override void BackToDefaultPosition()
         {
-            if ((transform.position - Player.transform.position).magnitude > HiddenSightRange * 2.5)
+            if (Player != null)
             {
-                walkPointIsSet = false;
-                Agent.Warp(DefaultPositon);
-            }
-            else if ((transform.position - Player.transform.position).magnitude > HiddenSightRange)
-            {
-                walkPointIsSet = true;
-                walkPoint = DefaultPositon;
+                if ((transform.position - Player.transform.position).magnitude > HiddenSightRange * 2.5)
+                {
+                    walkPointIsSet = false;
+                    Agent.Warp(DefaultPositon);
+                }
+                else if ((transform.position - Player.transform.position).magnitude > HiddenSightRange)
+                {
+                    walkPointIsSet = true;
+                    walkPoint = DefaultPositon;
+                }
             }
         }
     }

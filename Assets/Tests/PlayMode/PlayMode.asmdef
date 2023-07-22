@@ -9,10 +9,10 @@
         "Enemies",
         "Unity.TextMeshPro",
         "Map",
-        "Constants",
         "Weapon",
         "Ui",
-        "LampNLight"
+        "LampNLight",
+        "ConstantsNSettings"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

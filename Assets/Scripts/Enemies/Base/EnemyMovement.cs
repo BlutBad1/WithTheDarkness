@@ -64,15 +64,10 @@ namespace EnemyBaseNS
             if (!animator)
                 TryGetComponent(out animator);
         }
-        protected virtual void HandleGainSight(GameObject player)
-        {
+        protected virtual void HandleGainSight(GameObject player) =>
             State = EnemyState.Chase;
-        }
-
-        protected virtual void HandleLoseSight(GameObject player)
-        {
+        protected virtual void HandleLoseSight(GameObject player) =>
             State = DefaultState;
-        }
         private void HandleLinkStart(OffMeshLinkMoveMethod MoveMethod)
         {
             if (MoveMethod == OffMeshLinkMoveMethod.NormalSpeed)
@@ -80,13 +75,11 @@ namespace EnemyBaseNS
             else if (MoveMethod != OffMeshLinkMoveMethod.Teleport)
                 animator.SetTrigger(EnemyConstants.JUMP);
         }
-
         private void HandleLinkEnd(OffMeshLinkMoveMethod MoveMethod)
         {
             if (MoveMethod != OffMeshLinkMoveMethod.Teleport && MoveMethod != OffMeshLinkMoveMethod.NormalSpeed)
                 animator.SetTrigger(EnemyConstants.LANDED);
         }
-
         private void Update()
         {
             if (!Agent.isOnOffMeshLink)
@@ -98,7 +91,7 @@ namespace EnemyBaseNS
         }
         protected virtual void OnDisable()
         {
-            if (State != EnemyState.Dead && gameObject != null)
+            if (State != EnemyState.Dead && gameObject.scene.IsValid())
                 BackToDefaultPosition();
         }
         public virtual void BackToDefaultPosition() =>
@@ -148,7 +141,6 @@ namespace EnemyBaseNS
                 yield return Wait;
             }
         }
-
         protected virtual IEnumerator DoPatrolMotion()
         {
             WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
@@ -159,7 +151,6 @@ namespace EnemyBaseNS
                 yield return Wait;
             }
         }
-
         protected virtual IEnumerator FollowTarget()
         {
             while (true)

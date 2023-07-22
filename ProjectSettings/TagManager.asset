@@ -15,7 +15,7 @@ TagManager:
   - 
   - Water
   - UI
-  - Interactble
+  - Interactable
   - Lamp
   - Gun
   - Target
@@ -25,9 +25,9 @@ TagManager:
   - Enemy
   - InvisibleWall
   - DamagableProp
-  - 
-  - 
-  - 
+  - InteractableWeapon
+  - PostProcess
+  - PostProcessHUD
   - 
   - RaycastIgnore
   - 

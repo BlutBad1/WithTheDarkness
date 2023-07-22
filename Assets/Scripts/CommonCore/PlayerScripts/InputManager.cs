@@ -10,12 +10,14 @@ namespace PlayerScriptsNS
         private PlayerLook look;
         private WeaponManager weaponManager;
         public PlayerInput.OnFootActions OnFoot;
+        public PlayerInput.UIActions UIActions;
         [HideInInspector]
         public bool IsMovingEnable = true;
         void Awake()
         {
-            playerInput = new PlayerInput();
+            playerInput = SettingsNS.GameSettings.PlayerInput;
             OnFoot = playerInput.OnFoot;
+            UIActions = playerInput.UI;
             motor = GetComponent<PlayerMotor>();
             look = GetComponent<PlayerLook>();
             if (!TryGetComponent(out weaponManager))
@@ -23,8 +25,10 @@ namespace PlayerScriptsNS
             OnFoot.Jump.performed += ctx => motor.Jump();
             OnFoot.Crouch.performed += ctx => motor.Crounch();
             OnFoot.Sprint.performed += ctx => motor.Sprint();
-            OnFoot.SwitchWeapon.performed += ctx => weaponManager.ChangeWeaponSelection(((int)ctx.ReadValue<float>())-1);
+            OnFoot.SwitchWeapon.performed += ctx => weaponManager.ChangeWeaponSelection(((int)ctx.ReadValue<float>()) - 1);
         }
+        public ref readonly PlayerInput GetPlayerInput() =>
+             ref playerInput;
         //void BindTest()
         //{
         // OnFoot.SwitchWeapon.ChangeBinding(1).WithPath("<Keyboard>/k");

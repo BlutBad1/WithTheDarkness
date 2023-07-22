@@ -89,7 +89,11 @@ namespace EnemyBaseNS
             EnemyAttack.AttackDelay = EnemyScriptableObject.AttackDelay;
             EnemyAttack.Damage = EnemyScriptableObject.Damage;
             EnemyAttack.AttackForce = EnemyScriptableObject.AttackForce;
-            Skills = EnemyScriptableObject.Skills;
+            //NOTE: It's instantiate all skills and all enemies that have simillar skill can use it independently, but it might take a lot of resources
+            //Skills = EnemyScriptableObject.Skills;
+            Skills = new SkillScriptableObject[EnemyScriptableObject.Skills.Length];
+            for (int i = 0; i < EnemyScriptableObject.Skills.Length; i++)
+                Skills[i] = Instantiate(EnemyScriptableObject.Skills[i]);
         }
     }
 }

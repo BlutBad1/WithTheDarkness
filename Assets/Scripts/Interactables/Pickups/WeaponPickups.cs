@@ -12,11 +12,11 @@ namespace InteractableNS.Pickups
         {
             base.Start();
             weaponManager = GameObject.Find(MyConstants.CommonConstants.WEAPON_HOLDER).GetComponent<WeaponManager>();
-            ChangeWeaponAfterPickup = SettingsNS.ChangeWeapoAfterPickupSettings.ChangeWeaponAfterPickup;
-            SettingsNS.ChangeWeapoAfterPickupSettings.WeaponChangeAfterPickupStatusChangeEvent += CheckChangeWeaponAfterPickupStatus;
+            ChangeWeaponAfterPickup = SettingsNS.GameSettings.ChangeWeaponAfterPickup;
+            SettingsNS.GameSettings.OnSwitchWeaponOnPickUpChange += CheckChangeWeaponAfterPickupStatus;
         }
         public void CheckChangeWeaponAfterPickupStatus() =>
-            ChangeWeaponAfterPickup = SettingsNS.ChangeWeapoAfterPickupSettings.ChangeWeaponAfterPickup;
+            ChangeWeaponAfterPickup = SettingsNS.GameSettings.ChangeWeaponAfterPickup;
         protected override void Interact()
         {
             weaponManager.ChangeWeaponLockStatus(WeaponNameToPickup, true);

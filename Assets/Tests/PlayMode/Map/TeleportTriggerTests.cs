@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.TestTools;
 namespace Map
 {
-
     public class TeleportTriggerTests
     {
         GameObject player;
@@ -19,7 +18,6 @@ namespace Map
             //Arrange
             player = GameObject.Instantiate(new GameObject());
             gameObject = GameObject.Instantiate(new GameObject());
-
             player.name = CommonConstants.PLAYER;
             teleportPoint = gameObject.transform;
             teleportTrigger = player.AddComponent<TeleportTrigger>();

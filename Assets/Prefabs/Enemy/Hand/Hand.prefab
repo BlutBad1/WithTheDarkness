@@ -436,14 +436,14 @@ MonoBehaviour:
   OnTakeDamageSounds:
   - name: TakeDamage1
     clip: {fileID: 8300000, guid: df430d8510df4b743a4c6889fc413b33, type: 3}
-    volume: 0.57
+    volume: 0.7
     pitch: 1
     loop: 0
     source: {fileID: 0}
   OnDeathSounds:
   - name: OnDeath1
     clip: {fileID: 8300000, guid: cfc95bb491f831e4d84b66161624574f, type: 3}
-    volume: 0.3
+    volume: 0.8
     pitch: 0.5
     loop: 0
     source: {fileID: 0}
@@ -751,6 +751,7 @@ MonoBehaviour:
   Agent: {fileID: 2028816773438981990}
   EnemyScriptableObject: {fileID: 11400000, guid: 8724e3aa2dd35784da9d50ff86ef571e, type: 2}
   Skills: []
+  EnemySize: 0
 --- !u!114 &2028816773438981916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1286,7 +1287,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595dcbd84fd00b4449bfca19497614a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioSource: {fileID: 2028816773438981988}
+  audioSource: {fileID: 2028816773438981988}
 --- !u!95 &2028816773438981987
 Animator:
   serializedVersion: 5

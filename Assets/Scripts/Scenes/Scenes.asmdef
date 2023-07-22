@@ -2,7 +2,7 @@
     "name": "Scenes",
     "rootNamespace": "",
     "references": [
-        "Constants"
+        "ConstantsNSettings"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a77e88ae2f251334d9e866e883156793, type: 3}
   m_Name: Hand
   m_EditorClassIdentifier: 
-  Skills:
-  - {fileID: 11400000, guid: 003065127fc7067498a2baecc646e534, type: 2}
   Health: 75
   AttackDelay: 1.5
   Damage: 25
   AttackForce: 5
-  AttackRadius: 0.8
+  AttackRadius: 0.9
   AttackDistance: 1.6
+  EnemySize: 0
+  Skills:
+  - {fileID: 11400000, guid: 003065127fc7067498a2baecc646e534, type: 2}
   AIUpdateInterval: 0.1
   Acceleration: 10
   AngularSpeed: 450

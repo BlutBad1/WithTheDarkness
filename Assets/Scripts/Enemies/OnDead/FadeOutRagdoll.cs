@@ -23,7 +23,7 @@ namespace EnemyOnDeadNS
         }
         private void OnDisable()
         {
-            if (fadeOutCoroutine != null || isEnabled)
+            if ((fadeOutCoroutine != null || isEnabled) && gameObject.scene.IsValid())
                 Destroy(gameObject);
         }
         override public void OnDead()
@@ -50,7 +50,7 @@ namespace EnemyOnDeadNS
                 time += Time.deltaTime * FadeOutSpeed;
                 yield return null;
             }
-           Destroy(gameObject);
+            Destroy(gameObject);
         }
     }
 

@@ -4,34 +4,72 @@ using UnityEngine;
 
 namespace SoundNS
 {
-    public class AudioManager : MonoBehaviour
+    public class AudioManager : SoundSetup
     {
         //NOTE: Don't rename otherwise all sounds and their settings will be gone!!
         public Sound[] sounds;
-
-        void Awake()
+        new void Awake()
         {
-            foreach (Sound s in sounds)
+            base.Awake();
+            AssignVariables();
+        }
+        public void AssignVariables()
+        {
+            if (sounds != null)
             {
-                s.source = gameObject.AddComponent<AudioSource>();
-                s.source.clip = s.clip;
-                s.source.volume = s.volume;
-                s.source.pitch = s.pitch;
-                s.source.loop = s.loop;
-                s.source.playOnAwake = false;
+                foreach (Sound s in sounds)
+                {
+                    s.source = gameObject.AddComponent<AudioSource>();
+                    s.source.clip = s.clip;
+                    s.source.volume = s.volume;
+                    s.source.pitch = s.pitch;
+                    s.source.loop = s.loop;
+                    s.source.playOnAwake = false;
+                    Sounds.Add(s);
+                    s.source.volume = s.volume * SettingsNS.AudioSettings.GetVolumeOfType(s.audioKind);
+                }
             }
         }
-
         public void Play(string name)
         {
             Sound s = Array.Find(sounds, sound => sound.name == name);
             if (s == null)
             {
+#if UNITY_EDITOR
                 Debug.Log($"Sound \"{name}\" is not found!");
+#endif
                 return;
             }
             s.source.Play();
         }
+        public void Stop(string name)
+        {
+            Sound s = Array.Find(sounds, sound => sound.name == name);
+            if (s == null)
+            {
+#if UNITY_EDITOR
+                Debug.Log($"Sound \"{name}\" is not found!");
+#endif
+                return;
+            }
+            if (s.source)
+                s.source.Stop();
+        }
+        public void PlayOnceAtTime(string name)
+        {
+            Sound s = Array.Find(sounds, sound => sound.name == name);
+            if (s == null)
+            {
+#if UNITY_EDITOR
+                Debug.Log($"Sound \"{name}\" is not found!");
+#endif
+                return;
+            }
+            if (!s.source.isPlaying)
+                s.source.Play();
+        }
+        public void PlayOnceAtTime(Sound sound) =>
+            PlayOnceAtTime(sound.name);
         //It creates a new AudioSource component and destroys the component after the sound is played.
         public AudioSource CreateAndPlay(string name)
         {
@@ -47,6 +85,8 @@ namespace SoundNS
         }
         public AudioSource CreateAndPlay(Sound s)
         {
+            if (s.source)
+                StartCoroutine(DeleteAudioSourceAfterPlaying(s.source));
             s.source = gameObject.AddComponent<AudioSource>();
             s.source.clip = s.clip;
             s.source.volume = s.volume;
@@ -54,6 +94,8 @@ namespace SoundNS
             s.source.loop = s.loop;
             s.source.playOnAwake = false;
             s.source.Play();
+            Sounds.Add(s);
+            s.source.volume = s.volume * SettingsNS.AudioSettings.GetVolumeOfType(s.audioKind);
             StartCoroutine(DeleteAudioSourceAfterPlaying(s.source));
             return s.source;
         }
@@ -61,6 +103,7 @@ namespace SoundNS
         {
             while (source.isPlaying)
                 yield return null;
+            Sounds.Remove(Sounds.Find(x => x.source == source));
             Destroy(source);
         }
         public void PlayAFewTimes(string[] names, int times) =>
@@ -73,7 +116,9 @@ namespace SoundNS
             {
                 currentSounds[i] = Array.Find(sounds, sound => sound.name == names[i]);
                 if (currentSounds[i] == null)
+#if UNITY_EDITOR
                     Debug.Log($"Sound \"{names[i]}\" is not found!");
+#endif
             }
             for (int i = 0; i < times; i++)
             {

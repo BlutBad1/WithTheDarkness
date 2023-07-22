@@ -14,7 +14,7 @@ namespace InteractableNS
         {
             if (promptMessage == "")
             {
-                InteracteBindingSettings.BindInteracteChangeEvent += CheckInteractKey;
+                GameSettings.OnInteracteRebind += CheckInteractKey;
                 CheckInteractKey();
             }
         }

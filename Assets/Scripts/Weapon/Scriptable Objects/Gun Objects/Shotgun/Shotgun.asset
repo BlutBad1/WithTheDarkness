@@ -13,13 +13,13 @@ MonoBehaviour:
   m_Name: Shotgun
   m_EditorClassIdentifier: 
   name: Shotgun
-  damage: 15
+  damage: 25
   maxDistance: 70
   firingTime: 1.5
   force: 10
   currentAmmo: 2
   magSize: 2
-  reserveAmmo: 99533
+  reserveAmmo: 99517
   fireRate: 150
   reloadTime: 6
-  reloading: 1
+  reloading: 0
