@@ -1,0 +1,26 @@
+
+Scripts&Shaders:
+DOTween by Demigiant
+FREE Footsteps System by Pavel Cristian
+Cartoon FX Easy Editor by Jean Moreno
+PSX Shader Kit by Liron
+Free Double Sided Shaders by Ciconia Studio
+Models:
+Raw Wooden Furniture Free by AmbiMesh
+Horror Axe by ESsplashkid
+Awesome Free Scans - Wood Logs by Freya Gameworks
+Foliage Pack Free by Jake Sullivan
+Free Furniture Set by Lef
+Basic Bedroom Starterpack by Mavi3D
+Yughues Free Bushes by Nobiax / Yughues
+HuMan 3D Project [Animated/HandPainted]Male by PackDev
+Oil Cans by Pixel Games
+Double-barrel gun BY SDKwarrior
+Picture frames with photos by 3Dfrk
+Books, Scrolls and Other Things (HDRP, URP, Standard) by Vergis
+
+
+
+Particles:
+War FX by Jean Moreno
+

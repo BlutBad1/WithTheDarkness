@@ -17,7 +17,6 @@ namespace Footsteps {
 				Debug.Log("A footsteps_database already exists in the current scene.");
 			}
 		}
-
 		public override void OnInspectorGUI () {
 			serializedObject.Update();
 

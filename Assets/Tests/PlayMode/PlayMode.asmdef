@@ -4,15 +4,16 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "CommonCore",
-        "ControllingParticles",
         "Enemies",
         "Unity.TextMeshPro",
         "Map",
         "Weapon",
-        "Ui",
         "LampNLight",
-        "ConstantsNSettings"
+        "PlayerCore",
+        "CommonCore",
+        "Effects",
+        "DamageNDeath",
+        "UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
