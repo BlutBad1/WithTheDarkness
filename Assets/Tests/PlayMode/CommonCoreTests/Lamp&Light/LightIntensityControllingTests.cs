@@ -5,8 +5,6 @@ using UnityEngine;
 using UnityEngine.TestTools;
 namespace CommonCore.LampNLight
 {
-
-
     public class LightIntensityControllingTests
     {
         private LightGlowTimer lightsTimer;
@@ -22,7 +20,8 @@ namespace CommonCore.LampNLight
             light = gameObject.AddComponent<Light>();
             light.intensity = 1f;
             lightsTimer = gameObject.AddComponent<LightGlowTimer>();
-            lightsTimer.SetGlowTime(1f);
+            lightsTimer.GlowTime = 1f;
+            lightsTimer.StartedGlowTime = 1f;
             gameObject.AddComponent<LightIntensityControlling>();
         }
         [UnityTest]
@@ -38,12 +37,10 @@ namespace CommonCore.LampNLight
         public IEnumerator UpdateTest_Expect_SlowDecreaseIntensityByTime2()
         {
             LightGlowTimer.AddTime(5f);
-              yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.5f);
             //Assert
             Assert.IsTrue(light.intensity > 0f);
             Assert.IsTrue(light.intensity < 5f);
-
-
         }
     }
 }

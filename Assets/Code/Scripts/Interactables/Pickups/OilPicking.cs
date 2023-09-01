@@ -15,9 +15,9 @@ namespace InteractableNS.Pickups
         {
             int addingTime;
             if (percentMinTime > percentMaxTime)
-                addingTime = (int)(Random.Range(0, percentMaxTime) * 100 / LightGlowTimer.StartedTimeLeft);
+                addingTime = (int)(Random.Range(0, percentMaxTime) * LightGlowTimer.StartedTimeLeft / 100);
             else
-                addingTime = (int)(Random.Range(percentMinTime, percentMaxTime) * 100 / LightGlowTimer.StartedTimeLeft);
+                addingTime = (int)(Random.Range(percentMinTime, percentMaxTime) * LightGlowTimer.StartedTimeLeft / 100);
             LightGlowTimer.AddTime(addingTime);
         }
     }

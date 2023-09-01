@@ -32,9 +32,9 @@ namespace GameObjectsControllingNS
         IEnumerator DisableCheck(WeaponManager wM)
         {
             wM.StopCoroutine("ShiftTo");
-            if (wM.currentSelection == -1 || wM.Weapons[wM.currentSelection].IsTwoHanded)
+            if (wM.currentSelection == -1 || wM.Weapons[wM.currentSelection].WeaponData.IsTwoHanded)
                 yield return new WaitForSeconds(0.1f);
-            if (wM.currentSelection == -1 || !wM.Weapons[wM.currentSelection].IsTwoHanded)
+            if (wM.currentSelection == -1 || !wM.Weapons[wM.currentSelection].WeaponData.IsTwoHanded)
                 wM.StartCoroutine(ShiftTo(StartingPosition, StartingRotation));
         }
     }

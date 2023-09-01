@@ -568,7 +568,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 0.033333335
-    functionName: CreateAndPlay
+    functionName: CreateNewAudioSourceAndPlay
     data: Chest_Locked
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

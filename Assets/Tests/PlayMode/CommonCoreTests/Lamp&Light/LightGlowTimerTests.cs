@@ -6,8 +6,6 @@ using UnityEngine.TestTools;
 
 namespace CommonCore.LampNLight
 {
-
-
     public class LightGlowTimerTests
     {
         private LightGlowTimer lightsTimer;
@@ -17,8 +15,9 @@ namespace CommonCore.LampNLight
         {
             //Arrange
             gameObject = GameObject.Instantiate(new GameObject());
-            lightsTimer= gameObject.AddComponent<LightGlowTimer>();
-            lightsTimer.SetGlowTime(100f);
+            lightsTimer = gameObject.AddComponent<LightGlowTimer>();
+            lightsTimer.StartedGlowTime = 100f;
+            lightsTimer.GlowTime = 100f;
         }
         [UnityTest]
         public IEnumerator UpdateTest_Expect_SlowDecreaseCurrentTimeLeft()

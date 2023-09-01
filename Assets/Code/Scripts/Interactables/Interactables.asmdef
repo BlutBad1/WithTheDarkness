@@ -2,10 +2,12 @@
     "name": "Interactables",
     "rootNamespace": "",
     "references": [
-        "GUID:c5ee2e1b2c570564c9bd1e6fe39430e7",
         "GUID:e0a95ea987b27704e8a945954f8d7f29",
         "GUID:2a8b6f87de7a3754eb5b9726b9982ce3",
-        "GUID:6f9507802cb14624fb69952dba96ff61"
+        "GUID:6f9507802cb14624fb69952dba96ff61",
+        "GUID:14705eeb1bb152345900d334785a71bb",
+        "GUID:c3bdff286cf9e2740961ac9a5c6671fb",
+        "GUID:4b8ff257d54c5b540b4e46a8359775b2"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

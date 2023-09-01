@@ -4,40 +4,6 @@ using UnityEngine;
 using static SettingsNS.AudioSettings;
 namespace SoundNS
 {
-    public class AudioObject
-    {
-        private AudioSource audioSource;
-        private float startedVolume;
-        private AudioKind audioType;
-        public AudioKind AudioType
-        {
-            get { return audioType; }
-            set { audioType = value; ChangeVolumeBySettings(); }
-        }
-        public AudioSource AudioSource
-        {
-            get { return audioSource; }
-        }
-        public void ChangeAudioSource(AudioSource audioSource)
-        {
-            this.audioSource = audioSource;
-            startedVolume = this.audioSource.volume;
-            ChangeVolumeBySettings();
-        }
-        public void ChangeAudioSourceVolume(float volume)
-        {
-            startedVolume = volume;
-            ChangeVolumeBySettings();
-        }
-        AudioObject(AudioSource audioSource, float startedVolume, AudioKind audioType)
-        {
-            this.audioSource = audioSource;
-            this.startedVolume = startedVolume;
-            this.audioType = audioType;
-        }
-        public void ChangeVolumeBySettings() =>
-            audioSource.volume = startedVolume * SettingsNS.AudioSettings.GetVolumeOfType(audioType);
-    }
     public class AudioSourceSetup : MonoBehaviour
     {
         private AudioKind audioType;

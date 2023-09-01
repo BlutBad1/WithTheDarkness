@@ -42,7 +42,7 @@ namespace LocationManagementNS
                 if (dimming)
                     dimming.fadeSpeed = 0.5f;
                 if (!audioManager)
-                    audioManager = GameObject.Find(CommonConstants.MAIN_AUDIOMANAGER).GetComponent<AudioManager>();
+                    audioManager = GameObject.Find(CommonConstants.IMPORTANT_SOUNDS).GetComponent<AudioManager>();
             }
             if (!player)
                 player = GameObject.Find(CommonConstants.PLAYER);

@@ -8,7 +8,7 @@ namespace InteractableNS.Pickups
         private WeaponManager weaponManager;
         public string WeaponNameToPickup;
         public bool ChangeWeaponAfterPickup = true;
-        protected override void Start()
+        protected new void Start()
         {
             base.Start();
             weaponManager = GameObject.Find(MyConstants.CommonConstants.WEAPON_HOLDER).GetComponent<WeaponManager>();

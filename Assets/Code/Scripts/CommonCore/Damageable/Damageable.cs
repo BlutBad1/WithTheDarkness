@@ -4,9 +4,29 @@ public class Damageable : MonoBehaviour, IDamageable
 {
     public delegate void TakeDamageEvent(float damage, float force, Vector3 hit);
     public delegate void DeathEvent();
-    public TakeDamageEvent OnTakeDamage;
-    public DeathEvent OnDeath;
+    public event TakeDamageEvent OnTakeDamage;
+    public event DeathEvent OnDeath;
+    /// <summary>
+    /// Current Health
+    /// </summary>
     public float Health = 100;
+    [HideInInspector]
+    private bool isDead = false;
+    public bool IsDead
+    {
+        get { return isDead; }
+        set { isDead = value; if (isDead) OnDeath?.Invoke(); }
+    }
+
+    /// <summary>
+    /// Health on Start
+    /// </summary>
+    [HideInInspector]
+    public float OriginalHealth;
+    private void Start()
+    {
+        OriginalHealth = Health;
+    }
     public virtual Transform GetTransform()
     {
         return transform;
@@ -21,7 +41,7 @@ public class Damageable : MonoBehaviour, IDamageable
         Health -= damage;
         if (Health <= 0)
         {
-            OnDeath?.Invoke();
+            IsDead = true;
             OnTakeDamage = null;
             OnDeath = null;
         }

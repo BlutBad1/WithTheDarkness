@@ -9,11 +9,14 @@ EditorBuildSettings:
     path: Assets/Level/Scenes/MainMenu.unity
     guid: ab4c7bd1475ffae4e8acb7f8c3097863
   - enabled: 1
-    path: Assets/Level/Scenes/Level1.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
-  - enabled: 1
     path: Assets/Level/Scenes/Loading.unity
     guid: a0376fb4172278a4998ac74a7a5b29f9
+  - enabled: 1
+    path: Assets/Level/Scenes/House_Breakpoint.unity
+    guid: 08a08169708cd8e4da6d6f01614212fc
+  - enabled: 1
+    path: Assets/Level/Scenes/Level1.unity
+    guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 0
     path: Assets/Level/Scenes/Test2.unity
     guid: e1276b6148d225448811e0d2e95c4bd0

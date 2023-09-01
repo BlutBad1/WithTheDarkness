@@ -1,19 +1,22 @@
 using UnityEngine;
 
-public class DisableCollidersOnDeath : MonoBehaviour
+namespace OnDeath
 {
-    public Collider[] colliders;
-    public Damageable damageable;
-    private void Start()
+    public class DisableCollidersOnDeath : MonoBehaviour
     {
-        if (!damageable)
-            TryGetComponent(out damageable);
-        if (damageable)
-            damageable.OnDeath += DisableColliders;
-    }
-    public void DisableColliders()
-    {
-        foreach (Collider collider in colliders)
-            collider.enabled = false;
+        public Collider[] colliders;
+        public Damageable damageable;
+        private void Start()
+        {
+            if (!damageable)
+                TryGetComponent(out damageable);
+            if (damageable)
+                damageable.OnDeath += DisableColliders;
+        }
+        public void DisableColliders()
+        {
+            foreach (Collider collider in colliders)
+                collider.enabled = false;
+        }
     }
 }

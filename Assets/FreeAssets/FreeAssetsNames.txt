@@ -23,4 +23,5 @@ Books, Scrolls and Other Things (HDRP, URP, Standard) by Vergis
 
 Particles:
 War FX by Jean Moreno
+Particle Shaders Vol. 1 by Michal Piatek
 

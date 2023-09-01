@@ -383,7 +383,8 @@ GameObject:
   - component: {fileID: 2028816773438981986}
   - component: {fileID: 2028816773438981987}
   - component: {fileID: 2028816773438981996}
-  - component: {fileID: 5779815279807567639}
+  - component: {fileID: 8822276923156000597}
+  - component: {fileID: 7202326707254705065}
   m_Layer: 13
   m_Name: Hand
   m_TagString: Untagged
@@ -404,6 +405,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1994381490849886082}
+  - {fileID: 6942115003467666923}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -11.089, z: 0}
@@ -433,12 +435,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7a28b41c94955540baee19749b550eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PauseSourcesInGameMenu: 1
   OnTakeDamageSounds:
   - name: TakeDamage1
     clip: {fileID: 8300000, guid: df430d8510df4b743a4c6889fc413b33, type: 3}
     volume: 0.7
     pitch: 1
     loop: 0
+    audioKind: 0
     source: {fileID: 0}
   OnDeathSounds:
   - name: OnDeath1
@@ -446,6 +450,7 @@ MonoBehaviour:
     volume: 0.8
     pitch: 0.5
     loop: 0
+    audioKind: 0
     source: {fileID: 0}
   OnTakeDamageAudioSource: {fileID: 2028816773438981905}
   OnDeathAudioSource: {fileID: 2028816773438981906}
@@ -744,6 +749,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Health: 100
+  OriginalHealth: 0
   Animator: {fileID: 2028816773438981987}
   Player: {fileID: 0}
   Movement: {fileID: 2028816773438981919}
@@ -766,7 +772,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ragdollEnabler: {fileID: 2028816773438981911}
   RagdollTime: 1
-  FadeOutDelay: 4
+  FadeOutDelay: 28
   FadeOutSpeed: 0.01
 --- !u!114 &2028816773438981917
 MonoBehaviour:
@@ -862,10 +868,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ed39d6bf90838419ff43908d7cdf8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PauseSourcesInGameMenu: 1
   surfaceEnemyManager: {fileID: 2028816773438981914}
   distanceBetweenSteps: 0.56
   Agent: {fileID: 2028816773438981990}
   audioSource: {fileID: 2028816773438981915}
+  audioKind: 0
   minVolume: 0.3
   maxVolume: 0.5
   landVolume: 0.6
@@ -1250,18 +1258,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19129016c68a2e24f897631a987a073f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PauseSourcesInGameMenu: 0
   sounds:
   - name: Jump
     clip: {fileID: 8300000, guid: f4fd036d35e14ec4b99c55d46fd91e2e, type: 3}
     volume: 1
     pitch: 1
     loop: 0
+    audioKind: 0
     source: {fileID: 0}
   - name: Walk
     clip: {fileID: 8300000, guid: cd0e5b7bea1c0b04a935d01b07d5468d, type: 3}
     volume: 0.8
     pitch: 1.57
     loop: 0
+    audioKind: 0
     source: {fileID: 0}
 --- !u!114 &2028816773438981985
 MonoBehaviour:
@@ -1287,7 +1298,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595dcbd84fd00b4449bfca19497614a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PauseSourcesInGameMenu: 1
   audioSource: {fileID: 2028816773438981988}
+  audioType: 0
 --- !u!95 &2028816773438981987
 Animator:
   serializedVersion: 5
@@ -1325,7 +1338,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 36
   m_CollisionDetection: 0
---- !u!114 &5779815279807567639
+--- !u!114 &8822276923156000597
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1334,10 +1347,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 2028816773438981998}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8482ed417fb12f46ad7b5f29accccee, type: 3}
+  m_Script: {fileID: 11500000, guid: 4b0ba918cef87544e9a0c9f58e79c5d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Chance: 100
+  chance: 100
+  IsConnectedToSupply: 0
+--- !u!114 &7202326707254705065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2028816773438981998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa5c845a7e77777448bcf3a8f185387d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damageable: {fileID: 2028816773438981907}
+  BloodstainPrefab: {fileID: 1501922026485074418, guid: bf68cbae391ffe846ac90223d52d03bb, type: 3}
+  BloodstainSize: {x: 3, y: 1, z: 3.1}
+  OriginOfRay: {fileID: 6942115003467666923}
+  ParentOfBloodstain: {fileID: 0}
+  WhatIsRayCastIgnore:
+    serializedVersion: 2
+    m_Bits: 1568694
+  MaxDistance: 10
 --- !u!1 &2028816774616304098
 GameObject:
   m_ObjectHideFlags: 0
@@ -1683,6 +1718,37 @@ Transform:
   m_Father: {fileID: 6703219744148775899}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 16.075727, y: 16.992857, z: -7.113136}
+--- !u!1 &4006977117618404462
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6942115003467666923}
+  m_Layer: 13
+  m_Name: BloodstainOrigin
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6942115003467666923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4006977117618404462}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.036, y: 0, z: -0.383}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2028816773438981997}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4133588164492261778
 GameObject:
   m_ObjectHideFlags: 0

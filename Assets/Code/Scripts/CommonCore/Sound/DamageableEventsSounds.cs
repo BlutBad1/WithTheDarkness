@@ -1,10 +1,9 @@
-using System.Collections;
 using UnityEngine;
 
 namespace SoundNS
 {
     [RequireComponent(typeof(Damageable))]
-    public class DamageableEventsSounds : SoundSetup
+    public class DamageableEventsSounds : AudioSetup
     {
         public Sound[] OnTakeDamageSounds;
         public Sound[] OnDeathSounds;
@@ -21,6 +20,8 @@ namespace SoundNS
                 s.source = OnTakeDamageAudioSource;
             foreach (Sound s in OnDeathSounds)
                 s.source = OnDeathAudioSource;
+            availableSources.Add(new AudioObject(OnTakeDamageAudioSource, OnTakeDamageAudioSource.volume, SettingsNS.AudioSettings.AudioKind.Sound));
+            availableSources.Add(new AudioObject(OnDeathAudioSource, OnDeathAudioSource.volume, SettingsNS.AudioSettings.AudioKind.Sound));
         }
         void Start()
         {
@@ -32,7 +33,9 @@ namespace SoundNS
         {
             Sound s = Collection[UnityEngine.Random.Range(0, Collection.Length)];
             s.source.clip = s.clip;
-            Sounds.Add(s);
+            AudioObject audioObject = availableSources.Find(x => x.AudioSource == s.source);
+            audioObject.ChangeStartedVolume(s.volume);
+            audioObject.AudioType = s.audioKind;
             s.source.volume = s.volume * SettingsNS.AudioSettings.GetVolumeOfType(s.audioKind);
             s.source.volume = s.source.volume + UnityEngine.Random.Range(-0.2f, 0.2f);
             s.source.pitch = s.pitch + UnityEngine.Random.Range(-0.1f, 0.1f); ;
@@ -46,24 +49,22 @@ namespace SoundNS
                 return;
             }
             if (!s.source.isPlaying)
-            {
                 s.source.Play();
-                StartCoroutine(DeleteSoundAfterPlaying(s));
-            }
+            // StartCoroutine(DeleteSoundAfterPlaying(s));
         }
-        IEnumerator DeleteSoundAfterPlaying(Sound s)
-        {
-            while (s.source.isPlaying)
-                yield return null;
-            Sounds.Remove(s);
-        }
-        private void OnDisable()
-        {
-            if (OnTakeDamageAudioSource.clip)
-                Sounds.Remove(Sounds.Find(x => x.clip == OnTakeDamageAudioSource.clip));
-            if (OnDeathAudioSource.clip)
-                Sounds.Remove(Sounds.Find(x => x.clip == OnDeathAudioSource.clip));
-        }
+        //IEnumerator DeleteSoundAfterPlaying(Sound s)
+        //{
+        //    while (s.source.isPlaying)
+        //        yield return null;
+        //    Sounds.Remove(s);
+        //}
+        //private void OnDisable()
+        //{
+        //    if (OnTakeDamageAudioSource.clip)
+        //        Sounds.Remove(Sounds.Find(x => x.clip == OnTakeDamageAudioSource.clip));
+        //    if (OnDeathAudioSource.clip)
+        //        Sounds.Remove(Sounds.Find(x => x.clip == OnDeathAudioSource.clip));
+        //}
         private void OnTakeDamage(float damage, float force, Vector3 hit)
         {
             if (OnTakeDamageSounds.Length != 0)

@@ -6,7 +6,7 @@ namespace MyConstants
         public const string PLAYER = "Player";
         public const string EVENT_SYSTEM = "EventSystem";
         public const string MAIN_CAMERA_PATH = "Player/MainCamera";
-        public const string MAIN_AUDIOMANAGER = "MainAudioManager";
+        public const string IMPORTANT_SOUNDS = "ImportantSounds";
         public const string POOLABLE_OBJECTS = "PoolableObjects";
         public const string WEAPON_HOLDER = "WeaponHolder";
         public const string PIVOT_MAIN_LIGHT = "PivotSpotLight(MainLight)";
@@ -16,6 +16,7 @@ namespace MyConstants
     {
         public const string ENCRYPTION_CODE_WORD = "dark";
         public const string SETTINGS_DATA_PATH = "settings";
+        public const string PROGRESS_DATA_PATH = "save";
     }
     public static class UIConstants
     {
@@ -42,7 +43,6 @@ namespace MyConstants
     {
         public const string MAPS = "Maps";
         public const string ENTRY_TO_LOCATION = "Triggers/EntryToLocation";
-
     }
     public static class EnironmentConstants
     {
@@ -74,9 +74,9 @@ namespace MyConstants
     {
         public enum AvailableScenes
         {
-            MAIN_MENU = 0, LEVEL1, LOADING, TEST2, GAMEPLAY
+            MAIN_MENU = 0, LOADING = 1, House_Breakpoint = 2, LEVEL1 = 3, TEST2, GAMEPLAY
         }
-        public const string SCENE_MANAGER = "SceneManager";
+        public const string PROGRESS_MANAGER = "ProgressManager";
         public const string LOADING = "Loading";
         public const string GAMEPLAY = "Gameplay";
         public const string MAIN_MENU = "MainMenu";

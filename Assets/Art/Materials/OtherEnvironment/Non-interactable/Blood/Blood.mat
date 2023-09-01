@@ -16,7 +16,7 @@ Material:
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 3000
+  m_CustomRenderQueue: 3049
   stringTagMap:
     AlphaDepth: true
     IGNOREPROJECTOR: true
@@ -64,7 +64,7 @@ Material:
     - _MainTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
+        m_Offset: {x: -0.01, y: 0.01}
     - _MaskTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -114,11 +114,11 @@ Material:
     - _Mode: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.02
-    - _RenderQueue: 0
-    - _RimPower: 2
+    - _RenderQueue: 49
+    - _RimPower: 10.66
     - _Saturation: 1
     - _ScrollSpeed: 2
-    - _ShadowAlphaCutoff: 0
+    - _ShadowAlphaCutoff: 0.039
     - _Shininess: 0.078125
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1

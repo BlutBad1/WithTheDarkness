@@ -17940,6 +17940,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19129016c68a2e24f897631a987a073f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PauseSourcesInGameMenu: 0
   sounds:
   - name: button_hover_regular
     clip: {fileID: 8300000, guid: 2ab6e81856cba8b44adfa36d5d3df248, type: 3}
@@ -20097,6 +20098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f47546bfb2ddf64286da7c8dd5223b1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PauseSourcesInGameMenu: 0
   SoundsEffects:
   - name: settings_volume_sound_test
     clip: {fileID: 8300000, guid: 5530292798e895b46973d2dda4595977, type: 3}

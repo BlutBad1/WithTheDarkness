@@ -40,9 +40,9 @@ namespace Weapon.ShootingWeaponNS.MainScripts
             shootRaycast = player.AddComponent<ShootRaycastTestClass>();
             thisGun.AddComponent<Animator>();
             thisGunData = new GunData();
-            thisGunData.maxDistance = 1000f;
-            thisGunData.force = 1f;
-            thisGunData.damage = 15;
+            thisGunData.MaxDistance = 1000f;
+            thisGunData.Force = 1f;
+            thisGunData.Damage = 15;
             shootingWeapon.gunData = thisGunData;
             shootingWeapon.gun = thisGun;
             damageable = enemy.AddComponent<Damageable>();

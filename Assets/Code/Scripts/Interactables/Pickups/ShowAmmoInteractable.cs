@@ -9,7 +9,7 @@ namespace InteractableNS.Pickups
     {
         public string WeaponName;
         ShowAmmo showAmmo;
-        protected override void Start()
+        protected new void Start()
         {
             base.Start();
             showAmmo = GameObject.Find(CommonConstants.WEAPON_HOLDER).GetComponent<ShowAmmo>();

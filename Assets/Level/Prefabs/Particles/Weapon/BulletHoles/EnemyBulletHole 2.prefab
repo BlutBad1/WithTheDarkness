@@ -48,7 +48,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDecals: 10
   decalsMinSize: 0.2
-  decalsMaxSize: 0.3
+  decalsMaxSize: 0.4
 --- !u!198 &2432724108687348028
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -1498,7 +1498,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: -1953372604, guid: cafc5a1db97242e47b125b0d6d0b9a60, type: 3}
+    - sprite: {fileID: 1710328626, guid: 2c14e625f8dc5f546aa7aea6854999f3, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -4797,7 +4797,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_RenderMode: 4
   m_MeshDistribution: 1
   m_SortMode: 0
@@ -4876,7 +4876,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDecals: 10
   decalsMinSize: 0.2
-  decalsMaxSize: 0.3
+  decalsMaxSize: 0.4
 --- !u!198 &2432724109809221072
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -6326,7 +6326,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 1820292572, guid: cafc5a1db97242e47b125b0d6d0b9a60, type: 3}
+    - sprite: {fileID: 174027217, guid: 2c14e625f8dc5f546aa7aea6854999f3, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -9625,7 +9625,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_RenderMode: 4
   m_MeshDistribution: 1
   m_SortMode: 0
@@ -9704,7 +9704,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDecals: 10
   decalsMinSize: 0.2
-  decalsMaxSize: 0.3
+  decalsMaxSize: 0.4
 --- !u!198 &2432724110344631335
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -11154,7 +11154,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 995457291, guid: cafc5a1db97242e47b125b0d6d0b9a60, type: 3}
+    - sprite: {fileID: 1824153329, guid: 2c14e625f8dc5f546aa7aea6854999f3, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -14453,7 +14453,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_RenderMode: 4
   m_MeshDistribution: 1
   m_SortMode: 0
@@ -14532,7 +14532,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxDecals: 10
   decalsMinSize: 0.2
-  decalsMaxSize: 0.3
+  decalsMaxSize: 0.4
 --- !u!198 &2432724110476270189
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -15982,7 +15982,7 @@ ParticleSystem:
     uvChannelMask: -1
     rowMode: 1
     sprites:
-    - sprite: {fileID: 1820292572, guid: cafc5a1db97242e47b125b0d6d0b9a60, type: 3}
+    - sprite: {fileID: 303758805, guid: 2c14e625f8dc5f546aa7aea6854999f3, type: 3}
     flipU: 0
     flipV: 0
   VelocityModule:
@@ -19281,7 +19281,7 @@ ParticleSystemRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_RenderMode: 4
   m_MeshDistribution: 1
   m_SortMode: 0
@@ -24221,7 +24221,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0, b: 0, a: 0.78431374}
+      maxColor: {r: 0.8490566, g: 0.06007475, b: 0.06007475, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 0.7137255, b: 0.3882353, a: 1}
@@ -28989,7 +28989,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 0, b: 0, a: 1}
+      maxColor: {r: 0.6603774, g: 0.04049486, b: 0.04049486, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 0.7137255, b: 0.3882353, a: 1}
@@ -29698,8 +29698,8 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 3
-        scalar: 20
-        minScalar: 10
+        scalar: 13
+        minScalar: 8
         maxCurve:
           serializedVersion: 2
           m_Curve:

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace SoundNS
 {
-    public class AudioManager : SoundSetup
+    public class AudioManager : AudioSetup
     {
         public AudioManager(Sound[] sounds) =>
             this.sounds = sounds;
@@ -27,7 +27,7 @@ namespace SoundNS
                     s.source.pitch = s.pitch;
                     s.source.loop = s.loop;
                     s.source.playOnAwake = false;
-                    Sounds.Add(s);
+                    availableSources.Add(new AudioObject(s.source, s.volume, s.audioKind));
                     s.source.volume = s.volume * SettingsNS.AudioSettings.GetVolumeOfType(s.audioKind);
                 }
             }
@@ -96,7 +96,7 @@ namespace SoundNS
             s.source.loop = s.loop;
             s.source.playOnAwake = false;
             s.source.Play();
-            Sounds.Add(s);
+            availableSources.Add(new AudioObject(s.source, s.volume, s.audioKind));
             s.source.volume = s.volume * SettingsNS.AudioSettings.GetVolumeOfType(s.audioKind);
             StartCoroutine(DeleteAudioSourceAfterPlaying(s.source));
             return s.source;
@@ -105,7 +105,7 @@ namespace SoundNS
         {
             while (source != null && source.isPlaying)
                 yield return null;
-            Sounds.Remove(Sounds.Find(x => x.source == source));
+            availableSources.Remove(availableSources.Find(x => x.AudioSource == source));
             Destroy(source);
         }
         public void PlayAFewTimes(string[] names, int times) =>

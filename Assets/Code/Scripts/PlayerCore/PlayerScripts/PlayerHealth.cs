@@ -5,43 +5,47 @@ namespace PlayerScriptsNS
 {
     public class PlayerHealth : Damageable
     {
-        public float HealthRegenPerCycle = 1;
+        public float HealthRegenPerCycle = 1f;
         public float TimeAfterHitToRegen = 3f;
-        public float HeatlRegenCycleTime = 0.1f;
+        public float HeatlhRegenCycleTime = 0.1f;
+        public float InvincibilityTime = 1f;
         float timeSinceLastHit;
-        public Coroutine CurrentRegenCoroutine;
-        bool HasRegenStarted = false;
+        Coroutine CurrentRegenCoroutine;
+        [HideInInspector]
+        public bool HasRegenStarted = false;
         private void Update()
         {
             timeSinceLastHit += Time.deltaTime;
-            if (Health < 100 && timeSinceLastHit > TimeAfterHitToRegen && !HasRegenStarted)
-                RegenStart();
+            if (Health < OriginalHealth && timeSinceLastHit > TimeAfterHitToRegen && !HasRegenStarted)
+                StartRegen();
+            if (Health <= 0 && !IsDead)
+                IsDead = true;
         }
         public override void TakeDamage(float damage, float force, Vector3 hit)
         {
-            TakeDamage(damage);
-            OnTakeDamage?.Invoke(damage, force, hit);
+            if (timeSinceLastHit > InvincibilityTime)
+                base.TakeDamage(damage, force, hit);
         }
         public override void TakeDamage(float damage)
         {
-            if (CurrentRegenCoroutine != null)
-                StopCoroutine(CurrentRegenCoroutine);
-            timeSinceLastHit = 0f;
-            HasRegenStarted = false;
-            Health -= damage;
-            if (Health <= 0)
+            if (timeSinceLastHit > InvincibilityTime)
             {
-                OnDeath?.Invoke();
-                OnDeath = null;
-            }
-            else
-            {
+                StopRegen();
+                timeSinceLastHit = 0f;
+                base.TakeDamage(damage);
 #if UNITY_EDITOR
-                Debug.Log($"Damage {damage}");
+                if (Health > 0)
+                    Debug.Log($"Damage {damage}");
 #endif
             }
         }
-        public void RegenStart()
+        public void StopRegen()
+        {
+            if (CurrentRegenCoroutine != null)
+                StopCoroutine(CurrentRegenCoroutine);
+            HasRegenStarted = false;
+        }
+        public void StartRegen()
         {
             HasRegenStarted = true;
             if (CurrentRegenCoroutine != null)
@@ -50,13 +54,13 @@ namespace PlayerScriptsNS
         }
         IEnumerator RegenStartCoroutine()
         {
-            while (Health < 100)
+            while (Health < OriginalHealth)
             {
                 Health += HealthRegenPerCycle;
-                yield return new WaitForSeconds(HeatlRegenCycleTime);
+                yield return new WaitForSeconds(HeatlhRegenCycleTime);
             }
-            if (Health > 100)
-                Health = 0;
+            if (Health > OriginalHealth)
+                Health = OriginalHealth;
             HasRegenStarted = false;
         }
     }

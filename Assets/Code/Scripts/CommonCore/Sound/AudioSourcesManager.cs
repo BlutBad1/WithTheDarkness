@@ -6,27 +6,33 @@ using static SettingsNS.AudioSettings;
 namespace SoundNS
 {
     [System.Serializable]
-    public class AudioSourceObject 
+    public class AudioSourceObject
     {
         public string Name;
-        public AudioSource AudioSource;
+        [SerializeField]
+        private AudioSource audioSource;
+        public AudioSource AudioSource
+        {
+            get { return audioSource; }
+            set { audioSource = value; AudioObject.ChangeAudioSource(AudioSource); }
+        }
+
         public AudioKind AudioKind;
-        //public override AudioKind AudioType { get => AudioKind; set => AudioKind = value; }
-        //private new void Awake()
-        //{
-        //    base.Awake();
-        //    availableSources.Add(AudioSource, AudioSource.volume);
-        //}
-        //public void ReplaceKey(AudioSource audioSource)
-        //{
-        //    availableSources.Remove(AudioSource);
-        //    AudioSource = audioSource;
-        //    availableSources.Add(AudioSource, AudioSource.volume);
-        //}
+        [HideInInspector]
+        public AudioObject AudioObject;
     }
-    public class AudioSourcesManager : MonoBehaviour
+    public class AudioSourcesManager : AudioSetup
     {
         public AudioSourceObject[] AudioSourceObjects;
+        private new void Awake()
+        {
+            base.Awake();
+            foreach (var audioSourceObject in AudioSourceObjects)
+            {
+                availableSources.Add(audioSourceObject.AudioObject = new AudioObject(audioSourceObject.AudioSource,
+                    audioSourceObject.AudioSource.volume, audioSourceObject.AudioKind));
+            }
+        }
         public void PlayAudioSource(string AudioSourceObjectName)
         {
             AudioSourceObject audioSourceObject = Array.Find(AudioSourceObjects, clip => clip.Name == AudioSourceObjectName);
@@ -78,11 +84,11 @@ namespace SoundNS
         }
         public void CreateNewAudioSourceAndPlay(AudioSourceObject audioSourceObject)
         {
-            AudioSource newAudioSource = gameObject.AddComponent<AudioSource>();
+            AudioSource newAudioSource = audioSourceObject.AudioSource.gameObject.AddComponent<AudioSource>();
             CopyAudioSourceSettings(audioSourceObject.AudioSource, newAudioSource);
             if (audioSourceObject.AudioSource)
                 StartCoroutine(DeleteAudioSourceAfterPlaying(audioSourceObject.AudioSource));
-       //     audioSourceObject.ReplaceKey(newAudioSource);
+            audioSourceObject.AudioSource = newAudioSource;
             audioSourceObject.AudioSource.Play();
         }
         public void CopyAudioSourceSettings(AudioSource original, AudioSource destination)
@@ -93,7 +99,6 @@ namespace SoundNS
             destination.clip = original.clip;
             destination.spread = original.spread;
             destination.dopplerLevel = original.dopplerLevel;
-            destination.gamepadSpeakerOutputType = original.gamepadSpeakerOutputType;
             destination.ignoreListenerPause = original.ignoreListenerPause;
             destination.ignoreListenerVolume = original.ignoreListenerVolume;
             destination.loop = original.loop;

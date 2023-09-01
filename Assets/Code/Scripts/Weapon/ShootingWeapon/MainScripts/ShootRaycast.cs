@@ -5,7 +5,7 @@ namespace WeaponNS.ShootingWeaponNS
     [RequireComponent(typeof(ShootingWeapon))]
     public class ShootRaycast : MonoBehaviour
     {
-        [SerializeField, Tooltip("Spread coeff")]
+        [Tooltip("Spread coeff")]
         float maxDeviation;
         [SerializeField, Tooltip("if not set, will be the main camera")]
         public Camera CameraOrigin;
@@ -22,6 +22,7 @@ namespace WeaponNS.ShootingWeaponNS
                 CameraOrigin = Camera.main;
             GetComponent<ShootingWeapon>().OnShootRaycast = null;
             GetComponent<ShootingWeapon>().OnShootRaycast += OnShootRaycast;
+            maxDeviation = GetComponent<ShootingWeapon>().gunData.MaxDeviation;
             if (!bulletHolesDataBase)
                 bulletHolesDataBase = GameObject.Find(MainShootingWeaponConstants.BULLET_HOLES_DATA_BASE).GetComponent<BulletHolesDataBase>();
         }
@@ -33,11 +34,10 @@ namespace WeaponNS.ShootingWeaponNS
             forwardVector = Quaternion.AngleAxis(deviation, Vector3.up) * forwardVector;
             forwardVector = Quaternion.AngleAxis(angle, Vector3.forward) * forwardVector;
             forwardVector = CameraOrigin.transform.rotation * forwardVector;
-            if (Physics.Raycast(CameraOrigin.transform.position, forwardVector, out RaycastHit hitInfo, gunData.maxDistance, ~WhatIsRayCastIgnore))
+            if (Physics.Raycast(CameraOrigin.transform.position, forwardVector, out RaycastHit hitInfo, gunData.MaxDistance, ~WhatIsRayCastIgnore))
             {
-                //беремо з об'єкта по якому попали компонент IDamageable, та визиваємо у нього метод TakeDamage
                 hitInfo.transform.TryGetComponent(out IDamageable damageable);
-                damageable?.TakeDamage(gunData.damage, gunData.force, hitInfo.point);
+                damageable?.TakeDamage(gunData.Damage, gunData.Force, hitInfo.point);
                 bulletHolesDataBase.MakeBulletHoleByLayer(hitInfo);
             }
         }

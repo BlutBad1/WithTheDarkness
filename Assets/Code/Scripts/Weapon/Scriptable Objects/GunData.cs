@@ -4,26 +4,20 @@ using UnityEngine;
 
 namespace WeaponNS.ShootingWeaponNS
 {
-
     [CreateAssetMenu(fileName = "Gun", menuName = "Weapon/Gun")]
-    public class GunData : ScriptableObject
+    public class GunData : WeaponData
     {
-        [Header("Info")]
-        public new string name;
         [Header("Shooting")]
-        public int damage;
-        public float maxDistance;
-        public float firingTime;
-        public float force = 1f;
+        public float MaxDistance;
+        public float FiringTime;
+        public float MaxDeviation;
         [Header("Reloading")]
-        public int currentAmmo;
-        public int magSize;
-        public int reserveAmmo;
-        public float fireRate;
-        public float reloadTime;
-
+        public int CurrentAmmo;
+        public int MagSize;
+        public int ReserveAmmo;
+        public float FireRate;
+        public float ReloadTime;
         [HideInInspector]
-        public bool reloading;
-
+        public bool Reloading;
     }
 }

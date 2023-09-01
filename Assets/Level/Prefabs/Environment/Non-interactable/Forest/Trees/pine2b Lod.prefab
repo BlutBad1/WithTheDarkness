@@ -10,12 +10,12 @@ GameObject:
   m_Component:
   - component: {fileID: 8344577785547951516}
   - component: {fileID: 3386536514009077785}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pine2b Lod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &8344577785547951516
 Transform:
@@ -62,6 +62,14 @@ PrefabInstance:
     - target: {fileID: 6976740237208946497, guid: 441cbb625bf1e5b41b33de75818f1da7, type: 3}
       propertyPath: m_Name
       value: LOD00
+      objectReference: {fileID: 0}
+    - target: {fileID: 6976740237208946497, guid: 441cbb625bf1e5b41b33de75818f1da7, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6976740237208946497, guid: 441cbb625bf1e5b41b33de75818f1da7, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     - target: {fileID: 6976740237208984417, guid: 441cbb625bf1e5b41b33de75818f1da7, type: 3}
       propertyPath: m_RootOrder

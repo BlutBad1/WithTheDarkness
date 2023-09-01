@@ -4,7 +4,7 @@ using static SettingsNS.AudioSettings;
 
 namespace SoundNS
 {
-    public class SoundsAudioSettings : SoundSetup
+    public class SoundsAudioSettings : AudioSetup
     {
         public Sound[] SoundsEffects;
         AudioSource[] audioSources = new AudioSource[Enum.GetNames(typeof(AudioKind)).Length];
@@ -25,7 +25,7 @@ namespace SoundNS
                     s.source.pitch = s.pitch;
                     s.source.loop = s.loop;
                     s.source.playOnAwake = false;
-                    Sounds.Add(s);
+                    availableSources.Add(new AudioObject(s.source, s.volume, s.audioKind));
                     s.source.volume = s.volume * SettingsNS.AudioSettings.GetVolumeOfType(s.audioKind);
                 }
             }
@@ -33,7 +33,6 @@ namespace SoundNS
         }
         public void PlayRandomSound(AudioKind audioKind)
         {
-            VolumeChange();
             Sound[] s = Array.FindAll(SoundsEffects, x => x.audioKind == audioKind);
             audioManager?.PlayOnceAtTime(s[UnityEngine.Random.Range(0, s.Length)]);
         }

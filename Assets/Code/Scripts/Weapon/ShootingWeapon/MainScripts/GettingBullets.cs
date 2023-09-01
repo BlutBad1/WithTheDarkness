@@ -12,7 +12,7 @@ namespace WeaponNS.ShootingWeaponNS
 
         public void AddBullets(int amount)
         {
-            revolver.reserveAmmo += amount;
+            revolver.ReserveAmmo += amount;
 
 
         }

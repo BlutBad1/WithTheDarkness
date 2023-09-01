@@ -223,8 +223,9 @@ GameObject:
   - component: {fileID: 8063800875418045889}
   - component: {fileID: 8063800875417686558}
   - component: {fileID: 8063800875417686557}
-  - component: {fileID: 8063800875417686556}
+  - component: {fileID: 8208415781579473694}
   - component: {fileID: 2352196830950671773}
+  - component: {fileID: 590861338196428627}
   m_Layer: 6
   m_Name: OilCan4
   m_TagString: Untagged
@@ -356,7 +357,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &8063800875417686556
+--- !u!114 &8208415781579473694
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -365,10 +366,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8063800875417686499}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b0ba918cef87544e9a0c9f58e79c5d8, type: 3}
+  m_Script: {fileID: 11500000, guid: b1ee8f977cdd08a44b28e28b2b4755a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chance: 100
+  chance: 50
+  IsConnectedToSupply: 1
 --- !u!114 &2352196830950671773
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,4 +383,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 595dcbd84fd00b4449bfca19497614a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PauseSourcesInGameMenu: 1
   audioSource: {fileID: 8063800875417686557}
+  audioType: 0
+--- !u!114 &590861338196428627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8063800875417686499}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: acfcccca9889aff4e843e7e17028aca6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshRenderers:
+  - {fileID: 8063800875419946785}
+  referenceMat: {fileID: 2100000, guid: 57854568d07548d4081eed2a7fbee7a0, type: 2}
+  MinDistance: 5
+  MaxIntensity: 1
+  MinIntensity: 0
+  IntensityUpdateDelay: 0.05
+  LevelOfLowOil: 15
+  MinDistanceOnLowOil: 20

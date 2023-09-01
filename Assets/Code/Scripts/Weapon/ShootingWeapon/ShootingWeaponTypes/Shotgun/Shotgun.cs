@@ -14,25 +14,25 @@ namespace WeaponNS.ShootingWeaponNS.ShotgunNS
         }
         protected override IEnumerator Reload()
         {
-            gunData.reloading = true;
-            difference = gunData.reserveAmmo >= (gunData.magSize - gunData.currentAmmo) ? gunData.magSize - gunData.currentAmmo : gunData.reserveAmmo;
-            gunData.reserveAmmo -= difference;
-            gunData.currentAmmo += difference;
+            gunData.Reloading = true;
+            difference = gunData.ReserveAmmo >= (gunData.MagSize - gunData.CurrentAmmo) ? gunData.MagSize - gunData.CurrentAmmo : gunData.ReserveAmmo;
+            gunData.ReserveAmmo -= difference;
+            gunData.CurrentAmmo += difference;
             ReloadAnim();
             yield return new WaitForSeconds(0.1f);
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName(MainShootingWeaponConstants.IDLE) || animator.GetBool(MainShootingWeaponConstants.RELOADING))
                 yield return new WaitForSeconds(0.05f);
             yield return new WaitForSeconds(0.2f);
-            gunData.reloading = false;
+            gunData.Reloading = false;
         }
         public override void AltFire()
         {
             if (CanShoot())
             {
-                if (gunData.currentAmmo >= 2)
+                if (gunData.CurrentAmmo >= 2)
                 {
                     animator?.SetTrigger(MainShootingWeaponConstants.ALT_FIRING);
-                    gunData.currentAmmo -= 2;
+                    gunData.CurrentAmmo -= 2;
                     timeSinceLastShot = 0;
                     return;
                 }

@@ -9,6 +9,10 @@ namespace WeaponNS.ShootingWeaponNS
     [RequireComponent(typeof(WeaponManagement.WeaponManager))]
     public class ShowAmmo : MonoBehaviour
     {
+        public float DisapperingSpeed = 0.5f;
+        [Tooltip("Delay for showing ammo on reloading input.")]
+        public float DelayTime = 1f;
+        float timeSinceLastReloadInput = 0f;
         WeaponManager weaponManager;
         MessagePrint messagePrint;
         private void Awake()
@@ -20,13 +24,25 @@ namespace WeaponNS.ShootingWeaponNS
         private void Start()
         {
             weaponManager.OnWeaponChange += ShowCurrentWeaponAmmo;
-            //PlayerShoot.reloadInput += ShowAmmoLeft;
+            PlayerShoot.reloadInput += ShowAmmoOnReloadingInput;
             ShowCurrentWeaponAmmo();
         }
         private void OnDisable()
         {
             weaponManager.OnWeaponChange -= ShowCurrentWeaponAmmo;
-            //PlayerShoot.reloadInput -= ShowAmmoLeft;
+            PlayerShoot.reloadInput -= ShowAmmoOnReloadingInput;
+        }
+        private void Update()
+        {
+            timeSinceLastReloadInput += Time.deltaTime;
+        }
+        private void ShowAmmoOnReloadingInput()
+        {
+            if (timeSinceLastReloadInput >= DelayTime)
+            {
+                ShowCurrentWeaponAmmo();
+                timeSinceLastReloadInput = 0f;
+            }
         }
         public void ShowCurrentWeaponAmmo()
         {
@@ -37,7 +53,7 @@ namespace WeaponNS.ShootingWeaponNS
             ShowAmmoLeftOfWeapon(nameOfWeapon, 0.5f);
         public void ShowAmmoLeftOfWeapon(string nameOfWeapon, float disapperingSpeed)
         {
-            int index = Array.FindIndex(weaponManager.Weapons, x => x.Name == nameOfWeapon);
+            int index = Array.FindIndex(weaponManager.Weapons, x => x.WeaponData.Name == nameOfWeapon);
             if (index != -1)
                 ShowAmmoLeftOfWeapon(index, disapperingSpeed);
 #if UNITY_EDITOR
@@ -46,14 +62,14 @@ namespace WeaponNS.ShootingWeaponNS
 #endif
         }
         public void ShowAmmoLeftOfWeapon(int indexOfWeapon) =>
-            ShowAmmoLeftOfWeapon(indexOfWeapon, 0.5f);
+            ShowAmmoLeftOfWeapon(indexOfWeapon, DisapperingSpeed);
         public void ShowAmmoLeftOfWeapon(int indexOfWeapon, float disapperingSpeed)
         {
             if (weaponManager.Weapons[indexOfWeapon].WeaponGameObject.TryGetComponent(out ShootingWeapon shootingWeapon))
             {
                 // int ammo = shootingWeapon.gunData.currentAmmo + shootingWeapon.gunData.reserveAmmo;
-                string currentAmmo = shootingWeapon.gunData.currentAmmo >= 10 ? shootingWeapon.gunData.currentAmmo.ToString() : "0" + shootingWeapon.gunData.currentAmmo.ToString();
-                string reserveAmmo = shootingWeapon.gunData.reserveAmmo >= 10 ? shootingWeapon.gunData.reserveAmmo.ToString() : "0" + shootingWeapon.gunData.reserveAmmo.ToString();
+                string currentAmmo = shootingWeapon.gunData.CurrentAmmo >= 10 ? shootingWeapon.gunData.CurrentAmmo.ToString() : "0" + shootingWeapon.gunData.CurrentAmmo.ToString();
+                string reserveAmmo = shootingWeapon.gunData.ReserveAmmo >= 10 ? shootingWeapon.gunData.ReserveAmmo.ToString() : "0" + shootingWeapon.gunData.ReserveAmmo.ToString();
                 messagePrint.PrintMessage($"{currentAmmo} | {reserveAmmo}", disapperingSpeed, HUDConstants.AMMO_LEFT);
             }
         }

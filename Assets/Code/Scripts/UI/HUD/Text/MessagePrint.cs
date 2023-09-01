@@ -51,7 +51,7 @@ namespace HudNS
             while (tempAlpha > 0)
             {
                 ShowcaserCoroutine.color = new Color(ShowcaserCoroutine.color.r, ShowcaserCoroutine.color.g, ShowcaserCoroutine.color.b, tempAlpha);
-                if (tempAlpha >= 0.1)
+                if (tempAlpha >= 0.01)
                     tempAlpha -= Time.deltaTime * disapperingSpeed;
                 else
                     tempAlpha = 0;

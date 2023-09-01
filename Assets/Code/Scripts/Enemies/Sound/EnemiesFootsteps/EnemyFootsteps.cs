@@ -1,11 +1,12 @@
 using SoundNS;
 using UnityEngine;
 using UnityEngine.AI;
+using static SettingsNS.AudioSettings;
 
 namespace EnemySoundNS
 {
     [RequireComponent(typeof(NavMeshAgent))]
-    public class EnemyFootsteps : AudioSourceSetup
+    public class EnemyFootsteps : AudioSetup
     {
         [SerializeField] SurfaceEnemyManager surfaceEnemyManager;
         [Tooltip("This is used to determine what distance has to be traveled in order to play the footstep sound.")]
@@ -14,6 +15,7 @@ namespace EnemySoundNS
         [SerializeField] NavMeshAgent Agent;
         [Tooltip("You need an audio source to play a footstep sound.")]
         [SerializeField] AudioSource audioSource;
+        [SerializeField] AudioKind audioKind = AudioKind.Sound;
         // Random volume between this limits
         [SerializeField] float minVolume = 0.3f;
         [SerializeField] float maxVolume = 0.5f;
@@ -41,7 +43,7 @@ namespace EnemySoundNS
             thisTransform = transform;
             string errorMessage = "";
             if (!audioSource) errorMessage = "No audio source assigned in the inspector, footsteps cannot be played";
-            availableSources.Add(audioSource, audioSource.volume);
+            availableSources.Add(new AudioObject(audioSource, audioSource.volume, audioKind));
             if (errorMessage != "")
             {
                 Debug.LogError(errorMessage);
@@ -66,7 +68,7 @@ namespace EnemySoundNS
                 PlayFootstep();
         }
         public void PlayLandSound() =>
-           audioSource.PlayOneShot(surfaceEnemyManager.GetLandsound(currentGroundInfo.collider, currentGroundInfo.point), landVolume * SettingsNS.AudioSettings.GetVolumeOfType(AudioType));
+           audioSource.PlayOneShot(surfaceEnemyManager.GetLandsound(currentGroundInfo.collider, currentGroundInfo.point), landVolume * GetVolumeOfType(audioKind));
         void AdvanceStepCycle(float increment)
         {
             stepCycleProgress += increment;
@@ -81,7 +83,7 @@ namespace EnemySoundNS
             AudioClip randomFootstep = surfaceEnemyManager.GetFootstep(currentGroundInfo.collider, currentGroundInfo.point);
             float randomVolume = Random.Range(minVolume, maxVolume);
             if (randomFootstep)
-                audioSource.PlayOneShot(randomFootstep, randomVolume * SettingsNS.AudioSettings.GetVolumeOfType(AudioType));
+                audioSource.PlayOneShot(randomFootstep, randomVolume * GetVolumeOfType(audioKind));
         }
         void OnDrawGizmos()
         {

@@ -9,6 +9,7 @@
 using PlayerScriptsNS;
 using SoundNS;
 using UnityEngine;
+using static SettingsNS.AudioSettings;
 
 namespace Footsteps
 {
@@ -22,7 +23,7 @@ namespace Footsteps
         RIGIDBODY,
         CHARACTER_CONTROLLER
     }
-    public class CharacterFootsteps : AudioSourceSetup
+    public class CharacterFootsteps : AudioSetup
     {
         [Tooltip("The method of triggering footsteps.")]
         [SerializeField] TriggeredBy triggeredBy;
@@ -34,6 +35,7 @@ namespace Footsteps
         [SerializeField] PlayerMotor characterController;//	[SerializeField] CharacterController characterController;
         [Tooltip("You need an audio source to play a footstep sound.")]
         [SerializeField] AudioSource audioSource;
+        [SerializeField] AudioKind audioKind = AudioKind.Sound;
         // Random volume between this limits
         [SerializeField] float minVolume = 0.3f;
         [SerializeField] float maxVolume = 0.5f;
@@ -65,7 +67,7 @@ namespace Footsteps
             else if (triggeredBy == TriggeredBy.TRAVELED_DISTANCE && !characterRigidbody && !characterController) errorMessage = "Please assign a Rigidbody or CharacterController component in the inspector, footsteps cannot be played";
             else if (!FindObjectOfType<SurfaceManager>()) errorMessage = "Please create a Footstep Database, otherwise footsteps cannot be played, you can create a database" +
                                                                         " by clicking 'FootstepsCreator' in the main menu";
-            availableSources.Add(audioSource, audioSource.volume);
+            availableSources.Add(new AudioObject(audioSource, audioSource.volume, audioKind));
             if (errorMessage != "")
             {
                 Debug.LogError(errorMessage);
@@ -91,7 +93,7 @@ namespace Footsteps
                 PlayFootstep();
         }
         void PlayLandSound() =>
-            audioSource.PlayOneShot(SurfaceManager.singleton.GetLandsound(currentGroundInfo.collider, currentGroundInfo.point), landVolume * SettingsNS.AudioSettings.GetVolumeOfType(AudioType));
+            audioSource.PlayOneShot(SurfaceManager.singleton.GetLandsound(currentGroundInfo.collider, currentGroundInfo.point), landVolume * GetVolumeOfType(audioKind));
         void AdvanceStepCycle(float increment)
         {
             stepCycleProgress += increment;
@@ -106,7 +108,7 @@ namespace Footsteps
             AudioClip randomFootstep = SurfaceManager.singleton.GetFootstep(currentGroundInfo.collider, currentGroundInfo.point);
             float randomVolume = Random.Range(minVolume, maxVolume);
             if (randomFootstep)
-                audioSource.PlayOneShot(randomFootstep, randomVolume * SettingsNS.AudioSettings.GetVolumeOfType(AudioType));
+                audioSource.PlayOneShot(randomFootstep, randomVolume * GetVolumeOfType(audioKind));
         }
         void OnDrawGizmos()
         {

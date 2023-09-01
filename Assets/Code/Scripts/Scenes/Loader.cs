@@ -9,7 +9,14 @@ namespace ScenesManagementNS
     {
         public static LoaderCallback LoaderCallbackInstance;
         private static Action onLoaderCallback;
-
+        public static string NameFromIndex(int BuildIndex)
+        {
+            string path = SceneUtility.GetScenePathByBuildIndex(BuildIndex);
+            int slash = path.LastIndexOf('/');
+            string name = path.Substring(slash + 1);
+            int dot = name.LastIndexOf('.');
+            return name.Substring(0, dot);
+        }
         public static void Load(string scene)
         {
             UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(MyConstants.SceneConstants.LOADING);

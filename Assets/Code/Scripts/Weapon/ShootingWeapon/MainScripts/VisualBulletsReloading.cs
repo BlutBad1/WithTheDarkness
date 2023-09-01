@@ -13,7 +13,7 @@ namespace WeaponNS.ShootingWeaponNS
         {
             foreach (var bullet in bullets)
                 bullet.SetActive(false);
-            for (int i = 0; i < gunData.currentAmmo; i++)
+            for (int i = 0; i < gunData.CurrentAmmo; i++)
                 bullets[i].SetActive(true);
         }
     }

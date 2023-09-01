@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4212088696159403830}
   - component: {fileID: 5998739829697777110}
   - component: {fileID: 3004147207621091876}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: pine1b Lod
   m_TagString: Untagged
   m_Icon: {fileID: 0}

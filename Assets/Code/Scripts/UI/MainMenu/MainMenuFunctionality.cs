@@ -1,3 +1,4 @@
+using DataSaving.SceneSaving;
 using MyConstants;
 using ScenesManagementNS;
 using SoundNS;
@@ -11,11 +12,47 @@ namespace UINS
     public class MainMenuFunctionality : MonoBehaviour
     {
         public AudioManager AudioManager;
+        public GameObject ContinueButton_Normal;
+        public GameObject ContinueButton_Disabled;
+        public WindowsManagement WindowsManagement;
+        public GameObject SureMenu_NewGame;
+        ProgressSaving ProgressSaving;
         private void Start()
         {
             WindowEscape.instance.EnableUI();
+            ProgressSaving = new ProgressSaving();
+            ProgressSaving.LoadProgressData();
+            if (ProgressSaving.DataIsLoaded())
+            {
+                ContinueButton_Normal.SetActive(true);
+                ContinueButton_Disabled.SetActive(false);
+            }
+            else
+            {
+                ContinueButton_Normal.SetActive(false);
+                ContinueButton_Disabled.SetActive(true);
+            }
         }
-        public void ExitTheGame()
+        public void GameContinue()
+        {
+            if (ProgressSaving.DataIsLoaded())
+                LoadScene(ProgressSaving.LoadedScene.SceneName);
+        }
+        public void TryNewGame()
+        {
+            if (!ProgressSaving.DataIsLoaded())
+                StartNewGame();
+            else
+                WindowsManagement.ChangeWindow(SureMenu_NewGame.name);
+        }
+
+        public void StartNewGame()
+        {
+            ProgressSaving.LoadedScene = new ProgressData(Loader.NameFromIndex((int)SceneConstants.AvailableScenes.LEVEL1));
+            ProgressSaving.SaveProgressData();
+            LoadScene(Loader.NameFromIndex((int)SceneConstants.AvailableScenes.LEVEL1));
+        }
+        public void GameExit()
         {
             if (!AudioManager)
                 GameObject.Find(UIConstants.UI_SOUNDS)?.TryGetComponent(out AudioManager);

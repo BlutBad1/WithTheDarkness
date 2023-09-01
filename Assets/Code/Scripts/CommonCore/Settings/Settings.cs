@@ -144,4 +144,17 @@ namespace SettingsNS
             set { ySensitivity = value; }
         }
     }
+
+    public class InGameMenu
+    {
+        public static Action OnGameMenuOpenEvent;
+        public static Action OnGameMenuCloseEvent;
+        private static bool isInGameMenuOpened = false;
+        public static bool IsInGameMenuOpened
+        {
+            get { return isInGameMenuOpened; }
+            set { isInGameMenuOpened = value; }
+        }
+
+    }
 }

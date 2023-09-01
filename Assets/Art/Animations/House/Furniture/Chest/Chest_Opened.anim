@@ -60,7 +60,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.013127036, y: 9.424229, z: -0.07383957}
+        value: {x: 0.029, y: 20.141, z: -0.159}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -118,7 +118,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: {x: 0.0245, y: 0.0659, z: -0.0001}
+        value: {x: 0.0248, y: 0.0659, z: 0.0002}
         inSlope: {x: 0, y: 0, z: 0}
         outSlope: {x: 0, y: 0, z: 0}
         tangentMode: 0
@@ -490,7 +490,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.0245
+        value: 0.0248
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -528,7 +528,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -0.0001
+        value: 0.0002
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -547,7 +547,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.013127036
+        value: 0.029
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -566,7 +566,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 9.424229
+        value: 20.141
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -585,7 +585,7 @@ AnimationClip:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: -0.07383957
+        value: -0.159
         inSlope: 0
         outSlope: 0
         tangentMode: 136
@@ -696,6 +696,13 @@ AnimationClip:
   - time: 0.016666668
     functionName: DeleteInteractableScript
     data: 
+    objectReferenceParameter: {fileID: 0}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.05
+    functionName: PlayAudioSourceOnceAtTime
+    data: Chest_Creaking
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
