@@ -88,7 +88,7 @@ namespace DataSaving
             string modifiedData = "";
             for (int i = 0; i < data.Length; i++)
             {
-                modifiedData += (char)(data[i] ^ DataSavingConstants.ENCRYPTION_CODE_WORD[i % DataSavingConstants.ENCRYPTION_CODE_WORD.Length]);
+                modifiedData += (char)(data[i] ^ DataConstants.ENCRYPTION_CODE_WORD[i % DataConstants.ENCRYPTION_CODE_WORD.Length]);
             }
             return modifiedData;
         }

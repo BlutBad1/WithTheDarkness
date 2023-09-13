@@ -1,7 +1,7 @@
-using EnemySoundNS;
+using EnemyNS.Sound;
 using UnityEngine;
 
-namespace EnemySoundNS
+namespace EnemyNS.Sound
 {
     public class JumpSkillSounds : MonoBehaviour
     {

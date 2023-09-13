@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using static SettingsNS.AudioSettings;
@@ -18,11 +17,9 @@ namespace SoundNS
             SupressSound(coefficientOfSupressing, SupressTime);
         public void SupressSound(float coefficientOfSupressing, float supressTime)
         {
-            Dictionary<AudioKind, float> newVolume = new Dictionary<AudioKind, float>();
             var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
             for (int i = 0; i < arr.Count; i++)
-                newVolume.Add(arr[i], GetVolumeOfType((AudioKind)arr[i], false) * coefficientOfSupressing);
-            ChangeVolumeTo(newVolume, supressTime);
+                ChangeVolumeTo(GetVolumeOfType((AudioKind)arr[i], false) * coefficientOfSupressing, supressTime, arr[i]);
         }
         public void SupressSound(float coefficientOfSupressing, AudioKind audioKind) =>
             SupressSound(coefficientOfSupressing, SupressTime, audioKind);
@@ -30,25 +27,15 @@ namespace SoundNS
          SupressSound(CoefficientOfSupressing, SupressTime, audioKind);
         public void SupressSound(float coefficientOfSupressing, float supressTime, AudioKind audioKind)
         {
-            Dictionary<AudioKind, float> newVolume = new Dictionary<AudioKind, float>();
-            var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
-            for (int i = 0; i < arr.Count; i++)
-                newVolume.Add(arr[i], GetVolumeOfType((AudioKind)arr[i], false) * coefficientOfSupressing);
-            if (currentCoroutines.ContainsKey(audioKind))
-                StopCoroutine(currentCoroutines[audioKind]);
-            currentCoroutines.Add(audioKind, StartCoroutine(ChangeVolumeSmoothly(newVolume, supressTime, audioKind)));
+            ChangeVolumeTo(GetVolumeOfType((AudioKind)audioKind, false) * coefficientOfSupressing, supressTime, audioKind);
         }
         public void UnSupressSound(float unSupressTime) =>
-            VolumeToOriginal(unSupressTime);
+            UnMuteVolume(unSupressTime);
         public void UnSupressSound() =>
-            VolumeToOriginal(UnSupressTime);
+            UnMuteVolume(UnSupressTime);
         public void UnSupressSound(AudioKind audioKind) =>
             UnSupressSound(UnSupressTime, audioKind);
-        public void UnSupressSound(float unSupressTime, AudioKind audioKind)
-        {
-            if (currentCoroutines.ContainsKey(audioKind))
-                StopCoroutine(currentCoroutines[audioKind]);
-            currentCoroutines.Add(audioKind, StartCoroutine(ChangeVolumeSmoothly(originalVolume, unSupressTime, audioKind)));
-        }
+        public void UnSupressSound(float unSupressTime, AudioKind audioKind) =>
+            UnMuteVolume(unSupressTime, audioKind);
     }
 }

@@ -23,7 +23,7 @@ namespace EnvironmentEffects.InteractablePickup
         }
         protected void FixedUpdate()
         {
-            if (currentCoroutine == null && Vector3.Distance(player.gameObject.transform.position, transform.position) <= startDistanceOfEffect)
+            if (player && currentCoroutine == null && Vector3.Distance(player.gameObject.transform.position, transform.position) <= startDistanceOfEffect)
                 currentCoroutine = StartCoroutine(IntensityUpdate());
         }
         private void OnDisable()

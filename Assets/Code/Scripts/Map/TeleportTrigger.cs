@@ -74,7 +74,7 @@ namespace LocationManagementNS
                 yield return null;
             }
             if (player.TryGetComponent(out InputManager inputManager))
-                inputManager.IsMovingEnable = false;
+                inputManager.SetMovingLock(true);
             if (IsConnectedToMapData)
             {
                 GameObject connectedLoc = ConnectedLocIndex == -1 ? MapData.instance.TheFirstLocation.MapData
@@ -95,7 +95,7 @@ namespace LocationManagementNS
             dimming?.DimmingDisable();
             CurrentTeleportCoroutine = null;
             if (inputManager != null)
-                inputManager.IsMovingEnable = true;
+                inputManager.SetMovingLock(false);
             if (IsConnectedToMapData)
             {
                 GameObject thisLoc = ThisLocIndex == -1 ? MapData.instance.TheFirstLocation.MapData

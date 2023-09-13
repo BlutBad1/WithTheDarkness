@@ -1,4 +1,4 @@
-using EnemyBaseNS;
+using EnemyNS.Attack;
 using MyConstants;
 using NUnit.Framework;
 using System.Collections;
@@ -15,14 +15,10 @@ namespace Enemies.Base
         EnemyLineOfSightChecker enemyLineOfSight;
         BoxCollider boxCollider;
         bool checkBool;
-        void OnLoseSight(GameObject player)
-        {
+        void OnLoseSight(GameObject player) =>
             checkBool = false;
-        }
-        void OnGainSight(GameObject player)
-        {
+        void OnGainSight(GameObject player) =>
             checkBool = true;
-        }
         [SetUp]
         public void Setup()
         {
@@ -35,7 +31,7 @@ namespace Enemies.Base
             boxCollider = player.AddComponent<BoxCollider>();
             boxCollider.size = new Vector3(10, 10, 10);
             playerLayerMask = (1 << player.layer);
-            enemyLineOfSight.WhatIsPlayer = playerLayerMask;
+            enemyLineOfSight.LayersForProcessing = playerLayerMask;
             enemyLineOfSight.OnGainSight += OnGainSight;
             enemyLineOfSight.OnLoseSight += OnLoseSight;
             Vector3 fwd = enemy.transform.TransformDirection(Vector3.forward);
@@ -48,8 +44,7 @@ namespace Enemies.Base
             //Act+Assert
             checkBool = false;
             enemyLineOfSight.ViewDistance = 20000f;
-            enemyLineOfSight.FieldOfView = 360f;
-
+            enemyLineOfSight.FieldOfView = 360;
             yield return new WaitForSeconds(2f);
             Assert.IsTrue(checkBool);
         }
@@ -59,8 +54,7 @@ namespace Enemies.Base
             //Act+Assert
             checkBool = true;
             enemyLineOfSight.ViewDistance = 0f;
-            enemyLineOfSight.FieldOfView = 0f;
-
+            enemyLineOfSight.FieldOfView = 0;
             yield return new WaitForSeconds(2f);
             Assert.IsTrue(!checkBool);
         }

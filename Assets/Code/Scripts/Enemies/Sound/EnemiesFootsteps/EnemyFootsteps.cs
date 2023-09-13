@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using static SettingsNS.AudioSettings;
 
-namespace EnemySoundNS
+namespace EnemyNS.Sound
 {
     [RequireComponent(typeof(NavMeshAgent))]
     public class EnemyFootsteps : AudioSetup
@@ -15,7 +15,7 @@ namespace EnemySoundNS
         [SerializeField] NavMeshAgent Agent;
         [Tooltip("You need an audio source to play a footstep sound.")]
         [SerializeField] AudioSource audioSource;
-        [SerializeField] AudioKind audioKind = AudioKind.Sound;
+        [SerializeField] AudioKind audioKind;
         // Random volume between this limits
         [SerializeField] float minVolume = 0.3f;
         [SerializeField] float maxVolume = 0.5f;
@@ -35,8 +35,8 @@ namespace EnemySoundNS
         float stepCycleProgress;
         float lastPlayTime;
         bool previouslyGrounded;
-        bool isGrounded;
-        void Start()
+        bool isGrounded = true;
+        private void Start()
         {
             if (groundLayers.value == 0)
                 groundLayers = 1;
@@ -50,7 +50,7 @@ namespace EnemySoundNS
                 enabled = false;
             }
         }
-        void Update()
+        private void Update()
         {
             CheckGround();
             if (Agent.velocity.magnitude > 0.01f)
@@ -69,7 +69,7 @@ namespace EnemySoundNS
         }
         public void PlayLandSound() =>
            audioSource.PlayOneShot(surfaceEnemyManager.GetLandsound(currentGroundInfo.collider, currentGroundInfo.point), landVolume * GetVolumeOfType(audioKind));
-        void AdvanceStepCycle(float increment)
+        private void AdvanceStepCycle(float increment)
         {
             stepCycleProgress += increment;
             if (stepCycleProgress > distanceBetweenSteps)
@@ -78,14 +78,14 @@ namespace EnemySoundNS
                 PlayFootstep();
             }
         }
-        void PlayFootstep()
+        private void PlayFootstep()
         {
             AudioClip randomFootstep = surfaceEnemyManager.GetFootstep(currentGroundInfo.collider, currentGroundInfo.point);
             float randomVolume = Random.Range(minVolume, maxVolume);
             if (randomFootstep)
                 audioSource.PlayOneShot(randomFootstep, randomVolume * GetVolumeOfType(audioKind));
         }
-        void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
             if (debugMode)
             {
@@ -94,7 +94,7 @@ namespace EnemySoundNS
                 Gizmos.DrawRay(transform.position + Vector3.up * groundCheckHeight, Vector3.down * (groundCheckDistance + groundCheckRadius));
             }
         }
-        void CheckGround()
+        private void CheckGround()
         {
             previouslyGrounded = isGrounded;
             Ray ray = new Ray(thisTransform.position + Vector3.up * groundCheckHeight, Vector3.down);

@@ -1,8 +1,9 @@
-using EnemyBaseNS;
+using EnemyNS.Base;
 using System.Collections;
 using UnityEngine;
-namespace EnemyAttackNS
+namespace EnemyNS.Attack
 {
+    [RequireComponent(typeof(Enemy))]
     public class EnemyAttack : MonoBehaviour
     {
         public int Damage = 10;
@@ -12,18 +13,21 @@ namespace EnemyAttackNS
         public float AttackRadius = 2f;
         public delegate void AttackEvent(IDamageable Target);
         public AttackEvent OnAttack;
-        protected IDamageable objectDamageable;
         protected Coroutine attackCoroutine;
+        protected Enemy Enemy;
         [HideInInspector]
         public bool IsAttacking = false;
-        public virtual bool CanAttack(GameObject enemy, GameObject player)
+        protected void Start()
         {
-            if (enemy.GetComponent<EnemyMovement>().State == EnemyState.Chase)
+            Enemy = GetComponent<Enemy>();
+            Enemy.Movement.OnFollow += TryAttack;
+        }
+        public virtual bool CanAttack(GameObject creature)
+        {
+            if (Enemy.Movement.State == EnemyState.Chase && Vector3.Distance(transform.position, creature.transform.position) <= AttackDistance)
                 return true;
             return false;
         }
-        public virtual void TryAttack() =>
-            IsAttacking = true;
         public virtual void StopAttack()
         {
             if (attackCoroutine != null)
@@ -31,15 +35,28 @@ namespace EnemyAttackNS
             attackCoroutine = null;
             IsAttacking = false;
         }
-
-        protected virtual IEnumerator Attack()
+        public virtual void TryAttack()
         {
-            WaitForSeconds Wait = new WaitForSeconds(AttackDelay);
-            while (objectDamageable != null)
+            if (Enemy.Movement.PursuedTarget && CanAttack(Enemy.Movement.PursuedTarget))
             {
-                OnAttack?.Invoke(objectDamageable);
-                objectDamageable.TakeDamage(Damage);
-                yield return Wait;
+                if (attackCoroutine == null)
+                {
+                    IDamageable damageable = null;
+                    damageable = Enemy.Movement.PursuedTarget.GetComponent<Damageable>();
+                    if (damageable == null)
+                        damageable = Enemy.Movement.PursuedTarget.GetComponentInParent<Damageable>();
+                    attackCoroutine = StartCoroutine(Attack(damageable));
+                }
+                IsAttacking = true;
+            }
+        }
+        protected virtual IEnumerator Attack(IDamageable objectToDamage)
+        {
+            while (objectToDamage != null)
+            {
+                OnAttack?.Invoke(objectToDamage);
+                objectToDamage.TakeDamage(Damage);
+                yield return new WaitForSeconds(AttackDelay);
             }
         }
     }

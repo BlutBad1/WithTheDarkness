@@ -2,28 +2,25 @@ using UnityEngine;
 
 namespace InteractableNS.Common
 {
-
-
-    [RequireComponent(typeof(ItemDamagable), typeof(Rigidbody))]
+    [RequireComponent(typeof(ItemDamagable))]
     public class ItemImpact : MonoBehaviour
     {
-        ItemDamagable itemDamagable;
-        Rigidbody rigidbody;
+        public Rigidbody Rigidbody;
         public float ImpactForce = 1f;
+        ItemDamagable itemDamagable;
         void Start()
         {
             if (!itemDamagable)
                 itemDamagable = GetComponent<ItemDamagable>();
-
-            if (!rigidbody)
-                rigidbody = GetComponent<Rigidbody>();
+            if (!Rigidbody)
+                Rigidbody = GetComponent<Rigidbody>();
             itemDamagable.OnTakeDamage += OnTakeDamage;
         }
 
         private void OnTakeDamage(float force, Vector3 hit)
         {
             Vector3 moveDirection = transform.position - hit;
-            rigidbody.AddForce(moveDirection.normalized * force * ImpactForce, ForceMode.Impulse);
+            Rigidbody.AddForce(moveDirection.normalized * force * ImpactForce, ForceMode.Impulse);
         }
     }
 }

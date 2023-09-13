@@ -1,65 +1,33 @@
-
 using UnityEngine;
 
-namespace EnemyAttackNS
+namespace EnemyNS.Attack
 {
     [RequireComponent(typeof(SphereCollider))]
     public class AttackRadius : EnemyAttack
     {
         [HideInInspector]
         public SphereCollider Collider;
-        public LayerMask WhatIsPlayer;
-
-     
         protected void Awake()
         {
             Collider = GetComponent<SphereCollider>();
             Collider.radius = AttackRadius;
         }
-     
         private void OnTriggerEnter(Collider other)
         {
-
-          
-            if ((1 << other.gameObject.layer) == WhatIsPlayer)
+            if (other.gameObject == Enemy.Movement.PursuedTarget)
             {
-
-             
-                objectDamageable = other.GetComponent<IDamageable>();
-
-                if (attackCoroutine == null)
-                    attackCoroutine = StartCoroutine(Attack());
-
-
-            }
-
-
-        }
-
-        private void OnTriggerExit(Collider other)
-        {
-
-         
-            if ((1 << other.gameObject.layer) == WhatIsPlayer)
-            {
-
-                if ((other.TryGetComponent(out ILastTouched lastTouched) && lastTouched.iLastExited is SphereCollider) || (transform.position - other.transform.position).magnitude > AttackDistance)
+                if (IsAttacking && Enemy.Movement.PursuedTarget.TryGetComponent(out IDamageable damageable))
                 {
-
-                    if (objectDamageable != null)
-                    {
-                        objectDamageable = null;
-                        StopCoroutine(attackCoroutine);
-                        attackCoroutine = null;
-                    }
-
+                    TakeDamageData takeDamageData = new TakeDamageData(Damage, AttackForce,
+                        (Enemy.Movement.PursuedTarget.transform.position - gameObject.transform.position).normalized, gameObject);
+                    damageable.TakeDamage(takeDamageData);
                 }
             }
-
         }
-
-
-
-
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject == Enemy.Movement.gameObject)
+                StopAttack();
+        }
     }
 }

@@ -16357,13 +16357,13 @@ AnimationClip:
   m_Events:
   - time: 0.45
     functionName: PlayAudioSource
-    data: 
+    data: hand_attack
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
   - time: 0.5
-    functionName: TryAttack
+    functionName: TryAttackAnim
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

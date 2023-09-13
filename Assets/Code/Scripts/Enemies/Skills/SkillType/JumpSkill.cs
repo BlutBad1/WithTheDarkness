@@ -1,53 +1,54 @@
-using EnemyBaseNS;
+using EnemyNS.Base;
 using MyConstants;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace EnemySkillsNS
+namespace EnemyNS.Skills
 {
-    [CreateAssetMenu(fileName = "Jump Skill", menuName = "ScriptableObject/Skills/Jump")]
+    [CreateAssetMenu(fileName = "Jump Skill", menuName = "ScriptableObject/Enemy/Skills/Jump")]
     public class JumpSkill : SkillScriptableObject
     {
         public float MinJumpDistance = 1.5f;
         public float MaxJumpDistance = 5f;
         public AnimationCurve HeightCurve;
         public float JumpSpeed = 1;
-        public override bool CanUseSkill(Enemy enemy, GameObject player)
+        public LayerMask LayersToIgnore;
+        public override bool CanUseSkill(Enemy enemy, GameObject target)
         {
-            if (base.CanUseSkill(enemy, player) && enemy.Movement.State == EnemyState.Chase)
+            if (base.CanUseSkill(enemy, target) && enemy.Movement.State == EnemyState.Chase)
             {
-                float distance = Vector3.Distance(enemy.transform.position, player.transform.position);
-                Ray ray = new Ray(enemy.transform.position, player.transform.position - enemy.transform.position);
-                if (Physics.SphereCast(ray, 0.6f, (player.transform.position - enemy.transform.position).magnitude, ~(1 << 11 | 1 << 12)))
+                float distance = Vector3.Distance(enemy.transform.position, target.transform.position);
+                Ray ray = new Ray(enemy.transform.position, target.transform.position - enemy.transform.position);
+                if (Physics.SphereCast(ray, 0.6f, (target.transform.position - enemy.transform.position).magnitude, ~(LayersToIgnore |= (1 << target.layer))))
                     return false;
                 return !IsActivating && UseTime + Cooldown < Time.time && distance >= MinJumpDistance && distance <= MaxJumpDistance;
             }
             return false;
         }
-        public override void UseSkill(Enemy enemy, GameObject player)
+        public override void UseSkill(Enemy enemy, GameObject target)
         {
-            base.UseSkill(enemy, player);
-            enemy.skillCoroutine = enemy.StartCoroutine(Jump(enemy, player));
+            base.UseSkill(enemy, target);
+            enemy.skillCoroutine = enemy.StartCoroutine(Jump(enemy, target));
         }
-        private IEnumerator Jump(Enemy enemy, GameObject player)
+        private IEnumerator Jump(Enemy enemy, GameObject target)
         {
             RaycastHit groundHit;
-            Vector3 endingPosition = player.transform.position,
+            Vector3 endingPosition = target.transform.position,
             startingPosition = enemy.transform.position;
             Ray ray = new Ray(enemy.transform.position, -Vector3.up);
             if (Physics.Raycast(ray, out groundHit))
                 startingPosition.y = groundHit.point.y;
-            enemy.Agent.enabled = false;
+            enemy.Movement.Agent.enabled = false;
             enemy.Movement.enabled = false;
             enemy.Movement.State = EnemyState.UsingAbility;
-            enemy.Animator?.SetTrigger(EnemyConstants.JUMP);
+            enemy.Animator?.SetTrigger(CreatureConstants.EnemyConstants.JUMP);
             Quaternion startRotation = enemy.transform.rotation;
             enemy.EnemyAttack.TryAttack();
             for (float time = 0; time < 1; time += Time.deltaTime * JumpSpeed)
             {
                 if (time <= 0.6f)
-                    endingPosition = player.transform.position;
+                    endingPosition = target.transform.position;
                 ray = new Ray(enemy.transform.position, -Vector3.up);
                 if (Physics.Raycast(ray, out groundHit))
                     endingPosition.y = groundHit.point.y + 0.4f;
@@ -59,12 +60,12 @@ namespace EnemySkillsNS
                 yield return null;
             }
             enemy.EnemyAttack.StopAttack();
-            enemy.Animator?.SetTrigger(EnemyConstants.LANDED);
+            enemy.Animator?.SetTrigger(CreatureConstants.EnemyConstants.LANDED);
             UseTime = Time.time;
             enemy.enabled = true;
             enemy.Movement.enabled = true;
-            enemy.Agent.enabled = true;
-            if (NavMesh.SamplePosition(endingPosition, out NavMeshHit hit, 1f, enemy.Agent.areaMask))
+            enemy.Movement.Agent.enabled = true;
+            if (NavMesh.SamplePosition(endingPosition, out NavMeshHit hit, 1f, enemy.Movement.Agent.areaMask))
             {
                 // enemy.Agent.Warp(hit.position);
                 enemy.Movement.State = EnemyState.Chase;

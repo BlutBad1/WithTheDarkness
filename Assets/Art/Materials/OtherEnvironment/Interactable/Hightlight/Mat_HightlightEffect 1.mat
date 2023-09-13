@@ -117,7 +117,7 @@ Material:
     - _InvertMask: 0
     - _LightCount: 0
     - _LightingMode: 4
-    - _Metallic: 0
+    - _Metallic: 1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OffsetSpeed: 3

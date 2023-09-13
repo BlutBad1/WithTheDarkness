@@ -7,21 +7,12 @@ public class ObjectPool
     private GameObject Prefab;
     private int Size;
     private List<GameObject> AvailableObjectsInPool;
-    GameObject parent;
+    private GameObject parent;
     private ObjectPool(GameObject Prefab, int Size)
     {
         this.Prefab = Prefab;
         this.Size = Size;
         AvailableObjectsInPool = new List<GameObject>();
-    }
-    public static ObjectPool FindObjectPoolByPrefab(GameObject Prefab)
-    {
-        GameObject parentPoolableObject = GameObject.Find(CommonConstants.POOLABLE_OBJECTS);
-        GameObject gOPool = GameObject.Find($"{CommonConstants.POOLABLE_OBJECTS}/" + Prefab.name + " Pool");
-        if (gOPool == null)
-            return null;
-        else
-            return gOPool.GetComponent<ObjectPool>();
     }
     public static ObjectPool CreateInstance(GameObject Prefab, int Size)
     {
@@ -32,20 +23,6 @@ public class ObjectPool
         pool.parent = poolGameObject;
         pool.CreateObjects(poolGameObject);
         return pool;
-    }
-    private void CreateObjects(GameObject parent)
-    {
-        for (int i = 0; i < Size; i++)
-            CreateGameObject(parent);
-    }
-    private GameObject CreateGameObject(GameObject parent)
-    {
-        GameObject poolableObject = GameObject.Instantiate(Prefab, Vector3.zero, Quaternion.identity, parent.transform);
-        PoolableObject poolObj = poolableObject.AddComponent<PoolableObject>();
-        poolObj.Parent = this;
-        poolableObject.SetActive(false); // PoolableObject handles re-adding the object to the AvailableObjects
-        AvailableObjectsInPool.Add(poolableObject);
-        return poolableObject;
     }
     public GameObject GetObject()
     {
@@ -60,8 +37,19 @@ public class ObjectPool
         instance.gameObject.SetActive(true);
         return instance;
     }
-    public void ReturnObjectToPool(GameObject Object)
-    {
+    public void ReturnObjectToPool(GameObject Object) =>
         AvailableObjectsInPool.Add(Object);
+    private void CreateObjects(GameObject parent)
+    {
+        for (int i = 0; i < Size; i++)
+            CreateGameObject(parent);
+    }
+    private GameObject CreateGameObject(GameObject parent)
+    {
+        GameObject poolableObject = GameObject.Instantiate(Prefab, Vector3.zero, Quaternion.identity, parent.transform);
+        PoolableObject poolObj = poolableObject.AddComponent<PoolableObject>();
+        poolObj.ParentObjectPool = this;//When gameobject turns off, it adds itself to AvailableObjectsInPool list
+        poolableObject.SetActive(false); // PoolableObject handles re-adding the object to the AvailableObjects
+        return poolableObject;
     }
 }

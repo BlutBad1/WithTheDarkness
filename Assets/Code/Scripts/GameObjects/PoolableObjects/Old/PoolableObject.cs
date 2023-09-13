@@ -3,10 +3,10 @@ using UnityEngine;
 public class PoolableObject : MonoBehaviour
 {
     [HideInInspector]
-    public ObjectPool Parent;
+    public ObjectPool ParentObjectPool;
 
     public virtual void OnDisable()
     {
-        Parent.ReturnObjectToPool(this.gameObject);
+        ParentObjectPool.ReturnObjectToPool(this.gameObject);
     }
 }

@@ -1,18 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using EnemyFollowerNS;
+using EnemyNS.Type.Follower;
 using NUnit.Framework;
+using System.Collections;
+using System.Diagnostics;
 using UnityEngine;
 using UnityEngine.TestTools;
-
 public class FollowerTests
 {
     GameObject player;
     GameObject gameObject;
     Follower follower;
     Stopwatch stopwatch;
-  [SetUp]
+    [SetUp]
     public void Setup()
     {
         //Arrange
@@ -33,7 +31,7 @@ public class FollowerTests
         follower.FollowSpeed = 100;
         yield return new WaitForSeconds(0.1f);
         //Assert
-        Assert.IsTrue(gameObject.transform.position == new Vector3(0, 0, 0)); 
+        Assert.IsTrue(gameObject.transform.position == new Vector3(0, 0, 0));
     }
     [UnityTest]
     public IEnumerator FollowTestMultithreading_Expect_ChangedPosition()
@@ -55,14 +53,14 @@ public class FollowerTests
         //Arrange
         stopwatch.Reset();
         float onethreadTime = 0, multithreadTime = 0;
-        follower = gameObject.AddComponent<Follower>();  
+        follower = gameObject.AddComponent<Follower>();
         follower.FollowingDistance = 100;
         follower.StoppingDistance = 0;
         follower.FollowSpeed = 100;
         stopwatch.Start();
         for (int i = 0; i < 5; i++)
             follower.AddGameObject(gameObject);
-        while (gameObject.transform.position == new Vector3(0, 0, 10));
+        while (gameObject.transform.position == new Vector3(0, 0, 10)) ;
         yield return new WaitForSeconds(0.1f);
         stopwatch.Stop();
         onethreadTime = stopwatch.ElapsedMilliseconds;

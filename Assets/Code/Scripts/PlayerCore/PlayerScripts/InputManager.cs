@@ -5,13 +5,12 @@ namespace PlayerScriptsNS
     [RequireComponent(typeof(PlayerMotor)), RequireComponent(typeof(PlayerLook))]
     public class InputManager : MonoBehaviour
     {
+        public PlayerInput.OnFootActions OnFoot;
+        public PlayerInput.UIActions UIActions;
         private PlayerInput playerInput;
         private PlayerMotor motor;
         private PlayerLook look;
-        public PlayerInput.OnFootActions OnFoot;
-        public PlayerInput.UIActions UIActions;
-        [HideInInspector]
-        public bool IsMovingEnable = true;
+        private bool IsMovingLocked = false;
         void Awake()
         {
             playerInput = SettingsNS.GameSettings.PlayerInput;
@@ -23,31 +22,16 @@ namespace PlayerScriptsNS
             OnFoot.Crouch.performed += PefrormCrounch;
             OnFoot.Sprint.performed += PefrormSprint;
         }
-        //void BindTest()
-        //{
-        // OnFoot.SwitchWeapon.ChangeBinding(1).WithPath("<Keyboard>/k");
-        //}
-        private void PefrormJump(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-            motor.Jump();
-        private void PefrormCrounch(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-            motor.Crounch();
-        private void PefrormSprint(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-            motor.Sprint();
-        public ref readonly PlayerInput GetPlayerInput() =>
-             ref playerInput;
         void FixedUpdate()
         {
-            if (IsMovingEnable)
+            if (!IsMovingLocked)
                 motor.ProcessMove(OnFoot.Movement.ReadValue<Vector2>());
+
         }
-        private void LateUpdate()
-        {
+        private void LateUpdate() =>
             look.ProcessLook(OnFoot.Look.ReadValue<Vector2>());
-        }
-        private void OnEnable()
-        {
+        private void OnEnable() =>
             OnFoot.Enable();
-        }
         private void OnDisable()
         {
             OnFoot.Jump.performed -= PefrormJump;
@@ -55,5 +39,21 @@ namespace PlayerScriptsNS
             OnFoot.Sprint.performed -= PefrormSprint;
             OnFoot.Disable();
         }
+        public void SetMovingLock(bool lockStatus, bool isResetVelocity = false)
+        {
+            IsMovingLocked = lockStatus;
+            if (isResetVelocity)
+                motor.ProcessMove(new Vector2(0, 0));
+        }
+        private void PefrormJump(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
+            motor.Jump();
+        private void PefrormCrounch(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
+            motor.Crounch();
+        private void PefrormSprint(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
+            motor.Sprint();
+        //void BindTest()
+        //{
+        // OnFoot.SwitchWeapon.ChangeBinding(1).WithPath("<Keyboard>/k");
+        //}
     }
 }

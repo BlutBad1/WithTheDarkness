@@ -20,14 +20,14 @@ namespace GameObjectsControllingNS
                 Player = GameObject.Find(MyConstants.CommonConstants.PLAYER);
                 yield return null;
             }
-            Player.GetComponent<InputManager>().IsMovingEnable = false;
+            Player.GetComponent<InputManager>().SetMovingLock(true);
             yield return new WaitForSeconds(0.05f);
             if (!Transform)
                 Transform = transform;
             Player.transform.position = Transform.position;
             Player.transform.rotation = Transform.rotation;
             yield return new WaitForSeconds(0.05f);
-            Player.GetComponent<InputManager>().IsMovingEnable = true;
+            Player.GetComponent<InputManager>().SetMovingLock(false);
             Destroy(this);
         }
     }

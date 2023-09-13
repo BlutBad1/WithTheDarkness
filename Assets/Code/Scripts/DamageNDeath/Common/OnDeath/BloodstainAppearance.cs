@@ -13,7 +13,8 @@ namespace OnDeath
         [SerializeField]
         public LayerMask WhatIsRayCastIgnore;
         public float MaxDistance;
-        GameObject initializedBloodstain;
+        private GameObject initializedBloodstain;
+        static ObjectPool objectPool;
         private void Start()
         {
             if (!Damageable)
@@ -32,8 +33,7 @@ namespace OnDeath
                 OriginOfRay = transform;
             if (Physics.Raycast(OriginOfRay.position, -Vector3.up, out RaycastHit hitInfo, MaxDistance, ~WhatIsRayCastIgnore))
             {
-                ObjectPool objectPool = ObjectPool.FindObjectPoolByPrefab(BloodstainPrefab);
-                if (objectPool == null)
+                 if (objectPool == null)
                     objectPool = ObjectPool.CreateInstance(BloodstainPrefab, 20);
                 initializedBloodstain = objectPool.GetObject();
                 initializedBloodstain.SetActive(true);

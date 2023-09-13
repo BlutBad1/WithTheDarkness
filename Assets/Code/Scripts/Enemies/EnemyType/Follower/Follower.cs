@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Unity.Jobs;
 using UnityEngine;
 using UnityEngine.Jobs;
-namespace EnemyFollowerNS
+namespace EnemyNS.Type.Follower
 {
     public class Follower : MonoBehaviour
     {

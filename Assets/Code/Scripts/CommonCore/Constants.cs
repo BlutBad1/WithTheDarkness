@@ -12,11 +12,12 @@ namespace MyConstants
         public const string PIVOT_MAIN_LIGHT = "PivotSpotLight(MainLight)";
         public const string MAIN_LIGHT = "SpotLight(MainLight)";
     }
-    public static class DataSavingConstants
+    public static class DataConstants
     {
         public const string ENCRYPTION_CODE_WORD = "dark";
         public const string SETTINGS_DATA_PATH = "settings";
         public const string PROGRESS_DATA_PATH = "save";
+        public const string CREATURE_TYPES_INSTANCE = "Creature Types";
     }
     public static class UIConstants
     {
@@ -58,28 +59,35 @@ namespace MyConstants
             public const string DOORS_ANIMATOR_TRIGGER = "PushDoors";
         }
     }
-    public class EnemyConstants
+    public class CreatureConstants
     {
-        public const string IS_WALKING = "IsWalking";
-        public const string JUMP = "Jump";
-        public const string LANDED = "Landed";
-        public const string ATTACK_TRIGGER = "Attack";
-        public const string DEATH_TRIGGER = "Death";
+        public const string ALONE_CREATURE_TYPE = "Alone";
+        public class EnemyConstants
+        {
+            public const string IS_WALKING = "IsWalking";
+            public const string JUMP = "Jump";
+            public const string LANDED = "Landed";
+            public const string ATTACK_TRIGGER = "Attack";
+            public const string DEATH_TRIGGER = "Death";
+            public class GramophoneConstants
+            {
+                public const string PLAY_TRIGGER = "Play";
+                public const string STOP_PLAYING_TRIGGER = "StopPlaying";
+            }
+        }
     }
+
     public class MainAudioManagerConstants
     {
         public const string TRANSITION = "transitionSound";
     }
     public class SceneConstants
     {
-        public enum AvailableScenes
-        {
-            MAIN_MENU = 0, LOADING = 1, House_Breakpoint = 2, LEVEL1 = 3, TEST2, GAMEPLAY
-        }
         public const string PROGRESS_MANAGER = "ProgressManager";
         public const string LOADING = "Loading";
         public const string GAMEPLAY = "Gameplay";
         public const string MAIN_MENU = "MainMenu";
+        public const string LEVEL1 = "Level1";
     }
     namespace WeaponConstants
     {

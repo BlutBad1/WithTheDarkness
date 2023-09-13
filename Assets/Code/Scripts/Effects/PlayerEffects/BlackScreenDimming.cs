@@ -15,31 +15,41 @@ namespace HudNS
         private void Start() =>
             DimmingDisable();
 
-        public void DimmingEnable()
+        public void DimmingEnable(bool scaleFromDeltaTime = true, float waitTime = 0)
         {
             if (followCoroutine != null)
                 StopCoroutine(followCoroutine);
-            followCoroutine = StartCoroutine(Dimming(true));
+            followCoroutine = StartCoroutine(Dimming(true, scaleFromDeltaTime, waitTime));
         }
-        public void DimmingDisable()
+        public void DimmingDisable(bool scaleFromDeltaTime = true, float waitTime = 0)
         {
             if (followCoroutine != null)
                 StopCoroutine(followCoroutine);
-            followCoroutine = StartCoroutine(Dimming(false));
+            followCoroutine = StartCoroutine(Dimming(false, scaleFromDeltaTime, waitTime));
         }
-        IEnumerator Dimming(bool enable)
+        IEnumerator Dimming(bool enable, bool scaleFromDeltaTime = true, float waitTime = 0)
         {
             float tempAlpha = blackScreen.color.a;
             while (tempAlpha <= 1 && enable || tempAlpha >= 0 && !enable)
             {
                 blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, tempAlpha);
                 if (enable)
-                    tempAlpha += Time.deltaTime * fadeSpeed;
+                {
+                    if (scaleFromDeltaTime)
+                        tempAlpha += Time.deltaTime * fadeSpeed;
+                    else
+                        tempAlpha += fadeSpeed;
+                }
                 else
-                    tempAlpha -= Time.deltaTime * fadeSpeed;
-                yield return null;
+                {
+                    if (scaleFromDeltaTime)
+                        tempAlpha -= Time.deltaTime * fadeSpeed;
+                    else
+                        tempAlpha -= fadeSpeed;
+                }
+                yield return scaleFromDeltaTime ? new WaitForSecondsRealtime(waitTime) : new WaitForSeconds(waitTime);
             }
-            blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, enable?1f:0f);
+            blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, enable ? 1f : 0f);
         }
     }
 }

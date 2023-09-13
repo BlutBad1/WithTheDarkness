@@ -8,7 +8,7 @@ namespace InteractableNS
         [SerializeField]
         public string promptMessage;
         [HideInInspector]
-        protected CreatureInteract WhoInteracted;
+        protected EntityInteract WhoInteracted;
         protected void Start()
         {
         }
@@ -16,7 +16,7 @@ namespace InteractableNS
         {
             return promptMessage;
         }
-        public void BaseInteract(CreatureInteract creatureInteract)
+        public void BaseInteract(EntityInteract creatureInteract)
         {
             WhoInteracted = creatureInteract;
             if (useEvents)

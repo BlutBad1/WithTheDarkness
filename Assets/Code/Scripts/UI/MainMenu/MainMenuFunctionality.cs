@@ -48,9 +48,9 @@ namespace UINS
 
         public void StartNewGame()
         {
-            ProgressSaving.LoadedScene = new ProgressData(Loader.NameFromIndex((int)SceneConstants.AvailableScenes.LEVEL1));
+            ProgressSaving.LoadedScene = new ProgressData(SceneConstants.LEVEL1);
             ProgressSaving.SaveProgressData();
-            LoadScene(Loader.NameFromIndex((int)SceneConstants.AvailableScenes.LEVEL1));
+            LoadScene(SceneConstants.LEVEL1);
         }
         public void GameExit()
         {

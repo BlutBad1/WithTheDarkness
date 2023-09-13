@@ -22,11 +22,12 @@ namespace SoundNS
                 s.source = OnDeathAudioSource;
             availableSources.Add(new AudioObject(OnTakeDamageAudioSource, OnTakeDamageAudioSource.volume, SettingsNS.AudioSettings.AudioKind.Sound));
             availableSources.Add(new AudioObject(OnDeathAudioSource, OnDeathAudioSource.volume, SettingsNS.AudioSettings.AudioKind.Sound));
+            VolumeChange();
         }
         void Start()
         {
             Damageable damageable = GetComponent<Damageable>();
-            damageable.OnTakeDamage += OnTakeDamage;
+            damageable.OnTakeDamageWithDamageData += OnTakeDamage;
             damageable.OnDeath += OnDeath;
         }
         public void PlayRandomSoundFromCollection(Sound[] Collection)
@@ -65,9 +66,9 @@ namespace SoundNS
         //    if (OnDeathAudioSource.clip)
         //        Sounds.Remove(Sounds.Find(x => x.clip == OnDeathAudioSource.clip));
         //}
-        private void OnTakeDamage(float damage, float force, Vector3 hit)
+        private void OnTakeDamage(TakeDamageData takeDamageData)
         {
-            if (OnTakeDamageSounds.Length != 0)
+            if (OnTakeDamageSounds.Length != 0 && takeDamageData.Hit != Vector3.zero)
                 PlayRandomSoundFromCollection(OnTakeDamageSounds);
         }
         private void OnDeath()

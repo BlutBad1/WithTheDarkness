@@ -117,7 +117,7 @@ Material:
     - _InvertMask: 0
     - _LightCount: 0
     - _LightingMode: 4
-    - _Metallic: 0
+    - _Metallic: 1
     - _Mode: 0
     - _OcclusionStrength: 1
     - _OffsetSpeed: 3
@@ -151,7 +151,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DetailColor: {r: 1, g: 1, b: 1, a: 0}
     - _DetailSpecularColor: {r: 1, g: 1, b: 1, a: 0}
-    - _EmissionColor: {r: 0.7490196, g: 0.24705882, b: 0.023529412, a: 10}
+    - _EmissionColor: {r: 0.7490196, g: 0.24705882, b: 0.023529412, a: 1}
     - _GlobalXYTilingXYZWOffsetXY: {r: 1, g: 1, b: 0, a: 0}
     - _SpecularColor: {r: 1, g: 1, b: 1, a: 0}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}

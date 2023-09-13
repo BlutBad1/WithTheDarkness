@@ -3,14 +3,8 @@ namespace PlayerScriptsNS
 {
     public class PlayerMotor : MonoBehaviour
     {
-        private CharacterController character;
-        private Vector3 playerVelocity;
         [HideInInspector]
         public bool isGrounded;
-        private bool lerpCrounch;
-        private bool crounching;
-        private bool sprinting;
-        private float crounchTimer;
         [SerializeField]
         private float gravity = -9.8f;
         [SerializeField]
@@ -25,15 +19,28 @@ namespace PlayerScriptsNS
         private float defaultSpeed = 5;
         [SerializeField]
         private float crounchingSpeed = 2.5f;
-        private float speed; // multiplication coefficient 
         [HideInInspector]
         public Vector3 currentVelocity;
         [HideInInspector]
         public Vector3 moveDirection = Vector3.zero;
+        private float speedCoef = 1f;
+        private float speed;
+        private bool lerpCrounch;
+        private bool crounching;
+        private bool sprinting;
+        private float crounchTimer;
+        private CharacterController character;
+        private Vector3 playerVelocity;
+        protected float Speed
+        {
+            get { return speed * speedCoef; }
+            set { speed = value; }
+        }
+
         void Start()
         {
             character = GetComponent<CharacterController>();
-            speed = defaultSpeed;
+            Speed = defaultSpeed;
             sprinting = false;
         }
         void Update()
@@ -47,12 +54,12 @@ namespace PlayerScriptsNS
                 if (crounching)
                 {
                     character.height = Mathf.Lerp(character.height, 1, p);
-                    speed = crounchingSpeed;
+                    Speed = crounchingSpeed;
                 }
                 else
                 {
                     character.height = Mathf.Lerp(character.height, 2, p);
-                    speed = defaultSpeed;
+                    Speed = defaultSpeed;
                 }
                 if (p > 1)
                 {
@@ -61,6 +68,12 @@ namespace PlayerScriptsNS
                 }
             }
         }
+        /// <summary>
+        /// Default is 1, speedt is multiplied by this coefficient
+        /// </summary>
+        /// <param name="coef"></param>
+        public void SetSpeedCoef(float coef = 1f) =>
+            speedCoef = coef;
         public void Jump()
         {
             if (isGrounded)
@@ -77,20 +90,20 @@ namespace PlayerScriptsNS
             if (!crounching)
             {
                 sprinting = !sprinting;
-                if (sprinting) speed = sprintingSpeed;
-                else speed = defaultSpeed;
+                if (sprinting) Speed = sprintingSpeed;
+                else Speed = defaultSpeed;
             }
         }
         public void ProcessMove(Vector2 input)
         {
             moveDirection.x = input.x;
             moveDirection.z = input.y;
-            character.Move(transform.TransformDirection(SlopeCalculation(moveDirection * speed * Time.deltaTime)));
+            character.Move(transform.TransformDirection(SlopeCalculation(moveDirection * Speed * Time.deltaTime)));
             playerVelocity.y += gravity * Time.deltaTime;
             character.Move(playerVelocity * Time.deltaTime);
             if (isGrounded && playerVelocity.y < 0)
                 playerVelocity.y = -2f;
-            currentVelocity = (transform.TransformDirection(moveDirection) * speed * Time.deltaTime);
+            currentVelocity = (transform.TransformDirection(moveDirection) * Speed * Time.deltaTime);
         }
         private Vector3 SlopeCalculation(Vector3 calculatedMovement)
         {

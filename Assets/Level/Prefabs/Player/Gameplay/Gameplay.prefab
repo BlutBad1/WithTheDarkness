@@ -31600,6 +31600,7 @@ GameObject:
   - component: {fileID: 4586255487885510825}
   - component: {fileID: 7003433213375102640}
   - component: {fileID: 1149534352034813633}
+  - component: {fileID: 800623991111803278}
   m_Layer: 11
   m_Name: Player
   m_TagString: Player
@@ -31854,6 +31855,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   OriginalHealth: 0
+  CreatureType: Player
   HealthRegenPerCycle: 0.25
   TimeAfterHitToRegen: 6
   HeatlhRegenCycleTime: 0.1
@@ -31875,7 +31877,8 @@ MonoBehaviour:
   - {fileID: 2097164062235747963}
   - {fileID: 3948407010823288056}
   PostProcessVolume: {fileID: 4368764775958589909}
-  DimmingFadeSpeed: 3
+  DimmingFadeSpeed: 0.03
+  DimmingWaitTime: 0.001
   TakeDamageSounds:
   - name: 
     clip: {fileID: 8300000, guid: 0f760d510b8de6c4592d414220a57f87, type: 3}
@@ -31973,6 +31976,21 @@ MonoBehaviour:
   LightUpSpotAngle: 60
   LightUpDuration: 0.5
   isCanLightUp: 1
+--- !u!114 &800623991111803278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7319280983651977489}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f644ed2ffa05164eb6e4fb9ad512fe7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Damage: 20
+  TimeBetweenAttacks: 5
+  PlayerHealth: {fileID: 2296378979833349306}
 --- !u!1 &7329977167135293124
 GameObject:
   m_ObjectHideFlags: 0
@@ -47377,6 +47395,16 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 4294967295
     BulletHoleType: InteractableBulletHole
+  - Tag: NoBulletHole
+    LayerMask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    BulletHoleType: EmptyBulletHole
+  - Tag: Metal
+    LayerMask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    BulletHoleType: MetalBulletHole
 --- !u!1 &8208554030175544475
 GameObject:
   m_ObjectHideFlags: 0
@@ -52956,6 +52984,36 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
+  - Name: EmptyBulletHole
+    Prefab: {fileID: 2325169165262418282, guid: c633dc7aba8f1994cbd1df0a5f40226a, type: 3}
+    Size: 1
+    Iterator: 0
+    poolableObjects:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - Name: MetalBulletHole
+    Prefab: {fileID: 2325169165262418282, guid: cbecc4837af34e74884ea69b28b56ea3, type: 3}
+    Size: 5
+    Iterator: 0
+    poolableObjects:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
 --- !u!1 &8208554030493510054
 GameObject:
   m_ObjectHideFlags: 0
@@ -55542,10 +55600,6 @@ PrefabInstance:
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 698274908565470545, guid: 93f7ec343e206c742a0eb81d7c98cbfd, type: 3}
-      propertyPath: registeredTextures.Array.size
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 698274908565470545, guid: 93f7ec343e206c742a0eb81d7c98cbfd, type: 3}
       propertyPath: definedSurfaces.Array.data[5].name
       value: grass
       objectReference: {fileID: 0}
@@ -55598,10 +55652,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2800000, guid: f9262a914f9fcc8429b04bd32e72b0a4, type: 3}
     - target: {fileID: 698274908565470545, guid: 93f7ec343e206c742a0eb81d7c98cbfd, type: 3}
-      propertyPath: registeredTextures.Array.data[11].texture
-      value: 
-      objectReference: {fileID: 2800000, guid: f9262a914f9fcc8429b04bd32e72b0a4, type: 3}
-    - target: {fileID: 698274908565470545, guid: 93f7ec343e206c742a0eb81d7c98cbfd, type: 3}
       propertyPath: registeredTextures.Array.data[1].surfaceIndex
       value: 2
       objectReference: {fileID: 0}
@@ -55639,10 +55689,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 698274908565470545, guid: 93f7ec343e206c742a0eb81d7c98cbfd, type: 3}
       propertyPath: registeredTextures.Array.data[10].surfaceIndex
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 698274908565470545, guid: 93f7ec343e206c742a0eb81d7c98cbfd, type: 3}
-      propertyPath: registeredTextures.Array.data[11].surfaceIndex
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 698274908565470545, guid: 93f7ec343e206c742a0eb81d7c98cbfd, type: 3}

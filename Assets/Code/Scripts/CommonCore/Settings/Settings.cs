@@ -155,6 +155,5 @@ namespace SettingsNS
             get { return isInGameMenuOpened; }
             set { isInGameMenuOpened = value; }
         }
-
     }
 }

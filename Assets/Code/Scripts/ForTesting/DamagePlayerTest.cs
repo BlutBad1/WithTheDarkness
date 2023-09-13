@@ -17,6 +17,6 @@ namespace ForTestingNS
             }
         }
         public void AttackPlayer(int damage) =>
-            player.GetComponent<Damageable>().TakeDamage(damage, 0, new Vector3(0, 0, 0));
+            player.GetComponent<Damageable>().TakeDamage(new TakeDamageData(damage, 0, new Vector3(0, 0, 0), null));
     }
 }

@@ -1,23 +1,53 @@
+using CreatureNS;
+using EnemyNS.Attack;
 using MyConstants;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace EnemyBaseNS
+namespace EnemyNS.Base
 {
     [RequireComponent(typeof(NavMeshAgent), typeof(AgentLinkMover))]
-    public class EnemyMovement : MonoBehaviour
+    public class EnemyMovement : MonoBehaviour, ICreature, ISerializationCallbackReceiver
     {
-        public GameObject Player;
+        //!!!!CREATURE!!!!
+        [Header("Creature")]
+        [HideInInspector]
+        public static List<string> CreatureNames;
+        [ListToPopup(typeof(EnemyMovement), "CreatureNames")]
+        public string CreatureType;
+        [ListToMultiplePopup(typeof(EnemyMovement), "CreatureNames")]
+        public int OpponentsMask;
+        public Dictionary<GameObject, ICreature> KnownCreatures;
+        public Dictionary<GameObject, ICreature> CreaturesInSight;
+        public Dictionary<GameObject, Damageable> Opponents;
+        //!!!!MECHANICS VARIABLES!!!!
+        [Header("Mechanics Variables")]
+        [HideInInspector]
+        public GameObject PursuedTarget;
+        //Routes that enemy would follow in priority, than higher int that more priority its has
+        public List<PriorityTask> PriorityTasks;
         public EnemyLineOfSightChecker LineOfSightChecker;
+        public float DontLoseSightIfDistanceLess = 1f;
+        public float IdleMovespeedMultiplier = 0.5f;
+        [HideInInspector]
+        private bool isStateChangeBlocked = false;
         [SerializeField]
-        private Animator animator = null;
+        public Animator Animator = null;
+        [HideInInspector]
+        public Vector3 DefaultPositon;
+        //!!!!NAVMESH!!!!
+        [Header("NavMesh")]
         public NavMeshTriangulation Triangulation = new NavMeshTriangulation();
-        [Tooltip("Delayed status updates")]
-        public float UpdateRate = 0.1f;
         [HideInInspector]
         public NavMeshAgent Agent;
         private AgentLinkMover linkMover;
+        //!!!!STATE!!!!
+        [Header("State")]
+        [Tooltip("State update delay")]
+        public float UpdateRate = 0.1f;
         [SerializeField]
         public EnemyState DefaultState;
         private EnemyState _state;
@@ -33,16 +63,18 @@ namespace EnemyBaseNS
                 _state = value;
             }
         }
+        //!!!!DELEGATES!!!!
         public delegate void StateChangeEvent(EnemyState oldState, EnemyState newState);
-        public StateChangeEvent OnStateChange;
-        public float IdleMovespeedMultiplier = 0.5f;
-        [HideInInspector]
-        public Vector3 DefaultPositon;
-        private Coroutine followCoroutine;
+        public event StateChangeEvent OnStateChange;
         public delegate void OngoingStateEvent();
-        public OngoingStateEvent OnIdle;
-        public OngoingStateEvent OnFollow;
-        public OngoingStateEvent OnPatrol;
+        public event OngoingStateEvent OnIdle;
+        public event OngoingStateEvent OnFollow;
+        public event OngoingStateEvent OnPatrol;
+        public event OngoingStateEvent OnDoPriority;
+        //!!!!COROUTINES!!!!
+        private Coroutine followCoroutine;
+
+        ///////UNITY METHODS///////
         private void Awake()
         {
             DefaultPositon = transform.position;
@@ -52,74 +84,188 @@ namespace EnemyBaseNS
             linkMover.OnLinkEnd += HandleLinkEnd;
             if (LineOfSightChecker == null)
                 LineOfSightChecker = GetComponent<EnemyLineOfSightChecker>();
-            LineOfSightChecker.OnGainSight += HandleGainSight;
-            LineOfSightChecker.OnLoseSight += HandleLoseSight;
+            if (LineOfSightChecker != null)
+            {
+                LineOfSightChecker.OnGainSight += HandleGainCreatureInSight;
+                LineOfSightChecker.OnLoseSight += HandleLoseCreatureFromSight;
+            }
             OnStateChange += HandleStateChange;
-            HandleStateChange(State, DefaultState);
-            if (!Player)
-                Player = GameObject.Find(CommonConstants.PLAYER);
+            State = DefaultState;
         }
         protected virtual void Start()
         {
-            if (!animator)
-                TryGetComponent(out animator);
-        }
-        protected virtual void HandleGainSight(GameObject player) =>
-            State = EnemyState.Chase;
-        protected virtual void HandleLoseSight(GameObject player) =>
-            State = DefaultState;
-        private void HandleLinkStart(OffMeshLinkMoveMethod MoveMethod)
-        {
-            if (MoveMethod == OffMeshLinkMoveMethod.NormalSpeed)
-                animator.SetBool(EnemyConstants.IS_WALKING, true);
-            else if (MoveMethod != OffMeshLinkMoveMethod.Teleport)
-                animator.SetTrigger(EnemyConstants.JUMP);
-        }
-        private void HandleLinkEnd(OffMeshLinkMoveMethod MoveMethod)
-        {
-            if (MoveMethod != OffMeshLinkMoveMethod.Teleport && MoveMethod != OffMeshLinkMoveMethod.NormalSpeed)
-                animator.SetTrigger(EnemyConstants.LANDED);
+            if (!Animator)
+                TryGetComponent(out Animator);
+            KnownCreatures = new Dictionary<GameObject, ICreature>();
+            CreaturesInSight = new Dictionary<GameObject, ICreature>();
+            Opponents = new Dictionary<GameObject, Damageable>();
+            PriorityTasks = new List<PriorityTask>();
         }
         private void Update()
         {
             if (!Agent.isOnOffMeshLink)
             {
-                if (!animator)
+#if UNITY_EDITOR
+                if (!Animator)
                     Debug.LogWarning("Enemy movement animator is not set!");
-                animator?.SetBool(EnemyConstants.IS_WALKING, Agent.velocity.magnitude > 0.01f);
+#endif
+                Animator?.SetBool(CreatureConstants.EnemyConstants.IS_WALKING, Agent.velocity.magnitude > 0.01f);
             }
         }
         protected virtual void OnDisable()
         {
             if (State != EnemyState.Dead && gameObject.scene.IsValid())
                 BackToDefaultPosition();
+            //Opponents.Clear();
+            //CreaturesInSight.Clear();
+        }
+        ///////////END///////////
+
+        public GameObject GetClosestKnownCreature(IEnumerable objects)
+        {
+            GameObject bestTarget = null;
+            float closestDistanceSqr = Mathf.Infinity;
+            Vector3 currentPosition = transform.position;
+            foreach (GameObject potentialTarget in objects)
+            {
+                Vector3 directionToTarget = potentialTarget.transform.position - currentPosition;
+                float dSqrToTarget = directionToTarget.sqrMagnitude;
+                if (dSqrToTarget < closestDistanceSqr)
+                {
+                    closestDistanceSqr = dSqrToTarget;
+                    bestTarget = potentialTarget;
+                }
+            }
+            return bestTarget;
+        }
+        public GameObject TryGetNewTarget()
+        {
+            if (Opponents != null && Opponents.Count > 0)
+            {
+                foreach (var entry in Opponents.Where(entry => entry.Value.IsDead).ToList())
+                    Opponents.Remove(entry.Key);
+                Dictionary<GameObject, Damageable> creaturesOpponents = Opponents.Where
+                (x => !x.Value.IsDead && x.Key != PursuedTarget && GetOpponentsList().Contains(ICreature.GetICreatureComponent(x.Key).GetCreatureName()))
+                .ToDictionary(p => p.Key, p => p.Value);
+                if (creaturesOpponents != null)
+                    return GetClosestKnownCreature(creaturesOpponents.Keys.ToArray());
+                else
+                    return PursuedTarget;
+            }
+            else
+                return null;
+        }
+
+        public List<string> GetOpponentsList()
+        {
+            List<string> list = new List<string>();
+            if (CreatureType == MyConstants.CreatureConstants.ALONE_CREATURE_TYPE)
+                list = CreatureNames;
+            else
+            {
+                for (int i = 0; i < CreatureNames.Count; i++)
+                {
+                    if ((OpponentsMask & (1 << i)) != 0)
+                        list.Add(CreatureNames[i]);
+                }
+            }
+            return list;
         }
         public virtual void BackToDefaultPosition() =>
-            Agent.Warp(DefaultPositon);
+          Agent.Warp(DefaultPositon);
+        public string GetCreatureName() =>
+      CreatureType;
+        public GameObject GetCreatureGameObject() =>
+            gameObject;
+
+        public void OnBeforeSerialize() =>
+            CreatureNames = CreatureTypes.GetInstance().Names;
+
+        public void OnAfterDeserialize()
+        {
+        }
+        ///////SIGHT HANDLES///////
+        public virtual void HandleGainCreatureInSight(GameObject spottedTarget)
+        {
+            ICreature creatureComponent = ICreature.GetICreatureComponent(spottedTarget);
+            Damageable damageable = Damageable.GetDamageableFromGameObject(spottedTarget);
+            if (spottedTarget == gameObject || CreaturesInSight.ContainsValue(creatureComponent))
+                return;
+            if (creatureComponent != null)
+            {
+                if (!CreaturesInSight.ContainsKey(spottedTarget))
+                    CreaturesInSight.Add(spottedTarget, creatureComponent);
+                if (!KnownCreatures.ContainsKey(spottedTarget))
+                    KnownCreatures.Add(spottedTarget, creatureComponent);
+                if (GetOpponentsList().Contains(creatureComponent.GetCreatureName()))
+                {
+                    if (damageable != null && damageable.IsDead)
+                        return;
+                    if (!Opponents.ContainsKey(spottedTarget))
+                        Opponents.Add(spottedTarget, damageable);
+                    if (PursuedTarget && PursuedTarget != spottedTarget)
+                    {
+                        if (Vector3.Distance(transform.position, TryGetNewTarget().transform.position) <
+                            Vector3.Distance(transform.position, PursuedTarget.transform.position))
+                            PursuedTarget = TryGetNewTarget();
+                    }
+                    else
+                        PursuedTarget = TryGetNewTarget();
+                    State = EnemyState.Chase;
+                }
+            }
+        }
+        public virtual void HandleLoseCreatureFromSight(GameObject lostTarget)
+        {
+            if (lostTarget == PursuedTarget)
+            {
+                if (Vector3.Distance(gameObject.transform.position, PursuedTarget.transform.position) > DontLoseSightIfDistanceLess)
+                {
+                    Opponents.Remove(PursuedTarget);
+                    PursuedTarget = null;
+                    State = DefaultState;
+                }
+                else
+                    return;
+            }
+            CreaturesInSight.Remove(lostTarget);
+        }
+        ///////////END///////////
+
+        //////STATE AND IENUMERATORS//////
         protected virtual void HandleStateChange(EnemyState oldState, EnemyState newState)
         {
             if (oldState != newState && oldState != EnemyState.Dead)
             {
-                if (followCoroutine != null)
-                    StopCoroutine(followCoroutine);
-                if (oldState == EnemyState.Idle)
-                    Agent.speed /= IdleMovespeedMultiplier;
-                switch (newState)
+                if (!isStateChangeBlocked || newState == EnemyState.Dead)
                 {
-                    case EnemyState.Idle:
-                        Agent.speed *= IdleMovespeedMultiplier;
-                        followCoroutine = StartCoroutine(DoIdleMotion());
-                        break;
-                    case EnemyState.Patrol:
-                        followCoroutine = StartCoroutine(DoPatrolMotion());
-                        break;
-                    case EnemyState.Chase:
-                        followCoroutine = StartCoroutine(FollowTarget());
-                        break;
-                    case EnemyState.Dead:
-                        DefaultState = EnemyState.Dead;
-                        followCoroutine = StartCoroutine(DeadCoroutine());
-                        break;
+                    if (followCoroutine != null)
+                        StopCoroutine(followCoroutine);
+                    if (oldState == EnemyState.Idle)
+                        Agent.speed /= IdleMovespeedMultiplier;
+                    switch (newState)
+                    {
+                        case EnemyState.Idle:
+                            Agent.speed *= IdleMovespeedMultiplier;
+                            followCoroutine = StartCoroutine(DoIdleMotion());
+                            break;
+                        case EnemyState.Patrol:
+                            followCoroutine = StartCoroutine(DoPatrolMotion());
+                            break;
+                        case EnemyState.Chase:
+                            followCoroutine = StartCoroutine(DoFollowTarget());
+                            break;
+                        case EnemyState.Dead:
+                            DefaultState = EnemyState.Dead;
+                            followCoroutine = StartCoroutine(DeadCoroutine());
+                            break;
+                        case EnemyState.DoPriority:
+                            followCoroutine = StartCoroutine(DoPriority());
+                            break;
+                        default:
+                            State = DefaultState;
+                            break;
+                    }
                 }
             }
         }
@@ -137,6 +283,11 @@ namespace EnemyBaseNS
             Agent.speed *= IdleMovespeedMultiplier;
             while (true)
             {
+                if (TryGetNewTarget() && PursuedTarget != TryGetNewTarget())
+                {
+                    PursuedTarget = TryGetNewTarget();
+                    State = EnemyState.Chase;
+                }
                 OnIdle?.Invoke();
                 yield return Wait;
             }
@@ -147,21 +298,81 @@ namespace EnemyBaseNS
             yield return new WaitUntil(() => Agent.enabled && Agent.isOnNavMesh);
             while (true)
             {
+                if (TryGetNewTarget() && PursuedTarget != TryGetNewTarget())
+                {
+                    PursuedTarget = TryGetNewTarget();
+                    State = EnemyState.Chase;
+                }
                 OnPatrol?.Invoke();
                 yield return Wait;
             }
         }
-        protected virtual IEnumerator FollowTarget()
+        protected virtual IEnumerator DoFollowTarget()
         {
-            while (true)
+            Damageable damageable = null;
+            GameObject currentGameObject = null;
+            while (PursuedTarget)
             {
-                if (Agent.enabled)
+                if (currentGameObject != PursuedTarget)
                 {
-                    OnFollow?.Invoke();
-                    Agent.SetDestination(Player.transform.position);
+                    damageable = Damageable.GetDamageableFromGameObject(PursuedTarget);
+                    currentGameObject = PursuedTarget;
+                }
+                if (damageable && damageable.IsDead)
+                {
+                    Opponents.Remove(PursuedTarget);
+                    PursuedTarget = TryGetNewTarget() == PursuedTarget ? null : TryGetNewTarget();
+                    if (!PursuedTarget)
+                    {
+                        State = DefaultState;
+                        break;
+                    }
+                }
+                OnFollow?.Invoke();
+                if (Agent.enabled && Agent.isOnNavMesh)
+                    Agent.SetDestination(PursuedTarget.transform.position);
+                yield return null;
+            }
+            State = DefaultState;
+        }
+        protected virtual IEnumerator DoPriority()
+        {
+            isStateChangeBlocked = true;
+            Vector3 currentDestination = Vector3.zero;
+            while (PriorityTasks.Count > 0)
+            {
+                OnDoPriority?.Invoke();
+                if (Agent.enabled && Agent.isOnNavMesh)
+                {
+                    if (Agent.remainingDistance <= Agent.stoppingDistance || Agent.destination != currentDestination || !Agent.CalculatePath(Agent.destination, Agent.path))
+                    {
+                        PriorityTask highestPriorityTask = PriorityTasks.OrderByDescending(t => t.Priority).FirstOrDefault();
+                        if (Agent.CalculatePath(highestPriorityTask.Destination, Agent.path))
+                        {
+                            currentDestination = highestPriorityTask.Destination;
+                            Agent.SetDestination(currentDestination);
+                        }
+                        PriorityTasks.Remove(highestPriorityTask);
+                    }
                 }
                 yield return null;
             }
+            isStateChangeBlocked = false;
+            if (State == EnemyState.DoPriority)
+                State = DefaultState;
+        }
+        ///////////END///////////
+        private void HandleLinkStart(OffMeshLinkMoveMethod MoveMethod)
+        {
+            if (MoveMethod == OffMeshLinkMoveMethod.NormalSpeed)
+                Animator.SetBool(CreatureConstants.EnemyConstants.IS_WALKING, true);
+            else if (MoveMethod != OffMeshLinkMoveMethod.Teleport)
+                Animator.SetTrigger(CreatureConstants.EnemyConstants.JUMP);
+        }
+        private void HandleLinkEnd(OffMeshLinkMoveMethod MoveMethod)
+        {
+            if (MoveMethod != OffMeshLinkMoveMethod.Teleport && MoveMethod != OffMeshLinkMoveMethod.NormalSpeed)
+                Animator.SetTrigger(CreatureConstants.EnemyConstants.LANDED);
         }
     }
 }

@@ -7,7 +7,7 @@ namespace PlayerScriptsNS
         public Camera cam;
         private float xRotation = 0f;
         private InputManager inputManager;//dev delete it when developing ended  
-        private bool isFreez = false;//dev 
+        private bool isLookingInputLocked = false;
         private void Start()
         {
             Cursor.visible = false;
@@ -20,22 +20,22 @@ namespace PlayerScriptsNS
         {
             if (inputManager != null && inputManager.OnFoot.CurFreeze.triggered)
             {
-                if (!isFreez)
+                if (!isLookingInputLocked)
                 {
                     Cursor.visible = true;
                     Cursor.lockState = CursorLockMode.None;
-                    isFreez = true;
+                    SetLookingInputLockStats(true);
                 }
                 else
-                {
-                    isFreez = false;
-                }
+                    SetLookingInputLockStats(false);
             }
         }
 #endif
+        public void SetLookingInputLockStats(bool isLocked) =>
+            isLookingInputLocked = isLocked;
         public void ProcessLook(Vector2 input)
         {
-            if (!isFreez)//dev
+            if (!isLookingInputLocked)
             {
                 float mouseX = input.x;
                 float mouseY = input.y;

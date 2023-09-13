@@ -1,29 +1,18 @@
-using EnemyBaseNS;
-using MyConstants;
+using EnemyNS.Base;
 using System.Collections;
 using UnityEngine;
 
-namespace EnemyAttackNS
+namespace EnemyNS.Attack
 {
     public class StraightAttack : EnemyAttack
     {
-        public LayerMask WhatIsPlayer;
-        [Tooltip("Default is player")]
-        public GameObject ObjectToAttack;
         [HideInInspector]
         public SphereCollider AttackColider;
         public LayerMask WhatIsRayCastIgnore;
-        protected void Start()
+        private float timeBetweenAttacks = 0;
+        protected new void Start()
         {
-            if (!ObjectToAttack)
-            {
-                ObjectToAttack = GameObject.Find(CommonConstants.PLAYER);
-#if UNITY_EDITOR
-                if (!ObjectToAttack)
-                    Debug.LogWarning("Object to attack is not found");
-#endif
-            }
-            objectDamageable = ObjectToAttack?.GetComponent<IDamageable>();
+            base.Start();
             if (!TryGetComponent(out AttackColider))
             {
                 AttackColider = GetComponentInChildren(typeof(SphereCollider)) as SphereCollider;
@@ -35,67 +24,72 @@ namespace EnemyAttackNS
             AttackColider.radius = AttackRadius;
             AttackColider.enabled = false;
         }
-        public override bool CanAttack(GameObject enemy, GameObject player)
+        private void Update()
         {
-            if (base.CanAttack(enemy, player))
-            {
-                enemy.TryGetComponent(out Enemy enemyScript);
-                if (enemyScript != null && enemyScript.Health > 0)
-                {
-                    Vector3 origin = enemy.transform.position;
-                    origin.y = (player.transform.position.y + origin.y)/2;
-                    Ray ray = new Ray(origin, player.transform.position - origin);
-                    // if (Physics.SphereCast(ray, 0.3f, (player.transform.position - enemy.transform.position).magnitude, ~WhatIsRayCastIgnore))
-                    if (Physics.Raycast(ray, (player.transform.position - enemy.transform.position).magnitude, ~WhatIsRayCastIgnore))
-                        return false;
-                    return true;
-                }
-            }
-            StopAttack();
-            return false;
-        }
-        protected void Update()
-        {
-            if (ObjectToAttack != null && (transform.position - ObjectToAttack.transform.position).magnitude <= AttackDistance)
-            {
-                if (CanAttack(gameObject, ObjectToAttack))
-                {
-                    if (attackCoroutine == null)
-                        attackCoroutine = StartCoroutine(Attack());
-                    IsAttacking = true;
-                }
-            }
+            timeBetweenAttacks += Time.deltaTime;
         }
         public override void StopAttack()
         {
             base.StopAttack();
             AttackColider.enabled = false;
         }
+        public void TryAttackAnim()
+        {
+            IsAttacking = true;
+            AttackColider.enabled = true;
+        }
         public override void TryAttack()
         {
-            base.TryAttack();
-            AttackColider.enabled = true;
+            if (Enemy.Movement.enabled)
+                base.TryAttack();
+            else
+                TryAttackAnim();
+        }
+        public override bool CanAttack(GameObject creture)
+        {
+            if (base.CanAttack(creture))
+            {
+                if (Enemy.Health > 0)
+                {
+                    Vector3 origin = transform.position;
+                    origin.y = (creture.transform.position.y + origin.y) / 2;
+                    Ray ray = new Ray(origin, creture.transform.position - origin);
+                    // if (Physics.SphereCast(ray, 0.3f, (player.transform.position - enemy.transform.position).magnitude, ~WhatIsRayCastIgnore))
+                    if (Physics.Raycast(ray, out RaycastHit hit, (creture.transform.position - transform.position).magnitude, ~WhatIsRayCastIgnore))
+                    {
+                        if (creture.layer != hit.collider.gameObject.layer)
+                            return false;
+                    }
+                    return true;
+                }
+            }
+            StopAttack();
+            return false;
+        }
+        protected override IEnumerator Attack(IDamageable objectToDamage)
+        {
+            WaitForSeconds Wait = new WaitForSeconds(AttackDelay);
+            while (objectToDamage != null)
+            {
+                OnAttack?.Invoke(objectToDamage);
+                yield return Wait;
+            }
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (((WhatIsPlayer | (1 << other.gameObject.layer)) == WhatIsPlayer) && other.GetComponent<ILastTouched>().iLastEntered == AttackColider)
+            ILastTouched ilt = other.GetComponent<ILastTouched>();
+            if (other.gameObject == Enemy.Movement.PursuedTarget && (!ilt || ilt && ilt.iLastEntered == AttackColider))
             {
-                if (ObjectToAttack == null)
+                if (timeBetweenAttacks > AttackDelay)
                 {
-                    ObjectToAttack = other.gameObject;
-                    objectDamageable = ObjectToAttack.GetComponent<IDamageable>();
+                    TakeDamageData takeDamageData = new TakeDamageData(Damage, AttackForce,
+                     (Enemy.Movement.PursuedTarget.transform.position - gameObject.transform.position).normalized, gameObject);
+                    if (IsAttacking && Enemy.Movement.PursuedTarget.TryGetComponent(out IDamageable damageable))
+                        damageable.TakeDamage(takeDamageData);
+                    else if (IsAttacking && other.gameObject.GetComponentInParent<IDamageable>() != null)
+                        other.gameObject.GetComponentInParent<IDamageable>().TakeDamage(takeDamageData);
+                    timeBetweenAttacks = 0;
                 }
-                if (IsAttacking)
-                    objectDamageable.TakeDamage(Damage, AttackForce, (ObjectToAttack.transform.position - gameObject.transform.position).normalized);
-            }
-        }
-        protected override IEnumerator Attack()
-        {
-            WaitForSeconds Wait = new WaitForSeconds(AttackDelay);
-            while (objectDamageable != null)
-            {
-                OnAttack?.Invoke(objectDamageable);
-                yield return Wait;
             }
         }
     }

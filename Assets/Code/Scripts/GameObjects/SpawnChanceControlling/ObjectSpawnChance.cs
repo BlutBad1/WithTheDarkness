@@ -1,3 +1,4 @@
+using SerializableTypes;
 using UnityEngine;
 namespace GameObjectsControllingNS
 {

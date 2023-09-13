@@ -1,3 +1,4 @@
+using SerializableTypes;
 using System.Collections;
 using UnityEngine;
 using static SettingsNS.AudioSettings;
@@ -22,6 +23,7 @@ namespace SoundNS
         {
             base.Awake();
             availableSources.Add(audioObject = new AudioObject(audioSource, audioSource.volume, AudioType));
+            VolumeChange();
         }
         public void SetAudioSource(AudioSource audioSource)
         {

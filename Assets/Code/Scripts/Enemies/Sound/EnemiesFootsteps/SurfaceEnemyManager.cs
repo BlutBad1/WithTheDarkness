@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace EnemySoundNS
+namespace EnemyNS.Sound
 {
     [System.Serializable]
     public struct EnemySurfaceDefinition

@@ -1,46 +1,47 @@
-using EnemyBaseNS;
+using EnemyNS.Base;
 using System.Collections;
 using UnityEngine;
 
-namespace EnemyOnTakeDamageNS
+namespace EnemyNS.OnTakeDamage
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class KnockoutEffect : MonoBehaviour
     {
-        private Enemy enemy;
         public bool KnockoutEnable = false;
-        private bool isInKnockout = false;
-        private Rigidbody mainRigidbody;
         public float InKnockoutTime = 0.3f;
         public float KnockoutForce = 1f;
+        private Enemy enemy;
+        private bool isInKnockout = false;
+        private Rigidbody mainRigidbody;
         void Start()
         {
             enemy = GetComponent<Enemy>();
             mainRigidbody = GetComponent<Rigidbody>();
-            enemy.OnTakeDamage += OnTakeDamage;
+            enemy.OnTakeDamageWithDamageData += OnTakeDamage;
         }
-        private void OnTakeDamage(float damage, float force, Vector3 hit)
+        private void OnTakeDamage(TakeDamageData takeDamageData)
         {
-            if (KnockoutEnable && enemy.Health > 0)
+            if (KnockoutEnable && enemy.Health > 0 && takeDamageData.Hit != Vector3.zero)
             {
-                Vector3 moveDirection = transform.position - hit;
+                Vector3 moveDirection = transform.position - takeDamageData.Hit;
                 if (!isInKnockout)
                 {
-                    enemy.Agent.enabled = false;
+                    enemy.Movement.Agent.enabled = false;
                     mainRigidbody.isKinematic = false;
                     isInKnockout = true;
-                    enemy.Agent.velocity = Vector3.zero;
+                    enemy.Movement.Agent.velocity = Vector3.zero;
                     if (mainRigidbody != null)
-                        mainRigidbody.AddForce(moveDirection.normalized * KnockoutForce * force, ForceMode.Impulse);
+                        mainRigidbody.AddForce(moveDirection.normalized * KnockoutForce * takeDamageData.Force, ForceMode.Impulse);
                     StartCoroutine(KnockBackTimer(mainRigidbody));
                 }
             }
         }
-        IEnumerator KnockBackTimer(Rigidbody hittedRigidbody)
+        private IEnumerator KnockBackTimer(Rigidbody hittedRigidbody)
         {
             yield return new WaitForSeconds(InKnockoutTime);
             if (enemy.Health > 0)
             {
-                enemy.Agent.enabled = true;
+                enemy.Movement.Agent.enabled = true;
                 if (hittedRigidbody != null)
                     hittedRigidbody.isKinematic = true;
             }

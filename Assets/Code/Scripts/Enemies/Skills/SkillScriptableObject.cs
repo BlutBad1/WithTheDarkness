@@ -1,6 +1,6 @@
-using EnemyBaseNS;
+using EnemyNS.Base;
 using UnityEngine;
-namespace EnemySkillsNS
+namespace EnemyNS.Skills
 {
     public class SkillScriptableObject : ScriptableObject
     {
@@ -14,13 +14,9 @@ namespace EnemySkillsNS
             UseTime = 0f;
             IsActivating = false;
         }
-        public virtual void UseSkill(Enemy enemy, GameObject player)
-        {
+        public virtual void UseSkill(Enemy enemy, GameObject target) =>
             IsActivating = true;
-        }
-        public virtual bool CanUseSkill(Enemy enemy, GameObject player)
-        {
-            return enemy.Health > 0;
-        }
+        public virtual bool CanUseSkill(Enemy enemy, GameObject target) =>
+             !enemy.IsDead;
     }
 }

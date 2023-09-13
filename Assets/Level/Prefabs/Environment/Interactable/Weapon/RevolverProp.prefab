@@ -849,7 +849,7 @@ MonoBehaviour:
   - {fileID: 4577018618444189850}
   referenceMat: {fileID: 2100000, guid: 57854568d07548d4081eed2a7fbee7a0, type: 2}
   MinDistance: 20
-  MaxIntensity: 1
+  MaxIntensity: 0.25
   MinIntensity: 0
   IntensityUpdateDelay: 0.3
 --- !u!1 &4577018618237545806

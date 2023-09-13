@@ -6,10 +6,10 @@ namespace InteractableNS.Common
     {
         public delegate void TakeDamageEvent(float force, Vector3 hit);
         public TakeDamageEvent OnTakeDamage;
-        public Transform GetTransform() =>
-             transform;
-        public void TakeDamage(float damage, float force, Vector3 hit) =>
-            OnTakeDamage?.Invoke(force, hit);
+        public GameObject GetGameObject() =>
+             gameObject;
+        public void TakeDamage(TakeDamageData takeDamageData) =>
+            OnTakeDamage?.Invoke(takeDamageData.Force, takeDamageData.Hit);
         public void TakeDamage(float damage)
         {
         }

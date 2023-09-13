@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace WeaponNS.ShootingWeaponNS
 {
-    [CreateAssetMenu(fileName = "Gun", menuName = "Weapon/Gun")]
+    [CreateAssetMenu(fileName = "Gun", menuName = "ScriptableObject/Weapon/Gun")]
     public class GunData : WeaponData
     {
         [Header("Shooting")]

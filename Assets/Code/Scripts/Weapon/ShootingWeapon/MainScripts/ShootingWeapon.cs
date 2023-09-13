@@ -1,5 +1,5 @@
-using MyConstants.WeaponConstants.ShootingWeaponConstants;
 using MyConstants.WeaponConstants;
+using MyConstants.WeaponConstants.ShootingWeaponConstants;
 using System.Collections;
 using UnityEngine;
 
@@ -14,9 +14,21 @@ namespace WeaponNS.ShootingWeaponNS
         protected Animator animator;
         protected float timeSinceLastShot;
         protected int difference;
+        static bool firstFramePassed = false;
         public delegate void BulletSpread(GunData gunData);
         public BulletSpread OnShootRaycast;
-        static bool firstFramePassed = false;
+        private void OnEnable()
+        {
+            if (animator && !animator.GetBool(MainShootingWeaponConstants.RELOADING))
+                gunData.Reloading = false;
+            timeSinceLastShot = 0;
+            if (firstFramePassed)
+            {
+                PlayerShoot.shootInput += Shoot;
+                PlayerShoot.altFireInput += AltFire;
+                PlayerShoot.reloadInput += StartReload;
+            }
+        }
         private void Awake()
         {
             animator = gun.GetComponent<Animator>();
@@ -33,23 +45,17 @@ namespace WeaponNS.ShootingWeaponNS
                 PlayerShoot.reloadInput += StartReload;
             }
         }
+        private void Update()
+        {
+            if (!firstFramePassed)
+                firstFramePassed = true;
+            timeSinceLastShot += Time.deltaTime;
+        }
         private void OnDisable()
         {
             PlayerShoot.shootInput -= Shoot;
             PlayerShoot.altFireInput -= AltFire;
             PlayerShoot.reloadInput -= StartReload;
-        }
-        private void OnEnable()
-        {
-            if (animator && !animator.GetBool(MainShootingWeaponConstants.RELOADING))
-                gunData.Reloading = false;
-            timeSinceLastShot = 0;
-            if (firstFramePassed)
-            {
-                PlayerShoot.shootInput += Shoot;
-                PlayerShoot.altFireInput += AltFire;
-                PlayerShoot.reloadInput += StartReload;
-            }
         }
         public void StartReload()
         {
@@ -58,17 +64,6 @@ namespace WeaponNS.ShootingWeaponNS
                     StartCoroutine(Reload());
         }
         public virtual void ReloadAnim() => animator?.SetTrigger(MainShootingWeaponConstants.RELOADING);
-        protected virtual IEnumerator Reload()
-        {
-            gunData.Reloading = true;
-            difference = gunData.ReserveAmmo >= (gunData.MagSize - gunData.CurrentAmmo) ? gunData.MagSize - gunData.CurrentAmmo : gunData.ReserveAmmo;
-            gunData.ReserveAmmo -= difference;
-            gunData.CurrentAmmo += difference;
-            ReloadAnim();
-            yield return new WaitForSeconds(gunData.ReloadTime);
-            gunData.Reloading = false;
-        }
-        protected bool CanShoot() => !gunData.Reloading && timeSinceLastShot > (2f / (gunData.FireRate / 60f));
         public virtual void ShootRaycast() => OnShootRaycast?.Invoke(gunData);
         public virtual void Shoot()
         {
@@ -91,13 +86,18 @@ namespace WeaponNS.ShootingWeaponNS
                 }
             }
         }
-        public virtual void AltFire() { return; }
         public void GetAmmo(int ammo) => gunData.ReserveAmmo += ammo;
-        private void Update()
+        public virtual void AltFire() { return; }
+        protected bool CanShoot() => !gunData.Reloading && timeSinceLastShot > (2f / (gunData.FireRate / 60f));
+        protected virtual IEnumerator Reload()
         {
-            if (!firstFramePassed)
-                firstFramePassed = true;
-            timeSinceLastShot += Time.deltaTime;
+            gunData.Reloading = true;
+            difference = gunData.ReserveAmmo >= (gunData.MagSize - gunData.CurrentAmmo) ? gunData.MagSize - gunData.CurrentAmmo : gunData.ReserveAmmo;
+            gunData.ReserveAmmo -= difference;
+            gunData.CurrentAmmo += difference;
+            ReloadAnim();
+            yield return new WaitForSeconds(gunData.ReloadTime);
+            gunData.Reloading = false;
         }
     }
 }

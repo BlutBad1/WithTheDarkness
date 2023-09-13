@@ -1,5 +1,6 @@
 using HudNS;
 using MyConstants;
+using SerializableTypes;
 using System.Collections.Generic;
 using UnityEngine;
 namespace LightNS

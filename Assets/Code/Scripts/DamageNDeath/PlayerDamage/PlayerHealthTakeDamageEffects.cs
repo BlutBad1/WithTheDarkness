@@ -16,12 +16,15 @@ namespace PlayerScriptsNS
         public Image[] overlays;
         public PostProcessVolume PostProcessVolume;
         public float DimmingFadeSpeed = 3f;
+        public float DimmingWaitTime = 0.01f;
+        public PlayerLook PlayerLook;
+        public InputManager PlayerInputManager;
         [Header("Sounds")]
         public Sound[] TakeDamageSounds;
         public Sound[] DeathSounds;
         public MuteSound MuteSound;
         [SerializeField]
-        float muteTime = 10f;
+        private float muteTime = 10f;
         private AudioSource currentAudioSourceIsPlaying;
         private Coroutine takeDamageCoroutine;
         private Coroutine deathCoroutine;
@@ -30,20 +33,31 @@ namespace PlayerScriptsNS
         private void Start()
         {
             playerHealth = GetComponent<PlayerHealth>();
-            playerHealth.OnTakeDamage += TakeDamageVisual;
-            playerHealth.OnTakeDamage += TakeDamageAudio;
+            playerHealth.OnTakeDamageWithDamageData += TakeDamageVisual;
+            playerHealth.OnTakeDamageWithoutDamageData += TakeDamageVisual;
+            playerHealth.OnTakeDamageWithoutDamageData += TakeDamageAudio;
+            playerHealth.OnTakeDamageWithDamageData += TakeDamageAudio;
             playerHealth.OnDeath += Death;
+            if (!PlayerLook)
+                PlayerLook = GetComponent<PlayerLook>();
+            if (!PlayerInputManager)
+                PlayerInputManager = GetComponent<InputManager>();
             dimming = GameObject.Find(HUDConstants.BLACK_SCREEN_DIMMING).GetComponent<BlackScreenDimming>();
         }
         private void OnDestroy()
         {
-            playerHealth.OnTakeDamage -= TakeDamageVisual;
-            playerHealth.OnTakeDamage -= TakeDamageAudio;
+            playerHealth.OnTakeDamageWithDamageData -= TakeDamageVisual;
+            playerHealth.OnTakeDamageWithDamageData -= TakeDamageAudio;
             playerHealth.OnDeath -= Death;
+            Time.timeScale = 1f;
+            PlayerLook.SetLookingInputLockStats(false);
+            PlayerInputManager.SetMovingLock(false);
         }
-        //Play Take Damage Sound
-        public void TakeDamageAudio(float damage, float force, Vector3 hit) =>
+        //Play Take Damage Sounds
+        public void TakeDamageAudio(TakeDamageData takeDamageData) =>
               PlaySound(TakeDamageSounds);
+        public void TakeDamageAudio() =>
+            PlaySound(TakeDamageSounds);
         void PlaySound(Sound[] sounds)
         {
             if (TryGetComponent(out AudioManager audioManager) && sounds.Length > 0)
@@ -56,15 +70,19 @@ namespace PlayerScriptsNS
                 currentAudioSourceIsPlaying = audioManager.CreateAndPlay(temp);
             }
         }
-        public void TakeDamageVisual(float damage, float force, Vector3 hit)
+        public void TakeDamageVisual(TakeDamageData takeDamageData)
         {
             //Shake Camera
             if (TryGetComponent(out CameraShake cameraShake))
-                if ((float)damage / 50f > 1f)
-                    cameraShake.FooCameraShake(cameraShake.magnitude * ((float)damage / 50f), cameraShake.roughness);
+                if ((float)takeDamageData.Damage / 50f > 1f)
+                    cameraShake.FooCameraShake(cameraShake.magnitude * ((float)takeDamageData.Damage / 50f), cameraShake.roughness);
                 else
                     cameraShake.FooCameraShake();
             //Overlay and PostProcessEffect
+            TakeDamageVisual();
+        }
+        public void TakeDamageVisual()
+        {
             if (overlays != null && playerHealth.Health < playerHealth.OriginalHealth)
             {
                 if (takeDamageCoroutine != null)
@@ -98,12 +116,15 @@ namespace PlayerScriptsNS
         }
         public void Death()
         {
-            playerHealth.OnTakeDamage -= TakeDamageAudio;
+            playerHealth.OnTakeDamageWithDamageData -= TakeDamageAudio;
             SettingsNS.GameSettings.PlayerInput.OnFoot.EscapeMenu.Disable();
             MuteSound.MuteVolume(muteTime);
+            Time.timeScale = 0.5f;
+            PlayerLook.SetLookingInputLockStats(true);
+            PlayerInputManager.SetMovingLock(true, true);
             PlaySound(DeathSounds);
             dimming.fadeSpeed = DimmingFadeSpeed;
-            dimming.DimmingEnable();
+            dimming.DimmingEnable(false, DimmingWaitTime);
             if (deathCoroutine != null)
                 StopCoroutine(deathCoroutine);
             deathCoroutine = StartCoroutine(DeathCoroutine());
@@ -114,9 +135,12 @@ namespace PlayerScriptsNS
                 yield return null;
             SceneDeterminant sceneManager = GameObject.Find(MyConstants.SceneConstants.PROGRESS_MANAGER).GetComponent<SceneDeterminant>();
             if (sceneManager)
-                Loader.Load((int)sceneManager.SceneAfterLose);
+                Loader.Load(sceneManager.GetRandomScene(sceneManager.ScenesAfterLose, sceneManager.AfterLoseScenesSpawnChances));
             else
                 Loader.Load(MyConstants.SceneConstants.MAIN_MENU);
+            Time.timeScale = 1f;
+            PlayerLook.SetLookingInputLockStats(false);
+            PlayerInputManager.SetMovingLock(false);
         }
     }
 }

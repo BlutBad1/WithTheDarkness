@@ -1,18 +1,24 @@
+using CreatureNS;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace PlayerScriptsNS
 {
-    public class PlayerHealth : Damageable
+    public class PlayerHealth : Damageable, ICreature, ISerializationCallbackReceiver
     {
+        [HideInInspector]
+        public static List<string> CreatureNames;
+        [ListToPopup(typeof(PlayerHealth), "CreatureNames")]
+        public string CreatureType;
         public float HealthRegenPerCycle = 1f;
         public float TimeAfterHitToRegen = 3f;
         public float HeatlhRegenCycleTime = 0.1f;
         public float InvincibilityTime = 1f;
-        float timeSinceLastHit;
-        Coroutine CurrentRegenCoroutine;
         [HideInInspector]
         public bool HasRegenStarted = false;
+        float timeSinceLastHit;
+        Coroutine CurrentRegenCoroutine;
         private void Update()
         {
             timeSinceLastHit += Time.deltaTime;
@@ -21,10 +27,10 @@ namespace PlayerScriptsNS
             if (Health <= 0 && !IsDead)
                 IsDead = true;
         }
-        public override void TakeDamage(float damage, float force, Vector3 hit)
+        public override void TakeDamage(TakeDamageData takeDamageData)
         {
             if (timeSinceLastHit > InvincibilityTime)
-                base.TakeDamage(damage, force, hit);
+                base.TakeDamage(takeDamageData);
         }
         public override void TakeDamage(float damage)
         {
@@ -52,7 +58,19 @@ namespace PlayerScriptsNS
                 StopCoroutine(CurrentRegenCoroutine);
             CurrentRegenCoroutine = StartCoroutine(RegenStartCoroutine());
         }
-        IEnumerator RegenStartCoroutine()
+        public string GetCreatureName() =>
+            CreatureType;
+
+        public GameObject GetCreatureGameObject() =>
+            gameObject;
+        public void OnBeforeSerialize()
+        {
+            CreatureNames = CreatureTypes.GetInstance().Names;
+        }
+        public void OnAfterDeserialize()
+        {
+        }
+        private IEnumerator RegenStartCoroutine()
         {
             while (Health < OriginalHealth)
             {

@@ -1,6 +1,6 @@
 using DataSaving;
-using DataSaving.SerializableTypes;
 using MyConstants;
+using SerializableTypes;
 using SettingsNS;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -75,7 +75,7 @@ namespace UINS
         }
         public void LoadData()
         {
-            FileDataHandler fileDataHandler = new FileDataHandler(Application.persistentDataPath, DataSavingConstants.SETTINGS_DATA_PATH, false);
+            FileDataHandler fileDataHandler = new FileDataHandler(Application.persistentDataPath, DataConstants.SETTINGS_DATA_PATH, false);
             SettingsData settingsData = fileDataHandler.Load<SettingsData>();
             if (settingsData != null)
             {
@@ -136,7 +136,7 @@ namespace UINS
             SettingsNS.AudioSettings.MusicVolume, GraphicSettings.CurrentResolution.width, GraphicSettings.CurrentResolution.height, GraphicSettings.CurrentFullScreenMode, GraphicSettings.VSync,
             GraphicSettings.Brightness, GraphicSettings.HDROn, Mathf.Abs(GameSettings.XSensitivity), Mathf.Abs(GameSettings.YSensitivity), GameSettings.XInverse,
             GameSettings.YInverse, GameSettings.ChangeWeaponAfterPickup, bindings);
-            FileDataHandler fileDataHandler = new FileDataHandler(Application.persistentDataPath, DataSavingConstants.SETTINGS_DATA_PATH, false);
+            FileDataHandler fileDataHandler = new FileDataHandler(Application.persistentDataPath, DataConstants.SETTINGS_DATA_PATH, false);
             fileDataHandler.Save(settingsData);
         }
         void OnApplicationQuit()

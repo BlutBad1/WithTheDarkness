@@ -35,7 +35,7 @@ namespace Footsteps
         [SerializeField] PlayerMotor characterController;//	[SerializeField] CharacterController characterController;
         [Tooltip("You need an audio source to play a footstep sound.")]
         [SerializeField] AudioSource audioSource;
-        [SerializeField] AudioKind audioKind = AudioKind.Sound;
+        [SerializeField] AudioKind audioKind;
         // Random volume between this limits
         [SerializeField] float minVolume = 0.3f;
         [SerializeField] float maxVolume = 0.5f;
@@ -56,7 +56,7 @@ namespace Footsteps
         float lastPlayTime;
         bool previouslyGrounded;
         bool isGrounded = true;
-        void Start()
+        private void Start()
         {
             if (groundLayers.value == 0)
                 groundLayers = 1;
@@ -74,7 +74,7 @@ namespace Footsteps
                 enabled = false;
             }
         }
-        void Update()
+        private void Update()
         {
             CheckGround();
             if (triggeredBy == TriggeredBy.TRAVELED_DISTANCE)
@@ -92,9 +92,9 @@ namespace Footsteps
             if (isGrounded)
                 PlayFootstep();
         }
-        void PlayLandSound() =>
+        private void PlayLandSound() =>
             audioSource.PlayOneShot(SurfaceManager.singleton.GetLandsound(currentGroundInfo.collider, currentGroundInfo.point), landVolume * GetVolumeOfType(audioKind));
-        void AdvanceStepCycle(float increment)
+        private void AdvanceStepCycle(float increment)
         {
             stepCycleProgress += increment;
             if (stepCycleProgress > distanceBetweenSteps)
@@ -103,14 +103,14 @@ namespace Footsteps
                 PlayFootstep();
             }
         }
-        void PlayFootstep()
+        private void PlayFootstep()
         {
             AudioClip randomFootstep = SurfaceManager.singleton.GetFootstep(currentGroundInfo.collider, currentGroundInfo.point);
             float randomVolume = Random.Range(minVolume, maxVolume);
             if (randomFootstep)
                 audioSource.PlayOneShot(randomFootstep, randomVolume * GetVolumeOfType(audioKind));
         }
-        void OnDrawGizmos()
+        private void OnDrawGizmos()
         {
             if (debugMode)
             {
@@ -119,7 +119,7 @@ namespace Footsteps
                 Gizmos.DrawRay(transform.position + Vector3.up * groundCheckHeight, Vector3.down * (groundCheckDistance + groundCheckRadius));
             }
         }
-        void CheckGround()
+        private void CheckGround()
         {
             previouslyGrounded = isGrounded;
             Ray ray = new Ray(thisTransform.position + Vector3.up * groundCheckHeight, Vector3.down);

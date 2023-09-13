@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 namespace PlayerScriptsNS
 {
     [RequireComponent(typeof(InputManager)), RequireComponent(typeof(PlayerLook))]
-    public class PlayerInteract : CreatureInteract
+    public class PlayerInteract : EntityInteract
     {
         private Camera cam;
         [SerializeField]

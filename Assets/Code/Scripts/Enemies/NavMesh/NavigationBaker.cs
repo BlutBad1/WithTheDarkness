@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-namespace EnemyNavigationNS
+namespace EnemyNS.Navigation
 {
     public class NavigationBaker : MonoBehaviour
     {

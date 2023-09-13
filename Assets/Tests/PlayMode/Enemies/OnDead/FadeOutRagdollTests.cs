@@ -1,26 +1,21 @@
-using System.Collections;
-using System.Collections.Generic;
-using EnemyBaseNS;
-using EnemyOnDeadNS;
+using EnemyNS.Attack;
+using EnemyNS.Base;
+using EnemyNS.Death;
 using NUnit.Framework;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.AI;
 using UnityEngine.TestTools;
 
 namespace Enemies.OnDead
 {
-
-
-public class FadeOutRagdollTests
-{
-
-    GameObject enemy;
-    GameObject player;
-    Enemy enemyScript;
-    FadeOutRagdoll fadeOutRagdoll;
-    GameObject children;
-      
-    Vector3 defaultPosition;
+    public class FadeOutRagdollTests
+    {
+        GameObject enemy;
+        GameObject player;
+        Enemy enemyScript;
+        FadeOutRagdoll fadeOutRagdoll;
+        GameObject children;
+        Vector3 defaultPosition;
         [SetUp]
         public void Setup()
         {
@@ -32,27 +27,24 @@ public class FadeOutRagdollTests
             children.AddComponent<Rigidbody>();
             player.name = "Player";
             enemyScript = enemy.AddComponent<Enemy>();
-             enemy.AddComponent<Animator>();
+            enemy.AddComponent<Animator>();
             enemy.AddComponent<EnemyLineOfSightChecker>();
-             enemy.AddComponent<RagdollEnabler>();
+            enemy.AddComponent<RagdollEnabler>();
             enemy.GetComponent<RagdollEnabler>().RagdollRoot = children.transform;
             enemyScript.Movement = enemy.AddComponent<EnemyMovement>();
-            enemyScript.Agent = enemyScript.Movement.Agent;
-          
             fadeOutRagdoll = enemy.AddComponent<FadeOutRagdoll>();
-          
             defaultPosition = enemy.transform.position;
         }
         [UnityTest]
-    public IEnumerator OnDeadTest_Expect_DeadStatus()
-    {
+        public IEnumerator OnDeadTest_Expect_DeadStatus()
+        {
             //Act+Assert
             enemyScript.TakeDamage(110);
             yield return new WaitForSeconds(3f);
             Assert.AreEqual(EnemyState.Dead, enemyScript.Movement.State);
-            Assert.AreEqual(false, enemyScript.Agent.enabled);
+            Assert.AreEqual(false, enemyScript.Movement.Agent.enabled);
             Assert.AreEqual(false, enemyScript.Movement.enabled);
             Assert.AreNotEqual(defaultPosition, enemy.transform.position);
+        }
     }
-}
 }

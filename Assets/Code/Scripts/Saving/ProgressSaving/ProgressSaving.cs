@@ -32,7 +32,7 @@ namespace DataSaving.SceneSaving
         /// <returns>True - data exists and successfully loaded. False - data is empty</returns>
         public static bool LoadProgressData()
         {
-            FileDataHandler fileDataHandler = new FileDataHandler(Application.persistentDataPath, DataSavingConstants.PROGRESS_DATA_PATH, true);
+            FileDataHandler fileDataHandler = new FileDataHandler(Application.persistentDataPath, DataConstants.PROGRESS_DATA_PATH, true);
             loadedScene = fileDataHandler.Load<ProgressData>();
             return DataIsLoaded();
         }
@@ -40,7 +40,7 @@ namespace DataSaving.SceneSaving
         {
             if (loadedScene != null)
             {
-                FileDataHandler fileDataHandler = new FileDataHandler(Application.persistentDataPath, DataSavingConstants.PROGRESS_DATA_PATH, true);
+                FileDataHandler fileDataHandler = new FileDataHandler(Application.persistentDataPath, DataConstants.PROGRESS_DATA_PATH, true);
                 fileDataHandler.Save(loadedScene);
             }
         }

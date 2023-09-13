@@ -46,6 +46,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   definedSurfaces:
   - name: dirt
+    volume: 0
     footsteps:
     - {fileID: 8300000, guid: 0056868aff218604e8b0c859b2f72e32, type: 3}
     - {fileID: 8300000, guid: 8d93736d3c6baf341bc47a2953f63663, type: 3}
@@ -53,15 +54,16 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 129839f36797c2f4a809fb4b7046e7a4, type: 3}
     landsounds: []
   - name: wood
+    volume: 0
     footsteps:
     - {fileID: 8300000, guid: 46100fda67d57774b93da415dd7c9e4f, type: 3}
     - {fileID: 8300000, guid: 64508016c866a4e4a8ab0f5b020e5836, type: 3}
     - {fileID: 8300000, guid: ebefe735b9b904d4dab6e70b96f6f263, type: 3}
     - {fileID: 8300000, guid: 72b4382cae039794bb0dd0df6fb3e292, type: 3}
-    - {fileID: 8300000, guid: af08ef3832215854f9bdaf450911ee8d, type: 3}
     - {fileID: 8300000, guid: f8d171ce8bbdbab4bb4728814885a4a5, type: 3}
     landsounds: []
   - name: metal
+    volume: 0
     footsteps:
     - {fileID: 8300000, guid: 22fd99ad9764748459c360765644b57e, type: 3}
     - {fileID: 8300000, guid: 7d1f874cf81685942aaba56ac1ba3f30, type: 3}
@@ -69,12 +71,14 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 4b294111e8f0e234cb49570c23af2352, type: 3}
     landsounds: []
   - name: concrete
+    volume: 0
     footsteps:
     - {fileID: 8300000, guid: 20d2d7095a3b13c43baf263091e3a359, type: 3}
     - {fileID: 8300000, guid: f3e564ab55b5ba24d824b7ca71950c73, type: 3}
     landsounds:
     - {fileID: 8300000, guid: f3e564ab55b5ba24d824b7ca71950c73, type: 3}
   - name: swamp
+    volume: 0
     footsteps:
     - {fileID: 8300000, guid: 7800f7bda4bc68f43a86d88827cd082a, type: 3}
     - {fileID: 8300000, guid: c7449f353fcce324787a755ffee82b68, type: 3}
@@ -93,3 +97,15 @@ MonoBehaviour:
     surfaceIndex: 4
   - texture: {fileID: 2800000, guid: c6ed0c6463040474c886353259dafc29, type: 3}
     surfaceIndex: 3
+  - texture: {fileID: 2800000, guid: c6ed0c6463040474c886353259dafc29, type: 3}
+    surfaceIndex: 3
+  - texture: {fileID: 2800000, guid: c6ed0c6463040474c886353259dafc29, type: 3}
+    surfaceIndex: 3
+  - texture: {fileID: 2800000, guid: c6ed0c6463040474c886353259dafc29, type: 3}
+    surfaceIndex: 3
+  - texture: {fileID: 2800000, guid: c6ed0c6463040474c886353259dafc29, type: 3}
+    surfaceIndex: 3
+  - texture: {fileID: 2800000, guid: c6ed0c6463040474c886353259dafc29, type: 3}
+    surfaceIndex: 3
+  - texture: {fileID: 2800000, guid: 1442d5399d53da44cbd9f7e9bd961fdd, type: 3}
+    surfaceIndex: 1

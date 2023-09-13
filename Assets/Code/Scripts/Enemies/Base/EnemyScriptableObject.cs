@@ -1,8 +1,8 @@
-using EnemySkillsNS;
+using EnemyNS.Skills;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace EnemyBaseNS
+namespace EnemyNS.Base
 {
     /// <summary>
     /// ScriptableObject that holds the BASE STATS for an enemy. These can then be modified at object creation time to buff up enemies
@@ -12,7 +12,7 @@ namespace EnemyBaseNS
     {
         Small, Medium, Large
     }
-    [CreateAssetMenu(fileName = "Enemy Configuration", menuName = "ScriptableObject/Enemy Configuration")]
+    [CreateAssetMenu(fileName = "Enemy Configuration", menuName = "ScriptableObject/Enemy/Enemy Configuration")]
     public class EnemyScriptableObject : ScriptableObject
     {
         [Header("Enemy Stats")]

@@ -12,23 +12,10 @@ namespace SoundNS
     {
         [EnumMask]
         public AudioKind AudioKind;
-        //public AudioKind AudioKind;
         protected Dictionary<AudioKind, float> originalVolume = new Dictionary<AudioKind, float>();
-        Dictionary<AudioKind, float> changedVolume = new Dictionary<AudioKind, float>();
         protected Dictionary<AudioKind, Coroutine> currentCoroutines = new Dictionary<AudioKind, Coroutine>();
-        private void OnDisable()
-        {
-            DetachMethodsFromEvents();
-            StopCoroutines();
-            SoundVolumeToOriginal();
-        }
-        private void Start()
-        {
-            var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
-            for (int i = 0; i < arr.Count; i++)
-                originalVolume.Add(arr[i], GetVolumeOfType((AudioKind)arr[i], false));
-            AttachMethodsToEvents();
-        }
+        private Dictionary<AudioKind, float> changedVolume = new Dictionary<AudioKind, float>();
+        private HashSet<AudioKind> changedKinds = new HashSet<AudioKind>();
         public void DetachMethodsFromEvents()
         {
             InGameMenu.OnGameMenuOpenEvent -= GameMenuOpenEvent;
@@ -40,42 +27,6 @@ namespace SoundNS
             InGameMenu.OnGameMenuOpenEvent += GameMenuOpenEvent;
             InGameMenu.OnGameMenuCloseEvent += GameMenuCloseEvent;
             SettingsNS.AudioSettings.OnVolumeChangeEvent += ReadOriginalVolume;
-        }
-        void StopCoroutines()
-        {
-            if (currentCoroutines.Count != 0)
-            {
-                var coroutineArr = currentCoroutines.Values.ToArray();
-                for (int i = 0; i < coroutineArr.Length; i++)
-                {
-                    if (coroutineArr[i] != null)
-                        StopCoroutine(coroutineArr[i]);
-                }
-                currentCoroutines.Clear();
-            }
-        }
-        void GameMenuOpenEvent()
-        {
-            changedVolume.Clear();
-            var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
-            for (int i = 0; i < arr.Count; i++)
-                changedVolume.Add(arr[i], GetVolumeOfType((AudioKind)arr[i], false));
-            SoundVolumeToOriginal();
-        }
-        void GameMenuCloseEvent()
-        {
-            var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
-            for (int i = 0; i < arr.Count; i++)
-            {
-                if (!currentCoroutines.ContainsKey(arr[i]))
-                    SetVolume(arr[i], changedVolume[arr[i]]);
-            }
-        }
-        protected void SoundVolumeToOriginal()
-        {
-            var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
-            for (int i = 0; i < arr.Count; i++)
-                SetVolume(arr[i], originalVolume[arr[i]]);
         }
         /// <summary>
         ///  Reads original volumes to variables, but not changes them
@@ -92,36 +43,97 @@ namespace SoundNS
         }
         public void MuteVolume(float transitionMuteTime)
         {
-            Dictionary<AudioKind, float> zeroVolume = new Dictionary<AudioKind, float>();
-            var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
-            for (int i = 0; i < arr.Count; i++)
-                zeroVolume.Add(arr[i], 0);
-            ChangeVolumeTo(zeroVolume, transitionMuteTime);
-        }
-        public void VolumeToOriginal(float transitionUnMuteTime) =>
-            ChangeVolumeTo(originalVolume, transitionUnMuteTime);
-        protected void ChangeVolumeTo(Dictionary<AudioKind, float> wantedVolume, float transitionTime)
-        {
-            StopCoroutines();
             var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
             for (int i = 0; i < arr.Count; i++)
             {
                 var value = ((int)AudioKind & (1 << i)) != 0;
                 if (value)
-                    currentCoroutines.Add(arr[i], StartCoroutine(ChangeVolumeSmoothly(wantedVolume, transitionTime, (AudioKind)arr[i])));
+                {
+                    ChangeVolumeTo(0, transitionMuteTime, arr[i]);
+                    changedKinds.Add(arr[i]);
+                }
             }
         }
-        protected IEnumerator ChangeVolumeSmoothly(Dictionary<AudioKind, float> wantedVolume, float transitionTime, AudioKind AudioKind)
+        public void UnMuteVolume(float transitionMuteTime)
+        {
+            var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
+            for (int i = 0; i < arr.Count; i++)
+                UnMuteVolume(transitionMuteTime, arr[i]);
+        }
+        public void UnMuteVolume(float transitionMuteTime, AudioKind audioKind)
+        {
+            ChangeVolumeTo(originalVolume[audioKind], transitionMuteTime, audioKind);
+            changedKinds.Remove(audioKind);
+        }
+        protected void ChangeVolumeTo(float wantedVolume, float transitionTime, AudioKind AudioKind)
+        {
+            if (currentCoroutines.ContainsKey(AudioKind))
+                StopCoroutine(currentCoroutines[AudioKind]);
+            currentCoroutines.Add(AudioKind, StartCoroutine(ChangeVolumeSmoothly(wantedVolume, transitionTime, AudioKind)));
+        }
+        private void StopCoroutines()
+        {
+            if (currentCoroutines.Count != 0)
+            {
+                var coroutineArr = currentCoroutines.Values.ToArray();
+                for (int i = 0; i < coroutineArr.Length; i++)
+                {
+                    if (coroutineArr[i] != null)
+                        StopCoroutine(coroutineArr[i]);
+                }
+                currentCoroutines.Clear();
+            }
+        }
+        private void OnDisable()
+        {
+            DetachMethodsFromEvents();
+            StopCoroutines();
+            SoundVolumeToOriginal();
+        }
+        private void Start()
+        {
+            var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
+            for (int i = 0; i < arr.Count; i++)
+                originalVolume.Add(arr[i], GetVolumeOfType((AudioKind)arr[i], false));
+            AttachMethodsToEvents();
+        }
+        private void GameMenuOpenEvent()
+        {
+            changedVolume.Clear();
+            var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
+            for (int i = 0; i < arr.Count; i++)
+            {
+                if (changedKinds.Contains(arr[i]))
+                    changedVolume.Add(arr[i], GetVolumeOfType((AudioKind)arr[i], false));
+            }
+            SoundVolumeToOriginal();
+        }
+        private void GameMenuCloseEvent()
+        {
+            var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
+            for (int i = 0; i < arr.Count; i++)
+            {
+                if (!currentCoroutines.ContainsKey(arr[i]) && changedKinds.Contains(arr[i]) && changedVolume.Keys.Contains(arr[i]))
+                    SetVolume(arr[i], changedVolume[arr[i]]);
+            }
+        }
+        private void SoundVolumeToOriginal()
+        {
+            var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
+            for (int i = 0; i < arr.Count; i++)
+                SetVolume(arr[i], originalVolume[arr[i]]);
+        }
+        private IEnumerator ChangeVolumeSmoothly(float wantedVolume, float transitionTime, AudioKind AudioKind)
         {
             float percentage = 0;
-            while (Mathf.Abs(GetVolumeOfType(AudioKind, false) - wantedVolume[AudioKind]) != 0)
+            while (Mathf.Abs(GetVolumeOfType(AudioKind, false) - wantedVolume) != 0)
             {
                 if (!InGameMenu.IsInGameMenuOpened)
                 {
-                    SetVolume(AudioKind, Mathf.Lerp(GetVolumeOfType(AudioKind, false), wantedVolume[AudioKind], percentage));
+                    SetVolume(AudioKind, Mathf.Lerp(GetVolumeOfType(AudioKind, false), wantedVolume, percentage));
                     percentage += Time.deltaTime / transitionTime;
-                    if (Mathf.Abs(GetVolumeOfType(AudioKind, false) - wantedVolume[AudioKind]) <= 0.001f)
-                        SetVolume(AudioKind, wantedVolume[AudioKind]);
+                    if (Mathf.Abs(GetVolumeOfType(AudioKind, false) - wantedVolume) <= 0.001f)
+                        SetVolume(AudioKind, wantedVolume);
                 }
                 yield return null;
             }

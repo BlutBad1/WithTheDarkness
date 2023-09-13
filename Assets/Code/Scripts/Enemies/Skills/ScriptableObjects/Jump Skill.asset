@@ -51,3 +51,6 @@ MonoBehaviour:
     m_PostInfinity: 2
     m_RotationOrder: 4
   JumpSpeed: 1
+  LayersToIgnore:
+    serializedVersion: 2
+    m_Bits: 1517494
