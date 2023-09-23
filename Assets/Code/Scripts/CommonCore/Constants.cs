@@ -7,7 +7,8 @@ namespace MyConstants
         public const string EVENT_SYSTEM = "EventSystem";
         public const string MAIN_CAMERA_PATH = "Player/MainCamera";
         public const string IMPORTANT_SOUNDS = "ImportantSounds";
-        public const string POOLABLE_OBJECTS = "PoolableObjects";
+        public const string POOLABLE_OBJECTS = "Data/PoolableObjects";
+        public const string FOOTSTEPS_DATA_BASE = "Data/footsteps_database";
         public const string WEAPON_HOLDER = "WeaponHolder";
         public const string PIVOT_MAIN_LIGHT = "PivotSpotLight(MainLight)";
         public const string MAIN_LIGHT = "SpotLight(MainLight)";
@@ -36,6 +37,7 @@ namespace MyConstants
     {
         public const string TEXTSHOWER = "InfoText";
         public const string INTERACTABLE_TEXT = "InteractableText";
+        public const string INTERACTING_PROGRESS_IMAGE = "InteractingProgress";
         public const string BLACK_SCREEN_DIMMING = "BlackScreenDimming";
         public const string LIGHT_INTERES_LEFT = "LightInterestLeft";
         public const string AMMO_LEFT = "AmmoLeft";
@@ -114,7 +116,7 @@ namespace MyConstants
                 public const string OUT_OF_AMMO = "OutOfAmmo";
                 public const string DIFFERENCE = "Difference";
                 public const string IDLE = "Idle";
-                public const string BULLET_HOLES_DATA_BASE = "MainBulletHolesDataBase";
+                public const string BULLET_HOLES_DATA_BASE = "Data/MainBulletHolesDataBase";
                 public const string DEFAULT_BULLET_HOLE = "DefaultBulletHole";
             }
             public class RevolverConstants

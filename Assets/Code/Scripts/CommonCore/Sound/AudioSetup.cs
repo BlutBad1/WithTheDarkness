@@ -72,15 +72,29 @@ namespace SoundNS
                 foreach (var s in availableSources.Where(kv => !kv.AudioSource).ToList())
                     availableSources.Remove(s);
                 foreach (var source in availableSources)
-                    source.AudioSource?.Pause();
+                {
+                    //source.AudioSource.Pause();
+                }
             }
         }
+        //foreach (var source in availableSources)
+        //       {
+        //           volume.Add(source, source.AudioSource.volume / SettingsNS.AudioSettings.GetVolumeOfType(source.AudioType));
+        //           source.ChangeAudioSourceVolume(0);
+        //       }
+        //       foreach (var source in availableSources)
+        //       {
+        //           source.ChangeAudioSourceVolume(volume[source]);
+        //       }
         public virtual void OnGameMenuClose()
         {
             if (PauseSourcesInGameMenu)
             {
                 foreach (var source in availableSources)
+                {
+                    source.ChangeVolumeBySettings();
                     source.AudioSource?.UnPause();
+                }
             }
         }
         public void VolumeChange()
@@ -90,5 +104,16 @@ namespace SoundNS
             foreach (var item in availableSources)
                 item.ChangeVolumeBySettings();
         }
+        //IEnumerator VolumeFade(AudioSource audioSource, float endVolume, float fadeLenght)
+        //{
+        //    float startVolume = audioSource.volume;
+        //    float startTime = Time.time;
+        //    while (Time.time < startTime + fadeLenght)
+        //    {
+        //        audioSource.volume = startVolume + ((endVolume - startVolume) * ((Time.time - startTime) / fadeLenght));
+        //        yield return null;
+        //    }
+        //    if (endVolume == 0) { audioSource.Pause(); }
+        //}
     }
 }

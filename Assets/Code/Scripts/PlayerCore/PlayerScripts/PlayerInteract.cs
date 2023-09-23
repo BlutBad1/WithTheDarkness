@@ -12,11 +12,14 @@ namespace PlayerScriptsNS
         [SerializeField]
         private float distance = 3f;
         [SerializeField]
-        private LayerMask mask;
+        private LayerMask interactableLayers;
+        [SerializeField]
+        private LayerMask obstacleLayers;
         private PlayerUi playerUi;
         private InputManager inputManager;
-        Ray ray;
-        string promptMessageifEmpty;
+        private Interactable interactable = null;
+        private Ray ray;
+        private string promptMessageifEmpty;
         void Start()
         {
             cam = GetComponent<PlayerLook>().cam;
@@ -34,25 +37,37 @@ namespace PlayerScriptsNS
         {
             playerUi?.UpdateText(string.Empty);
             ray = new Ray(cam.transform.position, cam.transform.forward);
-            if (Physics.SphereCast(ray, 0.2f, out RaycastHit hitInfo, distance, mask))
+            if (Physics.SphereCast(ray, 0.2f, out RaycastHit hitInfo, distance, interactableLayers | obstacleLayers))
             {
-                Interactable interactable = null;
-                if (hitInfo.collider.GetComponent<Interactable>() != null)
-                    interactable = hitInfo.collider.GetComponent<Interactable>();
-                else if (hitInfo.collider.transform.parent.gameObject.GetComponent<Interactable>() != null)
-                    interactable = hitInfo.collider.transform.parent.gameObject.GetComponent<Interactable>();
-                if (interactable != null)
+                if ((obstacleLayers.value & (1 << hitInfo.collider.gameObject.layer)) == 0)
                 {
-                    if (playerUi)
+                    if (hitInfo.collider.GetComponent<Interactable>() != null)
+                        interactable = hitInfo.collider.GetComponent<Interactable>();
+                    else if (hitInfo.collider.transform.parent.gameObject.GetComponent<Interactable>() != null)
+                        interactable = hitInfo.collider.transform.parent.gameObject.GetComponent<Interactable>();
+                    if (interactable != null)
                     {
-                        if (interactable.promptMessage == "")
-                            playerUi?.UpdateText(promptMessageifEmpty);
-                        else
-                            playerUi?.UpdateText(interactable.promptMessage);
+                        if (playerUi)
+                        {
+                            if (interactable.promptMessage == "")
+                                playerUi?.UpdateText(promptMessageifEmpty);
+                            else
+                                playerUi?.UpdateText(interactable.promptMessage);
+                        }
+                        if (inputManager.OnFoot.Interact.triggered)
+                            interactable.StartBaseInteraction(this);
+                        else if (!inputManager.OnFoot.Interact.IsPressed())
+                        {
+                            interactable.EndInteraction(this);
+                            interactable = null;
+                        }
                     }
-                    if (inputManager.OnFoot.Interact.triggered)
-                        interactable.BaseInteract(this);
                 }
+            }
+            else if (interactable != null)
+            {
+                interactable.EndInteraction(this);
+                interactable = null;
             }
         }
         public void CheckInteractKey()

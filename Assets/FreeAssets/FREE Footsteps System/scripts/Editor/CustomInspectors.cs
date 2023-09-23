@@ -14,8 +14,8 @@ namespace Footsteps
         {
             if (!FindObjectOfType<SurfaceManager>())
             {
-                GameObject database = Instantiate<GameObject>(Resources.Load<GameObject>("footsteps_database"));
-                database.name = "footsteps_database";
+                GameObject database = Instantiate<GameObject>(Resources.Load<GameObject>(MyConstants.CommonConstants.FOOTSTEPS_DATA_BASE));
+                database.name = MyConstants.CommonConstants.FOOTSTEPS_DATA_BASE;
             }
             else
                 Debug.Log("A footsteps_database already exists in the current scene.");

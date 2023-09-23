@@ -1,4 +1,5 @@
 using CreatureNS;
+using ScriptableObjectNS.Creature;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -65,7 +66,7 @@ namespace PlayerScriptsNS
             gameObject;
         public void OnBeforeSerialize()
         {
-            CreatureNames = CreatureTypes.GetInstance().Names;
+            CreatureNames = CreatureTypes.Instance.Names;
         }
         public void OnAfterDeserialize()
         {

@@ -2,7 +2,7 @@ using EnemyNS.Skills;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace EnemyNS.Base
+namespace ScriptableObjectNS.Enemy
 {
     /// <summary>
     /// ScriptableObject that holds the BASE STATS for an enemy. These can then be modified at object creation time to buff up enemies

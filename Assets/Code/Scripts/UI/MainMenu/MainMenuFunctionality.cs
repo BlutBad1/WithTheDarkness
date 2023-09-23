@@ -11,16 +11,15 @@ namespace UINS
 {
     public class MainMenuFunctionality : MonoBehaviour
     {
-        public AudioManager AudioManager;
+        public MuteSound MuteSound;
+        public float TransitionMuteTime = 0.5f;
         public GameObject ContinueButton_Normal;
         public GameObject ContinueButton_Disabled;
         public WindowsManagement WindowsManagement;
         public GameObject SureMenu_NewGame;
-        ProgressSaving ProgressSaving;
         private void Start()
         {
             WindowEscape.instance.EnableUI();
-            ProgressSaving = new ProgressSaving();
             ProgressSaving.LoadProgressData();
             if (ProgressSaving.DataIsLoaded())
             {
@@ -54,17 +53,15 @@ namespace UINS
         }
         public void GameExit()
         {
-            if (!AudioManager)
-                GameObject.Find(UIConstants.UI_SOUNDS)?.TryGetComponent(out AudioManager);
-            if (AudioManager != null)
+            if (MuteSound)
                 StartCoroutine(WaitSounds(delegate (string s)
-                {
+                    {
 #if UNITY_EDITOR
-                    UnityEditor.EditorApplication.isPlaying = false;
+                        UnityEditor.EditorApplication.isPlaying = false;
 #else
                      Application.Quit();
 #endif
-                }, ""));
+                    }, ""));
             else
             {
 #if UNITY_EDITOR
@@ -76,19 +73,15 @@ namespace UINS
         }
         public void LoadScene(string scene)
         {
-            if (AudioManager != null)
+            if (MuteSound)
                 StartCoroutine(WaitSounds(Loader.Load, scene));
             else
                 Loader.Load(scene);
         }
         IEnumerator WaitSounds<T>(Action<T> MethodName, T agument)
         {
-            foreach (var s in AudioManager.sounds)
-            {
-                if (s.source.isPlaying)
-                    yield return new WaitForSeconds(0.03f);
-            }
-            yield return new WaitForSeconds(0.03f);
+            MuteSound.MuteVolume(TransitionMuteTime);
+            yield return new WaitForSeconds(TransitionMuteTime);
             MethodName(agument);
         }
     }

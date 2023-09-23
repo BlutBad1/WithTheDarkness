@@ -6,13 +6,13 @@ namespace GameObjectsControllingNS
     {
         [SerializeField]
         public GameObject[] gameObjects;
-        public bool IsEnabledAfterTrigger = true;
+        public bool EnableObjectsOnTrigger = true;
         private void Start()
         {
             foreach (var gameObject in gameObjects)
             {
                 if (gameObject.activeInHierarchy == isActiveAndEnabled)
-                    gameObject.SetActive(!IsEnabledAfterTrigger);
+                    gameObject.SetActive(!EnableObjectsOnTrigger);
             }
         }
         private void OnTriggerEnter(Collider other)
@@ -20,7 +20,7 @@ namespace GameObjectsControllingNS
             if (other.name == MyConstants.CommonConstants.PLAYER)
             {
                 foreach (var gameObject in gameObjects)
-                    gameObject.SetActive(IsEnabledAfterTrigger);
+                    gameObject.SetActive(EnableObjectsOnTrigger);
                 Destroy(gameObject);
             }
         }

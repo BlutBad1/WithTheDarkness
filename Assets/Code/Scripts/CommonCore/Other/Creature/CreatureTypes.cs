@@ -1,24 +1,17 @@
+using ScriptableObjectNS.Singleton;
 using System.Collections.Generic;
-using UnityEngine;
-
-//[CreateAssetMenu(fileName = "Creature Types", menuName = "ScriptableObject/CreatureTypes")]
-public class CreatureTypes : ScriptableObject
+namespace ScriptableObjectNS.Creature
 {
-    //private void Awake()
-    //{
-    //    if (Instance == null)
-    //        Instance = this;
-    //    else if (Instance != this)
-    //        DestroyImmediate(this);
-    //}
-    static CreatureTypes Instance;
-    public static CreatureTypes GetInstance()
+    //[CreateAssetMenu(fileName = "Creature Types", menuName = "ScriptableObject/CreatureTypes")]
+    public class CreatureTypes : SingletonScriptableObject<CreatureTypes>
     {
-        if (Instance == null)
-            Instance = Resources.Load(MyConstants.DataConstants.CREATURE_TYPES_INSTANCE) as CreatureTypes;
-        if (Instance == null)
-            ScriptableObject.CreateInstance(typeof(CreatureTypes));
-        return Instance;
+        //private void Awake()
+        //{
+        //    if (Instance == null)
+        //        Instance = this;
+        //    else if (Instance != this)
+        //        DestroyImmediate(this);
+        //}
+        public List<string> Names;
     }
-    public List<string> Names;
 }

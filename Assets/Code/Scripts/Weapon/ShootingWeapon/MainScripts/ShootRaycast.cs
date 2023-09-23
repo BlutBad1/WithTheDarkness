@@ -1,4 +1,5 @@
 using MyConstants.WeaponConstants.ShootingWeaponConstants;
+using ScriptableObjectNS.Weapon.Gun;
 using UnityEngine;
 namespace WeaponNS.ShootingWeaponNS
 {

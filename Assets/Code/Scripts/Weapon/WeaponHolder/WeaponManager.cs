@@ -1,4 +1,5 @@
 using MyConstants.WeaponConstants;
+using ScriptableObjectNS.Weapon;
 using System;
 using System.Collections;
 using UnityEngine;

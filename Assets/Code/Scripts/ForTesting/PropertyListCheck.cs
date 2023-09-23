@@ -1,3 +1,4 @@
+using ScriptableObjectNS.Creature;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,7 +20,7 @@ public class PropertyListCheck : MonoBehaviour, ISerializationCallbackReceiver
 
     public void SetCreatureNames()
     {
-        creatureNames = CreatureTypes.GetInstance().Names;
+        creatureNames = CreatureTypes.Instance.Names;
     }
     [ContextMenu("PrintStringVariable")]
     public void PrintStringVariable()

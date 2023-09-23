@@ -6,11 +6,11 @@ using UnityEngine;
 
 namespace ScenesManagementNS
 {
-    public class ToNextScene : Interactable
+    public class ToNextScene : ProgressingInteractable
     {
         BlackScreenDimming bSD;
         public float BlackScreenFadeSpeed = 0.8f;
-        public bool IsTrigger = false;
+        public bool UseAsTrigger = false;
         [HideInInspector]
         public bool DefineByProgressManager = true;
         [HideInInspector]
@@ -27,10 +27,10 @@ namespace ScenesManagementNS
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (IsTrigger)
+            if (UseAsTrigger)
             {
                 if (other.gameObject.TryGetComponent(out WhoInteracted))
-                    BaseInteract(WhoInteracted);
+                    StartBaseInteraction(WhoInteracted);
             }
         }
         IEnumerator ToTheNextScene()

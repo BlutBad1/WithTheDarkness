@@ -1,3 +1,5 @@
+using ScriptableObjectNS.Weapon;
+using ScriptableObjectNS.Weapon.Gun;
 using System;
 using UnityEngine;
 using WeaponNS;

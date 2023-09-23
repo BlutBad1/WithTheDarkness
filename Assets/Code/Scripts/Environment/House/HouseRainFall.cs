@@ -20,6 +20,7 @@ namespace EnvironmentNS
         public float TransitionInChangeClipTime = 0.1f;
         public float TransitionThunderVolumeTime = 0.1f;
         public bool IsWindowOpened = false;
+        [HideInInspector]
         public bool EnableOnStart = true;
         [HideInInspector]
         public float TransitionInTimeOnStart = 0.1f;

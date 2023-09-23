@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using ScriptableObjectNS.Weapon.Gun;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.TestTools;

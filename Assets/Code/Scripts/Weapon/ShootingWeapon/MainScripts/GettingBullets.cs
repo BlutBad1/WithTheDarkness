@@ -1,21 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+using ScriptableObjectNS.Weapon.Gun;
 using UnityEngine;
-
 
 namespace WeaponNS.ShootingWeaponNS
 {
     public class GettingBullets : MonoBehaviour
     {
-
         public GunData revolver;
-
-        public void AddBullets(int amount)
-        {
+        public void AddBullets(int amount) =>
             revolver.ReserveAmmo += amount;
-
-
-        }
-
     }
 }

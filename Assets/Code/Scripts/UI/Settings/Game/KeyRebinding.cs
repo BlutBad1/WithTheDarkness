@@ -42,6 +42,8 @@ namespace UIControlling
                 rebindingKeyText.text = "...";
                 DefineAction();
                 oldBindPath = rebindingAction.bindings[GetBindingIndex()].effectivePath;
+                if (string.IsNullOrEmpty(excludeKeys))
+                    excludeKeys = "escape";
                 if (type == RebindingTypes.Button)
                 {
                     rebindingOperation = rebindingAction.PerformInteractiveRebinding()
@@ -99,46 +101,10 @@ namespace UIControlling
             InputControlPath.HumanReadableStringOptions.OmitDevice));
             //Debug.Log(rebindingAction.action.bindings[bindingIndex].effectivePath);
         }
-        private int GetBindingIndex()
-        {
-            int bindingIndex = 0;
-            try
-            {
-                if (type == RebindingTypes.Button)
-                    bindingIndex = rebindingAction.GetBindingIndexForControl(rebindingAction.controls[0]);
-                else if (type == RebindingTypes.Composite)
-                    bindingIndex = BindingIndex;
-            }
-            catch (System.Exception)
-            {
-                return -1;
-            }
-            return bindingIndex;
-        }
         public void RebindCancel()
         {
             changing = false;
             rebindingOperation?.Dispose();
-            DisplayKey();
-        }
-        private void RebindComplete()
-        {
-            changing = false;
-            rebindingOperation.Dispose();
-            foreach (var item in rebindingAction.actionMap)
-            {
-                foreach (var bind in item.bindings)
-                {
-                    if ((bind.effectivePath == rebindingAction.bindings[GetBindingIndex()].effectivePath) && (bind.name != rebindingAction.bindings[GetBindingIndex()].name || item.name != rebindingAction.name || bind != rebindingAction.bindings[GetBindingIndex()]))
-                    {
-                        //if (string.IsNullOrEmpty(bind.name) && bind.effectiveProcessors == null)
-                        //    item.ChangeBindingWithPath(bind.effectivePath).WithPath(oldBindPath);
-                        //else
-                        item.ApplyBindingOverride(item.GetBindingIndex(bind), oldBindPath);
-                        GameSettings.OnKeyRebind?.Invoke();
-                    }
-                }
-            }
             DisplayKey();
         }
         public static string AbbreviateTitle(string originalTitle)
@@ -175,6 +141,42 @@ namespace UIControlling
             // All letters to upper
             abbreviatedTitle = Regex.Replace(abbreviatedTitle, "(Control|Shift|Alt)", m => m.Value.ToUpper());
             return abbreviatedTitle;
+        }
+        private int GetBindingIndex()
+        {
+            int bindingIndex = 0;
+            try
+            {
+                if (type == RebindingTypes.Button)
+                    bindingIndex = rebindingAction.GetBindingIndexForControl(rebindingAction.controls[0]);
+                else if (type == RebindingTypes.Composite)
+                    bindingIndex = BindingIndex;
+            }
+            catch (System.Exception)
+            {
+                return -1;
+            }
+            return bindingIndex;
+        }
+        private void RebindComplete()
+        {
+            changing = false;
+            rebindingOperation.Dispose();
+            foreach (var item in rebindingAction.actionMap)
+            {
+                foreach (var bind in item.bindings)
+                {
+                    if ((bind.effectivePath == rebindingAction.bindings[GetBindingIndex()].effectivePath) && (bind.name != rebindingAction.bindings[GetBindingIndex()].name || item.name != rebindingAction.name || bind != rebindingAction.bindings[GetBindingIndex()]))
+                    {
+                        //if (string.IsNullOrEmpty(bind.name) && bind.effectiveProcessors == null)
+                        //    item.ChangeBindingWithPath(bind.effectivePath).WithPath(oldBindPath);
+                        //else
+                        item.ApplyBindingOverride(item.GetBindingIndex(bind), oldBindPath);
+                        GameSettings.OnKeyRebind?.Invoke();
+                    }
+                }
+            }
+            DisplayKey();
         }
     }
 }

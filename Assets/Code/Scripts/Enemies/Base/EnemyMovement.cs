@@ -1,6 +1,7 @@
 using CreatureNS;
 using EnemyNS.Attack;
 using MyConstants;
+using ScriptableObjectNS.Creature;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -179,7 +180,7 @@ namespace EnemyNS.Base
             gameObject;
 
         public void OnBeforeSerialize() =>
-            CreatureNames = CreatureTypes.GetInstance().Names;
+            CreatureNames = CreatureTypes.Instance.Names;
 
         public void OnAfterDeserialize()
         {

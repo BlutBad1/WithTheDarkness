@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: ChestLock_Opened
+  m_Name: chestLock_opened
   serializedVersion: 6
   m_Legacy: 0
   m_Compressed: 0
@@ -895,7 +895,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Padlock/Upper_part_LOD1
+    path: Cover
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -905,7 +905,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Padlock/Upper_part_LOD1
+    path: Cover
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -915,7 +915,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Padlock/Upper_part_LOD1
+    path: Cover
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -955,7 +955,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.x
-    path: Cover
+    path: Padlock/Upper_part_LOD1
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -965,7 +965,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.y
-    path: Cover
+    path: Padlock/Upper_part_LOD1
     classID: 4
     script: {fileID: 0}
   - curve:
@@ -975,7 +975,7 @@ AnimationClip:
       m_PostInfinity: 2
       m_RotationOrder: 4
     attribute: m_LocalEulerAngles.z
-    path: Cover
+    path: Padlock/Upper_part_LOD1
     classID: 4
     script: {fileID: 0}
   m_HasGenericRootTransform: 0

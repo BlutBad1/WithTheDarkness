@@ -1,3 +1,4 @@
+using ScriptableObjectNS.Weapon.Gun;
 using UnityEngine;
 
 namespace WeaponNS.ShootingWeaponNS.ShotgunNS

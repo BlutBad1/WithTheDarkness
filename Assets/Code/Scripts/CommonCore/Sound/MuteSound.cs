@@ -16,6 +16,17 @@ namespace SoundNS
         protected Dictionary<AudioKind, Coroutine> currentCoroutines = new Dictionary<AudioKind, Coroutine>();
         private Dictionary<AudioKind, float> changedVolume = new Dictionary<AudioKind, float>();
         private HashSet<AudioKind> changedKinds = new HashSet<AudioKind>();
+        private void Start()
+        {
+            ReadOriginalVolume();
+            AttachMethodsToEvents();
+        }
+        private void OnDisable()
+        {
+            StopCoroutines();
+            DetachMethodsFromEvents();
+            SoundVolumeToOriginal();
+        }
         public void DetachMethodsFromEvents()
         {
             InGameMenu.OnGameMenuOpenEvent -= GameMenuOpenEvent;
@@ -33,7 +44,7 @@ namespace SoundNS
         /// </summary>
         public void ReadOriginalVolume()
         {
-            if (InGameMenu.IsInGameMenuOpened)
+            if (InGameMenu.IsInGameMenuOpened || currentCoroutines.Count == 0)
             {
                 originalVolume.Clear();
                 var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
@@ -68,7 +79,10 @@ namespace SoundNS
         protected void ChangeVolumeTo(float wantedVolume, float transitionTime, AudioKind AudioKind)
         {
             if (currentCoroutines.ContainsKey(AudioKind))
+            {
                 StopCoroutine(currentCoroutines[AudioKind]);
+                currentCoroutines.Remove(AudioKind);
+            }
             currentCoroutines.Add(AudioKind, StartCoroutine(ChangeVolumeSmoothly(wantedVolume, transitionTime, AudioKind)));
         }
         private void StopCoroutines()
@@ -83,19 +97,6 @@ namespace SoundNS
                 }
                 currentCoroutines.Clear();
             }
-        }
-        private void OnDisable()
-        {
-            DetachMethodsFromEvents();
-            StopCoroutines();
-            SoundVolumeToOriginal();
-        }
-        private void Start()
-        {
-            var arr = Enum.GetValues(typeof(AudioKind)).Cast<AudioKind>().ToList();
-            for (int i = 0; i < arr.Count; i++)
-                originalVolume.Add(arr[i], GetVolumeOfType((AudioKind)arr[i], false));
-            AttachMethodsToEvents();
         }
         private void GameMenuOpenEvent()
         {

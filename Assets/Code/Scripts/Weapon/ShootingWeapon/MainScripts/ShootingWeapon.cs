@@ -1,5 +1,6 @@
 using MyConstants.WeaponConstants;
 using MyConstants.WeaponConstants.ShootingWeaponConstants;
+using ScriptableObjectNS.Weapon.Gun;
 using System.Collections;
 using UnityEngine;
 

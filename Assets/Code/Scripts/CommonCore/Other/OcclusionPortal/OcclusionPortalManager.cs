@@ -10,10 +10,10 @@ namespace OptimizationNS
                 OcclusionPortal = GetComponent<OcclusionPortal>();
         }
         public virtual void OpenPortal() =>
-            OcclusionPortal.open = true;
+             OcclusionPortal.open = true;
         public virtual void ClosePortal() =>
-       OcclusionPortal.open = false;
+             OcclusionPortal.open = false;
         public virtual void ChangePortalStateToOpposite() =>
-            OcclusionPortal.open = !OcclusionPortal.open;
+             OcclusionPortal.open = !OcclusionPortal.open;
     }
 }

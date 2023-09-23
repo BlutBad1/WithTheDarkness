@@ -16,16 +16,18 @@ namespace InteractableNS
         {
             return promptMessage;
         }
-        public void BaseInteract(EntityInteract creatureInteract)
+        public virtual void StartBaseInteraction(EntityInteract creatureInteract)
         {
             WhoInteracted = creatureInteract;
             if (useEvents)
                 GetComponent<InteractionEvent>().OnInteract.Invoke();
             Interact();
         }
+        public virtual void EndInteraction(EntityInteract creatureInteract)
+        {
+        }
         protected virtual void Interact()
         {
-
         }
         public virtual void DeleteInteractableScript() =>
             Destroy(this);

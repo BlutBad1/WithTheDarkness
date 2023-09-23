@@ -24,9 +24,7 @@ public class ListToPopupDrawer : PropertyDrawer
             ListToPopupAttribute atb = attribute as ListToPopupAttribute;
             List<string> stringList = null;
             if (atb.MyType.GetField(atb.PropertyName) != null)
-            {
                 stringList = atb.MyType.GetField(atb.PropertyName).GetValue(atb.MyType) as List<string>;
-            }
             if (stringList != null && stringList.Count != 0)
             {
                 int selectedIndex = Mathf.Max(stringList.IndexOf(property.stringValue), 0);

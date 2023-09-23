@@ -1,10 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using WeaponNS;
 
-namespace WeaponNS.ShootingWeaponNS
+namespace ScriptableObjectNS.Weapon.Gun
 {
-    [CreateAssetMenu(fileName = "Gun", menuName = "ScriptableObject/Weapon/Gun")]
+    [CreateAssetMenu(fileName = "GunData", menuName = "ScriptableObject/Weapon/GunData")]
     public class GunData : WeaponData
     {
         [Header("Shooting")]

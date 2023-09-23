@@ -1,87 +1,66 @@
+using InteractableNS.Usable.Locking;
 using MyConstants;
-using OptimizationNS;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 
 namespace InteractableNS.Usable
 {
-    public class Doors : Interactable
+    [RequireComponent(typeof(Animator))]
+    public class Doors : Lock
     {
         public Animator Animator;
-        public bool IsLocked = false;
         public bool IsOpened = false;
         public bool PlayEventsOnStart = false;
-        [Tooltip("When you open a door")]
+        [HideInInspector] //"When you open a door
         public UnityEvent OnOpenDoorEvent;
-        [Tooltip("When you close a door")]
+        [HideInInspector] //When you close a door
         public UnityEvent OnCloseDoorEvent;
-        [Tooltip("When you try open a door, but it's locked")]
-        public UnityEvent OnLockedDoorEvent;
-        [Tooltip("When you unlock a door")]
-        public UnityEvent OnUnlockEvent;
-        [Tooltip("When you lock a door")]
+        [HideInInspector] //When you lock a door
         public UnityEvent OnLockEvent;
-        bool isPreviouslyLocked = false;
-        bool isStart = true;
-        private bool unlockOnInteracte;
-        private bool lockOnInteracte;
-        public bool UnlockOnInteracte
-        {
-            get { return unlockOnInteracte; }
-            set { unlockOnInteracte = value; if (UnlockOnInteracte) LockOnInteracte = false; }
-        }
-        public bool LockOnInteracte
-        {
-            get { return lockOnInteracte; }
-            set { lockOnInteracte = value; if (LockOnInteracte) UnlockOnInteracte = false; }
-        }
+        private bool isPreviouslyLocked;
+        private bool isCanPlayEvents;
         private new void Start()
         {
             base.Start();
-            if (PlayEventsOnStart)
-                isStart = false;
+            isCanPlayEvents = PlayEventsOnStart;
             isPreviouslyLocked = IsLocked;
-            if (IsOpened == true)
+            if (IsOpened)
                 OpenDoors();
             else
                 CloseDoors();
-            isStart = false;
+            isCanPlayEvents = true;
         }
         public void OpenDoors()
         {
             IsLocked = false;
+            isPreviouslyLocked = false;
             IsOpened = true;
-            CheckIfPreviouslyLocked();
             SetAnimatorValues(false, IsLocked); //Open Doors
-            if (!isStart)
+            if (isCanPlayEvents)
                 OnOpenDoorEvent?.Invoke();
         }
         public void CloseDoors()
         {
             IsOpened = false;
             SetAnimatorValues(true, IsLocked); //Close Doors
-            if (!isStart)
+            if (isCanPlayEvents)
                 OnCloseDoorEvent?.Invoke();
         }
-        public void LockDoors()
+        public override void OpenLock()
         {
+            base.OpenLock();
+            isPreviouslyLocked = false;
+            PrintMessage(UnlockMessage);
+            OnUnlockEvent?.Invoke();
+        }
+        public override void CloseLock()
+        {
+            base.CloseLock();
             if (IsOpened)
                 CloseDoors();
-            IsLocked = true;
-            CheckIfPreviouslyLocked();
-        }
-        public void UnlockDoors()
-        {
-            IsLocked = false;
-            CheckIfPreviouslyLocked();
-        }
-        private void CheckIfPreviouslyLocked()
-        {
-            if (isPreviouslyLocked && !IsLocked)
-                OnUnlockEvent?.Invoke();
-            else if (!isPreviouslyLocked && IsLocked)
-                OnLockEvent?.Invoke();
-            isPreviouslyLocked = IsLocked;
+            isPreviouslyLocked = true;
+            OnLockEvent?.Invoke();
         }
         public void SetAnimatorValues(bool IsOpened, bool IsLocked)
         {
@@ -91,28 +70,91 @@ namespace InteractableNS.Usable
         }
         protected override void Interact()
         {
-            if (LockOnInteracte)
+            if (CheckIfDataHasKey())
+                IsLocked = false;
+            if (isPreviouslyLocked && !IsLocked)
             {
-                LockDoors();
+                OpenLock();
                 return;
             }
-            if (UnlockOnInteracte)
+            else if (!isPreviouslyLocked && IsLocked)
             {
-                UnlockDoors();
+                CloseLock();
                 return;
-            }
-            if (IsLocked)
-            {
-                SetAnimatorValues(IsOpened, IsLocked);
-                OnLockedDoorEvent?.Invoke();
             }
             else
             {
-                if (IsOpened)
-                    CloseDoors();
+                if (IsLocked)
+                {
+                    SetAnimatorValues(IsOpened, IsLocked);
+                    PrintMessage(LockedMessage);
+                    OnLockedEvent?.Invoke();
+                }
                 else
-                    OpenDoors();
+                {
+                    if (IsOpened)
+                        CloseDoors();
+                    else
+                        OpenDoors();
+                }
             }
         }
     }
+#if UNITY_EDITOR
+    [CustomEditor(typeof(Doors))]
+    public class DoorsCustomEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector(); // for other non-HideInInspector fields
+            Doors script = (Doors)target;
+            SerializedProperty property;
+            //Locking Data
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Locking Data", EditorStyles.boldLabel);
+            script.IsGeneric = EditorGUILayout.Toggle("IsGeneric", script.IsGeneric);
+            if (!script.IsGeneric) // if bool is true, show other fields
+            {
+                property = serializedObject.FindProperty("KeyName");
+                EditorGUILayout.PropertyField(property, new GUIContent("KeyName"), true);
+                property = serializedObject.FindProperty("ConnectedKey");
+                EditorGUILayout.PropertyField(property, new GUIContent("ConnectedKey"));
+                if (script.ConnectedKey != null)
+                    script.KeyName = script.ConnectedKey.Key.KeyName;
+            }
+            else
+            {
+                property = serializedObject.FindProperty("GenericKeyName");
+                EditorGUILayout.PropertyField(property, new GUIContent("KeyName"), true);
+            }
+            property = serializedObject.FindProperty("AvailableKeyData");
+            EditorGUILayout.PropertyField(property, new GUIContent("AvailableKeyData"), true);
+            //Locking Settings
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Locking Settings", EditorStyles.boldLabel);
+            property = serializedObject.FindProperty("IsLocked");
+            EditorGUILayout.PropertyField(property, new GUIContent("IsLocked"), true);
+            property = serializedObject.FindProperty("LockedMessage");
+            EditorGUILayout.PropertyField(property, new GUIContent("LockedMessage"), true);
+            property = serializedObject.FindProperty("UnlockedMessage");
+            EditorGUILayout.PropertyField(property, new GUIContent("UnlockedMessage"), true);
+            property = serializedObject.FindProperty("DisapperingSpeed");
+            EditorGUILayout.PropertyField(property, new GUIContent("DisapperingSpeed"), true);
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Events", EditorStyles.boldLabel);
+            //Door class fields
+            property = serializedObject.FindProperty("OnOpenDoorEvent");
+            EditorGUILayout.PropertyField(property, new GUIContent("OnOpenDoorEvent"), true);
+            property = serializedObject.FindProperty("OnCloseDoorEvent");
+            EditorGUILayout.PropertyField(property, new GUIContent("OnCloseDoorEvent"), true);
+            property = serializedObject.FindProperty("OnUnlockEvent");
+            EditorGUILayout.PropertyField(property, new GUIContent("OnUnlockEvent"), true);
+            property = serializedObject.FindProperty("OnLockEvent");
+            EditorGUILayout.PropertyField(property, new GUIContent("OnLockEvent"), true);
+            property = serializedObject.FindProperty("OnLockedEvent");
+            EditorGUILayout.PropertyField(property, new GUIContent("OnLockedEvent"), true);
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
+#endif
 }

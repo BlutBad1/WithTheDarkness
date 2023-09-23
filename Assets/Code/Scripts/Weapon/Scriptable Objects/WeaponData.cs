@@ -1,6 +1,7 @@
 using UnityEngine;
+using WeaponNS;
 
-namespace WeaponNS
+namespace ScriptableObjectNS.Weapon
 {
     public class WeaponData : ScriptableObject
     {

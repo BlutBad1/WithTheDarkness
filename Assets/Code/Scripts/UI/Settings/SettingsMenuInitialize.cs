@@ -139,7 +139,7 @@ namespace UINS
             FileDataHandler fileDataHandler = new FileDataHandler(Application.persistentDataPath, DataConstants.SETTINGS_DATA_PATH, false);
             fileDataHandler.Save(settingsData);
         }
-        void OnApplicationQuit()
+        void OnDestroy()
         {
             SaveData();
         }

@@ -4,25 +4,31 @@ namespace OptimizationNS
     public class OcclusionPortalWhileAnimation : OcclusionPortalManager
     {
         public Animator Animator;
-        public AnimationClip OpenPortalAnimation;
-        public AnimationClip ClosePortalAnimation;
+        public string OpenPortalAnimatorStateName;
+        public string ClosePortalAnimatorStateName;
         [Min(0)]
         public int AnimationLayerIndex = 0;
-        public bool OpenPortalWhileInTransition = false;
-        public bool ClosePortalWhileInTransition = false;
+        [Tooltip("True - opens portal only if anim in transition; False - opens only if anim out of transition")]
+        public bool OpenPortalOnlyWhileInTransition = false;
+        [Tooltip("True - closes portal only if anim in transition; False - closes only if anim out of transition")]
+        public bool ClosePortalOnlyWhileInTransition = false;
         public override void ClosePortal()
         {
-            if (!ClosePortalWhileInTransition && Animator.GetCurrentAnimatorStateInfo(AnimationLayerIndex).IsName(ClosePortalAnimation.name) && !Animator.IsInTransition(AnimationLayerIndex))
-                base.ClosePortal();
-            else if (ClosePortalWhileInTransition && Animator.GetAnimatorTransitionInfo(AnimationLayerIndex).IsName(OpenPortalAnimation.name + " -> " + ClosePortalAnimation.name))
+            if (MatchConditions(ClosePortalOnlyWhileInTransition, OpenPortalAnimatorStateName, ClosePortalAnimatorStateName))
                 base.ClosePortal();
         }
         public override void OpenPortal()
         {
-            if (!OpenPortalWhileInTransition && Animator.GetCurrentAnimatorStateInfo(AnimationLayerIndex).IsName(OpenPortalAnimation.name) && !Animator.IsInTransition(AnimationLayerIndex))
+            if (MatchConditions(OpenPortalOnlyWhileInTransition, ClosePortalAnimatorStateName, OpenPortalAnimatorStateName))
                 base.OpenPortal();
-            else if (OpenPortalWhileInTransition && Animator.GetAnimatorTransitionInfo(AnimationLayerIndex).IsName(ClosePortalAnimation.name + " -> " + OpenPortalAnimation.name))
-                base.OpenPortal();
+        }
+        private bool MatchConditions(bool portalWhileinTransition, string animatorStateFrom, string animatorStateTo)
+        {
+            if (!portalWhileinTransition && Animator.GetCurrentAnimatorStateInfo(AnimationLayerIndex).IsName(animatorStateTo) && !Animator.IsInTransition(AnimationLayerIndex))
+                return true;
+            else if (portalWhileinTransition && Animator.GetAnimatorTransitionInfo(AnimationLayerIndex).IsName(animatorStateFrom + " -> " + animatorStateTo))
+                return true;
+            return false;
         }
     }
 }

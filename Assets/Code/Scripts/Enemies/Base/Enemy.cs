@@ -1,6 +1,7 @@
 using EnemyNS.Attack;
 using EnemyNS.Skills;
 using MyConstants;
+using ScriptableObjectNS.Enemy;
 using System.Collections;
 using UnityEngine;
 

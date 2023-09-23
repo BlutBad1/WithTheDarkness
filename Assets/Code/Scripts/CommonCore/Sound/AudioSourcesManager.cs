@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using static SettingsNS.AudioSettings;
 
@@ -16,7 +17,6 @@ namespace SoundNS
             get { return audioSource; }
             set { audioSource = value; AudioObject.ChangeAudioSource(AudioSource); }
         }
-
         public AudioKind AudioKind;
         [HideInInspector]
         public AudioObject AudioObject;
@@ -24,6 +24,7 @@ namespace SoundNS
     public class AudioSourcesManager : AudioSetup
     {
         public AudioSourceObject[] AudioSourceObjects;
+        private Dictionary<AudioSource, Coroutine> currentCoroutines;
         private new void Awake()
         {
             base.Awake();
@@ -69,6 +70,24 @@ namespace SoundNS
                 return;
             }
             audioSourceObject.AudioSource.Stop();
+        }
+        public void StopAudioSourceSmoothly(string AudioSourceObjectName, float transitionTime)
+        {
+            AudioSourceObject audioSourceObject = Array.Find(AudioSourceObjects, clip => clip.Name == AudioSourceObjectName);
+            if (audioSourceObject == null)
+            {
+#if UNITY_EDITOR
+                Debug.Log($"AudioSourceObject \"{audioSourceObject.Name}\" is not found!");
+#endif
+                return;
+            }
+            if (currentCoroutines.ContainsKey(audioSourceObject.AudioSource))
+            {
+                StopCoroutine(currentCoroutines[audioSourceObject.AudioSource]);
+                currentCoroutines.Remove(audioSourceObject.AudioSource);
+            }
+            currentCoroutines.Add(audioSourceObject.AudioSource, StartCoroutine(ChangeVolumeSmoothly(audioSourceObject.AudioSource, 0, transitionTime,
+                audioSourceObject.AudioKind)));
         }
         public void CreateNewAudioSourceAndPlay(string AudioSourceObjectName)
         {
@@ -127,6 +146,18 @@ namespace SoundNS
             while (source.isPlaying)
                 yield return null;
             Destroy(source);
+        }
+        IEnumerator ChangeVolumeSmoothly(AudioSource audioSource, float newVolume, float transitionTime, AudioKind audioKind)
+        {
+            float percentage = 0;
+            while (audioSource.volume != newVolume)
+            {
+                audioSource.volume = Mathf.Lerp(audioSource.volume, newVolume * SettingsNS.AudioSettings.GetVolumeOfType(audioKind), percentage);
+                percentage += Time.deltaTime / transitionTime;
+                yield return null;
+            }
+            if (currentCoroutines.ContainsKey(audioSource))
+                currentCoroutines.Remove(audioSource);
         }
     }
 }

@@ -15,11 +15,11 @@ namespace PlayerScriptsNS
         public float LightUpRange;
         public float LightUpSpotAngle;
         public float LightUpDuration;
+        [HideInInspector]
+        public bool isCanLightUp = true;
         float OriginRange;
         float OriginSpotAngle;
         bool isActive = false;
-        [HideInInspector]
-        public bool isCanLightUp = true;
         List<Coroutine> currentCoroutines = new List<Coroutine>();
         private void Start()
         {
@@ -36,10 +36,6 @@ namespace PlayerScriptsNS
             LampAndHandAnimations.OnLampReloading += LampReloading;
             LampAndHandAnimations.OnLampAfterReloading += LampAfterReloading;
         }
-        void EnableLightUpInvoke(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-           EnableLightUp();
-        void DisableLightUpInvoke(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-         DisableLightUp();
         private void OnDisable()
         {
             InputManager.OnFoot.LightUp.started -= EnableLightUpInvoke;
@@ -49,13 +45,6 @@ namespace PlayerScriptsNS
             LampAndHandAnimations.OnLampReloading -= LampReloading;
             LampAndHandAnimations.OnLampAfterReloading -= LampAfterReloading;
         }
-        void LampReloading()
-        {
-            isCanLightUp = false;
-            DisableLightUp();
-        }
-        void LampAfterReloading() =>
-            isCanLightUp = true;
         public void EnableLightUp()
         {
             Weapon weapon = WeaponManager.GetCurrentSelectedWeapon();
@@ -101,7 +90,18 @@ namespace PlayerScriptsNS
                 isActive = false;
             }
         }
-        IEnumerator ChangeValueByTime(System.Action<float> callback, float value, float newValue, float duration)
+        private void EnableLightUpInvoke(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
+           EnableLightUp();
+        private void DisableLightUpInvoke(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
+         DisableLightUp();
+        private void LampReloading()
+        {
+            isCanLightUp = false;
+            DisableLightUp();
+        }
+        private void LampAfterReloading() =>
+            isCanLightUp = true;
+        private IEnumerator ChangeValueByTime(System.Action<float> callback, float value, float newValue, float duration)
         {
             float time = 0f;
             float beginValue = value;

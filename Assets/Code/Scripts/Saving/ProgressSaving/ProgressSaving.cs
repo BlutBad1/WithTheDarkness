@@ -18,7 +18,6 @@ namespace DataSaving.SceneSaving
             get { return loadedScene; }
             set { loadedScene = value; }
         }
-
         /// <returns>True - data exists and successfully loaded. False - data is empty</returns>
         public static bool DataIsLoaded() =>
          loadedScene != null ? true : false;
