@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 namespace ExtensionMethods
@@ -12,6 +13,10 @@ namespace ExtensionMethods
                     return go;
             }
             return null;
+        }
+        public static T GetComponentOrInherited<T>(this GameObject go) where T : Component
+        {
+            return go.GetComponents<Component>().OfType<T>().FirstOrDefault();
         }
     }
 }

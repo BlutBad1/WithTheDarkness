@@ -8,7 +8,7 @@ namespace InteractableNS
         [SerializeField]
         public string promptMessage;
         [HideInInspector]
-        protected EntityInteract WhoInteracted;
+        protected EntityInteract LastWhoInteracted;
         protected void Start()
         {
         }
@@ -18,7 +18,7 @@ namespace InteractableNS
         }
         public virtual void StartBaseInteraction(EntityInteract creatureInteract)
         {
-            WhoInteracted = creatureInteract;
+            LastWhoInteracted = creatureInteract;
             if (useEvents)
                 GetComponent<InteractionEvent>().OnInteract.Invoke();
             Interact();

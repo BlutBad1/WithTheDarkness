@@ -61,7 +61,7 @@ namespace WeaponNS.ShootingWeaponNS
         public void StartReload()
         {
             if (gunData.CurrentAmmo != gunData.MagSize && gunData.ReserveAmmo != 0)
-                if (!gunData.Reloading && !animator.GetCurrentAnimatorStateInfo(0).IsName(WeaponConstants.PUTTING_DOWN))
+                if (!gunData.Reloading && !animator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN))
                     StartCoroutine(Reload());
         }
         public virtual void ReloadAnim() => animator?.SetTrigger(MainShootingWeaponConstants.RELOADING);
@@ -70,7 +70,7 @@ namespace WeaponNS.ShootingWeaponNS
         {
             if (CanShoot())
             {
-                if (animator && (animator.GetBool(MainShootingWeaponConstants.FIRING) || animator.GetCurrentAnimatorStateInfo(0).IsName(WeaponConstants.PUTTING_DOWN))) //if some anim is triggered => false
+                if (animator && (animator.GetBool(MainShootingWeaponConstants.FIRING) || animator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN))) //if some anim is triggered => false
                     return;
                 if (gunData.CurrentAmmo > 0)
                 {

@@ -2,19 +2,22 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace HudNS
+namespace EffectsNS.PlayerEffects
 {
     public class BlackScreenDimming : MonoBehaviour
     {
-        public float fadeSpeed = 0.2f;
-        public Image blackScreen;
-        Coroutine followCoroutine;
+        public float FadeSpeed = 0.2f;
+        public Image BlackScreen;
+        public bool BlackScreenOnStart = true;
+        private Coroutine followCoroutine;
         private void Awake() =>
-            blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, 1f);
-
-        private void Start() =>
-            DimmingDisable();
-
+            BlackScreen.color = new Color(BlackScreen.color.r, BlackScreen.color.g, BlackScreen.color.b, BlackScreenOnStart ? 1f : BlackScreen.color.a);
+        public void SetFadeSpeed(float fadeSpeed) =>
+            FadeSpeed = fadeSpeed;
+        public void DimmingEnable() =>
+            DimmingEnable(true, 0);
+        public void DimmingDisable() =>
+           DimmingDisable(true, 0);
         public void DimmingEnable(bool scaleFromDeltaTime = true, float waitTime = 0)
         {
             if (followCoroutine != null)
@@ -27,29 +30,29 @@ namespace HudNS
                 StopCoroutine(followCoroutine);
             followCoroutine = StartCoroutine(Dimming(false, scaleFromDeltaTime, waitTime));
         }
-        IEnumerator Dimming(bool enable, bool scaleFromDeltaTime = true, float waitTime = 0)
+        private IEnumerator Dimming(bool enable, bool scaleFromDeltaTime = true, float waitTime = 0)
         {
-            float tempAlpha = blackScreen.color.a;
+            float tempAlpha = BlackScreen.color.a;
             while (tempAlpha <= 1 && enable || tempAlpha >= 0 && !enable)
             {
-                blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, tempAlpha);
+                BlackScreen.color = new Color(BlackScreen.color.r, BlackScreen.color.g, BlackScreen.color.b, tempAlpha);
                 if (enable)
                 {
                     if (scaleFromDeltaTime)
-                        tempAlpha += Time.deltaTime * fadeSpeed;
+                        tempAlpha += Time.deltaTime * FadeSpeed;
                     else
-                        tempAlpha += fadeSpeed;
+                        tempAlpha += FadeSpeed;
                 }
                 else
                 {
                     if (scaleFromDeltaTime)
-                        tempAlpha -= Time.deltaTime * fadeSpeed;
+                        tempAlpha -= Time.deltaTime * FadeSpeed;
                     else
-                        tempAlpha -= fadeSpeed;
+                        tempAlpha -= FadeSpeed;
                 }
                 yield return scaleFromDeltaTime ? new WaitForSecondsRealtime(waitTime) : new WaitForSeconds(waitTime);
             }
-            blackScreen.color = new Color(blackScreen.color.r, blackScreen.color.g, blackScreen.color.b, enable ? 1f : 0f);
+            BlackScreen.color = new Color(BlackScreen.color.r, BlackScreen.color.g, BlackScreen.color.b, enable ? 1f : 0f);
         }
     }
 }

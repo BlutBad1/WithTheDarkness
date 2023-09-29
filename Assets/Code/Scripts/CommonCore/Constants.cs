@@ -1,6 +1,6 @@
 namespace MyConstants
 {
-    public class Constants { }
+    public static class Constants { }
     public static class CommonConstants
     {
         public const string PLAYER = "Player";
@@ -20,11 +20,14 @@ namespace MyConstants
         public const string PROGRESS_DATA_PATH = "save";
         public const string CREATURE_TYPES_INSTANCE = "Creature Types";
     }
-    public static class UIConstants
+    namespace UIConstants
     {
-        public const string SETTINGS_MENU = "SettingsMenu";
-        public const string UI_SOUNDS = "UISounds";
-        public class UISoundsNameConstants
+        public static class MainUIConstants
+        {
+            public const string SETTINGS_MENU = "SettingsMenu";
+            public const string UI_SOUNDS = "UISounds";
+        }
+        public static class UISoundsNameConstants
         {
             public const string BUTTON_CLICK_SOUND = "button_click_regular";
             public const string BUTTON_HOVER_SOUND = "button_hover_regular";
@@ -47,43 +50,62 @@ namespace MyConstants
         public const string MAPS = "Maps";
         public const string ENTRY_TO_LOCATION = "Triggers/EntryToLocation";
     }
-    public static class EnironmentConstants
+    namespace EnironmentConstants
     {
-        public static class Lock
+        namespace SpawnerConstants
         {
-            public const string LOCK_ANIMATOR_TRIGGER = "Open";
-            public const string LOCK_ANIMATOR_BOOL = "IsLocked";
+            public static class MainSpawnerConstants
+            {
+                public const int MAX_AMOUNT_OF_CYCLES = 5;
+            }
+            public static class KeySpawnerConstants
+            {
+                public const float REQUIRED_KEY_SPAWN_CHANCE_COEFF_ON_SECOND_HALF = 2;
+            }
         }
-        public static class Doors
+        namespace DecorConstants
         {
-            public const string DOORS_ANIMATOR_IS_OPENED = "IsOpened";
-            public const string DOORS_ANIMATOR_IS_LOCKED = "IsLocked";
-            public const string DOORS_ANIMATOR_TRIGGER = "PushDoors";
+            public static class LockConstants
+            {
+                public const string LOCK_ANIMATOR_TRIGGER = "Open";
+                public const string LOCK_ANIMATOR_BOOL = "IsLocked";
+            }
+            public static class DoorsConstants
+            {
+                public const string DOORS_ANIMATOR_IS_OPENED = "IsOpened";
+                public const string DOORS_ANIMATOR_IS_LOCKED = "IsLocked";
+                public const string DOORS_ANIMATOR_TRIGGER = "PushDoors";
+            }
         }
     }
-    public class CreatureConstants
+    namespace CreatureConstants
     {
-        public const string ALONE_CREATURE_TYPE = "Alone";
-        public class EnemyConstants
+        public static class MainCreatureConstants
         {
-            public const string IS_WALKING = "IsWalking";
-            public const string JUMP = "Jump";
-            public const string LANDED = "Landed";
-            public const string ATTACK_TRIGGER = "Attack";
-            public const string DEATH_TRIGGER = "Death";
-            public class GramophoneConstants
+            public const string ALONE_CREATURE_TYPE = "Alone";
+        }
+        namespace EnemyConstants
+        {
+            public static class MainEnemyConstants
+            {
+                public const string IS_WALKING = "IsWalking";
+                public const string JUMP = "Jump";
+                public const string LANDED = "Landed";
+                public const string ATTACK_TRIGGER = "Attack";
+                public const string DEATH_TRIGGER = "Death";
+            }
+            public static class GramophoneConstants
             {
                 public const string PLAY_TRIGGER = "Play";
                 public const string STOP_PLAYING_TRIGGER = "StopPlaying";
             }
         }
     }
-
-    public class MainAudioManagerConstants
+    public static class MainAudioManagerConstants
     {
         public const string TRANSITION = "transitionSound";
     }
-    public class SceneConstants
+    public static class SceneConstants
     {
         public const string PROGRESS_MANAGER = "ProgressManager";
         public const string LOADING = "Loading";
@@ -93,22 +115,21 @@ namespace MyConstants
     }
     namespace WeaponConstants
     {
-        public class LampConstants
+        public static class MainWeaponConstants
+        {
+            public const string PUTTING_DOWN = "PuttingDown";
+            public const string PICKING_UP = "PickingUp";
+        }
+        public static class LampConstants
         {
             public const string LAMP = "LeftHand";
             public const string SPEED = "speed";
             public const string IS_LIGHT_UP = "IsLightUp";
             public const string LIGHT_UP = "LightUp";
         }
-        public class WeaponConstants
-        {
-            public const string PUTTING_DOWN = "PuttingDown";
-            public const string PICKING_UP = "PickingUp";
-        }
-
         namespace ShootingWeaponConstants
         {
-            public class MainShootingWeaponConstants
+            public static class MainShootingWeaponConstants
             {
                 public const string RELOADING = "Reloading";
                 public const string FIRING = "Firing";
@@ -119,7 +140,7 @@ namespace MyConstants
                 public const string BULLET_HOLES_DATA_BASE = "Data/MainBulletHolesDataBase";
                 public const string DEFAULT_BULLET_HOLE = "DefaultBulletHole";
             }
-            public class RevolverConstants
+            public static class RevolverConstants
             {
                 public const string RELOADING_DELAY = "RelodingDelay";
                 public const string RELOADING_ANIMATION_SPEED = "ReloadingSpeed";

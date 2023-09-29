@@ -1,6 +1,7 @@
 using EnemyNS.Attack;
 using EnemyNS.Skills;
 using MyConstants;
+using MyConstants.CreatureConstants.EnemyConstants;
 using ScriptableObjectNS.Enemy;
 using System.Collections;
 using UnityEngine;
@@ -72,7 +73,7 @@ namespace EnemyNS.Base
             if (lookCoroutine != null)
                 StopCoroutine(lookCoroutine);
             lookCoroutine = StartCoroutine(LookAt(Target.GetGameObject().transform));
-            Animator.SetTrigger(CreatureConstants.EnemyConstants.ATTACK_TRIGGER);
+            Animator.SetTrigger(MainEnemyConstants.ATTACK_TRIGGER);
         }
         private IEnumerator LookAt(Transform Target)
         {

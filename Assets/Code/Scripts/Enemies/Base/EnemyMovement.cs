@@ -1,6 +1,8 @@
 using CreatureNS;
 using EnemyNS.Attack;
 using MyConstants;
+using MyConstants.CreatureConstants;
+using MyConstants.CreatureConstants.EnemyConstants;
 using ScriptableObjectNS.Creature;
 using System.Collections;
 using System.Collections.Generic;
@@ -110,7 +112,7 @@ namespace EnemyNS.Base
                 if (!Animator)
                     Debug.LogWarning("Enemy movement animator is not set!");
 #endif
-                Animator?.SetBool(CreatureConstants.EnemyConstants.IS_WALKING, Agent.velocity.magnitude > 0.01f);
+                Animator?.SetBool(MainEnemyConstants.IS_WALKING, Agent.velocity.magnitude > 0.01f);
             }
         }
         protected virtual void OnDisable()
@@ -160,7 +162,7 @@ namespace EnemyNS.Base
         public List<string> GetOpponentsList()
         {
             List<string> list = new List<string>();
-            if (CreatureType == MyConstants.CreatureConstants.ALONE_CREATURE_TYPE)
+            if (CreatureType == MainCreatureConstants.ALONE_CREATURE_TYPE)
                 list = CreatureNames;
             else
             {
@@ -366,14 +368,14 @@ namespace EnemyNS.Base
         private void HandleLinkStart(OffMeshLinkMoveMethod MoveMethod)
         {
             if (MoveMethod == OffMeshLinkMoveMethod.NormalSpeed)
-                Animator.SetBool(CreatureConstants.EnemyConstants.IS_WALKING, true);
+                Animator.SetBool(MainEnemyConstants.IS_WALKING, true);
             else if (MoveMethod != OffMeshLinkMoveMethod.Teleport)
-                Animator.SetTrigger(CreatureConstants.EnemyConstants.JUMP);
+                Animator.SetTrigger(MainEnemyConstants.JUMP);
         }
         private void HandleLinkEnd(OffMeshLinkMoveMethod MoveMethod)
         {
             if (MoveMethod != OffMeshLinkMoveMethod.Teleport && MoveMethod != OffMeshLinkMoveMethod.NormalSpeed)
-                Animator.SetTrigger(CreatureConstants.EnemyConstants.LANDED);
+                Animator.SetTrigger(MainEnemyConstants.LANDED);
         }
     }
 }

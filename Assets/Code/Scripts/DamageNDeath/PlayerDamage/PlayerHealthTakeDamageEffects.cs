@@ -1,4 +1,4 @@
-using HudNS;
+using EffectsNS.PlayerEffects;
 using MyConstants;
 using ScenesManagementNS;
 using SoundNS;
@@ -123,7 +123,7 @@ namespace PlayerScriptsNS
             PlayerLook.SetLookingInputLockStats(true);
             PlayerInputManager.SetMovingLock(true, true);
             PlaySound(DeathSounds);
-            dimming.fadeSpeed = DimmingFadeSpeed;
+            dimming.FadeSpeed = DimmingFadeSpeed;
             dimming.DimmingEnable(false, DimmingWaitTime);
             if (deathCoroutine != null)
                 StopCoroutine(deathCoroutine);
@@ -131,7 +131,7 @@ namespace PlayerScriptsNS
         }
         IEnumerator DeathCoroutine()
         {
-            while (dimming.blackScreen.color.a < 1 || (currentAudioSourceIsPlaying && currentAudioSourceIsPlaying.isPlaying))
+            while (dimming.BlackScreen.color.a < 1 || (currentAudioSourceIsPlaying && currentAudioSourceIsPlaying.isPlaying))
                 yield return null;
             SceneDeterminant sceneManager = GameObject.Find(MyConstants.SceneConstants.PROGRESS_MANAGER).GetComponent<SceneDeterminant>();
             if (sceneManager)

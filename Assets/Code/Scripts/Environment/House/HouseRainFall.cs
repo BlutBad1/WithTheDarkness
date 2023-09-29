@@ -91,6 +91,7 @@ namespace EnvironmentNS
                 script.TransitionInTimeOnStart = EditorGUILayout.FloatField("Transition In Time On Start", script.TransitionInTimeOnStart);
                 script.TransitionOutOnStart = EditorGUILayout.FloatField("Transition Out On Start", script.TransitionOutOnStart);
             }
+            serializedObject.ApplyModifiedProperties();
         }
     }
 #endif

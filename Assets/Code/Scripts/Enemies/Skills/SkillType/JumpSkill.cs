@@ -1,5 +1,6 @@
 using EnemyNS.Base;
 using MyConstants;
+using MyConstants.CreatureConstants.EnemyConstants;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -42,7 +43,7 @@ namespace EnemyNS.Skills
             enemy.Movement.Agent.enabled = false;
             enemy.Movement.enabled = false;
             enemy.Movement.State = EnemyState.UsingAbility;
-            enemy.Animator?.SetTrigger(CreatureConstants.EnemyConstants.JUMP);
+            enemy.Animator?.SetTrigger(MainEnemyConstants.JUMP);
             Quaternion startRotation = enemy.transform.rotation;
             enemy.EnemyAttack.TryAttack();
             for (float time = 0; time < 1; time += Time.deltaTime * JumpSpeed)
@@ -60,7 +61,7 @@ namespace EnemyNS.Skills
                 yield return null;
             }
             enemy.EnemyAttack.StopAttack();
-            enemy.Animator?.SetTrigger(CreatureConstants.EnemyConstants.LANDED);
+            enemy.Animator?.SetTrigger(MainEnemyConstants.LANDED);
             UseTime = Time.time;
             enemy.enabled = true;
             enemy.Movement.enabled = true;

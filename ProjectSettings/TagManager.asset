@@ -9,6 +9,7 @@ TagManager:
   - SmallSize
   - NoBulletHole
   - Metal
+  - Oil
   layers:
   - Default
   - TransparentFX
@@ -16,7 +17,7 @@ TagManager:
   - Tree
   - Water
   - UI
-  - Interactable
+  - 
   - Lamp
   - Gun
   - Target
@@ -26,14 +27,14 @@ TagManager:
   - Enemy
   - InvisibleWall
   - DamagableProp
-  - InteractableWeapon
+  - 
   - PostProcess
   - PostProcessHUD
   - 
   - RaycastIgnore
   - 
-  - 
-  - 
+  - Interactable
+  - InteractableWeapon
   - 
   - 
   - 

@@ -79,11 +79,11 @@ namespace Footsteps
             CheckGround();
             if (triggeredBy == TriggeredBy.TRAVELED_DISTANCE)
             {
-                float speed = (characterController ? characterController.currentVelocity : characterRigidbody.velocity).magnitude * 50;
+                float speed = ((characterController ? characterController.GetCharacterVelocity() : characterRigidbody.velocity) * Time.deltaTime).magnitude;
                 if (isGrounded)
                 {
                     // Advance the step cycle only if the character is grounded.
-                    AdvanceStepCycle(speed * Time.deltaTime);
+                    AdvanceStepCycle(speed);
                 }
             }
         }

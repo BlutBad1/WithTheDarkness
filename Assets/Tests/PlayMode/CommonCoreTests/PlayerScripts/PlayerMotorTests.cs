@@ -42,7 +42,7 @@ namespace CommonCore.PlayerScripts
             //Act
             playerMotor.ProcessMove(input);
             yield return new WaitForSeconds(0.1f);
-            Vector3 buffer = (expectedPlayer.transform.TransformDirection(expectedMoveDirection) * 5 * Time.deltaTime) - playerMotor.currentVelocity;
+            Vector3 buffer = (expectedPlayer.transform.TransformDirection(expectedMoveDirection) * 5 * Time.deltaTime) - playerMotor.CurrentScaledByTimeVelocity;
 
             Assert.IsTrue(Mathf.Abs(buffer.magnitude) < 0.2f);
         }
@@ -61,11 +61,11 @@ namespace CommonCore.PlayerScripts
             expectedCharacter.Move(expectedVelocity * Time.deltaTime);
 
             //Act
-            playerMotor.isGrounded = true;
+            playerMotor.IsGrounded = true;
             playerMotor.Jump();
             playerMotor.ProcessMove(input);
             yield return new WaitForSeconds(0.1f);
-            Vector3 buffer = (expectedPlayer.transform.TransformDirection(expectedMoveDirection) * 5 * Time.deltaTime) - playerMotor.currentVelocity;
+            Vector3 buffer = (expectedPlayer.transform.TransformDirection(expectedMoveDirection) * 5 * Time.deltaTime) - playerMotor.CurrentScaledByTimeVelocity;
 
             Assert.IsTrue(Mathf.Abs(buffer.magnitude) < 0.2f);
         }

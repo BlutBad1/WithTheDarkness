@@ -7,10 +7,12 @@ public class ListToPopupAttribute : PropertyAttribute
 {
     public Type MyType;
     public string PropertyName;
-    public ListToPopupAttribute(Type myType, string propertyName)
+    public string PropertyLabel;
+    public ListToPopupAttribute(Type myType, string propertyName, string propertyLabel = "")
     {
         MyType = myType;
         PropertyName = propertyName;
+        PropertyLabel = propertyLabel;
     }
 }
 #if UNITY_EDITOR
@@ -28,7 +30,7 @@ public class ListToPopupDrawer : PropertyDrawer
             if (stringList != null && stringList.Count != 0)
             {
                 int selectedIndex = Mathf.Max(stringList.IndexOf(property.stringValue), 0);
-                selectedIndex = EditorGUI.Popup(position, property.name, selectedIndex, stringList.ToArray());
+                selectedIndex = EditorGUI.Popup(position, string.IsNullOrEmpty(atb.PropertyLabel) ? property.name : atb.PropertyLabel, selectedIndex, stringList.ToArray());
                 property.stringValue = stringList[selectedIndex];
             }
             else

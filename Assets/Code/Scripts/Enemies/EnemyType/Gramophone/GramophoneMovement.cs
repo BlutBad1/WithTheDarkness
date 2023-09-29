@@ -1,4 +1,5 @@
 using EnemyNS.Base;
+using MyConstants.CreatureConstants.EnemyConstants;
 using System.Collections;
 using UnityEngine;
 
@@ -22,7 +23,7 @@ namespace EnemyNS.Type.Gramophone
         //}
         protected override IEnumerator DoFollowTarget()
         {
-            Animator.SetTrigger(MyConstants.CreatureConstants.EnemyConstants.GramophoneConstants.PLAY_TRIGGER);
+            Animator.SetTrigger(GramophoneConstants.PLAY_TRIGGER);
             return base.DoFollowTarget();
         }
 

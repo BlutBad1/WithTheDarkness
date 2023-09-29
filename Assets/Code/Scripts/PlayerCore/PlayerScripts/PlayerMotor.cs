@@ -3,26 +3,28 @@ namespace PlayerScriptsNS
 {
     public class PlayerMotor : MonoBehaviour
     {
-        [HideInInspector]
-        public bool isGrounded;
         [SerializeField]
         private float gravity = -9.8f;
         [SerializeField]
         private float groundCheckDistance;
         [SerializeField]
-        LayerMask slopeLayer;
+        private LayerMask slopeLayer;
         [SerializeField]
         private float jumpHeight = 3f;
+        [SerializeField, Range(0f, 1f)]
+        private float inertiaWeight = 0.65f;
+        [Header("Speed")]
+        [SerializeField]
+        public float DefaultSpeed = 5;
         [SerializeField]
         private float sprintingSpeed = 8;
         [SerializeField]
-        private float defaultSpeed = 5;
-        [SerializeField]
         private float crounchingSpeed = 2.5f;
         [HideInInspector]
-        public Vector3 currentVelocity;
+        public bool IsGrounded;
         [HideInInspector]
-        public Vector3 moveDirection = Vector3.zero;
+        public Vector3 CurrentScaledByTimeVelocity;
+        private Vector3 lastVelocity = Vector3.zero;
         private float speedCoef = 1f;
         private float speed;
         private bool lerpCrounch;
@@ -30,22 +32,21 @@ namespace PlayerScriptsNS
         private bool sprinting;
         private float crounchTimer;
         private CharacterController character;
-        private Vector3 playerVelocity;
-        protected float Speed
+        private Vector3 playerYVelocity;
+        public float CurrentSpeed
         {
             get { return speed * speedCoef; }
             set { speed = value; }
         }
-
-        void Start()
+        private void Awake()
         {
             character = GetComponent<CharacterController>();
-            Speed = defaultSpeed;
+            CurrentSpeed = DefaultSpeed;
             sprinting = false;
         }
-        void Update()
+        private void Update()
         {
-            isGrounded = character.isGrounded;
+            IsGrounded = character.isGrounded;
             if (lerpCrounch)
             {
                 crounchTimer += Time.deltaTime;
@@ -54,12 +55,12 @@ namespace PlayerScriptsNS
                 if (crounching)
                 {
                     character.height = Mathf.Lerp(character.height, 1, p);
-                    Speed = crounchingSpeed;
+                    CurrentSpeed = crounchingSpeed;
                 }
                 else
                 {
                     character.height = Mathf.Lerp(character.height, 2, p);
-                    Speed = defaultSpeed;
+                    CurrentSpeed = DefaultSpeed;
                 }
                 if (p > 1)
                 {
@@ -74,10 +75,12 @@ namespace PlayerScriptsNS
         /// <param name="coef"></param>
         public void SetSpeedCoef(float coef = 1f) =>
             speedCoef = coef;
+        public Vector3 GetCharacterVelocity() =>
+            character.velocity;
         public void Jump()
         {
-            if (isGrounded)
-                playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
+            if (IsGrounded)
+                playerYVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
         }
         public void Crounch()
         {
@@ -90,24 +93,34 @@ namespace PlayerScriptsNS
             if (!crounching)
             {
                 sprinting = !sprinting;
-                if (sprinting) Speed = sprintingSpeed;
-                else Speed = defaultSpeed;
+                if (sprinting) CurrentSpeed = sprintingSpeed;
+                else CurrentSpeed = DefaultSpeed;
             }
         }
         public void ProcessMove(Vector2 input)
         {
-            moveDirection.x = input.x;
-            moveDirection.z = input.y;
-            character.Move(transform.TransformDirection(SlopeCalculation(moveDirection * Speed * Time.deltaTime)));
-            playerVelocity.y += gravity * Time.deltaTime;
-            character.Move(playerVelocity * Time.deltaTime);
-            if (isGrounded && playerVelocity.y < 0)
-                playerVelocity.y = -2f;
-            currentVelocity = (transform.TransformDirection(moveDirection) * Speed * Time.deltaTime);
+            // Calculate target movement
+            Vector3 horizontalMovement = new Vector3(input.x, 0, input.y);
+            Vector3 targetVelocity = horizontalMovement * CurrentSpeed;
+            // Apply inertia by combining the target velocity with last frame's velocity
+            Vector3 velocityWithInertia = Vector3.Lerp(targetVelocity, lastVelocity, inertiaWeight);
+            Vector3 velocity = SlopeCalculation(velocityWithInertia);
+            lastVelocity = velocity;
+            CurrentScaledByTimeVelocity = character.velocity * Time.deltaTime;
+            // Set Y component to 0
+            velocity.y = 0;
+            // Gravity application
+            if (IsGrounded && playerYVelocity.y < 0)
+                playerYVelocity.y = -2f;
+            else
+                playerYVelocity.y += gravity * Time.deltaTime;
+            velocity += playerYVelocity;
+            velocity = transform.TransformDirection(velocity);
+            character.Move(velocity * Time.deltaTime);
         }
         private Vector3 SlopeCalculation(Vector3 calculatedMovement)
         {
-            if (isGrounded)
+            if (IsGrounded)
             {
                 float maxDistance = character.height / 2 - character.radius + groundCheckDistance;
                 Physics.SphereCast(transform.position, character.radius, Vector3.down, out RaycastHit groundCheckHit, maxDistance, slopeLayer);

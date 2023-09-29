@@ -93,17 +93,17 @@ namespace WeaponManagement
         {
             Animator lampAnimator = Lamp.GetComponent<Animator>(), currentWeaponAnimator = Weapons[currentSelection == -1 ? index : currentSelection].WeaponGameObject.GetComponent<Animator>();
             if (currentSelection != -1)
-                currentWeaponAnimator.SetTrigger(WeaponConstants.PUTTING_DOWN);
+                currentWeaponAnimator.SetTrigger(MainWeaponConstants.PUTTING_DOWN);
             if (Weapons[index].WeaponData.IsTwoHanded && Lamp.activeInHierarchy)
             {
-                lampAnimator.SetTrigger(WeaponConstants.PUTTING_DOWN);
-                while (!lampAnimator.GetCurrentAnimatorStateInfo(0).IsName(WeaponConstants.PUTTING_DOWN))
+                lampAnimator.SetTrigger(MainWeaponConstants.PUTTING_DOWN);
+                while (!lampAnimator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN))
                     yield return null;
             }
-            while (!currentWeaponAnimator.GetCurrentAnimatorStateInfo(0).IsName(WeaponConstants.PUTTING_DOWN) && currentSelection != -1)
+            while (!currentWeaponAnimator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN) && currentSelection != -1)
                 yield return null;
-            while ((lampAnimator.GetCurrentAnimatorStateInfo(0).IsName(WeaponConstants.PUTTING_DOWN) && lampAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
-                || (currentWeaponAnimator.GetCurrentAnimatorStateInfo(0).IsName(WeaponConstants.PUTTING_DOWN) && currentWeaponAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f))
+            while ((lampAnimator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN) && lampAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+                || (currentWeaponAnimator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN) && currentWeaponAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f))
             {
                 yield return new WaitForSeconds(0.1f);
             }

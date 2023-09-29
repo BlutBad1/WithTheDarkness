@@ -1,4 +1,5 @@
 using InteractableNS.Common;
+using MyConstants.CreatureConstants.EnemyConstants;
 using UnityEngine;
 
 namespace EnemyNS.Death
@@ -10,7 +11,7 @@ namespace EnemyNS.Death
            gameObject.SetActive(false);
         public override void OnDead()
         {
-            enemy.Movement.Animator.SetTrigger(MyConstants.CreatureConstants.EnemyConstants.GramophoneConstants.STOP_PLAYING_TRIGGER);
+            enemy.Movement.Animator.SetTrigger(GramophoneConstants.STOP_PLAYING_TRIGGER);
             base.OnDead();
             ItemImpact itemImpact;
             foreach (var item in GramophoneInnerGameObjects)

@@ -35,7 +35,7 @@ namespace Map
             mapData.ShuffleLocations();
             yield return new WaitForSeconds(0.5f);
             //Assert
-            Assert.True(mapData.LocationsArr.Length > 0);
+            Assert.True(mapData.ActiveLocations.Count > 0);
         }
         [UnityTest]
         public IEnumerator ShuffleLocationsTest_Multithreading_Expect_ShuffledLocations()
@@ -48,7 +48,7 @@ namespace Map
             mapData.ShuffleLocations();
             yield return new WaitForSeconds(0.5f);
             //Assert
-            Assert.True(mapData.LocationsArr.Length > 0);
+            Assert.True(mapData.ActiveLocations.Count > 0);
         }
         [UnityTest]
         public IEnumerator ShuffleLocationsTest_Compare_Multithreading_To_OneThread_Expect_OneThreadFaster_5()

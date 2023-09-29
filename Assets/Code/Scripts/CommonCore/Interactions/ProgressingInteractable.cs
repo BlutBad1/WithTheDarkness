@@ -6,43 +6,46 @@ namespace InteractableNS
 {
     public class ProgressingInteractable : Interactable
     {
-        public Image InteractingImage;
         public float InteractingSpeed = 1.5f;
         public float CoroutineDelay = 0.01f;
         [HideInInspector]
         public bool IsInteracting = false;
         public Coroutine InteractingCoroutine;
-        new protected virtual void Start()
-        {
-            if (!InteractingImage)
-                InteractingImage = GameObject.Find(MyConstants.HUDConstants.INTERACTING_PROGRESS_IMAGE).GetComponent<Image>();
-        }
+        [HideInInspector]
+        public float InteractionProgress = 0f;
         public sealed override void StartBaseInteraction(EntityInteract creatureInteract)
         {
+            ResetProgress(creatureInteract);
             IsInteracting = true;
-            WhoInteracted = creatureInteract;
-            InteractingCoroutine = StartCoroutine(InteractionProgress(creatureInteract));
+            LastWhoInteracted = creatureInteract;
+            InteractingCoroutine = StartCoroutine(InteractionProgressing(creatureInteract));
         }
         public override void EndInteraction(EntityInteract creatureInteract)
         {
             base.EndInteraction(creatureInteract);
-            IsInteracting = false;
+            ResetProgress(creatureInteract);
+        }
+        public virtual void ResetProgress(EntityInteract creatureInteract)
+        {
+            InteractionProgress = 0;
+            Image InteractingImage = creatureInteract.GetInteractionProgressImage();
+            if (InteractingImage)
+                InteractingImage.fillAmount = 0;
             if (InteractingCoroutine != null)
                 StopCoroutine(InteractingCoroutine);
             InteractingCoroutine = null;
-            if (InteractingImage)
-                InteractingImage.fillAmount = 0;
+            IsInteracting = false;
         }
-        protected virtual IEnumerator InteractionProgress(EntityInteract creatureInteract)
+        protected virtual IEnumerator InteractionProgressing(EntityInteract creatureInteract)
         {
+            Image InteractingImage = creatureInteract.GetInteractionProgressImage();
             if (InteractingImage)
                 InteractingImage.fillAmount = 0;
-            float progress = 0;
-            while (progress < 1f)
+            while (InteractionProgress < 1f)
             {
-                progress += InteractingSpeed * Time.deltaTime;
+                InteractionProgress += InteractingSpeed * Time.deltaTime;
                 if (InteractingImage)
-                    InteractingImage.fillAmount = progress;
+                    InteractingImage.fillAmount = InteractionProgress;
                 yield return new WaitForSeconds(CoroutineDelay);
             }
             if (useEvents)

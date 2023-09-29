@@ -14,7 +14,7 @@ namespace LightNS.Player
         public Action OnLampAfterReloading;
         void Update()
         {
-            float speed = characterController.currentVelocity.magnitude;
+            float speed = characterController.CurrentScaledByTimeVelocity.magnitude;
             leftHandAnimator.SetFloat(LampConstants.SPEED, speed);
         }
         public void LampReloading() =>
