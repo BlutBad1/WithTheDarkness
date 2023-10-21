@@ -39,9 +39,9 @@ namespace GameObjectsControllingNS.Spawner
         }
         private SpawningSupply GetMostImportantRequiredKey(List<SpawningSupply> spawningGameObjects)
         {
-            Dictionary<RequiredKey, SpawningSupply> importantKeys = new Dictionary<RequiredKey, SpawningSupply>();
+            Dictionary<KeyData, SpawningSupply> importantKeys = new Dictionary<KeyData, SpawningSupply>();
             RequiredKeySpawnChance spawnChanceBase = null;
-            RequiredKey requiredKey = null;
+            KeyData requiredKey = null;
             foreach (var spawningSupply in spawningGameObjects)
             {
                 spawnChanceBase = (RequiredKeySpawnChance)GetObjectSpawnChanceFromGameObject(spawningSupply.GameObject);
@@ -56,8 +56,8 @@ namespace GameObjectsControllingNS.Spawner
             SpawningSupply theMostImportantKey = null;
             if (importantKeys.Count > 0)
             {
-                RequiredKey keyBuffer = importantKeys.Keys.First();
-                foreach (RequiredKey key in importantKeys.Keys)
+                KeyData keyBuffer = importantKeys.Keys.First();
+                foreach (KeyData key in importantKeys.Keys)
                 {
                     if (keyBuffer.Amount > key.Amount && MapData.Instance.ActiveLocations.Count - MapData.Instance.LocationsIterator <= key.Amount)
                         keyBuffer = key;

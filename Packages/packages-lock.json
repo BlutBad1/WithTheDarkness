@@ -7,11 +7,28 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.robproductions.opengraphgui": {
+      "version": "https://github.com/RobProductions/OpenGraphGUI.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {},
+      "hash": "b09d6d000489193004e27569df4f8e02ceace05b"
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
       "source": "builtin",
       "dependencies": {}
+    },
+    "com.unity.animation.rigging": {
+      "version": "1.1.1",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.burst": "1.4.1",
+        "com.unity.test-framework": "1.1.24"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.burst": {
       "version": "1.8.4",
@@ -228,15 +245,6 @@
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
-      }
-    },
-    "com.unity.visualeffectgraph": {
-      "version": "12.1.11",
-      "depth": 0,
-      "source": "builtin",
-      "dependencies": {
-        "com.unity.shadergraph": "12.1.11",
-        "com.unity.render-pipelines.core": "12.1.11"
       }
     },
     "com.unity.visualscripting": {

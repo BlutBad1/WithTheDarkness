@@ -4,10 +4,16 @@ namespace LightNS.Player
 {
     public class PlayerLightExhaustion : MonoBehaviour
     {
+        public LightGlowTimer LightGlowTimer;
         public float Damage = 20f;
         public float TimeBetweenAttacks = 5f;
         public PlayerHealth PlayerHealth;
         private float timeSinceLastAttack = 0f;
+        private void Start()
+        {
+            if (!LightGlowTimer)
+                LightGlowTimer = UtilitiesNS.Utilities.GetComponentFromGameObject<LightGlowTimer>(gameObject);
+        }
         private void Update()
         {
             if (LightGlowTimer.CurrentTimeLeft <= 0)

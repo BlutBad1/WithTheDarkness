@@ -4,9 +4,6 @@ namespace CreatureNS
 {
     public interface ICreature
     {
-        public string GetCreatureName();
-        public GameObject GetCreatureGameObject();
-
         public static ICreature GetICreatureComponent(GameObject gameObject)
         {
             ICreature creature = gameObject.GetComponent<ICreature>() != null ? gameObject.GetComponent<ICreature>()
@@ -14,5 +11,9 @@ namespace CreatureNS
             : gameObject.GetComponentInChildren<ICreature>();
             return creature;
         }
+        public string GetCreatureName();
+        public GameObject GetCreatureGameObject();
+        public void BlockMovement();
+        public void UnBlockMovement();
     }
 }

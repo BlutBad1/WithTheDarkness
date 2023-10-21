@@ -8,7 +8,7 @@ namespace InteractableNS
         [SerializeField]
         public string promptMessage;
         [HideInInspector]
-        protected EntityInteract LastWhoInteracted;
+        public EntityInteract LastWhoInteracted;
         protected void Start()
         {
         }

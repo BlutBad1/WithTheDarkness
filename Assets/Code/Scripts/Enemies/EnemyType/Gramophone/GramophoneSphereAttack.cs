@@ -34,7 +34,7 @@ namespace EnemyNS.Type.Gramophone.Attack
                 {
                     if (!currentDamageCoroutines.ContainsKey(opponent) && Vector3.Distance(gameObject.transform.position, opponent.transform.position) <= AttackRadius)
                     {
-                        Damageable damageable = Damageable.GetDamageableFromGameObject(opponent);
+                        Damageable damageable = (Damageable)IDamageable.GetDamageableFromGameObject(opponent);
                         if (damageable)
                             currentDamageCoroutines.Add(opponent, StartCoroutine(Attack(damageable)));
                     }

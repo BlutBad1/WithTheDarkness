@@ -17,6 +17,7 @@ public struct RegisteredMaterial
 public class SurfaceManager : MonoBehaviour
 {
     public static SurfaceManager singleton;
+    [SerializeField] SurfaceDefinition defaultSurface;
     [SerializeField] SurfaceDefinition[] definedSurfaces;
     [SerializeField] RegisteredMaterial[] registeredTextures;
     int n;
@@ -28,11 +29,10 @@ public class SurfaceManager : MonoBehaviour
     public AudioClip GetFootstep(Collider groundCollider, Vector3 worldPosition)
     {
         int surfaceIndex = GetSurfaceIndex(groundCollider, worldPosition);
-        if (surfaceIndex == -1)
+        if (surfaceIndex == -1 && (defaultSurface.footsteps == null || defaultSurface.footsteps?.Length <= 0))
             return null;
-
         // Getting the footstep sounds based on surface index.
-        AudioClip[] footsteps = definedSurfaces[surfaceIndex].footsteps;
+        AudioClip[] footsteps = surfaceIndex == -1 ? defaultSurface.footsteps : definedSurfaces[surfaceIndex].footsteps;
         n = Random.Range(footsteps.Length > 1 ? 1 : 0, footsteps.Length);
         // Move picked sound to index 0 so it's not picked next time.
         AudioClip temp = footsteps[n];
@@ -43,10 +43,10 @@ public class SurfaceManager : MonoBehaviour
     public AudioClip GetLandsound(Collider groundCollider, Vector3 worldPosition)
     {
         int surfaceIndex = GetSurfaceIndex(groundCollider, worldPosition);
-        if (surfaceIndex == -1)
+        if (surfaceIndex == -1 && (defaultSurface.landsounds == null || defaultSurface.landsounds?.Length <= 0))
             return null;
         // Getting the footstep sounds based on surface index.
-        AudioClip[] footsteps = definedSurfaces[surfaceIndex].landsounds;
+        AudioClip[] footsteps = surfaceIndex == -1 ? defaultSurface.footsteps : definedSurfaces[surfaceIndex].landsounds;
         if (footsteps.Length == 0)
             return null;
         n = Random.Range(0, footsteps.Length);

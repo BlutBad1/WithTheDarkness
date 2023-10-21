@@ -1,14 +1,20 @@
 using HudNS;
 using UnityEngine;
+using UtilitiesNS;
+
 namespace InteractableNS.Common
 {
     public class InfoTextWriting : Interactable
     {
         [SerializeField]
-        private string message;
+        protected string message;
         [SerializeField]
-        private float disapperingSpeed;
-        protected override void Interact()=>
-            GameObject.FindAnyObjectByType<MessagePrint>().PrintMessage(message, disapperingSpeed);
+        protected float disapperingSpeed;
+        protected override void Interact()
+        {
+            MessagePrint messagePrint = Utilities.GetComponentFromGameObject<MessagePrint>(LastWhoInteracted.gameObject);
+            if (messagePrint)
+                messagePrint.PrintMessage(message, disapperingSpeed);
+        }
     }
 }

@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 8f1c50e7dbf27cb46adf3d53f3038f2c
+timeCreated: 1500012817
+licenseType: Store
+ShaderImporter:
+  defaultTextures:
+  - _GlossMap: {fileID: 10305, guid: 0000000000000000f000000000000000, type: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

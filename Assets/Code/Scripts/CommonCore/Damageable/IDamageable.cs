@@ -19,4 +19,11 @@ public interface IDamageable
     public void TakeDamage(TakeDamageData takeDamageData);
     public void TakeDamage(float damage);
     public GameObject GetGameObject();
+    public static IDamageable GetDamageableFromGameObject(GameObject gameObject)
+    {
+        IDamageable damageable = gameObject.GetComponent<IDamageable>() != null ? gameObject.GetComponent<IDamageable>()
+        : gameObject.GetComponentInParent<IDamageable>() != null ? gameObject.GetComponentInParent<IDamageable>()
+        : gameObject.GetComponentInChildren<IDamageable>();
+        return damageable;
+    }
 }

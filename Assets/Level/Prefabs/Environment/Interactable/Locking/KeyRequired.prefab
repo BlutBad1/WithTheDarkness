@@ -206,6 +206,8 @@ MonoBehaviour:
   Key:
     IsGeneric: 1
     KeyName: main_exit
+    GenericKeyName: 
+    Amount: 1
   AvailableKeyData: {fileID: 11400000, guid: 62c147480aa3bb149a78ac93efec608d, type: 2}
 --- !u!114 &4183971913395578752
 MonoBehaviour:
@@ -292,7 +294,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!1 &4183971913517961010
 GameObject:
   m_ObjectHideFlags: 0

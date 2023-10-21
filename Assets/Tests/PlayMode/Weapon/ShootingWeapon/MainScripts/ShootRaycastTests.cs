@@ -6,15 +6,12 @@ using UnityEngine.TestTools;
 using WeaponNS.ShootingWeaponNS;
 namespace Weapon.ShootingWeaponNS.MainScripts
 {
-
     public class ShootRaycastTestClass : ShootRaycast
     {
         protected override void Start()
         {
-
         }
     }
-
     public class ShootRaycastTests
     {
         GameObject enemy;
@@ -26,7 +23,6 @@ namespace Weapon.ShootingWeaponNS.MainScripts
         ShootRaycastTestClass shootRaycast;
         Camera cam;
         ShootingWeapon shootingWeapon;
-
         [SetUp]
         public void Setup()
         {
@@ -35,7 +31,7 @@ namespace Weapon.ShootingWeaponNS.MainScripts
             player = GameObject.Instantiate(new GameObject());
             thisGun = GameObject.Instantiate(new GameObject());
             boxCollider = enemy.AddComponent<BoxCollider>();
-             enemy.AddComponent<Rigidbody>();
+            enemy.AddComponent<Rigidbody>();
             boxCollider.isTrigger = true;
             shootingWeapon = player.AddComponent<ShootingWeapon>();
             shootRaycast = player.AddComponent<ShootRaycastTestClass>();
@@ -45,7 +41,7 @@ namespace Weapon.ShootingWeaponNS.MainScripts
             thisGunData.Force = 1f;
             thisGunData.Damage = 15;
             shootingWeapon.gunData = thisGunData;
-            shootingWeapon.gun = thisGun;
+            //shootingWeapon.gun = thisGun;
             damageable = enemy.AddComponent<Damageable>();
             boxCollider.size = new Vector3(100, 100, 100);
             cam = player.AddComponent<Camera>();
@@ -54,12 +50,7 @@ namespace Weapon.ShootingWeaponNS.MainScripts
             enemy.transform.position = fwd + new Vector3(101, 0, 0);
             player.transform.LookAt(enemy.transform.position);
             cam.transform.LookAt(enemy.transform.position);
-            shootRaycast.WhatIsEnemy = enemy.layer;
         }
-
-
-        // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-        // `yield return null;` to skip a frame.
         [UnityTest]
         public IEnumerator OnShootRaycastTest_Expect_ReducingEnemyHealth()
         {

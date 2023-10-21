@@ -5,7 +5,7 @@ Shader "WFX/Scroll/Smoke"
 {
 	Properties
 	{
-		_TintColor ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
+		_Color ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
 		_MainTex ("Texture", 2D) = "white" {}
 		
 		_ScrollSpeed ("Scroll Speed", Float) = 2.0
@@ -45,7 +45,7 @@ Shader "WFX/Scroll/Smoke"
 			    fixed4 color : COLOR;
 			};
 			
-			fixed4 _TintColor;
+			fixed4 _Color;
 			sampler2D _MainTex;
 			float _ScrollSpeed;
 			
@@ -63,7 +63,7 @@ Shader "WFX/Scroll/Smoke"
 				float mask = tex2D(_MainTex, i.uv).a * i.color.a;
 				i.uv.y -= fmod(_Time*_ScrollSpeed,1);
 				fixed4 tex = tex2D(_MainTex, i.uv);
-				tex.rgb *= i.color.rgb * _TintColor.rgb;
+				tex.rgb *= i.color.rgb * _Color.rgb;
 				tex.a = mask;
 				tex = lerp(fixed4(0.5,0.5,0.5,0.5), tex, mask);
 				return tex;

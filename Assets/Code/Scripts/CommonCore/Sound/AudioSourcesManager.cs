@@ -15,7 +15,7 @@ namespace SoundNS
         public AudioSource AudioSource
         {
             get { return audioSource; }
-            set { audioSource = value; AudioObject.ChangeAudioSource(AudioSource); }
+            set { audioSource = value; AudioObject?.ChangeAudioSource(AudioSource); }
         }
         public AudioKind AudioKind;
         [HideInInspector]
@@ -103,12 +103,15 @@ namespace SoundNS
         }
         public void CreateNewAudioSourceAndPlay(AudioSourceObject audioSourceObject)
         {
-            AudioSource newAudioSource = audioSourceObject.AudioSource.gameObject.AddComponent<AudioSource>();
-            CopyAudioSourceSettings(audioSourceObject.AudioSource, newAudioSource);
-            if (audioSourceObject.AudioSource)
-                StartCoroutine(DeleteAudioSourceAfterPlaying(audioSourceObject.AudioSource));
-            audioSourceObject.AudioSource = newAudioSource;
-            audioSourceObject.AudioSource.Play();
+            AudioSourceObject newAudioSourceObject = new AudioSourceObject();
+            AudioSource audioSource = audioSourceObject.AudioSource.gameObject.AddComponent<AudioSource>();
+            CopyAudioSourceSettings(audioSourceObject.AudioSource, audioSource);
+            availableSources.Add(newAudioSourceObject.AudioObject = new AudioObject(audioSource,
+                  audioSourceObject.AudioObject.GetStartedVolume(), audioSourceObject.AudioKind));
+            newAudioSourceObject.AudioKind = audioSourceObject.AudioKind;
+            newAudioSourceObject.AudioSource = audioSource;
+            newAudioSourceObject.AudioSource.Play();
+            StartCoroutine(DeleteAudioSourceObjectAfterPlaying(newAudioSourceObject));
         }
         public void CopyAudioSourceSettings(AudioSource original, AudioSource destination)
         {
@@ -146,6 +149,13 @@ namespace SoundNS
             while (source.isPlaying)
                 yield return null;
             Destroy(source);
+        }
+        IEnumerator DeleteAudioSourceObjectAfterPlaying(AudioSourceObject audioSourceObject)
+        {
+            while (audioSourceObject.AudioSource.isPlaying)
+                yield return null;
+            Destroy(audioSourceObject.AudioSource);
+            availableSources.Remove(audioSourceObject.AudioObject);
         }
         IEnumerator ChangeVolumeSmoothly(AudioSource audioSource, float newVolume, float transitionTime, AudioKind audioKind)
         {

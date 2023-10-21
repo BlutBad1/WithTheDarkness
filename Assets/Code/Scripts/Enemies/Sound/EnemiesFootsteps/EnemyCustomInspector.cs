@@ -53,7 +53,7 @@ namespace EnemyNS.Sound
             // Land Volume
             rect.y = rect.yMax + 2;
             EditorGUI.PropertyField(rect, landVolume);
-            for (int i = 0; i < 14; i++) EditorGUILayout.Space();
+            for (int i = 0; i < 18; i++) EditorGUILayout.Space();
             EditorGUILayout.LabelField("Ground Check Settings", new GUIStyle() { fontStyle = FontStyle.BoldAndItalic });
             rect = EditorGUILayout.GetControlRect();
             // Debug Mode

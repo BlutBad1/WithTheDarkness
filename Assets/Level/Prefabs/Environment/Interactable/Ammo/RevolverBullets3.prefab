@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 855079969149436441}
   - component: {fileID: 855079969149436438}
-  - component: {fileID: 855079969149436443}
   - component: {fileID: 855079969149436442}
   - component: {fileID: 150871207245468658}
   - component: {fileID: 3663066703471177962}
@@ -134,19 +133,6 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &855079969149436443
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 855079969149436439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa708beb0247fd841b6c17e77db7c182, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  revolver: {fileID: 11400000, guid: 993ce40b0bc1cdf4d8411ecd74dc82de, type: 2}
 --- !u!114 &855079969149436442
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,7 +262,9 @@ MonoBehaviour:
   promptMessage: 
   message: Found 3 bullets
   disapperingSpeed: 0.8
-  WeaponName: Revolver
+  gun: {fileID: 11400000, guid: 993ce40b0bc1cdf4d8411ecd74dc82de, type: 2}
+  AmountOfBullets: {x: 3, y: 3}
+  UseConstantMessage: 1
 --- !u!114 &855079970547925425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,18 +283,6 @@ MonoBehaviour:
       - m_Target: {fileID: 855079969149436442}
         m_TargetAssemblyTypeName: DestroyAfterTime, Assembly-CSharp
         m_MethodName: DestroyAfter
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 3
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 855079969149436443}
-        m_TargetAssemblyTypeName: GettingBullets, Assembly-CSharp
-        m_MethodName: AddBullets
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

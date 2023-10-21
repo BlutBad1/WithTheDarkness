@@ -1,3 +1,4 @@
+using MyConstants.WeaponConstants;
 using MyConstants.WeaponConstants.ShootingWeaponConstants;
 using ScriptableObjectNS.Weapon.Gun;
 using UnityEngine;
@@ -9,13 +10,21 @@ namespace WeaponNS.ShootingWeaponNS
         [SerializeField, Tooltip("if not set, will be the main camera")]
         public Camera CameraOrigin;
         [SerializeField]
-        public LayerMask WhatIsEnemy;
-        [SerializeField]
         public LayerMask WhatIsRayCastIgnore;
         [Tooltip("if not set, will be the main dataBase")]
-        public BulletHolesDataBase bulletHolesDataBase;
+        public DamageDecalDataBase bulletHolesDataBase;
         [Tooltip("Spread coeff")]
         float maxDeviation;
+        protected virtual void Start()
+        {
+            if (!CameraOrigin)
+                CameraOrigin = Camera.main;
+            GetComponent<ShootingWeapon>().OnShootRaycast = null;
+            GetComponent<ShootingWeapon>().OnShootRaycast += OnShootRaycast;
+            maxDeviation = GetComponent<ShootingWeapon>().gunData.MaxDeviation;
+            if (!bulletHolesDataBase)
+                bulletHolesDataBase = GameObject.Find(MainWeaponConstants.DAMAGE_DECALS_DATA_BASE).GetComponent<DamageDecalDataBase>();
+        }
         public virtual void OnShootRaycast(GunData gunData)
         {
             Vector3 forwardVector = Vector3.forward;
@@ -26,20 +35,10 @@ namespace WeaponNS.ShootingWeaponNS
             forwardVector = CameraOrigin.transform.rotation * forwardVector;
             if (Physics.Raycast(CameraOrigin.transform.position, forwardVector, out RaycastHit hitInfo, gunData.MaxDistance, ~WhatIsRayCastIgnore))
             {
-                hitInfo.transform.TryGetComponent(out IDamageable damageable);
+                IDamageable damageable = IDamageable.GetDamageableFromGameObject(hitInfo.transform.gameObject);
                 damageable?.TakeDamage(new TakeDamageData(gunData.Damage, gunData.Force, hitInfo.point, GameObject.Find(MyConstants.CommonConstants.PLAYER)));
-                bulletHolesDataBase.MakeBulletHoleByLayer(hitInfo);
+                bulletHolesDataBase.MakeBulletHoleByInfo(hitInfo, CameraOrigin.transform.position, gunData.WeaponType);
             }
-        }
-        protected virtual void Start()
-        {
-            if (!CameraOrigin)
-                CameraOrigin = Camera.main;
-            GetComponent<ShootingWeapon>().OnShootRaycast = null;
-            GetComponent<ShootingWeapon>().OnShootRaycast += OnShootRaycast;
-            maxDeviation = GetComponent<ShootingWeapon>().gunData.MaxDeviation;
-            if (!bulletHolesDataBase)
-                bulletHolesDataBase = GameObject.Find(MainShootingWeaponConstants.BULLET_HOLES_DATA_BASE).GetComponent<BulletHolesDataBase>();
         }
     }
 }

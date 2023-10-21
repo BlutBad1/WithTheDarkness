@@ -1,21 +1,29 @@
+using CreatureNS;
 using EffectsNS.PlayerEffects;
 using MyConstants;
-using PlayerScriptsNS;
 using SoundNS;
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
+using UtilitiesNS;
 
 namespace LocationManagementNS
 {
+    public enum TypeObjectToTeleport
+    {
+        Player, Creature, Gameobject
+    }
     public class TeleportTrigger : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject player;
-        [SerializeField]
-        public Transform teleportPointToHere;
+        [EnumMask, HideInInspector]
+        public TypeObjectToTeleport ObjectToTeleport;
         [HideInInspector]
-        public Transform teleportPoint; // position of the next spawn point of a next location 
-        [SerializeField, Range(0, float.MaxValue)]
+        public LayerMask LayerObjectToTeleport;
+        [HideInInspector]
+        public Transform TeleportPointToHere;
+        [HideInInspector]
+        public Transform TeleportPoint; // position of the next spawn point of a next location 
+        [SerializeField, Min(0)]
         private float spawnAfter = 2;
         public BlackScreenDimming dimming;
         public AudioManager audioManager;
@@ -44,37 +52,42 @@ namespace LocationManagementNS
                 if (!audioManager)
                     audioManager = GameObject.Find(CommonConstants.IMPORTANT_SOUNDS).GetComponent<AudioManager>();
             }
-            if (!player)
-                player = GameObject.Find(CommonConstants.PLAYER);
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.name == CommonConstants.PLAYER)
-            {
-                if (!player)
-                    player = other.gameObject;
-                StartTeleporting();
-            }
+            if (other.gameObject.name == CommonConstants.PLAYER || LayerObjectToTeleport == (LayerObjectToTeleport | (1 << other.gameObject.layer)))
+                StartTeleporting(other.gameObject);
         }
-        public void StartTeleporting()
+        public void StartTeleporting(GameObject gameObjectToTeleport)
         {
-            if (CurrentTeleportCoroutine == null)
+            if (gameObjectToTeleport.name == CommonConstants.PLAYER &&
+                ((int)ObjectToTeleport & (1 << Utilities.GetIndexOfElementInEnum(TypeObjectToTeleport.Player))) != 0
+                && CurrentTeleportCoroutine == null)
             {
                 dimming?.DimmingEnable();
                 audioManager?.CreateAndPlay(MainAudioManagerConstants.TRANSITION);
-                CurrentTeleportCoroutine = StartCoroutine(Teleport());
+                CurrentTeleportCoroutine = StartCoroutine(Teleport(gameObjectToTeleport, true));
+            }
+            else if (gameObjectToTeleport.name != CommonConstants.PLAYER)
+            {
+                if (((int)ObjectToTeleport & (1 << Utilities.GetIndexOfElementInEnum(TypeObjectToTeleport.Creature))) != 0
+                    && ICreature.GetICreatureComponent(gameObjectToTeleport) != null)
+                    StartCoroutine(Teleport(gameObjectToTeleport, false));
+                else if (((int)ObjectToTeleport & (1 << Utilities.GetIndexOfElementInEnum(TypeObjectToTeleport.Gameobject))) != 0)
+                    StartCoroutine(Teleport(gameObjectToTeleport, false));
             }
         }
-        private IEnumerator Teleport()
+        private IEnumerator Teleport(GameObject gameObjectToTeleport, bool isPlayer)
         {
             float timeElapsed = 0f;
-            while (dimming?.BlackScreen.color.a < 1f || timeElapsed < spawnAfter)
+            ICreature creature = ICreature.GetICreatureComponent(gameObjectToTeleport);
+            while ((dimming?.BlackScreen.color.a < 1f && isPlayer) || timeElapsed < spawnAfter)
             {
                 timeElapsed += Time.deltaTime;
                 yield return null;
             }
-            if (player.TryGetComponent(out InputManager inputManager))
-                inputManager.SetMovingLock(true);
+            if (creature != null)
+                creature.BlockMovement();
             if (IsConnectedToMapData)
             {
                 GameObject connectedLoc = ConnectedLocIndex == -1 ? MapData.Instance.TheFirstLocation.MapData
@@ -82,26 +95,57 @@ namespace LocationManagementNS
                 connectedLoc.SetActive(true);
                 if (ConnectedLocIndex == -2)
                 {
-                    MapData.Instance.TheLastLocation.EntryTeleportTrigger.teleportPoint = teleportPointToHere;
+                    MapData.Instance.TheLastLocation.EntryTeleportTrigger.TeleportPoint = TeleportPointToHere;
                     MapData.Instance.TheLastLocation.EntryTeleportTrigger.ConnectedLocIndex = ThisLocIndex;
                 }
             }
             yield return new WaitForSeconds(0.05f);
-            while (IsConnectedToMapData && teleportPoint == null)
+            while (IsConnectedToMapData && TeleportPoint == null)
                 yield return null;
-            player.transform.position = teleportPoint.position;
-            player.transform.localRotation = teleportPoint.rotation;
+            gameObjectToTeleport.transform.position = TeleportPoint.position;
+            gameObjectToTeleport.transform.localRotation = TeleportPoint.rotation;
             yield return new WaitForSeconds(0.05f);
-            dimming?.DimmingDisable();
-            CurrentTeleportCoroutine = null;
-            if (inputManager != null)
-                inputManager.SetMovingLock(false);
+            if (isPlayer)
+            {
+                dimming?.DimmingDisable();
+                CurrentTeleportCoroutine = null;
+            }
+            if (creature != null)
+                creature.UnBlockMovement();
             if (IsConnectedToMapData)
             {
                 GameObject thisLoc = ThisLocIndex == -1 ? MapData.Instance.TheFirstLocation.MapData
                     : ThisLocIndex == -2 ? MapData.Instance.TheLastLocation.MapData : MapData.Instance.ActiveLocations[ThisLocIndex].MapData;
-                thisLoc.SetActive(false);
+                if (isPlayer)
+                    thisLoc.SetActive(false);
             }
         }
     }
+#if UNITY_EDITOR
+    [CustomEditor(typeof(TeleportTrigger), true)]
+    public class TeleportTrigger_Editor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            TeleportTrigger script = (TeleportTrigger)target;
+            // draw checkbox for the bool
+            var property = serializedObject.FindProperty("ObjectToTeleport");
+            EditorGUILayout.PropertyField(property, new GUIContent("ObjectToTeleport"), true);
+
+            property = serializedObject.FindProperty("LayerObjectToTeleport");
+            EditorGUILayout.PropertyField(property, new GUIContent("LayerObjectToTeleport"), true);
+
+            property = serializedObject.FindProperty("TeleportPointToHere");
+            EditorGUILayout.PropertyField(property, new GUIContent("TeleportPointToHere"), true);
+
+            if (!script.IsConnectedToMapData)
+            {
+                property = serializedObject.FindProperty("TeleportPoint");
+                EditorGUILayout.PropertyField(property, new GUIContent("TeleportPoint"), true);
+            }
+            serializedObject.ApplyModifiedProperties();
+            DrawDefaultInspector(); // for other non-HideInInspector fields
+        }
+    }
+#endif
 }

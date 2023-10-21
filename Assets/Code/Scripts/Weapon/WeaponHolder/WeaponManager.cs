@@ -21,8 +21,7 @@ namespace WeaponManagement
         [HideInInspector]
         //-1 is default state without any weapon to use
         public int currentSelection = -1;
-        public delegate void WeaponChange();
-        public WeaponChange OnWeaponChange;
+        public Action OnWeaponChange;
         public bool UseLampAsDefault = true;
         private void Awake()
         {
@@ -32,7 +31,38 @@ namespace WeaponManagement
                 Weapons = new Weapon[0];
             DefineSelection();
         }
-        void DefineSelection()
+        public Weapon GetCurrentSelectedWeapon() =>
+            currentSelection != -1 ? Weapons[currentSelection] : null;
+        public void ChangeWeaponLockStatus(string name, bool newStatus) =>
+            ChangeWeaponLockStatus(Array.FindIndex(Weapons, weapon => weapon.WeaponData.Name == name), newStatus);
+        public void ChangeWeaponLockStatus(WeaponType weaponType, bool newStatus) =>
+            ChangeWeaponLockStatus(Array.FindIndex(Weapons, weapon => weapon.WeaponData.WeaponType == weaponType), newStatus);
+        public void ChangeWeaponLockStatus(int index, bool newStatus)
+        {
+            if (Weapons?.Length >= index + 1)
+            {
+                Weapons[index].WeaponData.IsUnlocked = newStatus;
+                if (currentSelection == -1)
+                    ChangeWeaponSelection(index);
+            }
+#if UNITY_EDITOR
+            else
+                Debug.LogWarning("Weapon is not found!");
+#endif
+        }
+        public void ChangeWeaponSelection(string name) =>
+          ChangeWeaponSelection(Array.FindIndex(Weapons, weapon => weapon.WeaponData.Name == name));
+        public void ChangeWeaponSelection(WeaponType weaponType) =>
+          ChangeWeaponSelection(Array.FindIndex(Weapons, weapon => weapon.WeaponData.WeaponType == weaponType));
+        public void ChangeWeaponSelection(int index)
+        {
+            if (Weapons?.Length >= index + 1 && currentSelection != index)
+            {
+                if (Weapons[index].WeaponData.IsUnlocked)
+                    StartCoroutine(ChangeWeaponCoroutine(index));
+            }
+        }
+        private void DefineSelection()
         {
             foreach (var item in Array.FindAll(Weapons, weapon => weapon.WeaponGameObject.activeInHierarchy && !weapon.WeaponData.IsUnlocked))
                 item.WeaponGameObject.SetActive(false);
@@ -62,34 +92,7 @@ namespace WeaponManagement
             else
                 Lamp.SetActive(UseLampAsDefault);
         }
-        public Weapon GetCurrentSelectedWeapon() =>
-            currentSelection != -1 ? Weapons[currentSelection] : null;
-        public void ChangeWeaponLockStatus(string name, bool newStatus) =>
-            ChangeWeaponLockStatus(Array.FindIndex(Weapons, weapon => weapon.WeaponData.Name == name), newStatus);
-        public void ChangeWeaponLockStatus(int index, bool newStatus)
-        {
-            if (Weapons?.Length >= index + 1)
-            {
-                Weapons[index].WeaponData.IsUnlocked = newStatus;
-                if (currentSelection == -1)
-                    ChangeWeaponSelection(index);
-            }
-#if UNITY_EDITOR
-            else
-                Debug.LogWarning("Weapon is not found!");
-#endif
-        }
-        public void ChangeWeaponSelection(string name) =>
-          ChangeWeaponSelection(Array.FindIndex(Weapons, weapon => weapon.WeaponData.Name == name));
-        public void ChangeWeaponSelection(int index)
-        {
-            if (Weapons?.Length >= index + 1 && currentSelection != index)
-            {
-                if (Weapons[index].WeaponData.IsUnlocked)
-                    StartCoroutine(ChangeWeaponCoroutine(index));
-            }
-        }
-        IEnumerator ChangeWeaponCoroutine(int index)
+        private IEnumerator ChangeWeaponCoroutine(int index)
         {
             Animator lampAnimator = Lamp.GetComponent<Animator>(), currentWeaponAnimator = Weapons[currentSelection == -1 ? index : currentSelection].WeaponGameObject.GetComponent<Animator>();
             if (currentSelection != -1)

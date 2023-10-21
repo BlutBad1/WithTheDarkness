@@ -1,6 +1,5 @@
 using CreatureNS;
 using EnemyNS.Attack;
-using MyConstants;
 using MyConstants.CreatureConstants;
 using MyConstants.CreatureConstants.EnemyConstants;
 using ScriptableObjectNS.Creature;
@@ -158,7 +157,6 @@ namespace EnemyNS.Base
             else
                 return null;
         }
-
         public List<string> GetOpponentsList()
         {
             List<string> list = new List<string>();
@@ -177,13 +175,21 @@ namespace EnemyNS.Base
         public virtual void BackToDefaultPosition() =>
           Agent.Warp(DefaultPositon);
         public string GetCreatureName() =>
-      CreatureType;
+          CreatureType;
         public GameObject GetCreatureGameObject() =>
-            gameObject;
-
+          gameObject;
+        public void BlockMovement()
+        {
+            if (Agent)
+                Agent.enabled = false;
+        }
+        public void UnBlockMovement()
+        {
+            if (Agent)
+                Agent.enabled = true;
+        }
         public void OnBeforeSerialize() =>
             CreatureNames = CreatureTypes.Instance.Names;
-
         public void OnAfterDeserialize()
         {
         }
@@ -191,7 +197,7 @@ namespace EnemyNS.Base
         public virtual void HandleGainCreatureInSight(GameObject spottedTarget)
         {
             ICreature creatureComponent = ICreature.GetICreatureComponent(spottedTarget);
-            Damageable damageable = Damageable.GetDamageableFromGameObject(spottedTarget);
+            Damageable damageable = (Damageable)IDamageable.GetDamageableFromGameObject(spottedTarget);
             if (spottedTarget == gameObject || CreaturesInSight.ContainsValue(creatureComponent))
                 return;
             if (creatureComponent != null)
@@ -318,7 +324,7 @@ namespace EnemyNS.Base
             {
                 if (currentGameObject != PursuedTarget)
                 {
-                    damageable = Damageable.GetDamageableFromGameObject(PursuedTarget);
+                    damageable = (Damageable)IDamageable.GetDamageableFromGameObject(PursuedTarget);
                     currentGameObject = PursuedTarget;
                 }
                 if (damageable && damageable.IsDead)

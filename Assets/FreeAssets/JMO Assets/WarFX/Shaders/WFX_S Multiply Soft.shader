@@ -5,7 +5,7 @@ Shader "WFX/Multiply Soft Tint"
 {
 	Properties
 	{
-		_TintColor ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
+		_Color ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
 		_MainTex ("Texture", 2D) = "white" {}
 	}
 	
@@ -43,7 +43,7 @@ Shader "WFX/Multiply Soft Tint"
 			    fixed4 color : COLOR;
 			};
 			
-			fixed4 _TintColor;
+			fixed4 _Color;
 			sampler2D _MainTex;
 			
 			v2f vert (vdata v)
@@ -59,7 +59,7 @@ Shader "WFX/Multiply Soft Tint"
 			{
 //				return tex2D(_MainTex, i.uv) * i.color;
 				fixed4 tex = tex2D(_MainTex, i.uv);
-				tex.rgb *= i.color.rgb * _TintColor.rgb;
+				tex.rgb *= i.color.rgb * _Color.rgb;
 				tex = lerp(fixed4(0.5,0.5,0.5,0.5), tex, tex.a * i.color.a);
 				return tex;
 //				return lerp(fixed4(1,1,1,1), i.color * tex, i.color.a);

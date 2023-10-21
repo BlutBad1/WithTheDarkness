@@ -315,7 +315,7 @@
                     "name": "",
                     "id": "d1fec571-b1e4-4913-b6fa-17d62f8c656d",
                     "path": "<Keyboard>/f",
-                    "interactions": "SlowTap(duration=0.01)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
                     "action": "LightUp",

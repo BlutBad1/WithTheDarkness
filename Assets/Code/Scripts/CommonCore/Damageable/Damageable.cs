@@ -11,6 +11,7 @@ public class Damageable : MonoBehaviour, IDamageable
     /// Current Health
     /// </summary>
     public float Health = 100;
+    public bool InvokeOnTakeDamageAfterDead = true;
     [HideInInspector]
     public float OriginalHealth;
     [HideInInspector]
@@ -43,16 +44,12 @@ public class Damageable : MonoBehaviour, IDamageable
         if (Health <= 0)
         {
             IsDead = true;
-            OnTakeDamageWithDamageData = null;
-            OnTakeDamageWithoutDamageData = null;
+            if (!InvokeOnTakeDamageAfterDead)
+            {
+                OnTakeDamageWithDamageData = null;
+                OnTakeDamageWithoutDamageData = null;
+            }
             OnDeath = null;
         }
-    }
-    public static Damageable GetDamageableFromGameObject(GameObject gameObject)
-    {
-        Damageable damageable = gameObject.GetComponent<Damageable>() != null ? gameObject.GetComponent<Damageable>()
-        : gameObject.GetComponentInParent<Damageable>() != null ? gameObject.GetComponentInParent<Damageable>()
-        : gameObject.GetComponentInChildren<Damageable>();
-        return damageable;
     }
 }

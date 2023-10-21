@@ -13,12 +13,17 @@ namespace InteractableNS.Pickups
         private int percentMaxTime;
         protected override void Interact()
         {
-            int addingTime;
-            if (percentMinTime > percentMaxTime)
-                addingTime = (int)(Random.Range(0, percentMaxTime) * LightGlowTimer.StartedTimeLeft / 100);
-            else
-                addingTime = (int)(Random.Range(percentMinTime, percentMaxTime) * LightGlowTimer.StartedTimeLeft / 100);
-            LightGlowTimer.AddTime(addingTime);
+            LightGlowTimer lightGlowTimer = UtilitiesNS.Utilities.GetComponentFromGameObject<LightGlowTimer>(LastWhoInteracted.gameObject);
+            if (lightGlowTimer)
+            {
+                int addingTime;
+                if (percentMinTime > percentMaxTime)
+                    addingTime = (int)(Random.Range(0, percentMaxTime) * lightGlowTimer.MaxTimeLeft / 100);
+                else
+                    addingTime = (int)(Random.Range(percentMinTime, percentMaxTime) * lightGlowTimer.MaxTimeLeft / 100);
+                lightGlowTimer.AddTime(addingTime);
+
+            }
         }
     }
 }

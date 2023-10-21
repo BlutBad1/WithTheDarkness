@@ -30,7 +30,7 @@ namespace PlayerScriptsNS
             OriginRange = MainLight.range;
             OriginSpotAngle = MainLight.spotAngle;
             InputManager.OnFoot.LightUp.started += EnableLightUpInvoke;
-            InputManager.OnFoot.LightUp.performed += DisableLightUpInvoke;
+            //InputManager.OnFoot.LightUp.performed += DisableLightUpInvoke;
             InputManager.OnFoot.LightUp.canceled += DisableLightUpInvoke;
             WeaponManager.OnWeaponChange += DisableLightUp;
             LampAndHandAnimations.OnLampReloading += LampReloading;
@@ -39,7 +39,7 @@ namespace PlayerScriptsNS
         private void OnDisable()
         {
             InputManager.OnFoot.LightUp.started -= EnableLightUpInvoke;
-            InputManager.OnFoot.LightUp.performed -= DisableLightUpInvoke;
+            // InputManager.OnFoot.LightUp.performed -= DisableLightUpInvoke;
             InputManager.OnFoot.LightUp.canceled -= DisableLightUpInvoke;
             WeaponManager.OnWeaponChange -= DisableLightUp;
             LampAndHandAnimations.OnLampReloading -= LampReloading;
@@ -93,7 +93,7 @@ namespace PlayerScriptsNS
         private void EnableLightUpInvoke(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
            EnableLightUp();
         private void DisableLightUpInvoke(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-         DisableLightUp();
+           DisableLightUp();
         private void LampReloading()
         {
             isCanLightUp = false;

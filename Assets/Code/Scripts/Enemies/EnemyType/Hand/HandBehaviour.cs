@@ -2,6 +2,7 @@ using EnemyNS.Base;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using static Codice.Client.Common.WebApi.WebApiEndpoints;
 
 namespace EnemyNS.Type.Hand
 {
@@ -25,7 +26,7 @@ namespace EnemyNS.Type.Hand
         }
         IEnumerator CheckWhileAgentNotEnabled(TakeDamageData takeDamageData)
         {
-            while (!Movement.Agent.enabled || Movement.Agent.isOnOffMeshLink)
+            while (!Movement.Agent.isActiveAndEnabled || Movement.Agent.isOnOffMeshLink)
                 yield return new WaitForSeconds(0.1f);
             Movement.Agent.SetDestination(takeDamageData.FromGameObject.transform.position);
             currentCheckCoroutine = null;

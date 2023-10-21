@@ -7,9 +7,9 @@ TagManager:
   - MeshModel
   - NormalSize
   - SmallSize
-  - NoBulletHole
   - Metal
   - Oil
+  - NoDamageDecal
   layers:
   - Default
   - TransparentFX
@@ -35,7 +35,7 @@ TagManager:
   - 
   - Interactable
   - InteractableWeapon
-  - 
+  - InteractableIgnore
   - 
   - 
   - 

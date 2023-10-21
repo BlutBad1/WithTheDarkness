@@ -20,6 +20,14 @@ namespace SoundNS
         {
             get { return audioSource; }
         }
+        public AudioObject(AudioSource audioSource, float startedVolume, AudioKind audioType)
+        {
+            this.audioSource = audioSource;
+            this.startedVolume = startedVolume;
+            this.audioType = audioType;
+        }
+        public float GetStartedVolume() =>
+            startedVolume;
         public void ChangeAudioSource(AudioSource audioSource)
         {
             this.audioSource = audioSource;
@@ -32,12 +40,6 @@ namespace SoundNS
         }
         public void ChangeStartedVolume(float volume) =>
                startedVolume = volume;
-        public AudioObject(AudioSource audioSource, float startedVolume, AudioKind audioType)
-        {
-            this.audioSource = audioSource;
-            this.startedVolume = startedVolume;
-            this.audioType = audioType;
-        }
         public void ChangeVolumeBySettings() =>
             audioSource.volume = startedVolume * SettingsNS.AudioSettings.GetVolumeOfType(audioType);
     }

@@ -2,7 +2,8 @@
     "name": "Locking",
     "rootNamespace": "",
     "references": [
-        "GUID:2a8b6f87de7a3754eb5b9726b9982ce3"
+        "GUID:2a8b6f87de7a3754eb5b9726b9982ce3",
+        "GUID:e0a95ea987b27704e8a945954f8d7f29"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

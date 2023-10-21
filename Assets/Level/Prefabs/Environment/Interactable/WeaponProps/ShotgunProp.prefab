@@ -92,8 +92,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 75367693681281112}
-  - component: {fileID: 75367693681281109}
   - component: {fileID: 75367693681281114}
+  - component: {fileID: 303573802847499986}
   - component: {fileID: 75367693681281115}
   m_Layer: 16
   m_Name: Double-barrel_gun
@@ -119,22 +119,6 @@ Transform:
   m_Father: {fileID: 3905925490967858191}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -87.739, y: -301.548, z: 193.28}
---- !u!114 &75367693681281109
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 80749327316612390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49b1c45ea22cb88408263344a0cd81c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useEvents: 1
-  promptMessage: 
-  WeaponNameToPickup: Shotgun
-  ChangeWeaponAfterPickup: 1
 --- !u!65 &75367693681281114
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -148,6 +132,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.3407161, y: 0.16175863, z: 0.12060119}
   m_Center: {x: 0.40154567, y: -0.0024694551, z: -0.0046992325}
+--- !u!114 &303573802847499986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 80749327316612390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8186388ee8fe5454186bcc141438e2c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useEvents: 1
+  promptMessage: 
+  WeaponType: 2
+  MinMaxAmountOfBulletToAdd: {x: 1, y: 2}
+  disapperingSpeed: 0.8
 --- !u!114 &75367693681281115
 MonoBehaviour:
   m_ObjectHideFlags: 0

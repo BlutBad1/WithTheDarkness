@@ -5,7 +5,7 @@ Shader "WFX/Alpha Blended (No Soft Particles)"
 {
 Properties
 {
-	_TintColor ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
+	_Color ("Tint Color", Color) = (0.5,0.5,0.5,0.5)
 	_MainTex ("Particle Texture", 2D) = "white" {}
 	_InvFade ("Soft Particles Factor", Range(0.01,3.0)) = 1.0
 }
@@ -31,7 +31,7 @@ Category
 			
 			sampler2D _MainTex;
 			float4 _MainTex_ST;
-			fixed4 _TintColor;
+			fixed4 _Color;
 			
 			struct appdata_t
 			{
@@ -61,7 +61,7 @@ Category
 			
 			fixed4 frag (v2f i) : SV_Target
 			{
-				fixed4 col = 2.0f * i.color * _TintColor * tex2D(_MainTex, i.texcoord);
+				fixed4 col = 2.0f * i.color * _Color * tex2D(_MainTex, i.texcoord);
 				UNITY_APPLY_FOG(i.fogCoord, col);
 				return col;
 			}

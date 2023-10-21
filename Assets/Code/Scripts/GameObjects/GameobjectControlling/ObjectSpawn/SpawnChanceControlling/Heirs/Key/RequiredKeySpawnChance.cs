@@ -15,7 +15,7 @@ namespace GameObjectsControllingNS
             if (IsConnectedToSupply)
             {
                 Key key = GetKey();
-                RequiredKey requiredKey = Array.Find(KeysOnLevelManager.Instance.RequiredKeys, x => x.IsGeneric == key.IsGeneric
+                KeyData requiredKey = Array.Find(KeysOnLevelManager.Instance.RequiredKeys, x => x.IsGeneric == key.IsGeneric
                 && (x.GenericKeyName == key.KeyName || x.KeyName == key.KeyName));
                 if (requiredKey == null || !(MapData.Instance.ActiveLocations.Count - MapData.Instance.LocationsIterator <= requiredKey.Amount))
                     if (!objectsSupplyInstance.CalculateObjectChances(Chance))

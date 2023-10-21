@@ -40,7 +40,7 @@ namespace EnemyNS.Attack
                 {
                     if (CheckIfNonEqualOrParent(Hit.collider.gameObject, gameObject) && (LayersForProcessing | (1 << Hit.collider.gameObject.layer)) == LayersForProcessing)
                     {
-                        if (!seenObjectsInSight.ContainsKey(Hit.collider.gameObject))
+                        if (!seenObjectsInSight.ContainsKey(Hit.collider.gameObject) || seenObjectsInSight[Hit.collider.gameObject] == null)
                         {
                             OnGainSight?.Invoke(Hit.collider.gameObject);
                             seenObjectsInSight[Hit.collider.gameObject] = StartCoroutine(checkGameObjectWhileInSight(Hit.collider.gameObject));

@@ -1,15 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-/**
- *	Handles the bullet hole decals:
- *	- Sets a random frame
- *	- Fades the material according to the defined lifetime
- *	- Optionally rotates the decal
- *	
- *	(c) 2015, Jean Moreno
-**/
-
 [RequireComponent(typeof(MeshFilter))]
 public class WFX_BulletHoleDecal : MonoBehaviour
 {
@@ -22,40 +13,47 @@ public class WFX_BulletHoleDecal : MonoBehaviour
     private float fadeout;
     private Color color;
     private float orgAlpha;
-
-    void Awake()
+    private void Awake()
     {
-        color = this.GetComponent<Renderer>().material.GetColor("_TintColor");
+        Renderer renderer = this.GetComponent<Renderer>();
+        if (renderer.material.HasProperty("_TintColor"))
+            color = renderer.material.GetColor("_TintColor");
+        else if (renderer.material.HasProperty("_Color"))
+            color = renderer.material.GetColor("_Color");
         orgAlpha = color.a;
     }
-
-    void OnEnable()
+    private void OnEnable()
     {
-        //Random UVs
-        int random = Random.Range(0, (int)(frames.x * frames.y));
-        int fx = (int)(random % frames.x);
-        int fy = (int)(random / frames.y);
-        //Set new UVs
-        Vector2[] meshUvs = new Vector2[4];
-        for (int i = 0; i < 4; i++)
-        {
-            meshUvs[i].x = (quadUVs[i].x + fx) * (1.0f / frames.x);
-            meshUvs[i].y = (quadUVs[i].y + fy) * (1.0f / frames.y);
-        }
-        this.GetComponent<MeshFilter>().mesh.uv = meshUvs;
-        //Random rotate
         if (randomRotation)
+        {
+            //Random UVs
+            int random = Random.Range(0, (int)(frames.x * frames.y));
+            int fx = (int)(random % frames.x);
+            int fy = (int)(random / frames.y);
+            //Set new UVs
+            Vector2[] meshUvs = new Vector2[4];
+            for (int i = 0; i < 4; i++)
+            {
+                meshUvs[i].x = (quadUVs[i].x + fx) * (1.0f / frames.x);
+                meshUvs[i].y = (quadUVs[i].y + fy) * (1.0f / frames.y);
+            }
+            this.GetComponent<MeshFilter>().mesh.uv = meshUvs;
+            //Random rotate
             this.transform.Rotate(0f, 0f, Random.Range(0f, 360f), Space.Self);
+        }
         //Start lifetime coroutine
         life = lifetime;
         fadeout = life * (fadeoutpercent / 100f);
         color.a = orgAlpha;
-        this.GetComponent<Renderer>().material.SetColor("_TintColor", color);
+        Renderer renderer = this.GetComponent<Renderer>();
+        if (renderer.material.HasProperty("_TintColor"))
+            renderer.material.SetColor("_TintColor", color);
+        else if (renderer.material.HasProperty("_Color"))
+            renderer.material.SetColor("_Color", color);
         StopAllCoroutines();
         StartCoroutine("holeUpdate");
     }
-
-    IEnumerator holeUpdate()
+    private IEnumerator holeUpdate()
     {
         while (life > 0f)
         {
@@ -63,7 +61,11 @@ public class WFX_BulletHoleDecal : MonoBehaviour
             if (life <= fadeout)
             {
                 color.a = Mathf.Lerp(0f, orgAlpha, life / fadeout);
-                this.GetComponent<Renderer>().material.SetColor("_TintColor", color);
+                Renderer renderer = this.GetComponent<Renderer>();
+                if (renderer.material.HasProperty("_TintColor"))
+                    renderer.material.SetColor("_TintColor", color);
+                else if (renderer.material.HasProperty("_Color"))
+                    renderer.material.SetColor("_Color", color);
             }
             yield return null;
         }

@@ -1,5 +1,7 @@
-﻿using UnityEngine;
+﻿using PlayerScriptsNS;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace EZCameraShake
 {
@@ -28,7 +30,8 @@ namespace EZCameraShake
         /// Offset that will be applied to the camera's default (0,0,0) rest rotation
         /// </summary>
         public Vector3 RestRotationOffset = new Vector3(0, 0, 0);
-
+        [Header("References")]
+        public PlayerLook PlayerLookScript;
         Vector3 posAddShake, rotAddShake;
 
         List<CameraShakeInstance> cameraShakeInstances = new List<CameraShakeInstance>();
@@ -62,9 +65,11 @@ namespace EZCameraShake
                     rotAddShake += CameraUtilities.MultiplyVectors(c.UpdateShake(), c.RotationInfluence);
                 }
             }
-
             transform.localPosition = posAddShake + RestPositionOffset;
-            transform.localEulerAngles = rotAddShake + RestRotationOffset;
+            if (PlayerLookScript != null)
+                transform.localEulerAngles = rotAddShake + RestRotationOffset + PlayerLookScript.PlayerCameraCurRotation;
+            else
+                transform.localEulerAngles = rotAddShake + RestRotationOffset;
         }
 
         /// <summary>
@@ -174,7 +179,8 @@ namespace EZCameraShake
         /// </summary>
         public List<CameraShakeInstance> ShakeInstances
         { get { return new List<CameraShakeInstance>(cameraShakeInstances); } }
-
+        public static List<CameraShaker> AllShakeInstances
+        { get { return new List<CameraShaker>(instanceList.Values.ToList()); } }
         void OnDestroy()
         {
             instanceList.Remove(gameObject.name);

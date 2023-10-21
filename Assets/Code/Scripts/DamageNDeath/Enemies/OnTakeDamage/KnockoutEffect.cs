@@ -13,6 +13,7 @@ namespace EnemyNS.OnTakeDamage
         private Enemy enemy;
         private bool isInKnockout = false;
         private Rigidbody mainRigidbody;
+        private Vector3 agentBeforeDestination;
         void Start()
         {
             enemy = GetComponent<Enemy>();
@@ -23,9 +24,10 @@ namespace EnemyNS.OnTakeDamage
         {
             if (KnockoutEnable && enemy.Health > 0 && takeDamageData.Hit != Vector3.zero)
             {
-                Vector3 moveDirection = transform.position - takeDamageData.Hit;
+                Vector3 moveDirection = transform.position - takeDamageData.FromGameObject.transform.position;
                 if (!isInKnockout)
                 {
+                    agentBeforeDestination = enemy.Movement.Agent.destination;
                     enemy.Movement.Agent.enabled = false;
                     mainRigidbody.isKinematic = false;
                     isInKnockout = true;
@@ -42,6 +44,7 @@ namespace EnemyNS.OnTakeDamage
             if (enemy.Health > 0)
             {
                 enemy.Movement.Agent.enabled = true;
+                enemy.Movement.Agent.SetDestination(agentBeforeDestination);
                 if (hittedRigidbody != null)
                     hittedRigidbody.isKinematic = true;
             }

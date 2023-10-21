@@ -1,4 +1,3 @@
-using MyConstants;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -8,41 +7,29 @@ namespace HudNS
 {
     public class MessagePrint : MonoBehaviour
     {
-        TextMeshProUGUI Showcaser;
-        static MessagePrint instance;
+        public TextMeshProUGUI DefaultShowcaser;
+        private TextMeshProUGUI showcaser;
         Dictionary<TextMeshProUGUI, Coroutine> coroutinesLeft = new Dictionary<TextMeshProUGUI, Coroutine>();
-        private void Start()
-        {
-            if (instance == null)
-                instance = this;
-            else
-                Destroy(this); 
-        }
         public void PrintMessage(string message, float disapperingSpeed, TextMeshProUGUI showcaser)
         {
-            this.Showcaser = showcaser;
-            printMessage(message, disapperingSpeed);
-        }
-        public void PrintMessage(string message, float disapperingSpeed, string showcaserName)
-        {
-            this.Showcaser = GameObject.Find(showcaserName).GetComponent<TextMeshProUGUI>();
+            this.showcaser = showcaser;
             printMessage(message, disapperingSpeed);
         }
         public void PrintMessage(string message, float disapperingSpeed)
         {
-            this.Showcaser = GameObject.Find(HUDConstants.TEXTSHOWER).GetComponent<TextMeshProUGUI>();
+            this.showcaser = DefaultShowcaser;
             printMessage(message, disapperingSpeed);
         }
         void printMessage(string message, float disapperingSpeed)
         {
-            Showcaser.text = message;
-            Showcaser.alpha = 1;
-            if (!coroutinesLeft.ContainsKey(Showcaser))
-              coroutinesLeft.Add(Showcaser, StartCoroutine(MessageDisappering(Showcaser, disapperingSpeed)));
+            showcaser.text = message;
+            showcaser.alpha = 1;
+            if (!coroutinesLeft.ContainsKey(showcaser))
+                coroutinesLeft.Add(showcaser, StartCoroutine(MessageDisappering(showcaser, disapperingSpeed)));
             else
             {
-                StopCoroutine(coroutinesLeft[Showcaser]);
-                coroutinesLeft[Showcaser] = StartCoroutine(MessageDisappering(Showcaser, disapperingSpeed));
+                StopCoroutine(coroutinesLeft[showcaser]);
+                coroutinesLeft[showcaser] = StartCoroutine(MessageDisappering(showcaser, disapperingSpeed));
             }
         }
         IEnumerator MessageDisappering(TextMeshProUGUI ShowcaserCoroutine, float disapperingSpeed)

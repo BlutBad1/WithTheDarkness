@@ -44,6 +44,7 @@ namespace MyConstants
         public const string BLACK_SCREEN_DIMMING = "BlackScreenDimming";
         public const string LIGHT_INTERES_LEFT = "LightInterestLeft";
         public const string AMMO_LEFT = "AmmoLeft";
+        public static string[] AMMO_GET_MESSAGES =  { "Found ", "Got "};
     }
     public static class LocationsConstants
     {
@@ -119,6 +120,8 @@ namespace MyConstants
         {
             public const string PUTTING_DOWN = "PuttingDown";
             public const string PICKING_UP = "PickingUp";
+            public const string DAMAGE_DECALS_DATA_BASE = "Data/MainDamageDecalsDataBase";
+            public const string DEFAULT_DAMAGE_DECAL = "DefaultDamageDecal";
         }
         public static class LampConstants
         {
@@ -137,8 +140,6 @@ namespace MyConstants
                 public const string OUT_OF_AMMO = "OutOfAmmo";
                 public const string DIFFERENCE = "Difference";
                 public const string IDLE = "Idle";
-                public const string BULLET_HOLES_DATA_BASE = "Data/MainBulletHolesDataBase";
-                public const string DEFAULT_BULLET_HOLE = "DefaultBulletHole";
             }
             public static class RevolverConstants
             {
@@ -147,6 +148,22 @@ namespace MyConstants
                 public const string RELOADING_ENDING = "ReloadingEnding";
                 public const string REVOLVER_RELOADING_SOUND = "RevolverReloading";
                 public const string REVOLVER_RELOADING_CYLINDER_SOUND = "RevolverCylinder";
+            }
+        }
+        namespace MeleeWeaponConstants
+        {
+            public static class MainMeleeWeaponConstants
+            {
+                public const string ATTACK = "Attacking";
+                public const string IDLE = "Idle";
+            }
+            public static class AxeConstants
+            {
+                public const string ATTACK2 = "Attacking2";
+                public const string BLOCKING = "Blocking";
+                public const string HIT_SOUND = "HitSound";
+                public const string ATTACK_PREPARING = "AttackPreparing";
+                public const string ATTACK_PERFORMING = "AttackPerforming";
             }
         }
     }

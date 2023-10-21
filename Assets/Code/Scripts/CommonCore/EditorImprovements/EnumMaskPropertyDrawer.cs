@@ -21,7 +21,6 @@ public class EnumMaskPropertyDrawer : PropertyDrawer
         else
             EditorGUI.LabelField(position, label, new GUIContent("This type has not supported."));
     }
-
     private static object GetCurrent(SerializedProperty property)
     {
         object result = property.serializedObject.targetObject;

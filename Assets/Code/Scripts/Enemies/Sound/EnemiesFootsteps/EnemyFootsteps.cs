@@ -1,3 +1,4 @@
+using EnemyNS.Base;
 using SoundNS;
 using UnityEngine;
 using UnityEngine.AI;
@@ -5,7 +6,7 @@ using static SettingsNS.AudioSettings;
 
 namespace EnemyNS.Sound
 {
-    [RequireComponent(typeof(NavMeshAgent))]
+    [RequireComponent(typeof(EnemyMovement))]
     public class EnemyFootsteps : AudioSetup
     {
         [SerializeField] SurfaceEnemyManager surfaceEnemyManager;
@@ -33,11 +34,12 @@ namespace EnemyNS.Sound
         Transform thisTransform;
         RaycastHit currentGroundInfo;
         float stepCycleProgress;
-        float lastPlayTime;
         bool previouslyGrounded;
         bool isGrounded = true;
         private void Start()
         {
+            if (!Agent)
+                Agent = GetComponent<EnemyMovement>().Agent;
             if (groundLayers.value == 0)
                 groundLayers = 1;
             thisTransform = transform;
@@ -102,7 +104,7 @@ namespace EnemyNS.Sound
                 isGrounded = true;
             else
                 isGrounded = false;
-            if (!previouslyGrounded && isGrounded)
+            if (!previouslyGrounded && isGrounded && GetComponent<EnemyMovement>().State != EnemyState.Dead)
                 PlayLandSound();
             // print(isGrounded);
         }

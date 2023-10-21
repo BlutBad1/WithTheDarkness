@@ -11,52 +11,49 @@ namespace WeaponNS.ShootingWeaponNS
         [SerializeField]
         public GunData gunData;
         [SerializeField]
-        public GameObject gun;
         protected Animator animator;
         protected float timeSinceLastShot;
         protected int difference;
-        static bool firstFramePassed = false;
         public delegate void BulletSpread(GunData gunData);
         public BulletSpread OnShootRaycast;
+        private static bool hasBeenInitialized = false;
         private void OnEnable()
         {
             if (animator && !animator.GetBool(MainShootingWeaponConstants.RELOADING))
                 gunData.Reloading = false;
             timeSinceLastShot = 0;
-            if (firstFramePassed)
-            {
-                PlayerShoot.shootInput += Shoot;
-                PlayerShoot.altFireInput += AltFire;
-                PlayerShoot.reloadInput += StartReload;
-            }
+            if (hasBeenInitialized)
+                AttachActions();
         }
         private void Awake()
         {
-            animator = gun.GetComponent<Animator>();
+            if (!animator)
+                animator = GetComponent<Animator>();
             gunData.CurrentAmmo = gunData.MagSize;
             gunData.Reloading = false;
             timeSinceLastShot = 2;
         }
         private void Start()
         {
-            if (!firstFramePassed)
-            {
-                PlayerShoot.shootInput += Shoot;
-                PlayerShoot.altFireInput += AltFire;
-                PlayerShoot.reloadInput += StartReload;
-            }
+            if (!hasBeenInitialized)
+                AttachActions();
+            hasBeenInitialized = true;
         }
-        private void Update()
-        {
-            if (!firstFramePassed)
-                firstFramePassed = true;
+        private void OnDisable() =>
+            DettachActions();
+        private void Update() =>
             timeSinceLastShot += Time.deltaTime;
-        }
-        private void OnDisable()
+        public void AttachActions()
         {
-            PlayerShoot.shootInput -= Shoot;
-            PlayerShoot.altFireInput -= AltFire;
-            PlayerShoot.reloadInput -= StartReload;
+            PlayerBattleInput.AttackInputStarted += Shoot;
+            PlayerBattleInput.AltAttackInputStarted += AltFire;
+            PlayerBattleInput.ReloadInputStarted += StartReload;
+        }
+        public void DettachActions()
+        {
+            PlayerBattleInput.AttackInputStarted -= Shoot;
+            PlayerBattleInput.AltAttackInputStarted -= AltFire;
+            PlayerBattleInput.ReloadInputStarted -= StartReload;
         }
         public void StartReload()
         {

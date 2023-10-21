@@ -590,8 +590,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4577018617787758965}
-  - component: {fileID: 4577018617787758987}
   - component: {fileID: 4577018617787758964}
+  - component: {fileID: 777275358005750490}
   - component: {fileID: 4577018617787758986}
   m_Layer: 16
   m_Name: RevolverProp
@@ -626,22 +626,6 @@ Transform:
   m_Father: {fileID: 4577018618233252613}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 53.983, z: 81.892}
---- !u!114 &4577018617787758987
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4577018617787758966}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49b1c45ea22cb88408263344a0cd81c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useEvents: 1
-  promptMessage: 
-  WeaponNameToPickup: Revolver
-  ChangeWeaponAfterPickup: 1
 --- !u!65 &4577018617787758964
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -655,6 +639,23 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.1, y: 0.1, z: 0.3}
   m_Center: {x: 0, y: 0, z: 0.03}
+--- !u!114 &777275358005750490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4577018617787758966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8186388ee8fe5454186bcc141438e2c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useEvents: 1
+  promptMessage: 
+  WeaponType: 1
+  MinMaxAmountOfBulletToAdd: {x: 1, y: 7}
+  disapperingSpeed: 0.8
 --- !u!114 &4577018617787758986
 MonoBehaviour:
   m_ObjectHideFlags: 0

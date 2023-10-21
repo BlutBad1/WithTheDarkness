@@ -6651,13 +6651,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7666cd7cc399bf04886ceace681a33df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RequiredKeys:
-  - IsGeneric: 0
+  RequiredKeys: []
+  SetKeysOnStart: 0
+  AvailableKeysOnStart:
+  - IsGeneric: 1
     KeyName: 
     GenericKeyName: main_exit
-    Amount: 0
-  AvailableKeysOnStart: []
-  AvailableKeyData: {fileID: 0}
+    Amount: 1
+  AvailableKeyData: {fileID: 11400000, guid: 62c147480aa3bb149a78ac93efec608d, type: 2}
 --- !u!43 &1485267276
 Mesh:
   m_ObjectHideFlags: 0

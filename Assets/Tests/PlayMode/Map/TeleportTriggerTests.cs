@@ -21,7 +21,7 @@ namespace Map
             player.name = CommonConstants.PLAYER;
             teleportPoint = gameObject.transform;
             teleportTrigger = player.AddComponent<TeleportTrigger>();
-            teleportTrigger.teleportPoint = teleportPoint;
+            teleportTrigger.TeleportPoint = teleportPoint;
         }
         [UnityTest]
         public IEnumerator StartTeleportingTest_Expect_TeleportedPlayer()
@@ -29,7 +29,6 @@ namespace Map
             //Arrange
             player.transform.position = Vector3.zero + new Vector3(100, 0, 0);
             //Act
-            teleportTrigger.StartTeleporting();
             yield return new WaitForSeconds(2.5f);
             //Assert
             Assert.AreEqual(teleportPoint.position, player.transform.position);

@@ -1,21 +1,16 @@
-using CreatureNS;
-using ScriptableObjectNS.Creature;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace PlayerScriptsNS
 {
-    public class PlayerHealth : Damageable, ICreature, ISerializationCallbackReceiver
+    public class PlayerHealth : Damageable
     {
-        [HideInInspector]
-        public static List<string> CreatureNames;
-        [ListToPopup(typeof(PlayerHealth), "CreatureNames")]
-        public string CreatureType;
         public float HealthRegenPerCycle = 1f;
         public float TimeAfterHitToRegen = 3f;
         public float HeatlhRegenCycleTime = 0.1f;
         public float InvincibilityTime = 1f;
+        [HideInInspector, Range(0, 100)]
+        public float PercentResistance = 0;
         [HideInInspector]
         public bool HasRegenStarted = false;
         float timeSinceLastHit;
@@ -31,7 +26,10 @@ namespace PlayerScriptsNS
         public override void TakeDamage(TakeDamageData takeDamageData)
         {
             if (timeSinceLastHit > InvincibilityTime)
+            {
+                takeDamageData.Damage = CalculateIncomingDamage(takeDamageData.Damage);
                 base.TakeDamage(takeDamageData);
+            }
         }
         public override void TakeDamage(float damage)
         {
@@ -39,7 +37,7 @@ namespace PlayerScriptsNS
             {
                 StopRegen();
                 timeSinceLastHit = 0f;
-                base.TakeDamage(damage);
+                base.TakeDamage(CalculateIncomingDamage(damage));
 #if UNITY_EDITOR
                 if (Health > 0)
                     Debug.Log($"Damage {damage}");
@@ -59,18 +57,8 @@ namespace PlayerScriptsNS
                 StopCoroutine(CurrentRegenCoroutine);
             CurrentRegenCoroutine = StartCoroutine(RegenStartCoroutine());
         }
-        public string GetCreatureName() =>
-            CreatureType;
-
-        public GameObject GetCreatureGameObject() =>
-            gameObject;
-        public void OnBeforeSerialize()
-        {
-            CreatureNames = CreatureTypes.Instance.Names;
-        }
-        public void OnAfterDeserialize()
-        {
-        }
+        private float CalculateIncomingDamage(float damage) =>
+             damage - (damage * PercentResistance / 100);
         private IEnumerator RegenStartCoroutine()
         {
             while (Health < OriginalHealth)

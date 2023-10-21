@@ -31,11 +31,11 @@ namespace LocationManagementNS
             if (mapData.LocationsIterator < mapData.ActiveLocations.Count)
             {
                 mapData.ActiveLocations[mapData.LocationsIterator].MapData.SetActive(true);
-                teleportTrigger.teleportPoint = mapData.ActiveLocations[mapData.LocationsIterator].EntryTeleportTrigger.teleportPointToHere;
-                teleportTrigger.teleportPoint.position = new Vector3(teleportTrigger.teleportPoint.position.x, teleportTrigger.teleportPoint.position.y, teleportTrigger.teleportPoint.position.z);
-                teleportTrigger.teleportPointToHere.position = new Vector3(teleportTrigger.teleportPointToHere.position.x, teleportTrigger.teleportPointToHere.position.y, teleportTrigger.teleportPointToHere.position.z);
+                teleportTrigger.TeleportPoint = mapData.ActiveLocations[mapData.LocationsIterator].EntryTeleportTrigger.TeleportPointToHere;
+                teleportTrigger.TeleportPoint.position = new Vector3(teleportTrigger.TeleportPoint.position.x, teleportTrigger.TeleportPoint.position.y, teleportTrigger.TeleportPoint.position.z);
+                teleportTrigger.TeleportPointToHere.position = new Vector3(teleportTrigger.TeleportPointToHere.position.x, teleportTrigger.TeleportPointToHere.position.y, teleportTrigger.TeleportPointToHere.position.z);
                 teleportTrigger.ConnectedLocIndex = mapData.LocationsIterator;
-                mapData.ActiveLocations[mapData.LocationsIterator].EntryTeleportTrigger.teleportPoint = teleportTrigger.teleportPointToHere;
+                mapData.ActiveLocations[mapData.LocationsIterator].EntryTeleportTrigger.TeleportPoint = teleportTrigger.TeleportPointToHere;
                 mapData.ActiveLocations[mapData.LocationsIterator].EntryTeleportTrigger.ConnectedLocIndex = teleportTrigger.ThisLocIndex;
                 TeleportTrigger[] teleportTriggers = mapData.ActiveLocations[mapData.LocationsIterator].MapData.GetComponentsInChildren<TeleportTrigger>();
                 for (int i = 0; i < teleportTriggers.Length; i++)
@@ -44,8 +44,8 @@ namespace LocationManagementNS
             }
             else
             {
-                teleportTrigger.teleportPoint = mapData.TheLastLocation.EntryTeleportTrigger.teleportPointToHere;
-                mapData.TheLastLocation.EntryTeleportTrigger.teleportPoint = teleportTrigger.teleportPointToHere;
+                teleportTrigger.TeleportPoint = mapData.TheLastLocation.EntryTeleportTrigger.TeleportPointToHere;
+                mapData.TheLastLocation.EntryTeleportTrigger.TeleportPoint = teleportTrigger.TeleportPointToHere;
                 TeleportTrigger[] teleportTriggers = mapData.TheLastLocation.MapData.GetComponentsInChildren<TeleportTrigger>();
                 for (int i = 0; i < teleportTriggers.Length; i++)
                     teleportTriggers[i].ThisLocIndex = -2;

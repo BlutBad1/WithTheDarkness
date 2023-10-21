@@ -12,4 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b262e74340d91314fbe1f03662d361c3, type: 3}
   m_Name: AvailableKeyData
   m_EditorClassIdentifier: 
-  AvailableKeys: []
+  AvailableKeys:
+  - IsGeneric: 1
+    KeyName: 
+    GenericKeyName: main_exit
+    Amount: 3

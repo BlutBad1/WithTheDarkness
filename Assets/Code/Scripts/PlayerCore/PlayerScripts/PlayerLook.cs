@@ -8,6 +8,7 @@ namespace PlayerScriptsNS
         private float xRotation = 0f;
         private InputManager inputManager;//dev delete it when developing ended  
         private bool isLookingInputLocked = false;
+        public Vector3 PlayerCameraCurRotation { get; private set; } = Vector3.zero;
         private void Start()
         {
             Cursor.visible = false;
@@ -42,6 +43,8 @@ namespace PlayerScriptsNS
                 xRotation -= (mouseY / 80f/* * Time.deltaTime*/) * SettingsNS.GameSettings.YSensitivity;
                 xRotation = Mathf.Clamp(xRotation, -80f, 70f);
                 cam.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
+                float yRotation = (mouseX / 80f) * SettingsNS.GameSettings.XSensitivity;
+                PlayerCameraCurRotation = new Vector3(xRotation, yRotation, 0);
                 transform.Rotate(Vector3.up * (mouseX / 80f /** Time.deltaTime*/) * SettingsNS.GameSettings.XSensitivity);
             }
         }

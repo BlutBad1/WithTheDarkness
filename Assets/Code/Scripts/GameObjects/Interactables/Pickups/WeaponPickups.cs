@@ -1,27 +1,31 @@
-using UnityEngine;
+using SettingsNS;
+using System;
 using WeaponManagement;
+using WeaponNS;
 
 namespace InteractableNS.Pickups
 {
     public class WeaponPickups : Interactable
     {
-        private WeaponManager weaponManager;
-        public string WeaponNameToPickup;
-        public bool ChangeWeaponAfterPickup = true;
-        protected new void Start()
+        public WeaponType WeaponType;
+        public Action ActionIfWeaponNotUnlocked;
+        public Action ActionIfWeaponUnlocked;
+        protected virtual new void Start()
         {
             base.Start();
-            weaponManager = GameObject.Find(MyConstants.CommonConstants.WEAPON_HOLDER).GetComponent<WeaponManager>();
-            ChangeWeaponAfterPickup = SettingsNS.GameSettings.ChangeWeaponAfterPickup;
-            SettingsNS.GameSettings.OnSwitchWeaponOnPickUpChange += CheckChangeWeaponAfterPickupStatus;
         }
-        public void CheckChangeWeaponAfterPickupStatus() =>
-            ChangeWeaponAfterPickup = SettingsNS.GameSettings.ChangeWeaponAfterPickup;
         protected override void Interact()
         {
-            weaponManager.ChangeWeaponLockStatus(WeaponNameToPickup, true);
-            if (ChangeWeaponAfterPickup)
-                weaponManager.ChangeWeaponSelection(WeaponNameToPickup);
+            WeaponManager weaponManager = UtilitiesNS.Utilities.GetComponentFromGameObject<WeaponManager>(LastWhoInteracted.gameObject);
+            if (weaponManager && !Array.Find(weaponManager.Weapons, x => x.WeaponData.WeaponType == WeaponType).WeaponData.IsUnlocked)
+            {
+                weaponManager.ChangeWeaponLockStatus(WeaponType, true);
+                if (GameSettings.ChangeWeaponAfterPickup)
+                    weaponManager.ChangeWeaponSelection(WeaponType);
+                ActionIfWeaponNotUnlocked?.Invoke();
+            }
+            else if (weaponManager)
+                ActionIfWeaponUnlocked?.Invoke();
         }
     }
 }

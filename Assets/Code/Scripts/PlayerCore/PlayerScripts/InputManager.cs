@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace PlayerScriptsNS
 {
-    [RequireComponent(typeof(PlayerMotor)), RequireComponent(typeof(PlayerLook))]
+    [RequireComponent(typeof(PlayerMotor)), RequireComponent(typeof(PlayerLook)), DefaultExecutionOrder(-100)]
     public class InputManager : MonoBehaviour
     {
         public PlayerInput.OnFootActions OnFoot;
@@ -11,7 +11,7 @@ namespace PlayerScriptsNS
         private PlayerMotor motor;
         private PlayerLook look;
         private bool IsMovingLocked = false;
-        void Awake()
+        private void Awake()
         {
             playerInput = SettingsNS.GameSettings.PlayerInput;
             OnFoot = playerInput.OnFoot;
@@ -22,11 +22,10 @@ namespace PlayerScriptsNS
             OnFoot.Crouch.performed += PefrormCrounch;
             OnFoot.Sprint.performed += PefrormSprint;
         }
-        void FixedUpdate()
+        private void FixedUpdate()
         {
             if (!IsMovingLocked)
                 motor.ProcessMove(OnFoot.Movement.ReadValue<Vector2>());
-
         }
         private void LateUpdate() =>
             look.ProcessLook(OnFoot.Look.ReadValue<Vector2>());

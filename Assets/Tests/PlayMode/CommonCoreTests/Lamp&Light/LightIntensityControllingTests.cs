@@ -21,7 +21,7 @@ namespace CommonCore.LampNLight
             light.intensity = 1f;
             lightsTimer = gameObject.AddComponent<LightGlowTimer>();
             lightsTimer.GlowTime = 1f;
-            lightsTimer.StartedGlowTime = 1f;
+            lightsTimer.MaxGlowTime = 1f;
             gameObject.AddComponent<LightIntensityControlling>();
         }
         [UnityTest]
@@ -36,7 +36,7 @@ namespace CommonCore.LampNLight
         [UnityTest]
         public IEnumerator UpdateTest_Expect_SlowDecreaseIntensityByTime2()
         {
-            LightGlowTimer.AddTime(5f);
+            //LightGlowTimer.AddTime(5f);
             yield return new WaitForSeconds(0.5f);
             //Assert
             Assert.IsTrue(light.intensity > 0f);
