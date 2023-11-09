@@ -40,7 +40,7 @@ namespace EnemyNS.Attack
         }
         public override void TryAttack()
         {
-            if (Enemy.Movement.enabled)
+            if (Enemy.Movement.State != EnemyState.UsingAbility)
                 base.TryAttack();
             else
                 TryAttackAnim();

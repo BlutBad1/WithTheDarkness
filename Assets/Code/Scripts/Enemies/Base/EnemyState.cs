@@ -9,6 +9,7 @@ namespace EnemyNS.Base
         Patrol,
         Chase,
         UsingAbility,
+        LostTarget,
         DoPriority,
         Dead
     }

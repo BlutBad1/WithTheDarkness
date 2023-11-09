@@ -1,5 +1,4 @@
 using EnemyNS.Base;
-using MyConstants;
 using MyConstants.CreatureConstants.EnemyConstants;
 using System.Collections;
 using UnityEngine;
@@ -41,7 +40,7 @@ namespace EnemyNS.Skills
             if (Physics.Raycast(ray, out groundHit))
                 startingPosition.y = groundHit.point.y;
             enemy.Movement.Agent.enabled = false;
-            enemy.Movement.enabled = false;
+           // enemy.Movement.enabled = false;
             enemy.Movement.State = EnemyState.UsingAbility;
             enemy.Animator?.SetTrigger(MainEnemyConstants.JUMP);
             Quaternion startRotation = enemy.transform.rotation;
@@ -52,25 +51,28 @@ namespace EnemyNS.Skills
                     endingPosition = target.transform.position;
                 ray = new Ray(enemy.transform.position, -Vector3.up);
                 if (Physics.Raycast(ray, out groundHit))
-                    endingPosition.y = groundHit.point.y + 0.4f;
+                    endingPosition.y = groundHit.point.y + 0.1f;
                 enemy.transform.position = Vector3.Lerp(startingPosition, endingPosition, time) + Vector3.up * HeightCurve.Evaluate(time);
-                if (time <= 0.7f)
+                if (time <= 0.6f)
                     enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, Quaternion.LookRotation(endingPosition - enemy.transform.position), time);
                 else
-                    enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, startRotation, time);
+                    enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation,
+                        new Quaternion(enemy.transform.rotation.x, startRotation.y, enemy.transform.rotation.z, enemy.transform.rotation.w), time);
                 yield return null;
             }
             enemy.EnemyAttack.StopAttack();
             enemy.Animator?.SetTrigger(MainEnemyConstants.LANDED);
             UseTime = Time.time;
             enemy.enabled = true;
-            enemy.Movement.enabled = true;
+           // enemy.Movement.enabled = true;
             enemy.Movement.Agent.enabled = true;
             if (NavMesh.SamplePosition(endingPosition, out NavMeshHit hit, 1f, enemy.Movement.Agent.areaMask))
             {
                 // enemy.Agent.Warp(hit.position);
                 enemy.Movement.State = EnemyState.Chase;
             }
+            else
+                enemy.Movement.State = enemy.Movement.DefaultState;
             IsActivating = false;
         }
     }

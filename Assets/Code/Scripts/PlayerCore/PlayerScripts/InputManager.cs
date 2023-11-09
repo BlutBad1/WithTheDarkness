@@ -42,7 +42,7 @@ namespace PlayerScriptsNS
         {
             IsMovingLocked = lockStatus;
             if (isResetVelocity)
-                motor.ProcessMove(new Vector2(0, 0));
+                motor.ResetVelocity();
         }
         private void PefrormJump(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
             motor.Jump();

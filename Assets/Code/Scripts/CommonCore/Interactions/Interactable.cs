@@ -19,17 +19,17 @@ namespace InteractableNS
         public virtual void StartBaseInteraction(EntityInteract creatureInteract)
         {
             LastWhoInteracted = creatureInteract;
+            Interact();
             if (useEvents)
                 GetComponent<InteractionEvent>().OnInteract.Invoke();
-            Interact();
         }
         public virtual void EndInteraction(EntityInteract creatureInteract)
         {
         }
+        public virtual void DeleteInteractableScript() =>
+          Destroy(this);
         protected virtual void Interact()
         {
         }
-        public virtual void DeleteInteractableScript() =>
-            Destroy(this);
     }
 }

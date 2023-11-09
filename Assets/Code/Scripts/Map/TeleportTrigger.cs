@@ -1,8 +1,11 @@
 using CreatureNS;
 using EffectsNS.PlayerEffects;
+using EnvironmentEffects.MatEffect.Dissolve;
 using MyConstants;
 using SoundNS;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UtilitiesNS;
@@ -28,13 +31,19 @@ namespace LocationManagementNS
         public BlackScreenDimming dimming;
         public AudioManager audioManager;
         public bool IsConnectedToMapData = true;
+        [Header("DissolvingEffect")]
+        public Material DissolvingRefMat;
+        public float DissolvingTime = 5f;
+        public AudioSource DissolvingRefAudioSource;
         //thisLocIndex = -1, it means it's the first location. 
         //thisLocIndex = -2, it means it's the last location. 
         //connectedLocIndex = -2, it's connected to the last location. 
         private int thisLocIndex = -1;
         [HideInInspector]
         public int ConnectedLocIndex = -2;
-        public Coroutine CurrentTeleportCoroutine;
+        private Dictionary<GameObject, Coroutine> currentTeleportCoroutines = new Dictionary<GameObject, Coroutine>();
+        private Dictionary<GameObject, Coroutine> currentDisolveCoroutines = new Dictionary<GameObject, Coroutine>();
+        private Dictionary<GameObject, AudioSourcesManager> currentDisolveAudioSourcesManager = new Dictionary<GameObject, AudioSourcesManager>();
         private bool isLocIndexSet = false;
         public int ThisLocIndex
         {
@@ -60,22 +69,73 @@ namespace LocationManagementNS
         }
         public void StartTeleporting(GameObject gameObjectToTeleport)
         {
+            if (currentTeleportCoroutines.ContainsKey(gameObjectToTeleport) && currentTeleportCoroutines[gameObjectToTeleport] != null)
+            {
+                StopCoroutine(currentTeleportCoroutines[gameObjectToTeleport]);
+                currentTeleportCoroutines[gameObjectToTeleport] = null;
+            }
             if (gameObjectToTeleport.name == CommonConstants.PLAYER &&
-                ((int)ObjectToTeleport & (1 << Utilities.GetIndexOfElementInEnum(TypeObjectToTeleport.Player))) != 0
-                && CurrentTeleportCoroutine == null)
+                ((int)ObjectToTeleport & (1 << Utilities.GetIndexOfElementInEnum(TypeObjectToTeleport.Player))) != 0)
             {
                 dimming?.DimmingEnable();
                 audioManager?.CreateAndPlay(MainAudioManagerConstants.TRANSITION);
-                CurrentTeleportCoroutine = StartCoroutine(Teleport(gameObjectToTeleport, true));
+                currentTeleportCoroutines[gameObjectToTeleport] = StartCoroutine(Teleport(gameObjectToTeleport, true));
             }
             else if (gameObjectToTeleport.name != CommonConstants.PLAYER)
             {
+                if (currentDisolveCoroutines.ContainsKey(gameObjectToTeleport) && currentDisolveCoroutines[gameObjectToTeleport] != null)
+                {
+                    StopCoroutine(currentDisolveCoroutines[gameObjectToTeleport]);
+                    currentDisolveCoroutines[gameObjectToTeleport] = null;
+                }
                 if (((int)ObjectToTeleport & (1 << Utilities.GetIndexOfElementInEnum(TypeObjectToTeleport.Creature))) != 0
                     && ICreature.GetICreatureComponent(gameObjectToTeleport) != null)
-                    StartCoroutine(Teleport(gameObjectToTeleport, false));
+                {
+                    currentTeleportCoroutines[gameObjectToTeleport] = StartCoroutine(Teleport(gameObjectToTeleport, false));
+                    currentDisolveCoroutines[gameObjectToTeleport] = StartCoroutine(DissolveTeleportEffectForNonPlayer(gameObjectToTeleport));
+                }
                 else if (((int)ObjectToTeleport & (1 << Utilities.GetIndexOfElementInEnum(TypeObjectToTeleport.Gameobject))) != 0)
-                    StartCoroutine(Teleport(gameObjectToTeleport, false));
+                {
+                    currentTeleportCoroutines[gameObjectToTeleport] = StartCoroutine(Teleport(gameObjectToTeleport, false));
+                    currentDisolveCoroutines[gameObjectToTeleport] = StartCoroutine(DissolveTeleportEffectForNonPlayer(gameObjectToTeleport));
+                }
             }
+        }
+        private IEnumerator DissolveTeleportEffectForNonPlayer(GameObject gameObjectToTeleport)
+        {
+            MeshRenderer[] meshRenderers = gameObjectToTeleport.GetComponentsInChildren<MeshRenderer>(true);
+            Dissolve dissolve = Utilities.GetComponentFromGameObject<Dissolve>(gameObjectToTeleport);
+            if (!dissolve)
+                dissolve = gameObjectToTeleport.AddComponent<Dissolve>();
+            dissolve.meshRenderers = meshRenderers.ToList();
+            dissolve.referenceMat = DissolvingRefMat;
+            dissolve.InitializeMat();
+            dissolve.StartDissolving(DissolvingTime);
+            float timeElapsed = 0;
+            if (DissolvingRefAudioSource)
+            {
+                AudioSourcesManager audioSourceManager = currentDisolveAudioSourcesManager.ContainsKey(gameObjectToTeleport) ? currentDisolveAudioSourcesManager[gameObjectToTeleport] : null;
+                if (!audioSourceManager)
+                {
+                    audioSourceManager = gameObjectToTeleport.AddComponent<AudioSourcesManager>();
+                    currentDisolveAudioSourcesManager[gameObjectToTeleport] = audioSourceManager;
+                }
+                AudioSourceObject audioSourceObject = new AudioSourceObject();
+                audioSourceObject.AudioKind = SettingsNS.AudioSettings.AudioKind.SFX;
+                audioSourceObject.AudioObject = new AudioObject(DissolvingRefAudioSource, DissolvingRefAudioSource.volume, SettingsNS.AudioSettings.AudioKind.SFX);
+                audioSourceObject.AudioSource = DissolvingRefAudioSource;
+                audioSourceManager.CreateNewAudioSourceAndPlay(audioSourceObject);
+            }
+            while (dissolve.CurrentDissolve < 0.95f && timeElapsed < spawnAfter)
+            {
+                timeElapsed += Time.deltaTime;
+                yield return null;
+            }
+            dissolve.SetDissolve(1);
+            dissolve.StartEmerging(DissolvingTime);
+            while (dissolve.CurrentDissolve > -0.95f)
+                yield return new WaitForSeconds(0.05f);
+            //dissolve.ResetAllRenderers();
         }
         private IEnumerator Teleport(GameObject gameObjectToTeleport, bool isPlayer)
         {
@@ -106,10 +166,7 @@ namespace LocationManagementNS
             gameObjectToTeleport.transform.localRotation = TeleportPoint.rotation;
             yield return new WaitForSeconds(0.05f);
             if (isPlayer)
-            {
                 dimming?.DimmingDisable();
-                CurrentTeleportCoroutine = null;
-            }
             if (creature != null)
                 creature.UnBlockMovement();
             if (IsConnectedToMapData)

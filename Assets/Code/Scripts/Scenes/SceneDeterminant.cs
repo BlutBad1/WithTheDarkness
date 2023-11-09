@@ -19,11 +19,11 @@ namespace ScenesManagementNS
         public SerializableDictionary<string, float> NextScenesSpawnChances;
         [HideInInspector, SerializeField]
         public SerializableDictionary<string, float> AfterLoseScenesSpawnChances;
-        private SceneDeterminant instance;
+        public static SceneDeterminant Instance;
         private void Start()
         {
-            if (instance == null)
-                instance = this;
+            if (Instance == null)
+                Instance = this;
             else
                 Destroy(this);
         }

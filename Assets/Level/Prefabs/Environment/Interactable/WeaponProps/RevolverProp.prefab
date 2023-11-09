@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4577018616576686749}
   - component: {fileID: 4577018616576686739}
   - component: {fileID: 4577018616576686748}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: Cylinder
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 4577018616689132822}
   - component: {fileID: 4577018616689132820}
   - component: {fileID: 4577018616689132821}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: Front sight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 4577018617045727498}
   - component: {fileID: 4577018617045727496}
   - component: {fileID: 4577018617045727497}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: Hammer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,7 +260,7 @@ GameObject:
   - component: {fileID: 4577018617236285878}
   - component: {fileID: 4577018617236285876}
   - component: {fileID: 4577018617236285877}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -343,7 +343,7 @@ GameObject:
   - component: {fileID: 4577018617686140128}
   - component: {fileID: 4577018617686140134}
   - component: {fileID: 4577018617686140135}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: Receiver bolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -426,7 +426,7 @@ GameObject:
   - component: {fileID: 4577018617713998338}
   - component: {fileID: 4577018617713998336}
   - component: {fileID: 4577018617713998337}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: Extractor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -509,7 +509,7 @@ GameObject:
   - component: {fileID: 4577018617726889227}
   - component: {fileID: 4577018617726889225}
   - component: {fileID: 4577018617726889226}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: Grips
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +593,7 @@ GameObject:
   - component: {fileID: 4577018617787758964}
   - component: {fileID: 777275358005750490}
   - component: {fileID: 4577018617787758986}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: RevolverProp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -653,6 +653,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: 
+  LastWhoInteracted: {fileID: 0}
   WeaponType: 1
   MinMaxAmountOfBulletToAdd: {x: 1, y: 7}
   disapperingSpeed: 0.8
@@ -706,7 +707,7 @@ GameObject:
   - component: {fileID: 4577018617901034202}
   - component: {fileID: 4577018617901034200}
   - component: {fileID: 4577018617901034201}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: Trigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -864,7 +865,7 @@ GameObject:
   - component: {fileID: 4577018618237545805}
   - component: {fileID: 4577018618237545795}
   - component: {fileID: 4577018618237545804}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: Receiver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -947,7 +948,7 @@ GameObject:
   - component: {fileID: 4577018618400559865}
   - component: {fileID: 4577018618400559871}
   - component: {fileID: 4577018618400559864}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: Grip bolt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1030,7 +1031,7 @@ GameObject:
   - component: {fileID: 4577018618444189851}
   - component: {fileID: 4577018618444189849}
   - component: {fileID: 4577018618444189850}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: Trigger guard
   m_TagString: Untagged
   m_Icon: {fileID: 0}

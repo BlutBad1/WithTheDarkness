@@ -20,8 +20,8 @@ namespace CommonCore.LampNLight
             light = gameObject.AddComponent<Light>();
             light.intensity = 1f;
             lightsTimer = gameObject.AddComponent<LightGlowTimer>();
-            lightsTimer.GlowTime = 1f;
-            lightsTimer.MaxGlowTime = 1f;
+            lightsTimer.CurrentTimeLeftToGlow = 1f;
+            lightsTimer.MaxTimeOfGlowing = 1f;
             gameObject.AddComponent<LightIntensityControlling>();
         }
         [UnityTest]

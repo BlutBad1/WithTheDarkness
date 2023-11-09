@@ -10,6 +10,7 @@ TagManager:
   - Metal
   - Oil
   - NoDamageDecal
+  - NoBulletHole
   layers:
   - Default
   - TransparentFX
@@ -36,7 +37,7 @@ TagManager:
   - Interactable
   - InteractableWeapon
   - InteractableIgnore
-  - 
+  - InteractableObstacle
   - 
   - 
   - 

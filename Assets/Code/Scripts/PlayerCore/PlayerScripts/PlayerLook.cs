@@ -1,7 +1,6 @@
 using UnityEngine;
 namespace PlayerScriptsNS
 {
-    [RequireComponent(typeof(InputManager))]
     public class PlayerLook : MonoBehaviour
     {
         public Camera cam;

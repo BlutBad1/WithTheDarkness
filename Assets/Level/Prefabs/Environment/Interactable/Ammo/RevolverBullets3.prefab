@@ -208,7 +208,7 @@ GameObject:
   - component: {fileID: 855079970547925427}
   - component: {fileID: 6816661466563735709}
   - component: {fileID: 855079970547925425}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: ThreeBullets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -260,6 +260,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: 
+  LastWhoInteracted: {fileID: 0}
   message: Found 3 bullets
   disapperingSpeed: 0.8
   gun: {fileID: 11400000, guid: 993ce40b0bc1cdf4d8411ecd74dc82de, type: 2}
@@ -329,7 +330,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19026177839507540, guid: b7ae10a17e67dc74eade85509a3d702f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 794965158903345902, guid: b7ae10a17e67dc74eade85509a3d702f, type: 3}
       propertyPath: m_RootOrder
@@ -412,7 +413,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19026177839507540, guid: b7ae10a17e67dc74eade85509a3d702f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 794965158903345902, guid: b7ae10a17e67dc74eade85509a3d702f, type: 3}
       propertyPath: m_RootOrder
@@ -495,7 +496,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 19026177839507540, guid: b7ae10a17e67dc74eade85509a3d702f, type: 3}
       propertyPath: m_Layer
-      value: 6
+      value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 794965158903345902, guid: b7ae10a17e67dc74eade85509a3d702f, type: 3}
       propertyPath: m_RootOrder

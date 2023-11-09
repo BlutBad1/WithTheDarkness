@@ -155,6 +155,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: 
+  LastWhoInteracted: {fileID: 0}
 --- !u!1 &2893815946509296450
 GameObject:
   m_ObjectHideFlags: 0
@@ -393,6 +394,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: 
+  LastWhoInteracted: {fileID: 0}
 --- !u!1 &8086477034601755770
 GameObject:
   m_ObjectHideFlags: 0
@@ -929,6 +931,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: 
+  LastWhoInteracted: {fileID: 0}
 --- !u!1 &9005398071583017830
 GameObject:
   m_ObjectHideFlags: 0
@@ -1185,6 +1188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: 
+  LastWhoInteracted: {fileID: 0}
 --- !u!1 &9005398071760730338
 GameObject:
   m_ObjectHideFlags: 0
@@ -1652,7 +1656,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1763,7 +1767,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1874,7 +1878,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0

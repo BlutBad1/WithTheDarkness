@@ -41,8 +41,7 @@ namespace EnemyNS.Attack
             {
                 if (attackCoroutine == null)
                 {
-                    IDamageable damageable = null;
-                    damageable = Enemy.Movement.PursuedTarget.GetComponent<Damageable>();
+                    IDamageable damageable = Enemy.Movement.PursuedTarget.GetComponent<Damageable>();
                     if (damageable == null)
                         damageable = Enemy.Movement.PursuedTarget.GetComponentInParent<Damageable>();
                     attackCoroutine = StartCoroutine(Attack(damageable));

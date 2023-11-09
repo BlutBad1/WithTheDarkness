@@ -52,6 +52,7 @@ namespace InteractableNS
                 GetComponent<InteractionEvent>().OnInteract.Invoke();
             Interact();
             EndInteraction(creatureInteract);
+            InteractingCoroutine = null;
         }
     }
 }

@@ -2,6 +2,8 @@ using CreatureNS;
 using ScriptableObjectNS.Creature;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
+
 namespace PlayerScriptsNS
 {
     public class PlayerCreature : MonoBehaviour, ICreature, ISerializationCallbackReceiver
@@ -11,6 +13,13 @@ namespace PlayerScriptsNS
         [ListToPopup(typeof(PlayerCreature), "CreatureNames")]
         public string CreatureType;
         public InputManager PlayerInputManager;
+        public PostProcessProfile PostProcessProfile;
+        private MotionBlur motionBlurEffect;
+        private void Start()
+        {
+            if (PostProcessProfile.TryGetSettings(out motionBlurEffect))
+                motionBlurEffect.active = false;
+        }
         public string GetCreatureName() =>
                CreatureType;
         public GameObject GetCreatureGameObject() =>
@@ -20,9 +29,17 @@ namespace PlayerScriptsNS
         public void OnAfterDeserialize()
         {
         }
-        public void BlockMovement() =>
+        public void BlockMovement()
+        {
+            if (motionBlurEffect)
+                motionBlurEffect.active = false;
             PlayerInputManager.SetMovingLock(true);
-        public void UnBlockMovement() =>
+        }
+        public void UnBlockMovement()
+        {
+            if (motionBlurEffect)
+                motionBlurEffect.active = true;
             PlayerInputManager.SetMovingLock(false);
+        }
     }
 }

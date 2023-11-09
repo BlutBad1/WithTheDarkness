@@ -16,8 +16,8 @@ namespace CommonCore.LampNLight
             //Arrange
             gameObject = GameObject.Instantiate(new GameObject());
             lightsTimer = gameObject.AddComponent<LightGlowTimer>();
-            lightsTimer.MaxGlowTime = 100f;
-            lightsTimer.GlowTime = 100f;
+            lightsTimer.MaxTimeOfGlowing = 100f;
+            lightsTimer.CurrentTimeLeftToGlow = 100f;
         }
         [UnityTest]
         public IEnumerator UpdateTest_Expect_SlowDecreaseCurrentTimeLeft()

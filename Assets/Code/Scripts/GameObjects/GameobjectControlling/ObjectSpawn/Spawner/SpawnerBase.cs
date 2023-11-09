@@ -13,6 +13,7 @@ namespace GameObjectsControllingNS.Spawner
         public Transform Parent;
         [Min(0)]
         public float SpawnChance;
+        public bool IsPrefab = true;
     }
     public class SpawnerBase<T> : MonoBehaviour where T : SpawningGameObject
     {
@@ -44,7 +45,15 @@ namespace GameObjectsControllingNS.Spawner
                 }
                 if (gameobjectToSpawn == null)
                     gameobjectToSpawn = notNullChanceGameObjects[UnityEngine.Random.Range(0, notNullChanceGameObjects.Count)];
-                gameobjectToSpawn.GameObject = GameObject.Instantiate(gameobjectToSpawn.GameObject, SpawnTransform.position, SpawnTransform.rotation, gameobjectToSpawn.Parent);
+                if (gameobjectToSpawn.IsPrefab)
+                    gameobjectToSpawn.GameObject = GameObject.Instantiate(gameobjectToSpawn.GameObject, SpawnTransform.position, SpawnTransform.rotation, gameobjectToSpawn.Parent);
+                else
+                    gameobjectToSpawn.GameObject.transform.position = SpawnTransform.position;
+            }
+            foreach (var spawningGameObject in spawningGameObjects)
+            {
+                if (!spawningGameObject.IsPrefab && gameobjectToSpawn.GameObject != spawningGameObject.GameObject)
+                    spawningGameObject.GameObject.SetActive(false);
             }
             return gameobjectToSpawn;
         }

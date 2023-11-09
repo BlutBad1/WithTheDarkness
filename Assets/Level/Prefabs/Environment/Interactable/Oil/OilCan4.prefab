@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 8063800875420913181}
   - component: {fileID: 7388784456417388272}
   - component: {fileID: 407336951374876199}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: OilCan4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: '[E]'
+  LastWhoInteracted: {fileID: 0}
   disapperingSpeed: 0.8
   percentMinTime: 41
   percentMaxTime: 61
@@ -186,7 +187,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &7388784456417388272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -211,6 +212,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68e11f66a005dab4dacfacd732e613d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Rigidbody: {fileID: 0}
   ImpactForce: 5
 --- !u!1 &8063800875417686499
 GameObject:
@@ -226,7 +228,7 @@ GameObject:
   - component: {fileID: 8208415781579473694}
   - component: {fileID: 2352196830950671773}
   - component: {fileID: 590861338196428627}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: OilCan4
   m_TagString: Untagged
   m_Icon: {fileID: 0}

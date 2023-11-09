@@ -207,7 +207,7 @@ GameObject:
   - component: {fileID: 2192340979925267107}
   - component: {fileID: 2192340979925267106}
   - component: {fileID: 2192340979925267117}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: TwoBullets
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -258,6 +258,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: 
+  LastWhoInteracted: {fileID: 0}
   message: Found 2 bullets
   disapperingSpeed: 0.8
   gun: {fileID: 11400000, guid: 3424be93d5a376b438f64d59164bd657, type: 2}
@@ -326,7 +327,7 @@ GameObject:
   - component: {fileID: 2192340979925922580}
   - component: {fileID: 2192340979925922581}
   - component: {fileID: 2192340979925922582}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: weapon_shells (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -429,7 +430,7 @@ GameObject:
   - component: {fileID: 8158346175276903452}
   - component: {fileID: 8150821160101586446}
   - component: {fileID: 8150821160101586445}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: weapon_shells
   m_TagString: Untagged
   m_Icon: {fileID: 0}

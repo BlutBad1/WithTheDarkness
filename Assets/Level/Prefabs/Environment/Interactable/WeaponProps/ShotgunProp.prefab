@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 74904905383492270}
   - component: {fileID: 103018430917148772}
   - component: {fileID: 92360279766175040}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: double_barreled_gun2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 75367693681281114}
   - component: {fileID: 303573802847499986}
   - component: {fileID: 75367693681281115}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: Double-barrel_gun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: 
+  LastWhoInteracted: {fileID: 0}
   WeaponType: 2
   MinMaxAmountOfBulletToAdd: {x: 1, y: 2}
   disapperingSpeed: 0.8
@@ -199,7 +200,7 @@ GameObject:
   - component: {fileID: 75429117389797880}
   - component: {fileID: 102994295728116096}
   - component: {fileID: 92531973666706618}
-  m_Layer: 16
+  m_Layer: 22
   m_Name: double_barreled_gun1
   m_TagString: Untagged
   m_Icon: {fileID: 0}

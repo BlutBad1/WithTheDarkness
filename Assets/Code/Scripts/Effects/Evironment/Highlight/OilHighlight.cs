@@ -11,7 +11,7 @@ namespace EnvironmentEffects.MatEffect.Highlight
         protected new void FixedUpdate()
         {
             LightGlowTimer lightGlowTimer = UtilitiesNS.Utilities.GetClosestComponent<LightGlowTimer>(transform.position);
-            if (lightGlowTimer && lightGlowTimer.CurrentTimeLeft <= LevelOfLowOil)
+            if (lightGlowTimer && lightGlowTimer.GetGlowingLeftTimeInPercantage() <= LevelOfLowOil)
                 startDistanceOfEffect = MinDistanceOnLowOil;
             else if (lightGlowTimer)
                 startDistanceOfEffect = MinDistance;

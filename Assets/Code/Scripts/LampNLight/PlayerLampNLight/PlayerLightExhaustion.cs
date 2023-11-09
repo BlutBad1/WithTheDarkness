@@ -8,6 +8,8 @@ namespace LightNS.Player
         public float Damage = 20f;
         public float TimeBetweenAttacks = 5f;
         public PlayerHealth PlayerHealth;
+        [HideInInspector]
+        public bool IsExhastionEnabled = false;
         private float timeSinceLastAttack = 0f;
         private void Start()
         {
@@ -16,7 +18,13 @@ namespace LightNS.Player
         }
         private void Update()
         {
-            if (LightGlowTimer.CurrentTimeLeft <= 0)
+            if (LightGlowTimer.CurrentTimeLeftToGlow <= 0)
+                IsExhastionEnabled = true;
+            LightExhastion();
+        }
+        public void LightExhastion()
+        {
+            if (IsExhastionEnabled)
             {
                 timeSinceLastAttack += Time.deltaTime;
                 if (timeSinceLastAttack > TimeBetweenAttacks)
@@ -25,6 +33,8 @@ namespace LightNS.Player
                     PlayerHealth?.TakeDamage(new TakeDamageData(Damage, 0, new Vector3(0, 0), null));
                 }
             }
+            else
+                timeSinceLastAttack = 0;
         }
     }
 }

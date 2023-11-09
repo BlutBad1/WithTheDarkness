@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UtilitiesNS;
 using static SettingsNS.AudioSettings;
 
 namespace SoundNS
@@ -28,10 +29,18 @@ namespace SoundNS
         private new void Awake()
         {
             base.Awake();
-            foreach (var audioSourceObject in AudioSourceObjects)
+            InitializeAudioSourceManager();
+        }
+        public void InitializeAudioSourceManager()
+        {
+            if (AudioSourceObjects != null && AudioSourceObjects.Length > 0)
             {
-                availableSources.Add(audioSourceObject.AudioObject = new AudioObject(audioSourceObject.AudioSource,
-                    audioSourceObject.AudioSource.volume, audioSourceObject.AudioKind));
+                foreach (var audioSourceObject in AudioSourceObjects)
+                {
+                    availableSources.Add(audioSourceObject.AudioObject = new AudioObject(audioSourceObject.AudioSource,
+                        audioSourceObject.AudioSource.volume, audioSourceObject.AudioKind));
+                }
+                VolumeChange();
             }
         }
         public void PlayAudioSource(string AudioSourceObjectName)
@@ -105,44 +114,13 @@ namespace SoundNS
         {
             AudioSourceObject newAudioSourceObject = new AudioSourceObject();
             AudioSource audioSource = audioSourceObject.AudioSource.gameObject.AddComponent<AudioSource>();
-            CopyAudioSourceSettings(audioSourceObject.AudioSource, audioSource);
+            Utilities.CopyAudioSourceSettings(audioSourceObject.AudioSource, audioSource);
             availableSources.Add(newAudioSourceObject.AudioObject = new AudioObject(audioSource,
                   audioSourceObject.AudioObject.GetStartedVolume(), audioSourceObject.AudioKind));
             newAudioSourceObject.AudioKind = audioSourceObject.AudioKind;
             newAudioSourceObject.AudioSource = audioSource;
             newAudioSourceObject.AudioSource.Play();
             StartCoroutine(DeleteAudioSourceObjectAfterPlaying(newAudioSourceObject));
-        }
-        public void CopyAudioSourceSettings(AudioSource original, AudioSource destination)
-        {
-            destination.bypassEffects = original.bypassEffects;
-            destination.bypassListenerEffects = original.bypassListenerEffects;
-            destination.bypassReverbZones = original.bypassReverbZones;
-            destination.clip = original.clip;
-            destination.spread = original.spread;
-            destination.dopplerLevel = original.dopplerLevel;
-            destination.ignoreListenerPause = original.ignoreListenerPause;
-            destination.ignoreListenerVolume = original.ignoreListenerVolume;
-            destination.loop = original.loop;
-            destination.maxDistance = original.maxDistance;
-            destination.minDistance = original.minDistance;
-            destination.pitch = original.pitch;
-            destination.mute = original.mute;
-            destination.outputAudioMixerGroup = original.outputAudioMixerGroup;
-            destination.panStereo = original.panStereo;
-            destination.playOnAwake = original.playOnAwake;
-            destination.priority = original.priority;
-            destination.reverbZoneMix = original.reverbZoneMix;
-            destination.rolloffMode = original.rolloffMode;
-            destination.spatialBlend = original.spatialBlend;
-            destination.spatialize = original.spatialize;
-            destination.spatializePostEffects = original.spatializePostEffects;
-            destination.spread = original.spread;
-            destination.volume = original.volume;
-            destination.SetCustomCurve(AudioSourceCurveType.Spread, original.GetCustomCurve(AudioSourceCurveType.Spread));
-            destination.SetCustomCurve(AudioSourceCurveType.CustomRolloff, original.GetCustomCurve(AudioSourceCurveType.CustomRolloff));
-            destination.SetCustomCurve(AudioSourceCurveType.ReverbZoneMix, original.GetCustomCurve(AudioSourceCurveType.ReverbZoneMix));
-            destination.SetCustomCurve(AudioSourceCurveType.SpatialBlend, original.GetCustomCurve(AudioSourceCurveType.SpatialBlend));
         }
         IEnumerator DeleteAudioSourceAfterPlaying(AudioSource source)
         {

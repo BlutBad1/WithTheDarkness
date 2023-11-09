@@ -6,18 +6,23 @@ namespace EnvironmentEffects.MatEffect.Dissolve
 {
     public class Dissolve : MatEffectBase
     {
-        [SerializeField] protected List<MeshRenderer> meshRenderers;
-        [SerializeField] protected Material referenceMat;
+        [SerializeField]
+        public List<MeshRenderer> meshRenderers;
+        [SerializeField]
+        public Material referenceMat;
         [Range(-1, 1f), Tooltip("-1 is full disabled dissolve, 1 is full enabled")]
         public float StartedDissolve = -1f;
         [SerializeField]
-        protected float updateRate = 0.01f;
+        public float updateRate = 0.01f;
         public bool ActiveOnStart = false;
         protected MaterialPropertyBlock matPropBlock;
         protected Coroutine currentCoroutine;
         protected float currentDissolve;
         protected float edgeThickness;
         protected bool isMatInitialized = false;
+        public float CurrentDissolve
+        { get { return currentDissolve; } }
+
         protected virtual void Start()
         {
             matPropBlock = new MaterialPropertyBlock();
@@ -44,6 +49,7 @@ namespace EnvironmentEffects.MatEffect.Dissolve
         }
         public virtual void SetDissolve(float dissolve)
         {
+            currentDissolve = dissolve;
             foreach (var renderer in meshRenderers)
             {
                 for (int i = 0; i < renderer.materials.Length; i++)

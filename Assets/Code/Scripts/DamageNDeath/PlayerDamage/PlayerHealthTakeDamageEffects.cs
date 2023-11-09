@@ -20,6 +20,7 @@ namespace PlayerScriptsNS
         public PlayerLook PlayerLook;
         public InputManager PlayerInputManager;
         [Header("Sounds")]
+        public AudioManager PlayerAudioManager;
         public Sound[] TakeDamageSounds;
         public Sound[] DeathSounds;
         public MuteSound MuteSound;
@@ -43,6 +44,8 @@ namespace PlayerScriptsNS
             if (!PlayerInputManager)
                 PlayerInputManager = GetComponent<InputManager>();
             dimming = GameObject.Find(HUDConstants.BLACK_SCREEN_DIMMING).GetComponent<BlackScreenDimming>();
+            if (!PlayerAudioManager)
+                PlayerAudioManager = GetComponent<AudioManager>();
         }
         private void OnDestroy()
         {
@@ -60,14 +63,14 @@ namespace PlayerScriptsNS
             PlaySound(TakeDamageSounds);
         void PlaySound(Sound[] sounds)
         {
-            if (TryGetComponent(out AudioManager audioManager) && sounds.Length > 0)
+            if (PlayerAudioManager && sounds.Length > 0)
             {
                 int n = Random.Range(sounds.Length > 1 ? 1 : 0, sounds.Length);
                 // Move picked sound to index 0 so it's not picked next time.
                 Sound temp = sounds[n];
                 sounds[n] = sounds[0];
                 sounds[0] = temp;
-                currentAudioSourceIsPlaying = audioManager.CreateAndPlay(temp);
+                currentAudioSourceIsPlaying = PlayerAudioManager.CreateAndPlay(temp);
             }
         }
         public void TakeDamageVisual(TakeDamageData takeDamageData)
@@ -133,14 +136,14 @@ namespace PlayerScriptsNS
         {
             while (dimming.BlackScreen.color.a < 1 || (currentAudioSourceIsPlaying && currentAudioSourceIsPlaying.isPlaying))
                 yield return null;
-            SceneDeterminant sceneManager = GameObject.Find(MyConstants.SceneConstants.PROGRESS_MANAGER).GetComponent<SceneDeterminant>();
+            SceneDeterminant sceneManager = SceneDeterminant.Instance;
             if (sceneManager)
                 Loader.Load(sceneManager.GetRandomScene(sceneManager.ScenesAfterLose, sceneManager.AfterLoseScenesSpawnChances));
             else
                 Loader.Load(MyConstants.SceneConstants.MAIN_MENU);
             Time.timeScale = 1f;
-            PlayerLook.SetLookingInputLockStats(false);
-            PlayerInputManager.SetMovingLock(false);
+            //PlayerLook.SetLookingInputLockStats(false);
+            //PlayerInputManager.SetMovingLock(false);
         }
     }
 }

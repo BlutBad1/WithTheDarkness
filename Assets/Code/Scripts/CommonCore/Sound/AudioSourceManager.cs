@@ -9,10 +9,10 @@ namespace SoundNS
     {
         [SerializeField]
         protected AudioSource audioSource;
-        Coroutine ChangeClipCoroutine;
-        Coroutine VolumeChangeCoroutine;
         [SerializeProperty("AudioType")]
         public AudioKind audioType;
+        private Coroutine ChangeClipCoroutine;
+        private Coroutine VolumeChangeCoroutine;
         public virtual AudioKind AudioType
         {
             get { return audioType; }
@@ -22,15 +22,30 @@ namespace SoundNS
         private new void Awake()
         {
             base.Awake();
-            availableSources.Add(audioObject = new AudioObject(audioSource, audioSource.volume, AudioType));
-            VolumeChange();
+            InitializeAudioSourceManager();
+        }
+        public void InitializeAudioSourceManager()
+        {
+            if (audioSource != null)
+            {
+                availableSources.Add(audioObject = new AudioObject(audioSource, audioSource.volume, AudioType));
+                VolumeChange();
+            }
+        }
+        public void CreateAudioSourceCopy(AudioSource source)
+        {
+            AudioSource audioSource = gameObject.AddComponent<AudioSource>();  
+            UtilitiesNS.Utilities.CopyAudioSourceSettings(source, audioSource);
+            SetAudioSource(audioSource);
         }
         public void SetAudioSource(AudioSource audioSource)
         {
-            availableSources.Remove(audioObject);
+            if (availableSources.Contains(audioObject))
+                availableSources.Remove(audioObject);
             this.audioSource = audioSource;
             availableSources.Add(audioObject = new AudioObject(audioSource, audioSource.volume, AudioType));
             this.audioSource.volume = audioSource.volume * SettingsNS.AudioSettings.GetVolumeOfType(AudioType);
+            VolumeChange();
         }
         public void ChangeAudioSourceVolumeSmoothly(float newVolume, float transitionTime = 0f)
         {

@@ -10,7 +10,7 @@ namespace PlayerScriptsNS
     {
         private Camera cam;
         [SerializeField]
-        private float distance = 3f;
+        public float InteracteDistance = 3f;
         [SerializeField]
         private LayerMask interactableLayers;
         [SerializeField]
@@ -37,14 +37,11 @@ namespace PlayerScriptsNS
         {
             playerUi?.UpdateText(string.Empty);
             ray = new Ray(cam.transform.position, cam.transform.forward);
-            if (Physics.SphereCast(ray, 0.2f, out RaycastHit hitInfo, distance, interactableLayers | obstacleLayers))
+            if (Physics.SphereCast(ray, 0.2f, out RaycastHit hitInfo, InteracteDistance, interactableLayers | obstacleLayers))
             {
                 if ((obstacleLayers.value & (1 << hitInfo.collider.gameObject.layer)) == 0)
                 {
-                    if (hitInfo.collider.GetComponent<Interactable>() != null)
-                        interactable = hitInfo.collider.GetComponent<Interactable>();
-                    else if (hitInfo.collider.transform.parent.gameObject.GetComponent<Interactable>() != null)
-                        interactable = hitInfo.collider.transform.parent.gameObject.GetComponent<Interactable>();
+                    interactable = UtilitiesNS.Utilities.GetComponentFromGameObject<Interactable>(hitInfo.collider.gameObject);
                     if (interactable != null)
                     {
                         if (playerUi)
@@ -63,6 +60,11 @@ namespace PlayerScriptsNS
                         }
                     }
                 }
+                else if (interactable != null)
+                {
+                    interactable.EndInteraction(this);
+                    interactable = null;
+                }
             }
             else if (interactable != null)
             {
@@ -80,7 +82,7 @@ namespace PlayerScriptsNS
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(ray.origin + ray.direction * distance, 0.1f);
+            Gizmos.DrawWireSphere(ray.origin + ray.direction * InteracteDistance, 0.1f);
         }
     }
 }

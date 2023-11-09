@@ -17,7 +17,7 @@ namespace PlayerScriptsNS
         [SerializeField]
         public float DefaultSpeed = 5;
         [SerializeField]
-        private float sprintingSpeed = 8;
+        public float SprintingSpeed = 8;
         [SerializeField]
         private float crounchingSpeed = 2.5f;
         [HideInInspector]
@@ -93,7 +93,7 @@ namespace PlayerScriptsNS
             if (!crounching)
             {
                 sprinting = !sprinting;
-                if (sprinting) CurrentSpeed = sprintingSpeed;
+                if (sprinting) CurrentSpeed = SprintingSpeed;
                 else CurrentSpeed = DefaultSpeed;
             }
         }
@@ -117,6 +117,11 @@ namespace PlayerScriptsNS
             velocity += playerYVelocity;
             velocity = transform.TransformDirection(velocity);
             character.Move(velocity * Time.deltaTime);
+        }
+        public void ResetVelocity()
+        {
+            lastVelocity = Vector3.zero;
+            character.Move(lastVelocity * Time.deltaTime);
         }
         private Vector3 SlopeCalculation(Vector3 calculatedMovement)
         {

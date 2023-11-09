@@ -7931,7 +7931,7 @@ MonoBehaviour:
     audioSource: {fileID: 1839025153486640422}
     AudioKind: 0
   - Name: PickUpSound
-    audioSource: {fileID: 0}
+    audioSource: {fileID: 8880983455908654192}
     AudioKind: 0
 --- !u!114 &7925655609703552610
 MonoBehaviour:
@@ -8116,7 +8116,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -8456,7 +8456,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -9456,7 +9456,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -33336,7 +33336,7 @@ CharacterController:
   serializedVersion: 2
   m_Height: 2
   m_Radius: 0.3
-  m_SlopeLimit: 60
+  m_SlopeLimit: 70
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
@@ -33365,7 +33365,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d012974b368a6cb47afdee98fc463577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gravity: -16
+  gravity: -9.1
   groundCheckDistance: 0.1
   slopeLayer:
     serializedVersion: 2
@@ -33373,7 +33373,7 @@ MonoBehaviour:
   jumpHeight: 0
   inertiaWeight: 0.6
   DefaultSpeed: 3.5
-  sprintingSpeed: 3.5
+  SprintingSpeed: 3.5
   crounchingSpeed: 1.99
   IsGrounded: 0
   CurrentScaledByTimeVelocity: {x: 0, y: 0, z: 0}
@@ -33404,6 +33404,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CreatureType: Player
   PlayerInputManager: {fileID: 7586647954285710580}
+  PostProcessProfile: {fileID: 11400000, guid: abb58883ab4dfa246b761d5385fc546f, type: 2}
 --- !u!114 &7586647954285710585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33417,13 +33418,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ProgressImage: {fileID: 3327448963066431158}
-  distance: 3
+  InteracteDistance: 3
   interactableLayers:
     serializedVersion: 2
     m_Bits: 12648512
   obstacleLayers:
     serializedVersion: 2
-    m_Bits: 36873
+    m_Bits: 33591305
 --- !u!114 &4081573023399793394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33499,10 +33500,11 @@ MonoBehaviour:
   - {fileID: 2097164062235747963}
   - {fileID: 3948407010823288056}
   PostProcessVolume: {fileID: 4368764775958589909}
-  DimmingFadeSpeed: 0.03
+  DimmingFadeSpeed: 0.5
   DimmingWaitTime: 0.001
   PlayerLook: {fileID: 0}
   PlayerInputManager: {fileID: 0}
+  PlayerAudioManager: {fileID: 4586255487885510825}
   TakeDamageSounds:
   - name: 
     clip: {fileID: 8300000, guid: 0f760d510b8de6c4592d414220a57f87, type: 3}
@@ -33513,14 +33515,14 @@ MonoBehaviour:
     source: {fileID: 0}
   DeathSounds:
   - name: 
-    clip: {fileID: 8300000, guid: cb2c99a713335fc48af90bb6d7500ee2, type: 3}
+    clip: {fileID: 8300000, guid: 04aad61cb8cb3f347b0c05faedac9688, type: 3}
     volume: 0.6
-    pitch: 1
+    pitch: 0.65
     loop: 0
     audioKind: 2
     source: {fileID: 0}
   MuteSound: {fileID: 6406203315374226884}
-  muteTime: 15
+  muteTime: 20
 --- !u!114 &2296378979833349305
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33587,6 +33589,7 @@ MonoBehaviour:
   Damage: 20
   TimeBetweenAttacks: 5
   PlayerHealth: {fileID: 2296378979833349306}
+  IsExhastionEnabled: 0
 --- !u!114 &7586647954285710478
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33629,7 +33632,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd59186459fe5d24a8d2bfff6ba13234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioKind: -2
+  AudioKind: -1
 --- !u!114 &4586255487885510825
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34215,6 +34218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f58bdd2d009f1d48bd631418ea6affe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MainSpotLight: {fileID: 8208554029214863605}
   Lamp: {fileID: 3649646266784020554}
   Weapons:
   - WeaponData: {fileID: 11400000, guid: f8402af08b95c5e4095636470440410d, type: 2}
@@ -39340,14 +39344,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8208554029997051847}
-  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2296378979833349307}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!81 &8208554029997051845
 AudioListener:
   m_ObjectHideFlags: 0
@@ -49482,6 +49486,12 @@ MonoBehaviour:
       serializedVersion: 2
       m_Bits: 12587529
     DamageDecalType: MeleeDecal
+  - WeaponType: -1
+    Tag: 1024
+    LayerMask:
+      serializedVersion: 2
+      m_Bits: 8704
+    DamageDecalType: MetalBulletHole
 --- !u!1 &8208554030175544475
 GameObject:
   m_ObjectHideFlags: 0
@@ -49592,11 +49602,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 729bde189a49c624cb3efbb262212b81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  glowTime: 20
-  MaxGlowTime: 100
+  currentTimeLeftToGlow: 360
+  MaxTimeOfGlowing: 360
   Showcaser: {fileID: 8208554029435566109}
-  CurrentTimeLeft: 0
-  MaxTimeLeft: 0
 --- !u!1 &8208554030239755395
 GameObject:
   m_ObjectHideFlags: 0

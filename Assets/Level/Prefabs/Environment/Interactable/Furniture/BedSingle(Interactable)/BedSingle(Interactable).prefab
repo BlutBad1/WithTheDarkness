@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5004454846246119196}
   - component: {fileID: 7415580362156384215}
   - component: {fileID: 8865300704166820914}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: BedSheet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -94,7 +94,7 @@ GameObject:
   - component: {fileID: 333096727703662111}
   - component: {fileID: 4810629514889003869}
   - component: {fileID: 6026008142760700430}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: Pillow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -180,7 +180,7 @@ GameObject:
   - component: {fileID: 4999747407622241176}
   - component: {fileID: 4999747407622241180}
   - component: {fileID: 4999747407622241183}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: BedSingle(Interactable)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -253,10 +253,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: 
-  InteractingImage: {fileID: 0}
+  LastWhoInteracted: {fileID: 0}
   InteractingSpeed: 1.5
   CoroutineDelay: 0.01
   IsInteracting: 0
+  InteractionProgress: 0
   BlackScreenFadeSpeed: 1.2
   UseAsTrigger: 0
   DefineByProgressManager: 1
@@ -312,7 +313,7 @@ GameObject:
   - component: {fileID: 5959101848807033364}
   - component: {fileID: 960260073095633167}
   - component: {fileID: 3992655807477995070}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: Bed
   m_TagString: Untagged
   m_Icon: {fileID: 0}

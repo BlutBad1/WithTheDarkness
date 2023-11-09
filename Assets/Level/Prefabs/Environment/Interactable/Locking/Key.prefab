@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4183971913370787891}
   - component: {fileID: 4183971913370787888}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: Picking
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -103,7 +103,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
+      value: 0
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -143,7 +143,7 @@ GameObject:
   - component: {fileID: 4183971913395578753}
   - component: {fileID: 102111417385581921}
   - component: {fileID: 4218766985951244292}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: Key
   m_TagString: NoBulletHole
   m_Icon: {fileID: 0}
@@ -200,12 +200,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: 
+  LastWhoInteracted: {fileID: 0}
   IsGeneric: 1
   KeyName: fromChest
   GenericKeyName: main_exit
   Key:
     IsGeneric: 1
     KeyName: main_exit
+    GenericKeyName: 
+    Amount: 1
   AvailableKeyData: {fileID: 11400000, guid: 62c147480aa3bb149a78ac93efec608d, type: 2}
 --- !u!114 &4183971913395578752
 MonoBehaviour:
@@ -302,7 +305,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4183971913517961013}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: KeySounds
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -337,7 +340,7 @@ GameObject:
   - component: {fileID: 6192321535082860320}
   - component: {fileID: 8217799286638607338}
   - component: {fileID: 6192321535082860325}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: KeyModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -1,4 +1,6 @@
 using UnityEngine;
+using UtilitiesNS;
+
 namespace LightNS
 {
     [RequireComponent(typeof(ParticleSystem))]
@@ -6,23 +8,25 @@ namespace LightNS
     {
         public LightGlowTimer LightGlowTimer;
         private ParticleSystem particleSystem;
-        private float startedTimeLeft = 10;
-        private float currentTimeLeft = 0f;
         private float startingAlpha;
-        void Start()
+        private void OnEnable()
         {
             particleSystem = GetComponent<ParticleSystem>();
             startingAlpha = particleSystem.main.startColor.color.a;
             if (!LightGlowTimer)
-                LightGlowTimer = UtilitiesNS.Utilities.GetComponentFromGameObject<LightGlowTimer>(gameObject);
+                LightGlowTimer = Utilities.GetComponentFromGameObject<LightGlowTimer>(gameObject) != null ?
+                    Utilities.GetComponentFromGameObject<LightGlowTimer>(gameObject) : GameObject.FindAnyObjectByType<LightGlowTimer>();
+            SetIntensity();
         }
-        void Update()
+        private void Update()
         {
-            currentTimeLeft = LightGlowTimer.CurrentTimeLeft;
-            startedTimeLeft = LightGlowTimer.MaxTimeLeft;
+            SetIntensity();
+        }
+        public void SetIntensity()
+        {
             float newAlpha;
             var main = particleSystem.main;
-            newAlpha = main.startColor.color.a > startingAlpha ? startingAlpha : (startingAlpha * currentTimeLeft) / startedTimeLeft;
+            newAlpha = main.startColor.color.a > startingAlpha ? startingAlpha : (startingAlpha * LightGlowTimer.GetGlowingLeftTimeInPercantage()) / 100;
             main.startColor = new Color(main.startColor.color.r, main.startColor.color.g, main.startColor.color.b, newAlpha);
         }
     }

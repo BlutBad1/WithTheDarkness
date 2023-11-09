@@ -15,8 +15,10 @@ namespace WeaponManagement
     }
     public class WeaponManager : MonoBehaviour
     {
+        [Header("Lamp")]
+        public GameObject MainSpotLight;
         public GameObject Lamp;
-        [SerializeField]
+        [SerializeField, Header("Weapon")]
         public Weapon[] Weapons;
         [HideInInspector]
         //-1 is default state without any weapon to use

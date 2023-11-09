@@ -8,55 +8,48 @@ namespace LightNS
     public class LightGlowTimer : MonoBehaviour
     {
         [Header("Time")]
-        [SerializeProperty("GlowTime"), SerializeField]
-        private float glowTime = 100f;
-        [Min(0)]
-        public float MaxGlowTime = 100f;
+        [SerializeProperty("CurrentTimeLeftToGlow"), SerializeField, Min(0)]
+        private float currentTimeLeftToGlow = 100f;
+        [Min(1)]
+        public float MaxTimeOfGlowing = 100f;
         public TextMeshProUGUI Showcaser;
-        public float GlowTime
+        public float CurrentTimeLeftToGlow
         {
-            get { return glowTime; }
-            set { glowTime = value < 0 ? 0 : value > MaxGlowTime ? MaxGlowTime : value; CurrentTimeLeft = glowTime; }
+            get { return currentTimeLeftToGlow; }
+            set { currentTimeLeftToGlow = value < 0 ? 0 : value > MaxTimeOfGlowing ? MaxTimeOfGlowing : value; }
         }
-        [HideInInspector]
-        public float CurrentTimeLeft;
-        [HideInInspector]
-        public float MaxTimeLeft;
-        static public Dictionary<int, bool> percentToShow = new Dictionary<int, bool>() { { 90,true },
+        static private Dictionary<int, bool> showingPercents = new Dictionary<int, bool>() { { 90,true },
             { 50, true }, { 25, true }, { 10,true }, { 5, true }, { 2, true }, { 1, true } };
-        private void Awake()
-        {
-            CurrentTimeLeft = GlowTime;
-            MaxTimeLeft = MaxGlowTime;
-        }
         private void Update()
         {
-            CurrentTimeLeft -= 1 * Time.deltaTime;
-            CurrentTimeLeft = CurrentTimeLeft < 0 ? 0 : CurrentTimeLeft;
+            CurrentTimeLeftToGlow -= 1 * Time.deltaTime;
+            CurrentTimeLeftToGlow = CurrentTimeLeftToGlow < 0 ? 0 : CurrentTimeLeftToGlow;
         }
         private void FixedUpdate()
         {
-            int leftTime = (int)((CurrentTimeLeft * 100) / MaxTimeLeft);
-            if (percentToShow.ContainsKey(leftTime) && percentToShow[leftTime])
+            int leftTime = (int)GetGlowingLeftTimeInPercantage();
+            if (showingPercents.ContainsKey(leftTime) && showingPercents[leftTime])
             {
-                percentToShow[leftTime] = false;
+                showingPercents[leftTime] = false;
                 ShowPercentOfLightLeft();
             }
         }
         public void AddTime(float addedTime)
         {
             //Delete check below if you wanna unlimited time
-            CurrentTimeLeft = CurrentTimeLeft + addedTime > MaxTimeLeft ? MaxTimeLeft : (CurrentTimeLeft + addedTime);
+            CurrentTimeLeftToGlow = CurrentTimeLeftToGlow + addedTime > MaxTimeOfGlowing ? MaxTimeOfGlowing : (CurrentTimeLeftToGlow + addedTime);
             //Uncomment below if you wanna unlimited time
             //StartedTimeLeft = CurrentTimeLeft;
-            foreach (var key in new List<int>(percentToShow.Keys))
+            foreach (var key in new List<int>(showingPercents.Keys))
             {
-                if (key < (int)CurrentTimeLeft)
-                    percentToShow[key] = true;
+                if (key < (int)CurrentTimeLeftToGlow)
+                    showingPercents[key] = true;
             }
             ShowPercentOfLightLeft();
         }
+        public float GetGlowingLeftTimeInPercantage() =>
+            (CurrentTimeLeftToGlow * 100 / MaxTimeOfGlowing);
         public void ShowPercentOfLightLeft() =>
-           GameObject.FindAnyObjectByType<MessagePrint>().PrintMessage((int)((CurrentTimeLeft * 100) / MaxTimeLeft) + "%", 0.5f, Showcaser);
+           GameObject.FindAnyObjectByType<MessagePrint>().PrintMessage((int)GetGlowingLeftTimeInPercantage() + "%", 0.5f, Showcaser);
     }
 }

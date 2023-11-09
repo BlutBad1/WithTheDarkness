@@ -1,13 +1,48 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 
 namespace EnvironmentEffects.MatEffect
 {
+    public class OriginalMatPropBlock
+    {
+        public MeshRenderer Renderer;
+        public Dictionary<int, MaterialPropertyBlock> MaterialPropertyBlock = new Dictionary<int, MaterialPropertyBlock>();
+        public OriginalMatPropBlock(MeshRenderer renderer, int index, MaterialPropertyBlock materialPropertyBlock)
+        {
+            Renderer = renderer;
+            MaterialPropertyBlock.Add(index, materialPropertyBlock);
+        }
+    }
+
     public class MatEffectBase : MonoBehaviour
     {
+        protected List<OriginalMatPropBlock> originalMatPropBlocks = new List<OriginalMatPropBlock>();
+        public virtual void ResetAllRenderers()
+        {
+            foreach (var originalMPB in originalMatPropBlocks)
+                ResetRenderer(originalMPB.Renderer);
+        }
+        public virtual void ResetRenderer(MeshRenderer renderer)
+        {
+            OriginalMatPropBlock originalMatPropBlock = originalMatPropBlocks.Find(x => x.Renderer == renderer);
+            if (originalMatPropBlock != null)
+            {
+                foreach (var key in originalMatPropBlock.MaterialPropertyBlock.Keys)
+                    renderer.SetPropertyBlock(originalMatPropBlock.MaterialPropertyBlock[key], key);
+            }
+        }
         protected virtual void InitializeRenderer(MeshRenderer renderer, MaterialPropertyBlock currentBlock, int i, Material referenceMat, Material[] rendererMaterials)
         {
             renderer.GetPropertyBlock(currentBlock, i);
+            OriginalMatPropBlock originalMatPropBlock = originalMatPropBlocks.Find(x => x.Renderer == renderer);
+            if (originalMatPropBlock == null)
+                originalMatPropBlocks.Add(new OriginalMatPropBlock(renderer, i, currentBlock));
+            else
+            {
+                if (!originalMatPropBlock.MaterialPropertyBlock.ContainsKey(i))
+                    originalMatPropBlock.MaterialPropertyBlock.Add(i, currentBlock);
+            }
             if (currentBlock.isEmpty)
             {
                 Material originalMat = rendererMaterials[i];  // Use the local copy of materials array

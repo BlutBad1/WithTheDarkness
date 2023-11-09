@@ -40,6 +40,8 @@ namespace EnemyNS.Base
         public Animator Animator = null;
         [HideInInspector]
         public Vector3 DefaultPositon;
+        [HideInInspector]
+        public Transform LastPursuedTargetPosition;
         //!!!!NAVMESH!!!!
         [Header("NavMesh")]
         public NavMeshTriangulation Triangulation = new NavMeshTriangulation();
@@ -73,6 +75,7 @@ namespace EnemyNS.Base
         public event OngoingStateEvent OnFollow;
         public event OngoingStateEvent OnPatrol;
         public event OngoingStateEvent OnDoPriority;
+        public event OngoingStateEvent OnDoLostTarget;
         //!!!!COROUTINES!!!!
         private Coroutine followCoroutine;
 
@@ -197,7 +200,7 @@ namespace EnemyNS.Base
         public virtual void HandleGainCreatureInSight(GameObject spottedTarget)
         {
             ICreature creatureComponent = ICreature.GetICreatureComponent(spottedTarget);
-            Damageable damageable = (Damageable)IDamageable.GetDamageableFromGameObject(spottedTarget);
+            Damageable damageable = UtilitiesNS.Utilities.GetComponentFromGameObject<Damageable>(spottedTarget);
             if (spottedTarget == gameObject || CreaturesInSight.ContainsValue(creatureComponent))
                 return;
             if (creatureComponent != null)
@@ -231,13 +234,23 @@ namespace EnemyNS.Base
                 if (Vector3.Distance(gameObject.transform.position, PursuedTarget.transform.position) > DontLoseSightIfDistanceLess)
                 {
                     Opponents.Remove(PursuedTarget);
+                    LastPursuedTargetPosition = PursuedTarget.transform;
                     PursuedTarget = null;
-                    State = DefaultState;
+                    State = EnemyState.LostTarget;
                 }
                 else
                     return;
             }
             CreaturesInSight.Remove(lostTarget);
+        }
+        public bool CheckIfAgentHasArrived()
+        {
+            if (Agent.remainingDistance <= Agent.stoppingDistance)
+            {
+                if (!Agent.hasPath || Agent.velocity.sqrMagnitude == 0f)
+                    return true;
+            }
+            return false;
         }
         ///////////END///////////
 
@@ -271,6 +284,11 @@ namespace EnemyNS.Base
                         case EnemyState.DoPriority:
                             followCoroutine = StartCoroutine(DoPriority());
                             break;
+                        case EnemyState.LostTarget:
+                            followCoroutine = StartCoroutine(DoLostTarget());
+                            break;
+                        case EnemyState.UsingAbility:
+                            break;
                         default:
                             State = DefaultState;
                             break;
@@ -286,6 +304,31 @@ namespace EnemyNS.Base
                 yield return null;
             }
         }
+        protected virtual IEnumerator DoLostTarget()
+        {
+            if (LastPursuedTargetPosition)
+            {
+                WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
+                yield return new WaitUntil(() => Agent.enabled && Agent.isOnNavMesh);
+                Agent.SetDestination(LastPursuedTargetPosition.position);
+                while (Agent.enabled && Agent.isOnNavMesh && !CheckIfAgentHasArrived())
+                {
+                    if (TryGetNewTarget() && PursuedTarget != TryGetNewTarget())
+                    {
+                        PursuedTarget = TryGetNewTarget();
+                        State = EnemyState.Chase;
+                    }
+                    OnDoLostTarget?.Invoke();
+                    yield return Wait;
+                }
+                LastPursuedTargetPosition = null;
+            }
+            if (!PursuedTarget)
+            {
+                Debug.Log("ToDefState");
+                State = DefaultState;
+            }
+        }
         protected virtual IEnumerator DoIdleMotion()
         {
             WaitForSeconds Wait = new WaitForSeconds(UpdateRate);
@@ -296,6 +339,11 @@ namespace EnemyNS.Base
                 {
                     PursuedTarget = TryGetNewTarget();
                     State = EnemyState.Chase;
+                }
+                else if (LastPursuedTargetPosition)
+                {
+                    State = EnemyState.LostTarget;
+                    break;
                 }
                 OnIdle?.Invoke();
                 yield return Wait;
@@ -311,6 +359,11 @@ namespace EnemyNS.Base
                 {
                     PursuedTarget = TryGetNewTarget();
                     State = EnemyState.Chase;
+                }
+                else if (LastPursuedTargetPosition)
+                {
+                    State = EnemyState.LostTarget;
+                    break;
                 }
                 OnPatrol?.Invoke();
                 yield return Wait;

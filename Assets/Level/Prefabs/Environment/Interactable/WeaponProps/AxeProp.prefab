@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 224556948427112984}
   - component: {fileID: 805603634647714440}
   - component: {fileID: 1595911557384864872}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: Object1538
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -309,7 +309,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4697391705058523634}
   - component: {fileID: 8901516384813818972}
-  m_Layer: 6
+  m_Layer: 22
   m_Name: AxeProp
   m_TagString: Untagged
   m_Icon: {fileID: 0}

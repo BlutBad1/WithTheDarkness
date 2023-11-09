@@ -10,7 +10,7 @@ namespace GameObjectsControllingNS
             // (100% - TimeInPercentLeft)/2
             if(LightGlowTimer)
             {
-                float chancesByOilLeft = (100 - (LightGlowTimer.CurrentTimeLeft * 100 / LightGlowTimer.MaxTimeLeft)) / 2;
+                float chancesByOilLeft = (100 - LightGlowTimer.GetGlowingLeftTimeInPercantage()) / 2;
                 objectSpawnChance += chancesByOilLeft;
             }
             return base.CalculateObjectChances(objectSpawnChance);
