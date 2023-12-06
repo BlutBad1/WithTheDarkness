@@ -11,7 +11,7 @@ namespace Map
         GameObject player;
         GameObject gameObject;
         Transform teleportPoint;
-        TeleportTrigger teleportTrigger;
+        BlackScreenTeleportTrigger teleportTrigger;
         [SetUp]
         public void Setup()
         {
@@ -20,7 +20,7 @@ namespace Map
             gameObject = GameObject.Instantiate(new GameObject());
             player.name = CommonConstants.PLAYER;
             teleportPoint = gameObject.transform;
-            teleportTrigger = player.AddComponent<TeleportTrigger>();
+            teleportTrigger = player.AddComponent<BlackScreenTeleportTrigger>();
             teleportTrigger.TeleportPoint = teleportPoint;
         }
         [UnityTest]

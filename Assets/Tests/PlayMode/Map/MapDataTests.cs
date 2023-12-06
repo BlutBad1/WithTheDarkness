@@ -21,7 +21,7 @@ namespace Map
             gameObject = GameObject.Instantiate(new GameObject());
             placeholder = GameObject.Instantiate(new GameObject());
             mapData = gameObject.AddComponent<MapData>();
-            placeholder.AddComponent<TeleportTrigger>();
+            placeholder.AddComponent<BlackScreenTeleportTrigger>();
             stopwatch = new Stopwatch();
         }
 
@@ -30,7 +30,7 @@ namespace Map
         {
             //Arrange 
             for (int i = 0; i < 5; i++)
-                mapData.AddNewLocation(new Location { SpawnChance = 100, MapData = placeholder, EntryTeleportTrigger = placeholder.GetComponent<TeleportTrigger>() });
+                mapData.AddNewLocation(new Location { SpawnChance = 100, MapData = placeholder, EntryTeleportTrigger = placeholder.GetComponent<BlackScreenTeleportTrigger>() });
             //Act
             mapData.ShuffleLocations();
             yield return new WaitForSeconds(0.5f);
@@ -42,7 +42,7 @@ namespace Map
         {
             //Arrange 
             for (int i = 0; i < 5; i++)
-                mapData.AddNewLocation(new Location { SpawnChance = 100, MapData = placeholder, EntryTeleportTrigger = placeholder.GetComponent<TeleportTrigger>() });
+                mapData.AddNewLocation(new Location { SpawnChance = 100, MapData = placeholder, EntryTeleportTrigger = placeholder.GetComponent<BlackScreenTeleportTrigger>() });
             //Act
             mapData.alwaysMultithreading = true;
             mapData.ShuffleLocations();
@@ -57,7 +57,7 @@ namespace Map
             //Arrange 
             float onethreadTime = 0, multithreadTime = 0;
             for (int i = 0; i < 5; i++)
-                mapData.AddNewLocation(new Location { SpawnChance = 100, MapData = placeholder, EntryTeleportTrigger = placeholder.GetComponent<TeleportTrigger>() });
+                mapData.AddNewLocation(new Location { SpawnChance = 100, MapData = placeholder, EntryTeleportTrigger = placeholder.GetComponent<BlackScreenTeleportTrigger>() });
             //Act
             stopwatch.Start();
             mapData.ShuffleLocations();
@@ -82,7 +82,7 @@ namespace Map
             //Arrange 
             float onethreadTime = 0, multithreadTime = 0;
             for (int i = 0; i < 1000; i++)
-                mapData.AddNewLocation(new Location { SpawnChance = 100, MapData = placeholder, EntryTeleportTrigger = placeholder.GetComponent<TeleportTrigger>() });
+                mapData.AddNewLocation(new Location { SpawnChance = 100, MapData = placeholder, EntryTeleportTrigger = placeholder.GetComponent<BlackScreenTeleportTrigger>() });
             //Act
             mapData.automaticallyEnableAfter = -1;
             stopwatch.Start();
@@ -107,7 +107,7 @@ namespace Map
             //Arrange 
             float onethreadTime = 0, multithreadTime = 0;
             for (int i = 0; i < 10000; i++)
-                mapData.AddNewLocation(new Location { SpawnChance = 100, MapData = placeholder, EntryTeleportTrigger = placeholder.GetComponent<TeleportTrigger>() });
+                mapData.AddNewLocation(new Location { SpawnChance = 100, MapData = placeholder, EntryTeleportTrigger = placeholder.GetComponent<BlackScreenTeleportTrigger>() });
             //Act
             mapData.automaticallyEnableAfter = -1;
             stopwatch.Start();

@@ -191,6 +191,13 @@ namespace EnemyNS.Base
             if (Agent)
                 Agent.enabled = true;
         }
+        public void SetPositionAndRotation(Vector3 position, Quaternion rotation)
+        {
+            BlockMovement();
+            transform.position = position;
+            transform.rotation = rotation;
+            UnBlockMovement();
+        }
         public void OnBeforeSerialize() =>
             CreatureNames = CreatureTypes.Instance.Names;
         public void OnAfterDeserialize()
@@ -324,10 +331,7 @@ namespace EnemyNS.Base
                 LastPursuedTargetPosition = null;
             }
             if (!PursuedTarget)
-            {
-                Debug.Log("ToDefState");
                 State = DefaultState;
-            }
         }
         protected virtual IEnumerator DoIdleMotion()
         {

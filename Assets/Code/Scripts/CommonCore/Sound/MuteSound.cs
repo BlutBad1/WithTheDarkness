@@ -1,3 +1,4 @@
+using DifferentUnityMethods;
 using SettingsNS;
 using System;
 using System.Collections;
@@ -8,7 +9,7 @@ using static SettingsNS.AudioSettings;
 
 namespace SoundNS
 {
-    public class MuteSound : MonoBehaviour
+    public class MuteSound : MethodsBeforeQuit
     {
         [EnumMask]
         public AudioKind AudioKind;
@@ -21,8 +22,21 @@ namespace SoundNS
             ReadOriginalVolume();
             AttachMethodsToEvents();
         }
-        private void OnDisable()
+        public override void OnDestroyBeforeQuit()
         {
+            StopCoroutines();
+            DetachMethodsFromEvents();
+            SoundVolumeToOriginal();
+        }
+        public override void OnDisableBeforeQuit()
+        {
+            StopCoroutines();
+            DetachMethodsFromEvents();
+            SoundVolumeToOriginal();
+        }
+        public new void OnApplicationQuit()
+        {
+            base.OnApplicationQuit();
             StopCoroutines();
             DetachMethodsFromEvents();
             SoundVolumeToOriginal();

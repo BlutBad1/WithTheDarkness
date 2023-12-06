@@ -62,6 +62,21 @@ namespace UtilitiesNS
             }
             return closestComponent;
         }
+        public static List<T> FindAllComponentsInChildren<T>(GameObject gameObject, bool includeInactive = true) where T : Component
+        {
+            List<T> components = new List<T>();
+            // Find components on the current GameObject
+            T[] currentComponents = gameObject.GetComponents<T>();
+            components.AddRange(currentComponents);
+            // Find components on children recursively
+            foreach (Transform child in gameObject.transform)
+            {
+                // Recursive call to find components on the child GameObject
+                List<T> childComponents = FindAllComponentsInChildren<T>(child.gameObject, includeInactive);
+                components.AddRange(childComponents);
+            }
+            return components;
+        }
         public static void CopyAudioSourceSettings(AudioSource original, AudioSource destination)
         {
             destination.bypassEffects = original.bypassEffects;

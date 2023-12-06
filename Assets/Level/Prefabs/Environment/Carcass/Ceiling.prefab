@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 2892024947757093774}
   - component: {fileID: 2892024947757093761}
   - component: {fileID: 2892024947757093760}
+  - component: {fileID: 1584536753604153602}
   m_Layer: 0
   m_Name: Ceiling
   m_TagString: Untagged
@@ -206,3 +207,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!205 &1584536753604153602
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2892024947757093762}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 3.2224364, y: 2.0876086, z: 1.638319}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.11038844
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2892024947757093774}
+  m_Enabled: 1

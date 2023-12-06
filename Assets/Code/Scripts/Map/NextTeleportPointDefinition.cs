@@ -1,4 +1,4 @@
-using MyConstants;
+using PlayerScriptsNS;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -15,9 +15,9 @@ namespace LocationManagementNS
             teleportTrigger = GetComponent<TeleportTrigger>();
             mapData = MapData.Instance;
         }
-        private void OnTriggerEnter(Collider other)
+        public void DefineNextLoc()
         {
-            if (other.gameObject.name == CommonConstants.PLAYER && !isActivated)
+            if(!isActivated)
             {
                 if (mapData.LocationsIterator < mapData.ActiveLocations.Count && mapData.ActiveLocations[mapData.LocationsIterator].LocaionType == LocaionType.Scene)
                     StartCoroutine(CreateSceneLocation());
@@ -30,12 +30,12 @@ namespace LocationManagementNS
         {
             if (mapData.LocationsIterator < mapData.ActiveLocations.Count)
             {
-                mapData.ActiveLocations[mapData.LocationsIterator].MapData.SetActive(true);
+                //mapData.ActiveLocations[mapData.LocationsIterator].MapData.SetActive(true);
                 teleportTrigger.TeleportPoint = mapData.ActiveLocations[mapData.LocationsIterator].EntryTeleportTrigger.TeleportPointToHere;
-                teleportTrigger.TeleportPoint.position = new Vector3(teleportTrigger.TeleportPoint.position.x, teleportTrigger.TeleportPoint.position.y, teleportTrigger.TeleportPoint.position.z);
-                teleportTrigger.TeleportPointToHere.position = new Vector3(teleportTrigger.TeleportPointToHere.position.x, teleportTrigger.TeleportPointToHere.position.y, teleportTrigger.TeleportPointToHere.position.z);
-                teleportTrigger.ConnectedLocIndex = mapData.LocationsIterator;
                 mapData.ActiveLocations[mapData.LocationsIterator].EntryTeleportTrigger.TeleportPoint = teleportTrigger.TeleportPointToHere;
+                //teleportTrigger.TeleportPoint.position = new Vector3(teleportTrigger.TeleportPoint.position.x, teleportTrigger.TeleportPoint.position.y, teleportTrigger.TeleportPoint.position.z);
+                //teleportTrigger.TeleportPointToHere.position = new Vector3(teleportTrigger.TeleportPointToHere.position.x, teleportTrigger.TeleportPointToHere.position.y, teleportTrigger.TeleportPointToHere.position.z);
+                teleportTrigger.ConnectedLocIndex = mapData.LocationsIterator;
                 mapData.ActiveLocations[mapData.LocationsIterator].EntryTeleportTrigger.ConnectedLocIndex = teleportTrigger.ThisLocIndex;
                 TeleportTrigger[] teleportTriggers = mapData.ActiveLocations[mapData.LocationsIterator].MapData.GetComponentsInChildren<TeleportTrigger>();
                 for (int i = 0; i < teleportTriggers.Length; i++)
@@ -49,13 +49,11 @@ namespace LocationManagementNS
                 TeleportTrigger[] teleportTriggers = mapData.TheLastLocation.MapData.GetComponentsInChildren<TeleportTrigger>();
                 for (int i = 0; i < teleportTriggers.Length; i++)
                     teleportTriggers[i].ThisLocIndex = -2;
-                mapData.TheLastLocation.EntryTeleportTrigger.ConnectedLocIndex = teleportTrigger.ThisLocIndex;
+                //mapData.TheLastLocation.EntryTeleportTrigger.ConnectedLocIndex = teleportTrigger.ThisLocIndex;
             }
         }
         private IEnumerator CreateSceneLocation()
         {
-            while (teleportTrigger.dimming?.BlackScreen.color.a < 1f)
-                yield return null;
             AsyncOperation isLoaded = SceneManager.LoadSceneAsync(mapData.ActiveLocations[mapData.LocationsIterator].MapName, LoadSceneMode.Additive);
             while (isLoaded.progress < 0.9)
                 yield return null;

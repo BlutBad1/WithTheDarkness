@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d34475feb8adeee46a8e26cc1d44d77f, type: 3}
   m_Name: UIFont_InGameMenu
   m_EditorClassIdentifier: 
-  FontAsset: {fileID: 11400000, guid: 3be1c05e0abddec4eb2996fc02f65293, type: 2}
+  FontAsset: {fileID: 11400000, guid: 7a353b5df6121e540a6d405da5190628, type: 2}

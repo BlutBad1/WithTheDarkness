@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 3506470876132912279}
   - component: {fileID: 3506470876132912278}
   - component: {fileID: 3506470876132912277}
+  - component: {fileID: 3804457876114736698}
   m_Layer: 0
   m_Name: Base
   m_TagString: Untagged
@@ -298,17 +299,9 @@ MonoBehaviour:
   m_Mesh: {fileID: 0}
   m_VersionIndex: 2719
   m_IsSelectable: 1
-  m_SelectedFaces: 05000000
-  m_SelectedEdges:
-  - a: 20
-    b: 21
-  - a: 23
-    b: 20
-  - a: 21
-    b: 22
-  - a: 22
-    b: 23
-  m_SelectedVertices: 14000000150000001700000016000000
+  m_SelectedFaces: 
+  m_SelectedEdges: []
+  m_SelectedVertices: 
 --- !u!114 &3506470876132912272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -403,3 +396,22 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!205 &3804457876114736698
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3506470876132912283}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0, y: 0, z: 0}
+  m_Size: 1
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.113759845
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 3506470876132912279}
+  m_Enabled: 1

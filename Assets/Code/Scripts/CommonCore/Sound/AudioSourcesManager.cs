@@ -31,6 +31,11 @@ namespace SoundNS
             base.Awake();
             InitializeAudioSourceManager();
         }
+        public AudioSourceObject GetRandomSound()
+        {
+            int rIndex = UnityEngine.Random.Range(0, AudioSourceObjects.Length);
+            return AudioSourceObjects[rIndex];
+        }
         public void InitializeAudioSourceManager()
         {
             if (AudioSourceObjects != null && AudioSourceObjects.Length > 0)

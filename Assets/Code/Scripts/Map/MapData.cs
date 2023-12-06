@@ -49,13 +49,13 @@ namespace LocationManagementNS
                 Instance = this;
             else
             {
-                Destroy(gameObject);
+                Destroy(this);
                 return;
             }
             if (locations != null && locations?.Count > 0)
                 ShuffleLocations();
-            TheLastLocation.MapData.SetActive(true);
-            TheLastLocation.MapData.SetActive(false);
+            DefineLocationElements(TheFirstLocation, true);
+            DefineLocationElements(TheLastLocation);
         }
         public void AddNewLocation(Location location)
         {
@@ -106,7 +106,7 @@ namespace LocationManagementNS
             }
             ActiveLocations = ActiveLocations.OrderBy(x => new System.Random().Next()).ToList();
         }
-        public void DefineLocationElements(Location loc)
+        public void DefineLocationElements(Location loc, bool lastStatus = false)
         {
             if (!loc.MapData)
                 loc.MapData = GameObject.Find(loc.MapName);
@@ -131,7 +131,17 @@ namespace LocationManagementNS
             if (!loc.EntryTeleportTrigger)
                 loc.EntryTeleportTrigger = loc.MapData.transform.Find(LocationsConstants.ENTRY_TO_LOCATION).GetComponentInChildren<TeleportTrigger>();
             loc.MapData.SetActive(true);
-            loc.MapData.SetActive(false);
+            loc.MapData.SetActive(lastStatus);
+        }
+        public Location GetLocationByIndex(int index)
+        {
+            if (index == -1)
+                return TheFirstLocation;
+            else if (index == -2)
+                return TheLastLocation;
+            else if (index >= 0)
+                return ActiveLocations[index];
+            return null;
         }
         private void AddLocationToActive(Location location)
         {

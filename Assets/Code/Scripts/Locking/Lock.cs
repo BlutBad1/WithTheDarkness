@@ -33,11 +33,15 @@ namespace InteractableNS.Usable.Locking
         public UnityEvent OnUnlockEvent;
         [HideInInspector]
         public UnityEvent OnLockedEvent;
-        public virtual void OpenLock() =>
+        public virtual void OpenLock()
+        {
+            OpenLockWithoutEvents();
+            OnUnlockEvent?.Invoke();
+        }
+        public virtual void OpenLockWithoutEvents() =>
             IsLocked = false;
         public virtual void CloseLock() =>
             IsLocked = true;
-
         public virtual bool CheckIfDataHasKey()
         {
             if (IsGeneric)
@@ -53,7 +57,7 @@ namespace InteractableNS.Usable.Locking
             }
             else
             {
-                Key key = AvailableKeyData.AvailableKeys.Find(x => x.KeyName == KeyName);
+                Key key = AvailableKeyData.AvailableKeys.Find(x => x.KeyName == KeyName && x.IsGeneric == false);
                 if (key != null)
                     return true;
             }
@@ -69,10 +73,7 @@ namespace InteractableNS.Usable.Locking
             if (IsLocked && CheckIfDataHasKey())
                 OpenLock();
             if (!IsLocked)
-            {
                 PrintMessage(UnlockMessage);
-                OnUnlockEvent?.Invoke();
-            }
             else
             {
                 PrintMessage(LockedMessage);
@@ -94,7 +95,8 @@ namespace InteractableNS.Usable.Locking
             //Locking Data
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Locking Data", EditorStyles.boldLabel);
-            script.IsGeneric = EditorGUILayout.Toggle("IsGeneric", script.IsGeneric);
+            property = serializedObject.FindProperty("IsGeneric");
+            EditorGUILayout.PropertyField(property, new GUIContent("IsGeneric"), true);
             if (!script.IsGeneric) // if bool is true, show other fields
             {
                 script.KeyName = EditorGUILayout.TextField("KeyName", script.KeyName);

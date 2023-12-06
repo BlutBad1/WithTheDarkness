@@ -1,4 +1,5 @@
 using DataSaving;
+using DifferentUnityMethods;
 using MyConstants;
 using SerializableTypes;
 using SettingsNS;
@@ -48,7 +49,7 @@ namespace UINS
             Bindings = bindings;
         }
     }
-    public class SettingsMenuInitialize : MonoBehaviour, IDataPersistence
+    public class SettingsMenuInitialize : MethodsBeforeQuit, IDataPersistence
     {
         public GameObject SettingsMenuGameObject;
         public static SettingsMenuInitialize instance;
@@ -60,6 +61,12 @@ namespace UINS
         public VideoSettings VideoSettings;
         [Header("Game Settings")]
         public GameSettingsUI GameSettingsUI;
+        private SettingsData currentSavedSettings;
+        public SettingsData CurrentSavedSettings
+        {
+            get { return currentSavedSettings; }
+            protected set { currentSavedSettings = value; }
+        }
         private void Awake()
         {
             if (!instance)
@@ -76,26 +83,26 @@ namespace UINS
         public void LoadData()
         {
             FileDataHandler fileDataHandler = new FileDataHandler(Application.persistentDataPath, DataConstants.SETTINGS_DATA_PATH, false);
-            SettingsData settingsData = fileDataHandler.Load<SettingsData>();
-            if (settingsData != null)
+            CurrentSavedSettings = fileDataHandler.Load<SettingsData>();
+            if (CurrentSavedSettings != null)
             {
-                SettingsNS.AudioSettings.MasterVolume = settingsData.MasterVolume;
-                SettingsNS.AudioSettings.SoundVolume = settingsData.SoundVolume;
-                SettingsNS.AudioSettings.MusicVolume = settingsData.MusicVolume;
+                SettingsNS.AudioSettings.MasterVolume = CurrentSavedSettings.MasterVolume;
+                SettingsNS.AudioSettings.SoundVolume = CurrentSavedSettings.SoundVolume;
+                SettingsNS.AudioSettings.MusicVolume = CurrentSavedSettings.MusicVolume;
                 Resolution resolution = new Resolution();
-                resolution.width = settingsData.ResolutionWidth;
-                resolution.height = settingsData.ResolutionHeight;
+                resolution.width = CurrentSavedSettings.ResolutionWidth;
+                resolution.height = CurrentSavedSettings.ResolutionHeight;
                 GraphicSettings.CurrentResolution = resolution;
-                GraphicSettings.CurrentFullScreenMode = settingsData.FullScreenMode;
-                GraphicSettings.Brightness = settingsData.Brightness;
-                GraphicSettings.HDROn = settingsData.HDROn;
-                GraphicSettings.VSync = settingsData.VSync;
-                GameSettings.XSensitivity = settingsData.XSensitivity;
-                GameSettings.YSensitivity = settingsData.YSensitivity;
-                GameSettings.ChangeWeaponAfterPickup = settingsData.ChangeWeaponAfterPickup;
-                GameSettings.XInverse = settingsData.XInverse;
-                GameSettings.YInverse = settingsData.YInverse;
-                var overrides = settingsData.Bindings;
+                GraphicSettings.CurrentFullScreenMode = CurrentSavedSettings.FullScreenMode;
+                GraphicSettings.Brightness = CurrentSavedSettings.Brightness;
+                GraphicSettings.HDROn = CurrentSavedSettings.HDROn;
+                GraphicSettings.VSync = CurrentSavedSettings.VSync;
+                GameSettings.XSensitivity = CurrentSavedSettings.XSensitivity;
+                GameSettings.YSensitivity = CurrentSavedSettings.YSensitivity;
+                GameSettings.ChangeWeaponAfterPickup = CurrentSavedSettings.ChangeWeaponAfterPickup;
+                GameSettings.XInverse = CurrentSavedSettings.XInverse;
+                GameSettings.YInverse = CurrentSavedSettings.YInverse;
+                var overrides = CurrentSavedSettings.Bindings;
                 foreach (var map in GameSettings.PlayerInput.asset.actionMaps)
                 {
                     var bindings = map.bindings;
@@ -132,15 +139,20 @@ namespace UINS
                     if (!string.IsNullOrEmpty(binding.overridePath))
                         bindings[binding.id.ToString()] = binding.overridePath;
                 }
-            SettingsData settingsData = new SettingsData(SettingsNS.AudioSettings.MasterVolume, SettingsNS.AudioSettings.SoundVolume,
+            CurrentSavedSettings = new SettingsData(SettingsNS.AudioSettings.MasterVolume, SettingsNS.AudioSettings.SoundVolume,
             SettingsNS.AudioSettings.MusicVolume, GraphicSettings.CurrentResolution.width, GraphicSettings.CurrentResolution.height, GraphicSettings.CurrentFullScreenMode, GraphicSettings.VSync,
             GraphicSettings.Brightness, GraphicSettings.HDROn, Mathf.Abs(GameSettings.XSensitivity), Mathf.Abs(GameSettings.YSensitivity), GameSettings.XInverse,
             GameSettings.YInverse, GameSettings.ChangeWeaponAfterPickup, bindings);
             FileDataHandler fileDataHandler = new FileDataHandler(Application.persistentDataPath, DataConstants.SETTINGS_DATA_PATH, false);
-            fileDataHandler.Save(settingsData);
+            fileDataHandler.Save(CurrentSavedSettings);
         }
-        void OnDestroy()
+        public override void OnDisableBeforeQuit()
         {
+            SaveData();
+        }
+        public new void OnDestroy()
+        {
+            base.OnDestroy();
             SaveData();
         }
         public void InitializeSettings()

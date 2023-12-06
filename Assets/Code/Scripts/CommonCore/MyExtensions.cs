@@ -14,9 +14,9 @@ namespace ExtensionMethods
             }
             return null;
         }
-        public static T GetComponentOrInherited<T>(this GameObject go) where T : Component
-        {
-            return go.GetComponents<Component>().OfType<T>().FirstOrDefault();
-        }
+        public static T GetComponentOrInherited<T>(this GameObject go) where T : Component =>
+             go.GetComponents<Component>().OfType<T>().FirstOrDefault();
+        public static bool CheckIfLayerInLayerMask(this LayerMask layerMask, int layer) =>
+            layerMask == (layerMask | (1 << layer));
     }
 }

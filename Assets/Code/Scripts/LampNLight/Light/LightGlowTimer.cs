@@ -1,5 +1,4 @@
 using HudNS;
-using SerializableTypes;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -8,18 +7,18 @@ namespace LightNS
     public class LightGlowTimer : MonoBehaviour
     {
         [Header("Time")]
-        [SerializeProperty("CurrentTimeLeftToGlow"), SerializeField, Min(0)]
-        private float currentTimeLeftToGlow = 100f;
-        [Min(1)]
+        [Min(0)]
+        public float CurrentTimeLeftToGlow = 100f;
+        [Min(0)]
         public float MaxTimeOfGlowing = 100f;
         public TextMeshProUGUI Showcaser;
-        public float CurrentTimeLeftToGlow
-        {
-            get { return currentTimeLeftToGlow; }
-            set { currentTimeLeftToGlow = value < 0 ? 0 : value > MaxTimeOfGlowing ? MaxTimeOfGlowing : value; }
-        }
+
         static private Dictionary<int, bool> showingPercents = new Dictionary<int, bool>() { { 90,true },
             { 50, true }, { 25, true }, { 10,true }, { 5, true }, { 2, true }, { 1, true } };
+        private void Awake()
+        {
+            CurrentTimeLeftToGlow = CurrentTimeLeftToGlow > MaxTimeOfGlowing ? MaxTimeOfGlowing : CurrentTimeLeftToGlow;
+        }
         private void Update()
         {
             CurrentTimeLeftToGlow -= 1 * Time.deltaTime;

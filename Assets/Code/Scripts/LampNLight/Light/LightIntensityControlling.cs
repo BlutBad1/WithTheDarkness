@@ -10,7 +10,7 @@ namespace LightNS
         private Light light;
         private Behaviour halo;
         private float startingIntenstity;
-        private void OnEnable()
+        private void Awake()
         {
             if (!LightGlowTimer)
                 LightGlowTimer = Utilities.GetComponentFromGameObject<LightGlowTimer>(gameObject) != null ?

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d34475feb8adeee46a8e26cc1d44d77f, type: 3}
   m_Name: HudFont_mat3
   m_EditorClassIdentifier: 
-  FontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  FontAsset: {fileID: 11400000, guid: da177f75fcacd4548866cbe0ef8c9d1e, type: 2}

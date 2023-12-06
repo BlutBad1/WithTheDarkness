@@ -21,16 +21,16 @@ namespace EnemyNS.Type.Gramophone
             Movement.HandleGainCreatureInSight(takeDamageData.FromGameObject);
         public void IsRenderVisible()
         {
-            bool isVisible = true;
+            bool isNotVisible = true;
             foreach (var render in GramophoneRenders)
             {
                 if (render.isVisible)
                 {
-                    isVisible = false;
+                    isNotVisible = false;
                     break;
                 }
             }
-            Movement.Agent.enabled = isVisible;
+            Movement.Agent.enabled = isNotVisible;
         }
         protected override void OnAttack(IDamageable Target)
         {

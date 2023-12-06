@@ -109,10 +109,8 @@ GameObject:
   - component: {fileID: 5406474860763730936}
   - component: {fileID: 5406474860763730942}
   - component: {fileID: 5406474860763730943}
-  - component: {fileID: 5406474860763730941}
+  - component: {fileID: 7926579716944903249}
   - component: {fileID: 5406474860763730940}
-  - component: {fileID: 5406474860763730930}
-  - component: {fileID: 5406474860763730931}
   m_Layer: 22
   m_Name: Closet
   m_TagString: Untagged
@@ -181,7 +179,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5406474860763730941
+--- !u!114 &7926579716944903249
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,7 +188,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4633210681365530946}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e4cb19bc00da144c89228e5b8c75f23, type: 3}
+  m_Script: {fileID: 11500000, guid: f449e58564ae94d4dabfa60cb59dd84c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useEvents: 1
@@ -210,14 +208,26 @@ MonoBehaviour:
       m_Calls: []
   OnLockedEvent:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5939126017612885129}
+        m_TargetAssemblyTypeName: SoundNS.AudioSourcesManager, CommonCore
+        m_MethodName: CreateNewAudioSourceAndPlay
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Closet_Locked
+          m_BoolArgument: 0
+        m_CallState: 2
   Animator: {fileID: 5406474860763730943}
   IsOpened: 0
   PlayEventsOnStart: 0
   OnOpenDoorEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5406474860763730930}
+      - m_Target: {fileID: 324969036603491048}
         m_TargetAssemblyTypeName: SoundNS.AudioSourceManager, CommonCore
         m_MethodName: PlayAudioSourceSmoothly
         m_Mode: 4
@@ -232,7 +242,7 @@ MonoBehaviour:
   OnCloseDoorEvent:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5406474860763730930}
+      - m_Target: {fileID: 324969036603491048}
         m_TargetAssemblyTypeName: SoundNS.AudioSourceManager, CommonCore
         m_MethodName: PlayAudioSourceSmoothly
         m_Mode: 4
@@ -262,38 +272,6 @@ MonoBehaviour:
   OnInteract:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &5406474860763730930
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4633210681365530946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 595dcbd84fd00b4449bfca19497614a7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PauseSourcesInGameMenu: 1
-  audioSource: {fileID: 4643276095098572596}
-  audioType: 0
---- !u!114 &5406474860763730931
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4633210681365530946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bb9b91f392130054e8b90759c0c84fae, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PauseSourcesInGameMenu: 1
-  AudioSourceObjects:
-  - Name: Closet_Locked
-    audioSource: {fileID: 4643276094265951730}
-    AudioKind: 0
 --- !u!1 &4643276094265951740
 GameObject:
   m_ObjectHideFlags: 0
@@ -432,6 +410,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4643276095098572599}
   - component: {fileID: 4643276095098572596}
+  - component: {fileID: 324969036603491048}
   m_Layer: 22
   m_Name: Closet_Opening
   m_TagString: Untagged
@@ -550,6 +529,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &324969036603491048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4643276095098572598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 595dcbd84fd00b4449bfca19497614a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PauseSourcesInGameMenu: 1
+  audioSource: {fileID: 4643276095098572596}
+  audioType: 0
 --- !u!1 &4643276095306354241
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,6 +553,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4643276095306354246}
+  - component: {fileID: 5939126017612885129}
   m_Layer: 22
   m_Name: ClosetSounds
   m_TagString: Untagged
@@ -583,6 +578,23 @@ Transform:
   m_Father: {fileID: 5406474860763730936}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5939126017612885129
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4643276095306354241}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb9b91f392130054e8b90759c0c84fae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PauseSourcesInGameMenu: 1
+  AudioSourceObjects:
+  - Name: Closet_Locked
+    audioSource: {fileID: 4643276094265951730}
+    AudioKind: 0
 --- !u!1 &6854078540574889271
 GameObject:
   m_ObjectHideFlags: 0

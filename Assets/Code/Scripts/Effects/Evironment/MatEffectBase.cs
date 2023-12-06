@@ -6,15 +6,14 @@ namespace EnvironmentEffects.MatEffect
 {
     public class OriginalMatPropBlock
     {
-        public MeshRenderer Renderer;
+        public Renderer Renderer;
         public Dictionary<int, MaterialPropertyBlock> MaterialPropertyBlock = new Dictionary<int, MaterialPropertyBlock>();
-        public OriginalMatPropBlock(MeshRenderer renderer, int index, MaterialPropertyBlock materialPropertyBlock)
+        public OriginalMatPropBlock(Renderer renderer, int index, MaterialPropertyBlock materialPropertyBlock)
         {
             Renderer = renderer;
             MaterialPropertyBlock.Add(index, materialPropertyBlock);
         }
     }
-
     public class MatEffectBase : MonoBehaviour
     {
         protected List<OriginalMatPropBlock> originalMatPropBlocks = new List<OriginalMatPropBlock>();
@@ -23,7 +22,7 @@ namespace EnvironmentEffects.MatEffect
             foreach (var originalMPB in originalMatPropBlocks)
                 ResetRenderer(originalMPB.Renderer);
         }
-        public virtual void ResetRenderer(MeshRenderer renderer)
+        public virtual void ResetRenderer(Renderer renderer)
         {
             OriginalMatPropBlock originalMatPropBlock = originalMatPropBlocks.Find(x => x.Renderer == renderer);
             if (originalMatPropBlock != null)
@@ -32,7 +31,7 @@ namespace EnvironmentEffects.MatEffect
                     renderer.SetPropertyBlock(originalMatPropBlock.MaterialPropertyBlock[key], key);
             }
         }
-        protected virtual void InitializeRenderer(MeshRenderer renderer, MaterialPropertyBlock currentBlock, int i, Material referenceMat, Material[] rendererMaterials)
+        protected virtual void InitializeRenderer(Renderer renderer, MaterialPropertyBlock currentBlock, int i, Material referenceMat, Material[] rendererMaterials)
         {
             renderer.GetPropertyBlock(currentBlock, i);
             OriginalMatPropBlock originalMatPropBlock = originalMatPropBlocks.Find(x => x.Renderer == renderer);

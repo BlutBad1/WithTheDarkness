@@ -123,6 +123,7 @@ namespace PlayerScriptsNS
             lastVelocity = Vector3.zero;
             character.Move(lastVelocity * Time.deltaTime);
         }
+        public CharacterController GetCharacterController() => character;
         private Vector3 SlopeCalculation(Vector3 calculatedMovement)
         {
             if (IsGrounded)

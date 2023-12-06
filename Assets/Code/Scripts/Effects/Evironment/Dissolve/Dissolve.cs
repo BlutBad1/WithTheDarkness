@@ -7,7 +7,7 @@ namespace EnvironmentEffects.MatEffect.Dissolve
     public class Dissolve : MatEffectBase
     {
         [SerializeField]
-        public List<MeshRenderer> meshRenderers;
+        public List<Renderer> meshRenderers;
         [SerializeField]
         public Material referenceMat;
         [Range(-1, 1f), Tooltip("-1 is full disabled dissolve, 1 is full enabled")]
@@ -54,7 +54,8 @@ namespace EnvironmentEffects.MatEffect.Dissolve
             {
                 for (int i = 0; i < renderer.materials.Length; i++)
                 {
-                    renderer.GetPropertyBlock(matPropBlock, i);
+                    if (renderer.HasPropertyBlock())
+                        renderer.GetPropertyBlock(matPropBlock, i);
                     matPropBlock.SetFloat("_EdgeThickness", referenceMat.GetFloat("_EdgeThickness"));
                     matPropBlock.SetFloat("_DissolveTime", dissolve);
                     renderer.SetPropertyBlock(matPropBlock, i);

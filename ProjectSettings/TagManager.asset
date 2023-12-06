@@ -28,7 +28,7 @@ TagManager:
   - Enemy
   - InvisibleWall
   - DamagableProp
-  - 
+  - MainCamIgnore
   - PostProcess
   - PostProcessHUD
   - 
