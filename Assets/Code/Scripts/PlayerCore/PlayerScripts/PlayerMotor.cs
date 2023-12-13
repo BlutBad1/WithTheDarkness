@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 namespace PlayerScriptsNS
 {
@@ -21,9 +22,11 @@ namespace PlayerScriptsNS
         [SerializeField]
         private float crounchingSpeed = 2.5f;
         [HideInInspector]
-        public bool IsGrounded;
+        private bool isGrounded;
         [HideInInspector]
         public Vector3 CurrentScaledByTimeVelocity;
+        public event Action OnSprintStartEvent;
+        public event Action OnSprintCanceltEvent;
         private Vector3 lastVelocity = Vector3.zero;
         private float speedCoef = 1f;
         private float speed;
@@ -38,11 +41,23 @@ namespace PlayerScriptsNS
             get { return speed * speedCoef; }
             set { speed = value; }
         }
+        public bool IsCrounching { get => crounching; set => crounching = value; }
+        public bool IsSprinting { get => sprinting; set => sprinting = value; }
+        public bool IsGrounded
+        {
+            get => isGrounded;
+            set
+            {
+                isGrounded = value;
+                if (!IsGrounded && IsSprinting)
+                    OnCancelSprint();
+            }
+        }
         private void Awake()
         {
             character = GetComponent<CharacterController>();
             CurrentSpeed = DefaultSpeed;
-            sprinting = false;
+            IsSprinting = false;
         }
         private void Update()
         {
@@ -52,7 +67,7 @@ namespace PlayerScriptsNS
                 crounchTimer += Time.deltaTime;
                 float p = crounchTimer / 0.5f;
                 p *= 2 * p;
-                if (crounching)
+                if (IsCrounching)
                 {
                     character.height = Mathf.Lerp(character.height, 1, p);
                     CurrentSpeed = crounchingSpeed;
@@ -79,23 +94,33 @@ namespace PlayerScriptsNS
             character.velocity;
         public void Jump()
         {
-            if (IsGrounded)
+            if (IsGrounded && !IsCrounching)
                 playerYVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
         }
         public void Crounch()
         {
-            crounching = !crounching;
+            IsCrounching = !IsCrounching;
             crounchTimer = 0;
             lerpCrounch = true;
         }
-        public void Sprint()
+        public void OnStartSprint()
         {
-            if (!crounching)
+            if (!IsCrounching && IsGrounded && DefaultSpeed != SprintingSpeed)
             {
-                sprinting = !sprinting;
-                if (sprinting) CurrentSpeed = SprintingSpeed;
-                else CurrentSpeed = DefaultSpeed;
+                IsSprinting = true;
+                CurrentSpeed = SprintingSpeed;
+                OnSprintStartEvent?.Invoke();
             }
+        }
+        public void OnCancelSprint()
+        {
+            OnSprintCanceltEvent?.Invoke();
+            CancelSprint();
+        }
+        public void CancelSprint()
+        {
+            IsSprinting = false;
+            CurrentSpeed = DefaultSpeed;
         }
         public void ProcessMove(Vector2 input)
         {

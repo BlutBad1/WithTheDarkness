@@ -1,3 +1,4 @@
+using DamageableNS;
 using UnityEngine;
 
 namespace OnDeath
@@ -11,7 +12,7 @@ namespace OnDeath
             if (!damageable)
                 TryGetComponent(out damageable);
             if (damageable)
-                damageable.OnDeath += DisableColliders;
+                damageable.OnDead += DisableColliders;
         }
         public void DisableColliders()
         {

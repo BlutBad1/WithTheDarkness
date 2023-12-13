@@ -1,15 +1,16 @@
+using DamageableNS;
 using UnityEngine;
 
 namespace InteractableNS.Common
 {
     public class ItemDamagable : MonoBehaviour, IDamageable
     {
-        public delegate void TakeDamageEvent(float force, Vector3 hit);
-        public TakeDamageEvent OnTakeDamage;
+        public event IDamageable.DamageWIthData OnTakeDamageWithDamageData;
+        public event IDamageable.DamageWithoutData OnTakeDamageWithoutDamageData;
         public GameObject GetGameObject() =>
              gameObject;
         public void TakeDamage(TakeDamageData takeDamageData) =>
-            OnTakeDamage?.Invoke(takeDamageData.Force, takeDamageData.Hit);
+            OnTakeDamageWithDamageData?.Invoke(takeDamageData);
         public void TakeDamage(float damage)
         {
         }

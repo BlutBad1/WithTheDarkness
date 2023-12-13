@@ -19,6 +19,12 @@ namespace Data.Player
         public float DefaultSpeed = 5f;
         [Min(0)]
         public float SprintingSpeed = 5f;
+        [Min(0)]
+        public float SprintingTime = 5f;
+        //[Min(0)]
+        //public float TimeBeforeStaminaRestore = 5f;
+        //[Min(0)]
+        //public float StaminaRestoreMultiplier = 1f;
         [Header("WeaponData")]
         public WeaponObject[] WeaponObjects;
         public GunObject[] GunObjects;
@@ -59,6 +65,16 @@ namespace Data.Player
                 {
                     motor.DefaultSpeed = DefaultSpeed;
                     motor.SprintingSpeed = SprintingSpeed;
+                }
+            }
+            PlayerSprintLogic[] playerSprintLogic = GameObject.FindObjectsOfType<PlayerSprintLogic>();
+            if (playerSprintLogic != null)
+            {
+                foreach (var sprint in playerSprintLogic)
+                {
+                    sprint.SprintingTime = SprintingTime;
+                    //sprint.TimeBeforeRestore = TimeBeforeStaminaRestore;
+                    //sprint.StaminaRestoreMultiplier = StaminaRestoreMultiplier;
                 }
             }
         }

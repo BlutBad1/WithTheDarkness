@@ -26,7 +26,7 @@ namespace WeaponManagement
 
         [Header("GunData")]
         public GunObject[] GunObjects;
-        private void Awake()
+        private void Start()
         {
             foreach (var weaponData in WeaponObjects)
                 weaponData.WeaponData.IsUnlocked = weaponData.IsUnlocked;

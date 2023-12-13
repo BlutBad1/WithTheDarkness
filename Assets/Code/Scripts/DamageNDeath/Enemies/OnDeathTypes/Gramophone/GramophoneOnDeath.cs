@@ -11,14 +11,14 @@ namespace EnemyNS.Death
            gameObject.SetActive(false);
         public override void OnDead()
         {
-            enemy.Movement.Animator.SetTrigger(GramophoneConstants.STOP_PLAYING_TRIGGER);
+            Enemy.Movement.Animator.SetTrigger(GramophoneConstants.STOP_PLAYING_TRIGGER);
             base.OnDead();
             ItemImpact itemImpact;
             foreach (var item in GramophoneInnerGameObjects)
             {
                 item.AddComponent<Rigidbody>();
                 itemImpact = item.AddComponent<ItemImpact>();
-                itemImpact.ImpactForce = 2f;
+                itemImpact.PushForce = 2f;
             }
         }
     }

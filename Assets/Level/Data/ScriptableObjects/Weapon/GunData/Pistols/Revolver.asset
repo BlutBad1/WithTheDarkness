@@ -14,16 +14,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Revolver
   WeaponType: 1
-  IsUnlocked: 0
+  IsUnlocked: 1
   IsTwoHanded: 0
   Damage: 25
   Force: 1.3
   MaxDistance: 350
   FiringTime: 0.5
   MaxDeviation: 1
-  CurrentAmmo: 7
+  CurrentAmmo: 0
   MagSize: 7
-  ReserveAmmo: 1000
+  ReserveAmmo: 0
   FireRate: 150
   ReloadTime: 1
   Reloading: 0

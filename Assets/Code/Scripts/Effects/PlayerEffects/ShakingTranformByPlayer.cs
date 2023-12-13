@@ -45,7 +45,7 @@ namespace EffectsNS.PlayerEffects
                     timer += Time.deltaTime * shakeSpeed * Mathf.Pow(speedFactor, shakingExponent);
                     Vector3 desiredPosition = new Vector3(
                         defaultPosition.x + shakeDirection.x /** Mathf.Sin(timer) * shakeMagnitude*/ * laterelEffect,
-                        defaultPosition.y + AnimationCurve.Evaluate(timer) /*Mathf.Sin(timer)*/ * shakeMagnitude,
+                        defaultPosition.y + AnimationCurve.Evaluate(timer) /*Mathf.Sin(timer)*/ * shakeMagnitude * Mathf.Pow(speedFactor, shakingExponent),
                         defaultPosition.z + shakeDirection.z /** Mathf.Sin(timer) * shakeMagnitude*/ * laterelEffect
                     );
                     // Interpolate towards the desired position to smooth out the movement

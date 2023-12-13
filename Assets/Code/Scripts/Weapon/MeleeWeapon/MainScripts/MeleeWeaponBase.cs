@@ -1,3 +1,4 @@
+using DamageableNS;
 using MyConstants.WeaponConstants;
 using MyConstants.WeaponConstants.MeleeWeaponConstants;
 using ScriptableObjectNS.Weapon;
@@ -100,7 +101,7 @@ namespace WeaponNS.MeleeWeaponNS
             {
                 IDamageable damageable = IDamageable.GetDamageableFromGameObject(hitInfo.transform.gameObject);
                 Debug.Log(MeleeData.Damage * damageAndForceMultiplier);
-                damageable?.TakeDamage(new TakeDamageData(MeleeData.Damage * damageAndForceMultiplier, MeleeData.Force * damageAndForceMultiplier, hitInfo.point, GameObject.Find(MyConstants.CommonConstants.PLAYER)));
+                damageable?.TakeDamage(new TakeDamageData(damageable, MeleeData.Damage * damageAndForceMultiplier, MeleeData.Force * damageAndForceMultiplier, hitInfo.point, GameObject.Find(MyConstants.CommonConstants.PLAYER)));
                 Physics.Raycast(CameraOrigin.transform.position, CameraOrigin.transform.forward, out RaycastHit hitInfo2, attackLayer);
                 OnHit?.Invoke(hitInfo2);
             }

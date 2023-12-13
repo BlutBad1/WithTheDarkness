@@ -1,3 +1,4 @@
+using DamageableNS;
 using EnemyNS.Attack;
 using EnemyNS.Base;
 using EnemyNS.OnTakeDamage;
@@ -12,7 +13,7 @@ namespace Enemies.OnTakeDamage
         GameObject enemy;
         Enemy enemyScript;
         GameObject player;
-        KnockoutEffect knockoutEffect;
+        EnemyKnockoutEffect knockoutEffect;
         BoxCollider boxCollider;
         Rigidbody rigidbody;
 
@@ -28,7 +29,7 @@ namespace Enemies.OnTakeDamage
             rigidbody = enemy.AddComponent<Rigidbody>();
             enemy.AddComponent<EnemyLineOfSightChecker>();
             enemyScript.Movement = enemy.AddComponent<EnemyMovement>();
-            knockoutEffect = enemy.AddComponent<KnockoutEffect>();
+            knockoutEffect = enemy.AddComponent<EnemyKnockoutEffect>();
             knockoutEffect.KnockoutEnable = true;
         }
         [UnityTest]
@@ -36,7 +37,7 @@ namespace Enemies.OnTakeDamage
         {
             //Act+Assert
 
-            enemyScript.TakeDamage(new TakeDamageData(10, 100, new Vector3(0, 0, 0), null));
+            enemyScript.TakeDamage(new TakeDamageData(enemyScript,10, 100, new Vector3(0, 0, 0), null));
             Assert.AreEqual(false, enemyScript.Movement.Agent.enabled);
             Assert.AreEqual(false, rigidbody.isKinematic);
             Assert.AreEqual(Vector3.zero, enemyScript.Movement.Agent.velocity);

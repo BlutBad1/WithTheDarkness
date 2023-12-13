@@ -1,3 +1,4 @@
+using DamageableNS;
 using EnemyNS.Base;
 using System.Collections;
 using UnityEngine;
@@ -82,12 +83,11 @@ namespace EnemyNS.Attack
             {
                 if (timeBetweenAttacks > AttackDelay)
                 {
-                    TakeDamageData takeDamageData = new TakeDamageData(Damage, AttackForce,
+                    IDamageable damageable = UtilitiesNS.Utilities.GetComponentFromGameObject<IDamageable>(other.gameObject);
+                    TakeDamageData takeDamageData = new TakeDamageData(damageable, Damage, AttackForce,
                      (Enemy.Movement.PursuedTarget.transform.position - gameObject.transform.position).normalized, gameObject);
-                    if (IsAttacking && Enemy.Movement.PursuedTarget.TryGetComponent(out IDamageable damageable))
+                    if (IsAttacking && damageable != null)
                         damageable.TakeDamage(takeDamageData);
-                    else if (IsAttacking && other.gameObject.GetComponentInParent<IDamageable>() != null)
-                        other.gameObject.GetComponentInParent<IDamageable>().TakeDamage(takeDamageData);
                     timeBetweenAttacks = 0;
                 }
             }

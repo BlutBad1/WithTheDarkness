@@ -1,8 +1,8 @@
+using DamageableNS;
 using EnemyNS.Base;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using static Codice.Client.Common.WebApi.WebApiEndpoints;
 
 namespace EnemyNS.Type.Hand
 {

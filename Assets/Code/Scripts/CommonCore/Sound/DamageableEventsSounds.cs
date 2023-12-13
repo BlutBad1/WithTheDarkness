@@ -1,3 +1,4 @@
+using DamageableNS;
 using UnityEngine;
 
 namespace SoundNS
@@ -5,6 +6,7 @@ namespace SoundNS
     [RequireComponent(typeof(Damageable))]
     public class DamageableEventsSounds : AudioSetup
     {
+        public Damageable Damageable;
         public Sound[] OnTakeDamageSounds;
         public Sound[] OnDeathSounds;
         public AudioSource OnTakeDamageAudioSource;
@@ -26,9 +28,10 @@ namespace SoundNS
         }
         void Start()
         {
-            Damageable damageable = GetComponent<Damageable>();
-            damageable.OnTakeDamageWithDamageData += OnTakeDamage;
-            damageable.OnDeath += OnDeath;
+            if (!Damageable)
+                Damageable = GetComponent<Damageable>();
+            Damageable.OnTakeDamageWithDamageData += OnTakeDamage;
+            Damageable.OnDead += OnDeath;
         }
         public void PlayRandomSoundFromCollection(Sound[] Collection)
         {
@@ -68,7 +71,7 @@ namespace SoundNS
         //}
         private void OnTakeDamage(TakeDamageData takeDamageData)
         {
-            if (OnTakeDamageSounds.Length != 0 && takeDamageData.Hit != Vector3.zero)
+            if (OnTakeDamageSounds.Length != 0 && takeDamageData.HitPoint != Vector3.zero)
                 PlayRandomSoundFromCollection(OnTakeDamageSounds);
         }
         private void OnDeath()

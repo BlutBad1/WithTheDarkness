@@ -20,7 +20,8 @@ namespace PlayerScriptsNS
             look = GetComponent<PlayerLook>();
             OnFoot.Jump.performed += PefrormJump;
             OnFoot.Crouch.performed += PefrormCrounch;
-            OnFoot.Sprint.performed += PefrormSprint;
+            OnFoot.Sprint.started += StartSprint;
+            OnFoot.Sprint.canceled += CancelSprint;
         }
         private void FixedUpdate()
         {
@@ -35,7 +36,8 @@ namespace PlayerScriptsNS
         {
             OnFoot.Jump.performed -= PefrormJump;
             OnFoot.Crouch.performed -= PefrormCrounch;
-            OnFoot.Sprint.performed -= PefrormSprint;
+            OnFoot.Sprint.started -= StartSprint;
+            OnFoot.Sprint.canceled -= CancelSprint;
             OnFoot.Disable();
         }
         public void SetMovingLock(bool lockStatus, bool isResetVelocity = false)
@@ -48,8 +50,10 @@ namespace PlayerScriptsNS
             motor.Jump();
         private void PefrormCrounch(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
             motor.Crounch();
-        private void PefrormSprint(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-            motor.Sprint();
+        private void StartSprint(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
+            motor.OnStartSprint();
+        private void CancelSprint(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
+          motor.OnCancelSprint();
         //void BindTest()
         //{
         // OnFoot.SwitchWeapon.ChangeBinding(1).WithPath("<Keyboard>/k");

@@ -1,3 +1,4 @@
+using DamageableNS;
 using EffectsNS.PlayerEffects;
 using MyConstants;
 using ScenesManagementNS;
@@ -38,7 +39,7 @@ namespace PlayerScriptsNS
             playerHealth.OnTakeDamageWithoutDamageData += TakeDamageVisual;
             playerHealth.OnTakeDamageWithoutDamageData += TakeDamageAudio;
             playerHealth.OnTakeDamageWithDamageData += TakeDamageAudio;
-            playerHealth.OnDeath += Death;
+            playerHealth.OnDead += Death;
             if (!PlayerLook)
                 PlayerLook = GetComponent<PlayerLook>();
             if (!PlayerInputManager)
@@ -51,7 +52,7 @@ namespace PlayerScriptsNS
         {
             playerHealth.OnTakeDamageWithDamageData -= TakeDamageVisual;
             playerHealth.OnTakeDamageWithDamageData -= TakeDamageAudio;
-            playerHealth.OnDeath -= Death;
+            playerHealth.OnDead -= Death;
             Time.timeScale = 1f;
             PlayerLook.SetLookingInputLockStats(false);
             PlayerInputManager.SetMovingLock(false);

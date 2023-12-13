@@ -31,6 +31,8 @@ namespace SoundNS
             base.Awake();
             InitializeAudioSourceManager();
         }
+        public void PlayRandomSound() =>
+            PlayAudioSource(GetRandomSound());
         public AudioSourceObject GetRandomSound()
         {
             int rIndex = UnityEngine.Random.Range(0, AudioSourceObjects.Length);
@@ -60,6 +62,8 @@ namespace SoundNS
             }
             audioSourceObject.AudioSource.Play();
         }
+        public void PlayAudioSource(AudioSourceObject audioSourceObject) =>
+            audioSourceObject.AudioSource.Play();
         public void PlayAudioSourceOnceAtTime(string AudioSourceObjectName)
         {
             AudioSourceObject audioSourceObject = Array.Find(AudioSourceObjects, clip => clip.Name == AudioSourceObjectName);
@@ -70,6 +74,11 @@ namespace SoundNS
 #endif
                 return;
             }
+            if (!audioSourceObject.AudioSource.isPlaying)
+                audioSourceObject.AudioSource.Play();
+        }
+        public void PlayAudioSourceOnceAtTime(AudioSourceObject audioSourceObject)
+        {
             if (!audioSourceObject.AudioSource.isPlaying)
                 audioSourceObject.AudioSource.Play();
         }
@@ -85,6 +94,8 @@ namespace SoundNS
             }
             audioSourceObject.AudioSource.Stop();
         }
+        public void StopAudioSource(AudioSourceObject audioSourceObject) =>
+            audioSourceObject.AudioSource.Stop();
         public void StopAudioSourceSmoothly(string AudioSourceObjectName, float transitionTime)
         {
             AudioSourceObject audioSourceObject = Array.Find(AudioSourceObjects, clip => clip.Name == AudioSourceObjectName);
@@ -95,6 +106,16 @@ namespace SoundNS
 #endif
                 return;
             }
+            if (currentCoroutines.ContainsKey(audioSourceObject.AudioSource))
+            {
+                StopCoroutine(currentCoroutines[audioSourceObject.AudioSource]);
+                currentCoroutines.Remove(audioSourceObject.AudioSource);
+            }
+            currentCoroutines.Add(audioSourceObject.AudioSource, StartCoroutine(ChangeVolumeSmoothly(audioSourceObject.AudioSource, 0, transitionTime,
+                audioSourceObject.AudioKind)));
+        }
+        public void StopAudioSourceSmoothly(AudioSourceObject audioSourceObject, float transitionTime)
+        {
             if (currentCoroutines.ContainsKey(audioSourceObject.AudioSource))
             {
                 StopCoroutine(currentCoroutines[audioSourceObject.AudioSource]);

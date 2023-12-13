@@ -74,9 +74,7 @@ namespace SoundNS
                 foreach (var s in availableSources.Where(kv => !kv.AudioSource).ToList())
                     availableSources.Remove(s);
                 foreach (var source in availableSources)
-                {
-                    //source.AudioSource.Pause();
-                }
+                    source.AudioSource?.Pause();
             }
         }
         //foreach (var source in availableSources)

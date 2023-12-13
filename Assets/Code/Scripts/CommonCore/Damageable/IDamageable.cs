@@ -1,29 +1,38 @@
 using UnityEngine;
 
-public class TakeDamageData
+namespace DamageableNS
 {
-    public float Damage;
-    public float Force;
-    public Vector3 Hit;
-    public GameObject FromGameObject;
-    public TakeDamageData(float damage, float force, Vector3 hit, GameObject fromGameObject = null)
+    public class TakeDamageData
     {
-        Damage = damage;
-        Force = force;
-        Hit = hit;
-        FromGameObject = fromGameObject;
+        public IDamageable DamagedObject;
+        public float Damage;
+        public float Force;
+        public Vector3 HitPoint;
+        public GameObject FromGameObject;
+        public TakeDamageData(IDamageable damagedObject, float damage, float force, Vector3 hitPoint, GameObject fromGameObject = null)
+        {
+            DamagedObject = damagedObject;
+            Damage = damage;
+            Force = force;
+            HitPoint = hitPoint;
+            FromGameObject = fromGameObject;
+        }
     }
-}
-public interface IDamageable
-{
-    public void TakeDamage(TakeDamageData takeDamageData);
-    public void TakeDamage(float damage);
-    public GameObject GetGameObject();
-    public static IDamageable GetDamageableFromGameObject(GameObject gameObject)
+    public interface IDamageable
     {
-        IDamageable damageable = gameObject.GetComponent<IDamageable>() != null ? gameObject.GetComponent<IDamageable>()
-        : gameObject.GetComponentInParent<IDamageable>() != null ? gameObject.GetComponentInParent<IDamageable>()
-        : gameObject.GetComponentInChildren<IDamageable>();
-        return damageable;
+        public delegate void DamageWIthData(TakeDamageData takeDamageData);
+        public delegate void DamageWithoutData();
+        public event DamageWIthData OnTakeDamageWithDamageData;
+        public event DamageWithoutData OnTakeDamageWithoutDamageData;
+        public void TakeDamage(TakeDamageData takeDamageData);
+        public void TakeDamage(float damage);
+        public GameObject GetGameObject();
+        public static IDamageable GetDamageableFromGameObject(GameObject gameObject)
+        {
+            IDamageable damageable = gameObject.GetComponent<IDamageable>() != null ? gameObject.GetComponent<IDamageable>()
+            : gameObject.GetComponentInParent<IDamageable>() != null ? gameObject.GetComponentInParent<IDamageable>()
+            : gameObject.GetComponentInChildren<IDamageable>();
+            return damageable;
+        }
     }
 }

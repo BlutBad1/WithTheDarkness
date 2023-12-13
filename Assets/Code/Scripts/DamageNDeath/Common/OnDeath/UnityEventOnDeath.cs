@@ -1,3 +1,4 @@
+using DamageableNS;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -9,11 +10,11 @@ namespace OnDeath
         public UnityEvent UnityEvent;
         private void Start()
         {
-            GetComponent<Damageable>().OnDeath += InvokeUnityEvent;
+            GetComponent<Damageable>().OnDead += InvokeUnityEvent;
         }
         private void OnDisable()
         {
-            GetComponent<Damageable>().OnDeath -= InvokeUnityEvent;
+            GetComponent<Damageable>().OnDead -= InvokeUnityEvent;
         }
         public void InvokeUnityEvent() =>
             UnityEvent?.Invoke();

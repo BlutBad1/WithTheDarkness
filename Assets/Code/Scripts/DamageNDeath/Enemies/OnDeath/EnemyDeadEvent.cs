@@ -3,26 +3,26 @@ using UnityEngine;
 
 namespace EnemyNS.Death
 {
-    [RequireComponent(typeof(Enemy))]
     public class EnemyDeadEvent : MonoBehaviour
     {
-        protected Enemy enemy;
+        public Enemy Enemy;
         protected virtual void Start()
         {
-            enemy = GetComponent<Enemy>();
-            enemy.OnDeath += OnDead;
+            if (!Enemy)
+                Enemy = GetComponent<Enemy>();
+            Enemy.OnDead += OnDead;
         }
         public virtual void OnDead()
         {
-            if (enemy.skillCoroutine != null)
-                enemy.StopCoroutine(enemy.skillCoroutine);
-            if (enemy.Movement.LineOfSightChecker)
-                enemy.Movement.LineOfSightChecker.enabled = false;
-            enemy.Movement.State = EnemyState.Dead;
-            enemy.Movement.Agent.enabled = false;
-            enemy.EnemyAttack.StopAttack();
-            enemy.EnemyAttack.enabled = false;
-            enemy.Movement.enabled = false;
+            if (Enemy.skillCoroutine != null)
+                Enemy.StopCoroutine(Enemy.skillCoroutine);
+            if (Enemy.Movement.LineOfSightChecker)
+                Enemy.Movement.LineOfSightChecker.enabled = false;
+            Enemy.Movement.State = EnemyState.Dead;
+            Enemy.Movement.Agent.enabled = false;
+            Enemy.EnemyAttack.StopAttack();
+            Enemy.EnemyAttack.enabled = false;
+            Enemy.Movement.enabled = false;
         }
     }
 }

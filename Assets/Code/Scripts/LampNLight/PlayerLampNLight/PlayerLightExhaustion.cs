@@ -1,3 +1,4 @@
+using DamageableNS;
 using PlayerScriptsNS;
 using UnityEngine;
 namespace LightNS.Player
@@ -30,7 +31,7 @@ namespace LightNS.Player
                 if (timeSinceLastAttack > TimeBetweenAttacks)
                 {
                     timeSinceLastAttack = 0;
-                    PlayerHealth?.TakeDamage(new TakeDamageData(Damage, 0, new Vector3(0, 0), null));
+                    PlayerHealth?.TakeDamage(new TakeDamageData(PlayerHealth, Damage, 0, new Vector3(0, 0), null));
                 }
             }
             else

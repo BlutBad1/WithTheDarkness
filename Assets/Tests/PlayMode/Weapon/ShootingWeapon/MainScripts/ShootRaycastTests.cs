@@ -1,3 +1,4 @@
+using DamageableNS;
 using NUnit.Framework;
 using ScriptableObjectNS.Weapon.Gun;
 using System.Collections;

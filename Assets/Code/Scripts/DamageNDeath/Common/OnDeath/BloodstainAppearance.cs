@@ -1,3 +1,4 @@
+using DamageableNS;
 using UnityEngine;
 
 namespace OnDeath
@@ -20,12 +21,12 @@ namespace OnDeath
             if (!Damageable)
                 Damageable = GetComponent<Damageable>();
             if (Damageable)
-                Damageable.OnDeath += InitializeBloodstain;
+                Damageable.OnDead += InitializeBloodstain;
         }
         private void OnDisable()
         {
             if (Damageable)
-                Damageable.OnDeath -= InitializeBloodstain;
+                Damageable.OnDead -= InitializeBloodstain;
         }
         public void InitializeBloodstain()
         {

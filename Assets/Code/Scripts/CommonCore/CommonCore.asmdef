@@ -2,7 +2,8 @@
     "name": "CommonCore",
     "rootNamespace": "",
     "references": [
-        "GUID:75469ad4d38634e559750d17036d5f7c"
+        "GUID:75469ad4d38634e559750d17036d5f7c",
+        "GUID:31976cc9e85bdd9459e856fcb40d0d50"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,55 +1,57 @@
 using UnityEngine;
+using static DamageableNS.IDamageable;
 
-public class Damageable : MonoBehaviour, IDamageable
+namespace DamageableNS
 {
-    public delegate void DamageWIthData(TakeDamageData takeDamageData);
-    public delegate void DamageWithoutData();
-    public event DamageWIthData OnTakeDamageWithDamageData;
-    public event DamageWithoutData OnTakeDamageWithoutDamageData;
-    public event DamageWithoutData OnDeath;
-    /// <summary>
-    /// Current Health
-    /// </summary>
-    public float Health = 100;
-    public bool InvokeOnTakeDamageAfterDead = true;
-    [HideInInspector]
-    public float OriginalHealth;
-    [HideInInspector]
-    private bool isDead = false;
-    public bool IsDead
+    public class Damageable : MonoBehaviour, IDamageable
     {
-        get { return isDead; }
-        set { isDead = value; if (isDead) OnDeath?.Invoke(); }
-    }
-    /// <summary>
-    /// Health on Start
-    /// </summary>
-    protected void Start()
-    {
-        OriginalHealth = Health;
-    }
-    public virtual GameObject GetGameObject()
-    {
-        return gameObject;
-    }
-    public virtual void TakeDamage(TakeDamageData takeDamageData)
-    {
-        TakeDamage(takeDamageData.Damage);
-        OnTakeDamageWithDamageData?.Invoke(takeDamageData);
-    }
-    public virtual void TakeDamage(float damage)
-    {
-        Health -= damage;
-        OnTakeDamageWithoutDamageData?.Invoke();
-        if (Health <= 0)
+        public event DamageWIthData OnTakeDamageWithDamageData;
+        public event DamageWithoutData OnTakeDamageWithoutDamageData;
+        public event DamageWithoutData OnDead;
+        /// <summary>
+        /// Current Health
+        /// </summary>
+        public float Health = 100;
+        public bool InvokeOnTakeDamageAfterDead = true;
+        [HideInInspector]
+        public float OriginalHealth;
+        [HideInInspector]
+        private bool isDead = false;
+        public bool IsDead
         {
-            IsDead = true;
-            if (!InvokeOnTakeDamageAfterDead)
+            get { return isDead; }
+            set { isDead = value; if (isDead) OnDead?.Invoke(); }
+        }
+        /// <summary>
+        /// Health on Start
+        /// </summary>
+        protected void Start()
+        {
+            OriginalHealth = Health;
+        }
+        public virtual GameObject GetGameObject()
+        {
+            return gameObject;
+        }
+        public virtual void TakeDamage(TakeDamageData takeDamageData)
+        {
+            TakeDamage(takeDamageData.Damage);
+            OnTakeDamageWithDamageData?.Invoke(takeDamageData);
+        }
+        public virtual void TakeDamage(float damage)
+        {
+            Health -= damage;
+            OnTakeDamageWithoutDamageData?.Invoke();
+            if (Health <= 0)
             {
-                OnTakeDamageWithDamageData = null;
-                OnTakeDamageWithoutDamageData = null;
+                IsDead = true;
+                if (!InvokeOnTakeDamageAfterDead)
+                {
+                    OnTakeDamageWithDamageData = null;
+                    OnTakeDamageWithoutDamageData = null;
+                }
+                OnDead = null;
             }
-            OnDeath = null;
         }
     }
 }

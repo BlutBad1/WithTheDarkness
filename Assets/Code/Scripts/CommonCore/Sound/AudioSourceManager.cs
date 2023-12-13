@@ -13,12 +13,12 @@ namespace SoundNS
         public AudioKind audioType;
         private Coroutine ChangeClipCoroutine;
         private Coroutine VolumeChangeCoroutine;
+        private AudioObject audioObject;
         public virtual AudioKind AudioType
         {
             get { return audioType; }
             set { audioType = value; }
         }
-        private AudioObject audioObject;
         private new void Awake()
         {
             base.Awake();
@@ -32,9 +32,10 @@ namespace SoundNS
                 VolumeChange();
             }
         }
+        public bool IsPlaying() => audioSource.isPlaying;
         public void CreateAudioSourceCopy(AudioSource source)
         {
-            AudioSource audioSource = gameObject.AddComponent<AudioSource>();  
+            AudioSource audioSource = gameObject.AddComponent<AudioSource>();
             UtilitiesNS.Utilities.CopyAudioSourceSettings(source, audioSource);
             SetAudioSource(audioSource);
         }
@@ -47,14 +48,19 @@ namespace SoundNS
             this.audioSource.volume = audioSource.volume * SettingsNS.AudioSettings.GetVolumeOfType(AudioType);
             VolumeChange();
         }
-        public void ChangeAudioSourceVolumeSmoothly(float newVolume, float transitionTime = 0f)
+        public void ChangeAudioSourceVolumeSmoothly(float newVolume, float transitionTime = 0.000001f)
         {
             if (audioSource.volume != newVolume * SettingsNS.AudioSettings.GetVolumeOfType(AudioType))
             {
                 if (VolumeChangeCoroutine != null)
                     StopCoroutine(VolumeChangeCoroutine);
-                VolumeChangeCoroutine = StartCoroutine(ChangeVolumeSmoothly(newVolume, transitionTime, AudioType));
+                VolumeChangeCoroutine = StartCoroutine(ChangeVolumeSmoothly(newVolume, transitionTime));
             }
+        }
+        public void ChangeAudioSourceVolume(float newVolume)
+        {
+            newVolume *= SettingsNS.AudioSettings.GetVolumeOfType(AudioType);
+            audioSource.volume = newVolume;
         }
         public void ChangeSound(Sound s, float transitionOutTime, float transitionInTime, bool PlayOnChange = false)
         {
@@ -84,37 +90,38 @@ namespace SoundNS
         public void PlayAudioSourceSmoothly(float transitionOutTime, float transitionInTime)
         {
             if (ChangeClipCoroutine == null)
-                ChangeClipCoroutine = StartCoroutine(ChangeClipSmoothly(audioSource.volume, transitionOutTime, transitionInTime, AudioType, PlayOnChange: true));
+                ChangeClipCoroutine = StartCoroutine(ChangeClipSmoothly(audioSource.volume, transitionOutTime, transitionInTime, PlayOnChange: true));
         }
         public void StopAudioSourceSmoothly(float transitionOutTime)
         {
             if (ChangeClipCoroutine != null)
                 StopCoroutine(ChangeClipCoroutine);
-            ChangeClipCoroutine = StartCoroutine(ChangeClipSmoothly(audioSource.volume / GetVolumeOfType(AudioType), transitionOutTime, 0, AudioType, PlayOnChange: false));
+            ChangeClipCoroutine = StartCoroutine(ChangeClipSmoothly(0, transitionOutTime, 0, PlayOnChange: false));
         }
         public void ChangeAudioClipSmoothly(float wantedVolume, AudioClip audioClip, float transitionOutTime, float transitionInTime, bool PlayOnChange)
         {
             if (ChangeClipCoroutine != null)
                 StopCoroutine(ChangeClipCoroutine);
-            ChangeClipCoroutine = StartCoroutine(ChangeClipSmoothly(wantedVolume, transitionOutTime, transitionInTime, AudioType, audioClip, PlayOnChange));
+            ChangeClipCoroutine = StartCoroutine(ChangeClipSmoothly(wantedVolume, transitionOutTime, transitionInTime, audioClip, PlayOnChange));
         }
         public void DestroyAfterPlaying()
         {
             PlayAudioSource();
             StartCoroutine(DestroyAfterPlayingCoroutine());
         }
-        IEnumerator ChangeVolumeSmoothly(float newVolume, float transitionTime, AudioKind audioKind)
+        IEnumerator ChangeVolumeSmoothly(float newVolume, float transitionTime)
         {
             float percentage = 0;
+            newVolume *= SettingsNS.AudioSettings.GetVolumeOfType(AudioType);
             while (audioSource.volume != newVolume)
             {
-                audioSource.volume = Mathf.Lerp(audioSource.volume, newVolume * SettingsNS.AudioSettings.GetVolumeOfType(audioKind), percentage);
+                audioSource.volume = Mathf.Lerp(audioSource.volume, newVolume, percentage);
                 percentage += Time.deltaTime / transitionTime;
                 yield return null;
             }
             VolumeChangeCoroutine = null;
         }
-        IEnumerator ChangeClipSmoothly(float wantedVolume, float transitionOutTime, float transitionInTime, AudioKind audioKind, AudioClip audioClip = null, bool PlayOnChange = false)
+        IEnumerator ChangeClipSmoothly(float wantedVolume, float transitionOutTime, float transitionInTime, AudioClip audioClip = null, bool PlayOnChange = false)
         {
             float percentage = 0;
             while (audioSource.isPlaying && audioSource.volume > 0)
@@ -130,9 +137,9 @@ namespace SoundNS
                 audioSource.clip = audioClip;
             if (PlayOnChange)
                 PlayAudioSource();
-            while (Mathf.Abs(audioSource.volume - wantedVolume * GetVolumeOfType(audioKind)) > 0.001f)
+            while (Mathf.Abs(audioSource.volume - wantedVolume * GetVolumeOfType(AudioType)) > 0.001f)
             {
-                audioSource.volume = Mathf.Lerp(audioSource.volume, wantedVolume * GetVolumeOfType(audioKind), percentage);
+                audioSource.volume = Mathf.Lerp(audioSource.volume, wantedVolume * GetVolumeOfType(AudioType), percentage);
                 percentage += Time.deltaTime / transitionInTime;
                 yield return null;
             }

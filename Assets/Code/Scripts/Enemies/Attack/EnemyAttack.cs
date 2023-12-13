@@ -1,3 +1,4 @@
+using DamageableNS;
 using EnemyNS.Base;
 using System.Collections;
 using UnityEngine;

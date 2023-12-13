@@ -1,3 +1,4 @@
+using DamageableNS;
 using EnemyNS.Attack;
 using EnemyNS.Base;
 using PlayerScriptsNS;

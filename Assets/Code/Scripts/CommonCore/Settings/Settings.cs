@@ -52,17 +52,17 @@ namespace SettingsNS
         public static float MasterVolume
         {
             get { return masterVolume; }
-            set { masterVolume = value; OnVolumeChangeEvent?.Invoke(); }
+            set { masterVolume = Mathf.Clamp01(value); OnVolumeChangeEvent?.Invoke(); }
         }
         public static float SoundVolume
         {
             get { return soundVolume; }
-            set { soundVolume = value; OnVolumeChangeEvent?.Invoke(); }
+            set { soundVolume = Mathf.Clamp01(value); OnVolumeChangeEvent?.Invoke(); }
         }
         public static float MusicVolume
         {
             get { return musicVolume; }
-            set { musicVolume = value; OnVolumeChangeEvent?.Invoke(); }
+            set { musicVolume = Mathf.Clamp01(value); OnVolumeChangeEvent?.Invoke(); }
         }
     }
     public class GraphicSettings

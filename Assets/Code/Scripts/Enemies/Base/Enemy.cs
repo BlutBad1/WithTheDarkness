@@ -5,7 +5,7 @@ using MyConstants.CreatureConstants.EnemyConstants;
 using ScriptableObjectNS.Enemy;
 using System.Collections;
 using UnityEngine;
-
+using DamageableNS;
 namespace EnemyNS.Base
 {
     public class Enemy : Damageable

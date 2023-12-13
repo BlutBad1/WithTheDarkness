@@ -1,3 +1,4 @@
+using DamageableNS;
 using UnityEngine;
 
 namespace EnemyNS.Attack
@@ -18,7 +19,7 @@ namespace EnemyNS.Attack
             {
                 if (IsAttacking && Enemy.Movement.PursuedTarget.TryGetComponent(out IDamageable damageable))
                 {
-                    TakeDamageData takeDamageData = new TakeDamageData(Damage, AttackForce,
+                    TakeDamageData takeDamageData = new TakeDamageData(damageable, Damage, AttackForce,
                         (Enemy.Movement.PursuedTarget.transform.position - gameObject.transform.position).normalized, gameObject);
                     damageable.TakeDamage(takeDamageData);
                 }

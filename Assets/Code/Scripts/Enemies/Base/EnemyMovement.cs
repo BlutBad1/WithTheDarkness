@@ -1,4 +1,5 @@
 using CreatureNS;
+using DamageableNS;
 using EnemyNS.Attack;
 using MyConstants.CreatureConstants;
 using MyConstants.CreatureConstants.EnemyConstants;
