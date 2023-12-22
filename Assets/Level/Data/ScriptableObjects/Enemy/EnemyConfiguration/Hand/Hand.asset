@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 75
   AttackDelay: 1.5
-  Damage: 0
+  Damage: 25
   AttackForce: 5
   AttackRadius: 0.9
   AttackDistance: 1.6
@@ -23,10 +23,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 003065127fc7067498a2baecc646e534, type: 2}
   AIUpdateInterval: 0.1
   Acceleration: 10
-  AngularSpeed: 450
+  AngularSpeed: 750
   AreaMask: -1
   AvoidancePriority: 50
-  BaseOffset: 0.54
+  BaseOffset: 0.41
   Height: 0.86
   ObstacleAvoidanceType: 4
   Radius: 0.5

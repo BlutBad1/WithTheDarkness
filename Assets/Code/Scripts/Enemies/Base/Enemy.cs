@@ -19,7 +19,7 @@ namespace EnemyNS.Base
         public EnemySize EnemySize;
         public Coroutine skillCoroutine;
         private Coroutine lookCoroutine;
-        protected new virtual void Start()
+        protected virtual void Awake()
         {
             base.Start();
             if (EnemyAttack)

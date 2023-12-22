@@ -11,8 +11,8 @@ namespace WeaponNS.ShootingWeaponNS.RevolverNS
         private GameObject lamp;
         protected override IEnumerator Reload()
         {
-            difference = gunData.ReserveAmmo >= (gunData.MagSize - gunData.CurrentAmmo) ? gunData.MagSize - gunData.CurrentAmmo : gunData.ReserveAmmo;
-            gunData.ReserveAmmo -= difference;
+            difference = gunData.ReserveAmmoData.ReserveAmmo >= (gunData.MagSize - gunData.CurrentAmmo) ? gunData.MagSize - gunData.CurrentAmmo : gunData.ReserveAmmoData.ReserveAmmo;
+            gunData.ReserveAmmoData.ReserveAmmo -= difference;
             gunData.CurrentAmmo += difference;
             gunData.Reloading = true;
             ReloadAnim();

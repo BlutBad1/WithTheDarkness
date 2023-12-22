@@ -46,9 +46,13 @@ namespace EnemyNS.Base
         //!!!!NAVMESH!!!!
         [Header("NavMesh")]
         public NavMeshTriangulation Triangulation = new NavMeshTriangulation();
-        [HideInInspector]
-        public NavMeshAgent Agent;
+        private NavMeshAgent agent;
         private AgentLinkMover linkMover;
+        public NavMeshAgent Agent
+        {
+            get { return agent == null ? agent = GetComponent<NavMeshAgent>() : agent; }
+            set { agent = value; }
+        }
         //!!!!STATE!!!!
         [Header("State")]
         [Tooltip("State update delay")]

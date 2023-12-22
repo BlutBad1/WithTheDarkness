@@ -23,7 +23,7 @@ namespace UtilitiesNS
             }
             return index;
         }
-        public static T GetComponentFromGameObject<T>(GameObject gameObject) where T : class
+        public static T GetComponentFromGameObject<T>(GameObject gameObject, bool includeSiblings = true) where T : class
         {
             T component = gameObject.GetComponent<T>();
             if (component != null) return component;
@@ -32,15 +32,17 @@ namespace UtilitiesNS
             {
                 currentTransform = currentTransform.parent;
                 component = currentTransform.GetComponent<T>();
-                if (component != null) return component;
+                if (component != null)
+                    return component;
             }
             Queue<Transform> queue = new Queue<Transform>();
-            queue.Enqueue(currentTransform);
+            queue.Enqueue(includeSiblings ? currentTransform : gameObject.transform);
             while (queue.Count > 0)
             {
                 Transform current = queue.Dequeue();
                 component = current.GetComponent<T>();
-                if (component != null) return component;
+                if (component != null)
+                    return component;
                 foreach (Transform child in current)
                     queue.Enqueue(child);
             }
@@ -62,17 +64,33 @@ namespace UtilitiesNS
             }
             return closestComponent;
         }
-        public static List<T> FindAllComponentsInChildren<T>(GameObject gameObject, bool includeInactive = true) where T : Component
+        public static T GetClosestComponentInGameObject<T>(Vector3 referencePoint, GameObject gameObject) where T : Component
+        {
+            T[] components = FindAllComponentsInGameObject<T>(gameObject, false).ToArray();
+            T closestComponent = null;
+            float closestDistance = float.MaxValue;
+            foreach (T component in components)
+            {
+                float currentDistance = Vector3.Distance(referencePoint, component.transform.position);
+                if (currentDistance < closestDistance)
+                {
+                    closestDistance = currentDistance;
+                    closestComponent = component;
+                }
+            }
+            return closestComponent;
+        }
+        public static List<T> FindAllComponentsInGameObject<T>(GameObject gameObject, bool includeInactive = true) where T : Component
         {
             List<T> components = new List<T>();
             // Find components on the current GameObject
             T[] currentComponents = gameObject.GetComponents<T>();
-            components.AddRange(currentComponents);
+            components.AddRange(includeInactive ? currentComponents : currentComponents.Where(x => x.gameObject.activeInHierarchy));
             // Find components on children recursively
             foreach (Transform child in gameObject.transform)
             {
                 // Recursive call to find components on the child GameObject
-                List<T> childComponents = FindAllComponentsInChildren<T>(child.gameObject, includeInactive);
+                List<T> childComponents = FindAllComponentsInGameObject<T>(child.gameObject, includeInactive);
                 components.AddRange(childComponents);
             }
             return components;

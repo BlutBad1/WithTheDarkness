@@ -6,6 +6,10 @@ using UnityEngine.AI;
 
 namespace EnemyNS.Skills
 {
+    public enum Axis
+    {
+        X, Y, Z
+    }
     [CreateAssetMenu(fileName = "Jump Skill", menuName = "ScriptableObject/Enemy/Skills/Jump")]
     public class JumpSkill : SkillScriptableObject
     {
@@ -14,6 +18,7 @@ namespace EnemyNS.Skills
         public AnimationCurve HeightCurve;
         public float JumpSpeed = 1;
         public LayerMask LayersToIgnore;
+        public Axis UpAxis;
         public override bool CanUseSkill(Enemy enemy, GameObject target)
         {
             if (base.CanUseSkill(enemy, target) && enemy.Movement.State == EnemyState.Chase)
@@ -40,7 +45,7 @@ namespace EnemyNS.Skills
             if (Physics.Raycast(ray, out groundHit))
                 startingPosition.y = groundHit.point.y;
             enemy.Movement.Agent.enabled = false;
-           // enemy.Movement.enabled = false;
+            // enemy.Movement.enabled = false;
             enemy.Movement.State = EnemyState.UsingAbility;
             enemy.Animator?.SetTrigger(MainEnemyConstants.JUMP);
             Quaternion startRotation = enemy.transform.rotation;
@@ -57,14 +62,14 @@ namespace EnemyNS.Skills
                     enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, Quaternion.LookRotation(endingPosition - enemy.transform.position), time);
                 else
                     enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation,
-                        new Quaternion(enemy.transform.rotation.x, startRotation.y, enemy.transform.rotation.z, enemy.transform.rotation.w), time);
+                        DefineHeightRotation(enemy.transform.rotation, startRotation), time);
                 yield return null;
             }
             enemy.EnemyAttack.StopAttack();
             enemy.Animator?.SetTrigger(MainEnemyConstants.LANDED);
             UseTime = Time.time;
             enemy.enabled = true;
-           // enemy.Movement.enabled = true;
+            // enemy.Movement.enabled = true;
             enemy.Movement.Agent.enabled = true;
             if (NavMesh.SamplePosition(endingPosition, out NavMeshHit hit, 1f, enemy.Movement.Agent.areaMask))
             {
@@ -74,6 +79,25 @@ namespace EnemyNS.Skills
             else
                 enemy.Movement.State = enemy.Movement.DefaultState;
             IsActivating = false;
+        }
+        private Quaternion DefineHeightRotation(Quaternion currentRotation, Quaternion startRotation)
+        {
+            Quaternion definedRot = new Quaternion(currentRotation.x, currentRotation.y, currentRotation.z, currentRotation.w);
+            switch (UpAxis)
+            {
+                case Axis.X:
+                    definedRot.x = startRotation.x;
+                    break;
+                case Axis.Y:
+                    definedRot.y = startRotation.y;
+                    break;
+                case Axis.Z:
+                    definedRot.z = startRotation.z;
+                    break;
+                default:
+                    break;
+            }
+            return definedRot;
         }
     }
 }

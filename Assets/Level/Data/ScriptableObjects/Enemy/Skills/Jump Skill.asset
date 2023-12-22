@@ -30,8 +30,8 @@ MonoBehaviour:
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 0.20842436
-      value: 0.25576487
+      time: 0.26643828
+      value: 0.16588679
       inSlope: -0.00040230638
       outSlope: -0.00040230638
       tangentMode: 0
@@ -54,3 +54,4 @@ MonoBehaviour:
   LayersToIgnore:
     serializedVersion: 2
     m_Bits: 1517494
+  UpAxis: 0

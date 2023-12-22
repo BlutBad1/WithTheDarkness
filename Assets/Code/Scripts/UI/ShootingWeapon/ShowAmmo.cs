@@ -1,6 +1,6 @@
 using HudNS;
-using MyConstants;
-using System;
+using ScriptableObjectNS.Weapon.Gun;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using WeaponManagement;
@@ -48,34 +48,19 @@ namespace WeaponNS.ShootingWeaponNS
         }
         public void ShowCurrentWeaponAmmo()
         {
-            if (weaponManager.currentSelection != -1)
-                ShowAmmoLeftOfWeapon(weaponManager.currentSelection);
+            if (weaponManager.ActiveWeapon.CurrentSelectedActiveWeapon != null)
+                ShowAmmoLeftOfWeapon(weaponManager.ActiveWeapon.CurrentSelectedActiveWeapon.WeaponData.WeaponEntity);
         }
-        public void ShowAmmoLeftOfWeapon(string nameOfWeapon) =>
-            ShowAmmoLeftOfWeapon(nameOfWeapon, 0.5f);
-        public void ShowAmmoLeftOfWeapon(WeaponType weaponType) =>
-            ShowAmmoLeftOfWeapon(weaponType, 0.5f);
-        public void ShowAmmoLeftOfWeapon(WeaponType weaponType, float disapperingSpeed) =>
-            ShowAmmoLeftOfWeapon(Array.FindIndex(weaponManager.Weapons, x => x.WeaponData.WeaponType == weaponType), disapperingSpeed);
-        public void ShowAmmoLeftOfWeapon(string nameOfWeapon, float disapperingSpeed)
+        public void ShowAmmoLeftOfWeapon(WeaponEntity weaponType) =>
+            ShowAmmoLeftOfWeapon(weaponType, DisapperingSpeed);
+        public void ShowAmmoLeftOfWeapon(WeaponEntity weaponEntity, float disapperingSpeed)
         {
-            int index = Array.FindIndex(weaponManager.Weapons, x => x.WeaponData.Name == nameOfWeapon);
-            if (index != -1)
-                ShowAmmoLeftOfWeapon(index, disapperingSpeed);
-#if UNITY_EDITOR
-            else
-                Debug.Log("Weapon is not found!");
-#endif
-        }
-        public void ShowAmmoLeftOfWeapon(int indexOfWeapon) =>
-            ShowAmmoLeftOfWeapon(indexOfWeapon, DisapperingSpeed);
-        public void ShowAmmoLeftOfWeapon(int indexOfWeapon, float disapperingSpeed)
-        {
-            if (weaponManager.Weapons[indexOfWeapon].WeaponGameObject.TryGetComponent(out ShootingWeapon shootingWeapon))
+            GunData weaponData = weaponManager.Weapons.FirstOrDefault(x => x.WeaponData.WeaponEntity == weaponEntity).WeaponData as GunData;
+            if (weaponData)
             {
                 // int ammo = shootingWeapon.gunData.currentAmmo + shootingWeapon.gunData.reserveAmmo;
-                string currentAmmo = shootingWeapon.gunData.CurrentAmmo >= 10 ? shootingWeapon.gunData.CurrentAmmo.ToString() : "0" + shootingWeapon.gunData.CurrentAmmo.ToString();
-                string reserveAmmo = shootingWeapon.gunData.ReserveAmmo >= 10 ? shootingWeapon.gunData.ReserveAmmo.ToString() : "0" + shootingWeapon.gunData.ReserveAmmo.ToString();
+                string currentAmmo = weaponData.CurrentAmmo >= 10 ? weaponData.CurrentAmmo.ToString() : "0" + weaponData.CurrentAmmo.ToString();
+                string reserveAmmo = weaponData.ReserveAmmoData.ReserveAmmo >= 10 ? weaponData.ReserveAmmoData.ReserveAmmo.ToString() : "0" + weaponData.ReserveAmmoData.ReserveAmmo.ToString();
                 messagePrint.PrintMessage($"{currentAmmo} | {reserveAmmo}", disapperingSpeed, Showcaser);
             }
         }

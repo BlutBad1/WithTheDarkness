@@ -1,3 +1,4 @@
+using PlayerScriptsNS;
 using System.Collections;
 using UnityEngine;
 
@@ -15,18 +16,21 @@ namespace EnvironmentEffects.MatEffect.Highlight
         private float currentIntensity;
         private GameObject player;
         private Coroutine currentCoroutine;
-
         protected override void Start()
         {
             startIntensity = MinIntensity;
             startDistanceOfEffect = MinDistance;
-            player = GameObject.Find(MyConstants.CommonConstants.PLAYER);
+            player = UtilitiesNS.Utilities.GetClosestComponent<PlayerCreature>(transform.position).gameObject;
             base.Start();
         }
         protected void FixedUpdate()
         {
             if (isEnable && player && currentCoroutine == null && Vector3.Distance(player.gameObject.transform.position, transform.position) <= startDistanceOfEffect)
                 currentCoroutine = StartCoroutine(IntensityUpdate());
+        }
+        private void OnEnable()
+        {
+            isEnable = true;
         }
         private void OnDisable()
         {
@@ -36,7 +40,10 @@ namespace EnvironmentEffects.MatEffect.Highlight
         {
             base.StopHighlighting();
             if (currentCoroutine != null)
+            {
                 StopCoroutine(currentCoroutine);
+                currentCoroutine = null;
+            }
             isEnable = false;
         }
         private IEnumerator IntensityUpdate()

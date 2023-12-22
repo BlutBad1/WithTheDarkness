@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Shotgun
   WeaponType: 2
-  IsUnlocked: 0
+  WeaponEntity: 2
   IsTwoHanded: 1
+  WeaponPrefab: {fileID: 9164239732040454416, guid: fcc398b0829a5214e9318ed01d481d02, type: 3}
   Damage: 25
   Force: 10
   MaxDistance: 70
@@ -23,7 +24,7 @@ MonoBehaviour:
   MaxDeviation: 5
   CurrentAmmo: 2
   MagSize: 2
-  ReserveAmmo: 1000
+  ReserveAmmoData: {fileID: 11400000, guid: 45dabed2131961b4ca3087f8a31e8700, type: 2}
   FireRate: 150
   ReloadTime: 6
   Reloading: 0

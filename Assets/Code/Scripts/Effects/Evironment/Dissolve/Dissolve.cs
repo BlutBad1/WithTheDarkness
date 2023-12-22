@@ -77,10 +77,11 @@ namespace EnvironmentEffects.MatEffect.Dissolve
         protected IEnumerator ChangeDissolveStatus(float dissolve, float dissolveTime)
         {
             float time = 0;
+            float startedDissolve = currentDissolve;
             while (Mathf.Abs(dissolve - currentDissolve) >= 0.01)
             {
-                currentDissolve = Mathf.Lerp(currentDissolve, dissolve, time);
-                time += Time.deltaTime / dissolveTime;
+                currentDissolve = Mathf.Lerp(startedDissolve, dissolve, time / dissolveTime);
+                time += Time.deltaTime;
                 SetDissolve(currentDissolve);
                 yield return new WaitForSeconds(updateRate);
             }

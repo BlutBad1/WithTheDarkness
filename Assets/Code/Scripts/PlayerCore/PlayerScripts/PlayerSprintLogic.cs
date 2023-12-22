@@ -44,7 +44,6 @@ namespace PlayerScriptsNS
                 //SprintingTime == 10 => when currentTime < 10% it won't work, when it's currentTime == 10% it will work on 0 volume
                 //currentTime == 4 it will work on 1/3 volume 
                 //currentTime == 10 it will work of full volume
-                Debug.Log(soundVolumeCoef);
                 soundVolumeCoef = Mathf.Clamp01(soundVolumeCoef);
                 audioSourceManager.ChangeAudioSourceVolume(StaminaLackSound.volume * soundVolumeCoef);
                 if (!isActive)

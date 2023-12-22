@@ -11,17 +11,18 @@ TagManager:
   - Oil
   - NoDamageDecal
   - NoBulletHole
+  - EnemyRagdoll
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - Tree
+  - 
   - Water
   - UI
   - 
   - Lamp
   - Gun
-  - Target
+  - 
   - Hand
   - Player
   - Ground
@@ -38,7 +39,7 @@ TagManager:
   - InteractableWeapon
   - InteractableIgnore
   - InteractableObstacle
-  - 
+  - Ragdoll
   - 
   - 
   - 
@@ -47,4 +48,7 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: ffff
+    uniqueID: 3886676505
     locked: 0

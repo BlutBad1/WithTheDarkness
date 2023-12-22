@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace SoundNS
 {
-    [RequireComponent(typeof(Damageable))]
     public class DamageableEventsSounds : AudioSetup
     {
         public Damageable Damageable;

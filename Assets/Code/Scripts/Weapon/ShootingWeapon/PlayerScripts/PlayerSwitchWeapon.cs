@@ -1,4 +1,6 @@
 using UnityEngine;
+using WeaponNS;
+
 namespace PlayerScriptsNS
 {
     [RequireComponent(typeof(InputManager))]
@@ -16,6 +18,6 @@ namespace PlayerScriptsNS
             inputManager.OnFoot.SwitchWeapon.performed -= PerformChangeWeaponSelection;
         }
         private void PerformChangeWeaponSelection(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-            WeaponManager.ChangeWeaponSelection(((int)obj.ReadValue<float>()) - 1);
+            WeaponManager.ChangeWeaponSelection(((WeaponType)obj.ReadValue<float>()) - 1);
     }
 }

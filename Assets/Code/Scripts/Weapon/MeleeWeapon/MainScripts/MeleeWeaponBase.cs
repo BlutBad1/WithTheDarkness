@@ -108,7 +108,7 @@ namespace WeaponNS.MeleeWeaponNS
         }
         protected virtual void HitTarget(RaycastHit hitInfo)
         {
-            bulletHolesDataBase.MakeBulletHoleByInfo(hitInfo, CameraOrigin.transform.position, MeleeData.WeaponType);
+            bulletHolesDataBase.MakeBulletHoleByInfo(hitInfo, CameraOrigin.transform.position, MeleeData.WeaponEntity);
         }
     }
 }

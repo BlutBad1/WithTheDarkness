@@ -4,9 +4,9 @@ using System.Collections;
 using UnityEngine;
 namespace EnemyNS.Attack
 {
-    [RequireComponent(typeof(Enemy))]
     public class EnemyAttack : MonoBehaviour
     {
+        public Enemy Enemy;
         public int Damage = 10;
         public float AttackForce = 5f;
         public float AttackDelay = 0.5f;
@@ -15,12 +15,12 @@ namespace EnemyNS.Attack
         public delegate void AttackEvent(IDamageable Target);
         public AttackEvent OnAttack;
         protected Coroutine attackCoroutine;
-        protected Enemy Enemy;
         [HideInInspector]
         public bool IsAttacking = false;
         protected void Start()
         {
-            Enemy = GetComponent<Enemy>();
+            if (!Enemy)
+                Enemy = GetComponent<Enemy>();
             Enemy.Movement.OnFollow += TryAttack;
         }
         public virtual bool CanAttack(GameObject creature)

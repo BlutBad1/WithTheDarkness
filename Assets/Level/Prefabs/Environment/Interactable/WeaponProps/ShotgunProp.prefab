@@ -93,8 +93,6 @@ GameObject:
   m_Component:
   - component: {fileID: 75367693681281112}
   - component: {fileID: 75367693681281114}
-  - component: {fileID: 303573802847499986}
-  - component: {fileID: 75367693681281115}
   m_Layer: 22
   m_Name: Double-barrel_gun
   m_TagString: Untagged
@@ -132,63 +130,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1.3407161, y: 0.16175863, z: 0.12060119}
   m_Center: {x: 0.40154567, y: -0.0024694551, z: -0.0046992325}
---- !u!114 &303573802847499986
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 80749327316612390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8186388ee8fe5454186bcc141438e2c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useEvents: 1
-  promptMessage: 
-  LastWhoInteracted: {fileID: 0}
-  WeaponType: 2
-  MinMaxAmountOfBulletToAdd: {x: 1, y: 2}
-  disapperingSpeed: 0.8
---- !u!114 &75367693681281115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 80749327316612390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b87e6e3f325c664c8080512c3fb05c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 80749327316612390}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3905925490967858188}
-        m_TargetAssemblyTypeName: GameObjectsControllingNS.DestroyAfterTime, GameObjects
-        m_MethodName: DestroyAfter
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 2
-          m_FloatArgument: 2
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &80955068579188484
 GameObject:
   m_ObjectHideFlags: 0
@@ -281,8 +222,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3905925490967858191}
+  - component: {fileID: 2683484929113747941}
   - component: {fileID: 3905925490967858188}
   - component: {fileID: 2522910263840869985}
+  - component: {fileID: 2466662019128985289}
   m_Layer: 0
   m_Name: ShotgunProp
   m_TagString: Untagged
@@ -298,7 +241,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3905925490967858189}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.634009, y: -0.72, z: 140.51624}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -306,6 +249,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &2683484929113747941
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3905925490967858189}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!114 &3905925490967858188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,3 +297,92 @@ MonoBehaviour:
   MaxIntensity: 0.3
   MinIntensity: 0
   IntensityUpdateDelay: 0.1
+--- !u!114 &2466662019128985289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3905925490967858189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8186388ee8fe5454186bcc141438e2c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useEvents: 1
+  promptMessage: 
+  LastWhoInteracted: {fileID: 0}
+  WeaponEntity: 2
+  MinMaxAmountOfBulletToAdd: {x: 1, y: 2}
+  disapperingSpeed: 0.8
+  IfWeaponNotUnlocked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 80749327316612390}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3905925490967858188}
+        m_TargetAssemblyTypeName: GameObjectsControllingNS.DestroyOrDisableAfterTime,
+          GameObjects
+        m_MethodName: DisableAfter
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 2
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  IfWeaponAlreadyUnlocked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 3905925490967858189}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3905925490967858188}
+        m_TargetAssemblyTypeName: GameObjectsControllingNS.DestroyOrDisableAfterTime,
+          GameObjects
+        m_MethodName: DisableAfter
+        m_Mode: 4
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 2
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  IfWeaponTypeIsOccupiedByOther:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2522910263840869985}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2

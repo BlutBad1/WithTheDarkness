@@ -37,7 +37,7 @@ namespace WeaponNS.ShootingWeaponNS
             {
                 IDamageable damageable = IDamageable.GetDamageableFromGameObject(hitInfo.transform.gameObject);
                 damageable?.TakeDamage(new TakeDamageData(damageable, gunData.Damage, gunData.Force, hitInfo.point, GameObject.Find(MyConstants.CommonConstants.PLAYER)));
-                bulletHolesDataBase.MakeBulletHoleByInfo(hitInfo, CameraOrigin.transform.position, gunData.WeaponType);
+                bulletHolesDataBase.MakeBulletHoleByInfo(hitInfo, CameraOrigin.transform.position, gunData.WeaponEntity);
             }
         }
     }

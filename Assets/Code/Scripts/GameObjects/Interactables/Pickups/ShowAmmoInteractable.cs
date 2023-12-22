@@ -27,10 +27,10 @@ namespace InteractableNS.Pickups
             else
                 message = originalMessage;
             base.Interact();
-            gun.ReserveAmmo += amountOfBulletsToAdd;
+            gun.ReserveAmmoData.ReserveAmmo += amountOfBulletsToAdd;
             ShowAmmo showAmmo = Utilities.GetComponentFromGameObject<ShowAmmo>(LastWhoInteracted.gameObject);
             if (showAmmo)
-                showAmmo.ShowAmmoLeftOfWeapon(gun.WeaponType);
+                showAmmo.ShowAmmoLeftOfWeapon(gun.WeaponEntity);
         }
     }
 }

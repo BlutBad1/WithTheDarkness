@@ -7,15 +7,16 @@ namespace DamageableNS.OnActions
 {
     public class DamageableUnityEvents : MonoBehaviour
     {
-        public List<InterfaceReference<Damageable, MonoBehaviour>> Damageables;
+        public List<InterfaceReference<IDamageable, MonoBehaviour>> Damageables;
         public UnityEvent EventOnTakeDamage;
         public UnityEvent EventOnDead;
         protected virtual void Start()
         {
             foreach (var damageable in Damageables)
             {
-                damageable.Value.OnTakeDamageWithDamageData += OnTakeDamage;
-                damageable.Value.OnDead += OnDead;
+                Damageable damageable1 = (Damageable)damageable.Value;
+                damageable1.OnTakeDamageWithDamageData += OnTakeDamage;
+                damageable1.OnDead += OnDead;
             }
         }
         protected virtual void OnTakeDamage(TakeDamageData takeDamageData) =>

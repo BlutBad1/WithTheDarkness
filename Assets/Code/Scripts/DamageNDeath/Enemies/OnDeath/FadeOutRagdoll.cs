@@ -6,27 +6,27 @@ namespace EnemyNS.Death
     public class FadeOutRagdoll : EnemyDeadEvent
     {
         [SerializeField]
-        private RagdollEnabler ragdollEnabler;
+        protected RagdollEnabler ragdollEnabler;
         [Tooltip("Time while object in ragdoll.")]
         public float RagdollTime = 1f;
         [Tooltip("Delay to fade out.")]
         public float FadeOutDelay = 1f;
         [Tooltip("Fade out speed.")]
         public float FadeOutSpeed = 0.05f;
-        private Coroutine fadeOutCoroutine;
-        private bool isEnabled = false;
+        protected Coroutine fadeOutCoroutine;
+        protected bool isEnabled = false;
         override protected void Start()
         {
             base.Start();
             if (!ragdollEnabler)
-                TryGetComponent(out ragdollEnabler);
+                ragdollEnabler = GetComponent<RagdollEnabler>();
         }
         private void OnDisable()
         {
             if ((fadeOutCoroutine != null || isEnabled) && gameObject.scene.IsValid())
                 gameObject.SetActive(false);
         }
-        override public void OnDead()
+        public override void OnDead()
         {
             //if (lookCoroutine==null) //uncomment if ragdoll should be instant without physics 
             //{

@@ -1,49 +1,48 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
 public class RagdollEnabler : MonoBehaviour
 {
-    private Animator animator;
     [SerializeField]
     public Transform RagdollRoot;
-    private NavMeshAgent agent;
-    [SerializeField]
-    private bool StartRagdoll = false;
+    public Animator Animator;
+    public NavMeshAgent Aagent;
+    public bool EnableRagdollOnStart = true;
+    private bool isRagdollEnabled = false;
+    public bool IsRagdollEnabled
+    {
+        get { return isRagdollEnabled; }
+        set { isRagdollEnabled = value; }
+    }
     private Rigidbody[] rigidbodies;
     private CharacterJoint[] joints;
     private Collider[] colliders;
     private void Start()
     {
-        animator = GetComponent<Animator>();
-        agent = GetComponent<NavMeshAgent>();
         rigidbodies = RagdollRoot.GetComponentsInChildren<Rigidbody>();
         joints = RagdollRoot.GetComponentsInChildren<CharacterJoint>();
         colliders = RagdollRoot.GetComponentsInChildren<Collider>();
-        if (StartRagdoll)  
+        if (EnableRagdollOnStart)
             EnableRagdoll();
-        else
-            EnableAnimator();
     }
     public void EnableAnimator()
     {
-        animator.enabled = true;
-        agent.enabled = true;
+        isRagdollEnabled = false;
+        Animator.enabled = true;
+        if (Aagent)
+            Aagent.enabled = true;
         foreach (CharacterJoint joint in joints)
-        {
             joint.enableCollision = false;
-        }
         foreach (Rigidbody rigidbody in rigidbodies)
         {
             rigidbody.useGravity = false;
             rigidbody.isKinematic = true;
-           rigidbody.detectCollisions = false;
+            rigidbody.detectCollisions = false;
         }
     }
     public void DisableAllRigidbodies()
     {
+        isRagdollEnabled = false;
         foreach (Rigidbody rigidbody in rigidbodies)
         {
             //rigidbody.detectCollisions = false;
@@ -51,12 +50,15 @@ public class RagdollEnabler : MonoBehaviour
             rigidbody.isKinematic = true;
         }
         foreach (Collider collider in colliders)
-            collider.isTrigger = true;
+            collider.enabled = false;
     }
     public void EnableRagdoll()
     {
-        animator.enabled = false;
-        agent.enabled = false;
+        isRagdollEnabled = true;
+        if (Animator)
+            Animator.enabled = false;
+        if (Aagent)
+            Aagent.enabled = false;
         foreach (CharacterJoint joint in joints)
             joint.enableCollision = true;
         foreach (Rigidbody rigidbody in rigidbodies)
@@ -66,5 +68,7 @@ public class RagdollEnabler : MonoBehaviour
             rigidbody.useGravity = true;
             rigidbody.isKinematic = false;
         }
+        foreach (Collider collider in colliders)
+            collider.enabled = true;
     }
 }

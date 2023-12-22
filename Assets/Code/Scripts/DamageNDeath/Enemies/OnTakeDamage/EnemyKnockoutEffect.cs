@@ -6,7 +6,6 @@ using UnityEngine;
 
 namespace EnemyNS.OnTakeDamage
 {
-    [RequireComponent(typeof(Rigidbody))]
     public class EnemyKnockoutEffect : PushDamageable
     {
         public bool KnockoutEnable = false;

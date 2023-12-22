@@ -1,6 +1,7 @@
 using CreatureNS;
 using EnvironmentEffects.MatEffect.Dissolve;
 using ExtensionMethods;
+using GameObjectsControllingNS;
 using LocationManagementNS;
 using PlayerScriptsNS;
 using SoundNS;
@@ -12,6 +13,16 @@ using UtilitiesNS;
 
 namespace LocationConnector
 {
+    public class TeleportedGameobject
+    {
+        public AudioSourcesManager AudioSourcesManager;
+        public Dissolve Dissolve;
+        public TeleportedGameobject(AudioSourcesManager audioSourcesManager, Dissolve dissolve)
+        {
+            AudioSourcesManager = audioSourcesManager;
+            Dissolve = dissolve;
+        }
+    }
     public class ConnectorTeleportTrigger : TeleportTrigger
     {
         public Transform NonPlayerGameObjectSpawnPointToHere;
@@ -22,7 +33,7 @@ namespace LocationConnector
         public AudioSourcesManager DissolveSounds;
         private Connector connector;
         private Dictionary<GameObject, Coroutine> currentTeleportCoroutines = new Dictionary<GameObject, Coroutine>();
-        private Dictionary<GameObject, AudioSourcesManager> currentDisolveAudioSourcesManager = new Dictionary<GameObject, AudioSourcesManager>();
+        private Dictionary<GameObject, TeleportedGameobject> currentDisolveAudioSourcesManager = new Dictionary<GameObject, TeleportedGameobject>();
         public override int ConnectedLocIndex
         {
             get => base.ConnectedLocIndex;
@@ -108,29 +119,33 @@ namespace LocationConnector
         }
         protected IEnumerator TeleportNonPlayer(GameObject gameObjectToTeleport)
         {
-            gameObjectToTeleport.transform.parent = TeleportPoint.root;
-            List<Renderer> meshRenderers = Utilities.FindAllComponentsInChildren<Renderer>(gameObjectToTeleport, false);
-            Dissolve dissolve = Utilities.GetComponentFromGameObject<Dissolve>(gameObjectToTeleport);
-            if (!dissolve)
+            GameobjectRoot gameobjectRoot = Utilities.GetComponentFromGameObject<GameobjectRoot>(gameObjectToTeleport, includeSiblings: false);
+            if (gameobjectRoot)
+                gameobjectRoot.gameObject.transform.parent = TeleportPoint.root;
+            else
+                gameObjectToTeleport.transform.parent = TeleportPoint.root;
+            Dissolve dissolve;
+            AudioSourcesManager audioSourceManager;
+            if (currentDisolveAudioSourcesManager.ContainsKey(gameObjectToTeleport))
             {
+                dissolve = currentDisolveAudioSourcesManager[gameObjectToTeleport].Dissolve;
+                audioSourceManager = currentDisolveAudioSourcesManager[gameObjectToTeleport].AudioSourcesManager;
+            }
+            else
+            {
+                audioSourceManager = gameObjectToTeleport.AddComponent<AudioSourcesManager>();
+                List<Renderer> meshRenderers = Utilities.FindAllComponentsInGameObject<Renderer>(gameObjectToTeleport, includeInactive: false)
+                    .Where(x => x.GetType() != typeof(ParticleSystemRenderer)).ToList(); //HARDCODE 
                 dissolve = gameObjectToTeleport.AddComponent<Dissolve>();
                 yield return null;
+                dissolve.meshRenderers = meshRenderers;
+                currentDisolveAudioSourcesManager.Add(gameObjectToTeleport, new TeleportedGameobject(audioSourceManager, dissolve));
             }
-            dissolve.meshRenderers = meshRenderers;
             dissolve.referenceMat = DissolvingRefMat;
             dissolve.InitializeMat();
             dissolve.StartDissolving(DissolvingTime);
             if (DissolveSounds)
-            {
-                AudioSourcesManager audioSourceManager = currentDisolveAudioSourcesManager.ContainsKey(gameObjectToTeleport) ? currentDisolveAudioSourcesManager[gameObjectToTeleport] : null;
-                if (!audioSourceManager)
-                {
-                    audioSourceManager = gameObjectToTeleport.GetComponent<AudioSourcesManager>() == null ? gameObjectToTeleport.AddComponent<AudioSourcesManager>() :
-                         gameObjectToTeleport.GetComponent<AudioSourcesManager>();
-                    currentDisolveAudioSourcesManager[gameObjectToTeleport] = audioSourceManager;
-                }
                 audioSourceManager.CreateNewAudioSourceAndPlay(DissolveSounds.GetRandomSound());
-            }
             ICreature creature = Utilities.GetComponentFromGameObject<ICreature>(gameObjectToTeleport);
             while (dissolve.CurrentDissolve < 0.95f)
                 yield return null;

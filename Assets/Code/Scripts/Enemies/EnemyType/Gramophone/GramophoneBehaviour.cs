@@ -7,9 +7,9 @@ namespace EnemyNS.Type.Gramophone
     public class GramophoneBehaviour : Enemy
     {
         public Renderer[] GramophoneRenders;
-        protected sealed override void Start()
+        protected sealed override void Awake()
         {
-            base.Start();
+            base.Awake();
             Movement.OnFollow += IsRenderVisible;
             Movement.OnIdle += IsRenderVisible;
             Movement.OnDoPriority += IsRenderVisible;

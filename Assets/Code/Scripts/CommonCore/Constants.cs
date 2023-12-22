@@ -44,7 +44,7 @@ namespace MyConstants
         public const string BLACK_SCREEN_DIMMING = "BlackScreenDimming";
         public const string LIGHT_INTERES_LEFT = "LightInterestLeft";
         public const string AMMO_LEFT = "AmmoLeft";
-        public static string[] AMMO_GET_MESSAGES =  { "Found ", "Got "};
+        public static string[] AMMO_GET_MESSAGES = { "Found ", "Got " };
     }
     public static class LocationsConstants
     {
@@ -62,6 +62,13 @@ namespace MyConstants
             public static class KeySpawnerConstants
             {
                 public const float REQUIRED_KEY_SPAWN_CHANCE_COEFF_ON_SECOND_HALF = 2;
+            }
+        }
+        namespace ItemConstants
+        {
+            public static class PropConstants
+            {
+                public const string NEW_PROP_ROOT = "NewAddedInGameTimeProps";
             }
         }
         namespace DecorConstants

@@ -4732,6 +4732,7 @@ GameObject:
   - component: {fileID: 2325169165277063178}
   - component: {fileID: 2325169165276959146}
   - component: {fileID: 4078858720504431440}
+  - component: {fileID: 6513728636827840299}
   m_Layer: 0
   m_Name: BulletHole 2
   m_TagString: Untagged
@@ -9452,6 +9453,18 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2325169165262418282}
   m_Mesh: {fileID: 0}
+--- !u!114 &6513728636827840299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2325169165262418282}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 429eda1afef89e545a12771545cf6eeb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2325169165262418284
 GameObject:
   m_ObjectHideFlags: 0

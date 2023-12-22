@@ -13,7 +13,7 @@ namespace WeaponNS.ShootingWeaponNS
     {
         public static List<string> Tags = UnityEditorInternal.InternalEditorUtility.tags.ToList();
         [EnumMask]
-        public WeaponType WeaponType;
+        public WeaponEntity WeaponEntity;
         [ListToMultiplePopup(typeof(DamageDecalObject), "Tags")]
         public int Tag;
         public LayerMask LayerMask;
@@ -28,10 +28,10 @@ namespace WeaponNS.ShootingWeaponNS
         {
             DamageDecalPoolMng = GameObject.FindObjectOfType<DamageDecalPoolsManager>();
         }
-        public void MakeBulletHoleByInfo(RaycastHit hitInfo, Vector3 rayCastOrigin, WeaponType weaponType)
+        public void MakeBulletHoleByInfo(RaycastHit hitInfo, Vector3 rayCastOrigin, WeaponEntity weaponType)
         {
             DamageDecalObject[] damageDecals = new DamageDecalObject[0];
-            DamageDecalObject[] weaponMatched = Array.FindAll(DamageDecalObjects, x => ((int)x.WeaponType & (1 << Utilities.GetIndexOfElementInEnum(weaponType))) != 0);
+            DamageDecalObject[] weaponMatched = Array.FindAll(DamageDecalObjects, x => ((int)x.WeaponEntity & (1 << Utilities.GetIndexOfElementInEnum(weaponType))) != 0);
             DamageDecalObject[] tagMatched = Array.FindAll(DamageDecalObjects, x => (x.Tag & (1 << DamageDecalObject.Tags.IndexOf(hitInfo.collider.gameObject.tag))) != 0);
             DamageDecalObject[] layerMatched = Array.FindAll(DamageDecalObjects, x => x.LayerMask == (x.LayerMask | (1 << hitInfo.collider.gameObject.layer)));
             damageDecals = weaponMatched.Intersect(tagMatched).Intersect(layerMatched).ToArray();
@@ -59,17 +59,18 @@ namespace WeaponNS.ShootingWeaponNS
                 damageDecal.transform.GetChild(i).gameObject.SetActive(true);
             }
             damageDecal.transform.parent = null;
-            damageDecal.transform.position = hitInfo.point + (hitInfo.normal * 0.0001f);
+            //Rotation
             Quaternion originalRot = DamageDecalPoolMng.GetPrefab(damageDecalName).transform.rotation;
             damageDecal.transform.rotation = Quaternion.identity;
             Vector3 playerToHitDirection = (hitInfo.point - rayCastOrigin).normalized;
-            Vector3 referenceDirection = Vector3.up;  // Defaulting to world up
+            Vector3 referenceDirection = Vector3.up;  // By default it is world up
             if (Mathf.Abs(Vector3.Dot(hitInfo.normal, Vector3.up)) > 0.9f)
-                referenceDirection = playerToHitDirection;  // Change to player's direction for walls
+                referenceDirection = playerToHitDirection;  // Change for player's wall direction 
             Vector3 projectedDirection = referenceDirection - Vector3.Dot(referenceDirection, hitInfo.normal) * hitInfo.normal;
             Quaternion targetRotation = Quaternion.LookRotation(hitInfo.normal, projectedDirection.normalized);
             damageDecal.transform.rotation = targetRotation * Quaternion.Inverse(originalRot);
-            damageDecal.transform.parent = hitInfo.collider.gameObject.transform;
+            //Position and new parent
+            DefinePositionAndParent(damageDecal, hitInfo);
             if (!damageDecal.TryGetComponent(out ParticleSystem particleSystem))
             {
                 if (damageDecal.GetComponentInChildren<ParticleSystem>())
@@ -77,6 +78,19 @@ namespace WeaponNS.ShootingWeaponNS
             }
             else
                 particleSystem.Play();
+        }
+        protected void DefinePositionAndParent(GameObject damageDecal, RaycastHit hitInfo)
+        {
+            SkinnedMeshRenderer renderer = Utilities.GetClosestComponentInGameObject<SkinnedMeshRenderer>(hitInfo.point, hitInfo.collider.gameObject.transform.root.gameObject);//HARDCODE
+            //renderer = renderer == null ? Utilities.GetClosestComponentInGameObject<SkinnedMeshRenderer>(hitInfo.point, hitInfo.rigidbody.gameObject) : renderer;//HARDCODE
+            if (renderer)
+            {
+                Vector3 localTargetPoint = renderer.transform.InverseTransformPoint(hitInfo.point);
+                damageDecal.transform.position = renderer.transform.TransformPoint(localTargetPoint);
+            }
+            else
+                damageDecal.transform.position = hitInfo.point + (hitInfo.normal * 0.0001f);
+            damageDecal.transform.parent = hitInfo.collider.gameObject.transform;
         }
     }
 }

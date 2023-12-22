@@ -6,19 +6,19 @@ namespace InteractableNS.Pickups
     {
         public UnityEvent IfWeaponNotUnlocked;
         public UnityEvent IfWeaponAlreadyUnlocked;
+        public UnityEvent IfWeaponTypeIsOccupiedByOther;
         protected override void Start()
         {
             base.Start();
-            ActionIfWeaponNotUnlocked += OnNotUnlocked;
-            ActionIfWeaponUnlocked += OnAlreadyUnlocked;
+            ActionIfWeaponTypeIsNotOccupied += OnNotUnlocked;
+            ActionIfWeaponTypeIsOccupiedBySame += OnAlreadyUnlocked;
+            ActionIfWeaponTypeIsOccupiedByOther += OnOccupiedByOther;
         }
-        protected void OnNotUnlocked()
-        {
+        public void OnNotUnlocked() =>
             IfWeaponNotUnlocked?.Invoke();
-        }
-        protected void OnAlreadyUnlocked()
-        {
+        public void OnAlreadyUnlocked() =>
             IfWeaponAlreadyUnlocked?.Invoke();
-        }
+        public void OnOccupiedByOther() =>
+            IfWeaponTypeIsOccupiedByOther?.Invoke();
     }
 }

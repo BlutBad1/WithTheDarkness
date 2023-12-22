@@ -1,5 +1,6 @@
 using LightNS;
 using PlayerScriptsNS;
+using ScriptableObjectNS.Weapon;
 using ScriptableObjectNS.Weapon.Gun;
 using UnityEngine;
 using WeaponManagement;
@@ -26,8 +27,10 @@ namespace Data.Player
         //[Min(0)]
         //public float StaminaRestoreMultiplier = 1f;
         [Header("WeaponData")]
-        public WeaponObject[] WeaponObjects;
-        public GunObject[] GunObjects;
+        public SerializableActiveWeapon ActiveWeapons;
+        public ActiveWeapon ActiveWeaponData;
+        public CurrentAmmoObject[] GunObjects;
+        public ReserveAmmoObject[] AmmoObjects;
         [Header("Light"), Min(0)]
         public float GlowTime = 100f;
         [Min(0)]
@@ -80,24 +83,15 @@ namespace Data.Player
         }
         public void InitializeWeapon()
         {
-            if (WeaponObjects != null)
+            ActiveWeaponData.ActiveWeapons = ActiveWeapons;
+            foreach (var weaponData in GunObjects)
             {
-                foreach (var weaponData in WeaponObjects)
-                    weaponData.WeaponData.IsUnlocked = weaponData.IsUnlocked;
+                GunData gunData = (GunData)weaponData.WeaponData;
+                if (gunData != null)
+                    gunData.CurrentAmmo = weaponData.CurrentAmmo > gunData.MagSize ? gunData.MagSize : weaponData.CurrentAmmo;
             }
-            if (GunObjects != null)
-            {
-                foreach (var weaponData in GunObjects)
-                {
-                    GunData gunData = (GunData)weaponData.WeaponData;
-                    if (gunData != null)
-                    {
-                        gunData.IsUnlocked = weaponData.IsUnlocked;
-                        gunData.CurrentAmmo = weaponData.CurrentAmmo > gunData.MagSize ? gunData.MagSize : weaponData.CurrentAmmo;
-                        gunData.ReserveAmmo = weaponData.ReserveAmmo;
-                    }
-                }
-            }
+            foreach (var ammoData in AmmoObjects)
+                ammoData.ReserveAmmoData.ReserveAmmo = ammoData.ReserveAmmo;
         }
         public void LightInitazlie()
         {
