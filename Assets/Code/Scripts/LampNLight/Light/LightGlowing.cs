@@ -3,9 +3,10 @@ using UnityEngine;
 
 namespace LightNS
 {
-    [RequireComponent(typeof(Light))]
     public class LightGlowing : MonoBehaviour
     {
+        [SerializeField]
+        protected Light light;
         public float StartingIntensity = 1f;
         public float GlowingIntensity = 0.7f;
         [Range(-1, 1)]
@@ -13,10 +14,12 @@ namespace LightNS
         public float GlowingSpeed = 0.01f;
         public float UpdateDelay = 0.05f;
         private float toIntensity;
-        private Light light;
         private Coroutine currentCoroutine;
-        private void Start() =>
-            light = GetComponent<Light>();
+        private void Start()
+        {
+            if (!light)
+                light = GetComponent<Light>();
+        }
         private void Update()
         {
             if (light.intensity >= StartingIntensity)

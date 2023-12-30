@@ -25,7 +25,7 @@ namespace DamageableNS.OnTakeDamage
         }
         public void PushRigidbody(Rigidbody rigidbody, TakeDamageData takeDamageData)
         {
-            if (takeDamageData.HitPoint != Vector3.zero)
+            if (takeDamageData.HitData !=null)
             {
                 Vector3 moveDirection = transform.position - takeDamageData.FromGameObject.transform.position;
                 rigidbody.AddForce(moveDirection.normalized * PushForce * takeDamageData.Force, ForceMode.Impulse);

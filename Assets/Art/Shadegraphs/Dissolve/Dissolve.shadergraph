@@ -40,7 +40,14 @@
             "m_Id": "336934277863473c89e8211ff4dd3a42"
         }
     ],
-    "m_Keywords": [],
+    "m_Keywords": [
+        {
+            "m_Id": "f96e6ee3435144a08a201a7158f8392a"
+        },
+        {
+            "m_Id": "944ab26da9b24791a2db84e008d16a77"
+        }
+    ],
     "m_Dropdowns": [],
     "m_CategoryData": [
         {
@@ -545,7 +552,7 @@
         "preventRotation": false
     },
     "m_Path": "Shader Graphs",
-    "m_GraphPrecision": 1,
+    "m_GraphPrecision": 0,
     "m_PreviewMode": 2,
     "m_OutputNode": {
         "m_Id": ""
@@ -979,6 +986,12 @@
         },
         {
             "m_Id": "f5aedbabbf3942b08eb3743736f6922f"
+        },
+        {
+            "m_Id": "f96e6ee3435144a08a201a7158f8392a"
+        },
+        {
+            "m_Id": "944ab26da9b24791a2db84e008d16a77"
         }
     ]
 }
@@ -2408,6 +2421,30 @@
 }
 
 {
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.ShaderKeyword",
+    "m_ObjectId": "944ab26da9b24791a2db84e008d16a77",
+    "m_Guid": {
+        "m_GuidSerialized": "a4459385-90c4-40f4-a501-1daf1dedb07c"
+    },
+    "m_Name": "Glossy Reflections",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Glossy Reflections",
+    "m_DefaultReferenceName": "_GLOSSY_REFLECTIONS",
+    "m_OverrideReferenceName": "_GLOSSYREFLECTIONS_OFF",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_KeywordType": 0,
+    "m_KeywordDefinition": 0,
+    "m_KeywordScope": 0,
+    "m_KeywordStages": 63,
+    "m_Entries": [],
+    "m_Value": 1,
+    "m_IsEditable": true
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.AddNode",
     "m_ObjectId": "95bdc30ec6384097947e30a3d75ca475",
@@ -3636,6 +3673,30 @@
     },
     "m_Labels": [],
     "m_Space": 0
+}
+
+{
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.ShaderGraph.ShaderKeyword",
+    "m_ObjectId": "f96e6ee3435144a08a201a7158f8392a",
+    "m_Guid": {
+        "m_GuidSerialized": "fdbd9de0-6a2b-4ba8-a53a-a953be116c2b"
+    },
+    "m_Name": "Specular Highlights",
+    "m_DefaultRefNameVersion": 1,
+    "m_RefNameGeneratedByDisplayName": "Specular Highlights",
+    "m_DefaultReferenceName": "_SPECULAR_HIGHLIGHTS",
+    "m_OverrideReferenceName": "_SPECULARHIGHLIGHTS_OFF",
+    "m_GeneratePropertyBlock": true,
+    "m_UseCustomSlotLabel": false,
+    "m_CustomSlotLabel": "",
+    "m_KeywordType": 0,
+    "m_KeywordDefinition": 0,
+    "m_KeywordScope": 0,
+    "m_KeywordStages": 63,
+    "m_Entries": [],
+    "m_Value": 1,
+    "m_IsEditable": true
 }
 
 {

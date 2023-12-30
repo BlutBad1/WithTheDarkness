@@ -1,6 +1,5 @@
 using CreatureNS;
 using DamageableNS;
-using EnemyNS.Attack;
 using MyConstants.CreatureConstants;
 using MyConstants.CreatureConstants.EnemyConstants;
 using ScriptableObjectNS.Creature;
@@ -32,7 +31,6 @@ namespace EnemyNS.Base
         public GameObject PursuedTarget;
         //Routes that enemy would follow in priority, than higher int that more priority its has
         public List<PriorityTask> PriorityTasks;
-        public EnemyLineOfSightChecker LineOfSightChecker;
         public float DontLoseSightIfDistanceLess = 1f;
         public float IdleMovespeedMultiplier = 0.5f;
         [HideInInspector]
@@ -92,13 +90,6 @@ namespace EnemyNS.Base
             linkMover = GetComponent<AgentLinkMover>();
             linkMover.OnLinkStart += HandleLinkStart;
             linkMover.OnLinkEnd += HandleLinkEnd;
-            if (LineOfSightChecker == null)
-                LineOfSightChecker = GetComponent<EnemyLineOfSightChecker>();
-            if (LineOfSightChecker != null)
-            {
-                LineOfSightChecker.OnGainSight += HandleGainCreatureInSight;
-                LineOfSightChecker.OnLoseSight += HandleLoseCreatureFromSight;
-            }
             OnStateChange += HandleStateChange;
             State = DefaultState;
         }
@@ -205,9 +196,7 @@ namespace EnemyNS.Base
         }
         public void OnBeforeSerialize() =>
             CreatureNames = CreatureTypes.Instance.Names;
-        public void OnAfterDeserialize()
-        {
-        }
+        public void OnAfterDeserialize() { }
         ///////SIGHT HANDLES///////
         public virtual void HandleGainCreatureInSight(GameObject spottedTarget)
         {

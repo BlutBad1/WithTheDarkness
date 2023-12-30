@@ -40,7 +40,6 @@ namespace LocationConnector
         {
             if (isTeleportingActive && IsSomeRendererVisible(SecondPlaceRenders))
             {
-                Debug.Log($"Teleporting | {gameObject.transform.parent.parent.gameObject}");
                 isTeleportingActive = false;
                 TeleportObject(go);
                 ConnectedHiddenTeleport.SetTeleportingActive(setConnectedTeleportActive);

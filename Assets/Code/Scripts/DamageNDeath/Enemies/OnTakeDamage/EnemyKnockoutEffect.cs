@@ -16,7 +16,7 @@ namespace EnemyNS.OnTakeDamage
         protected override void OnTakeDamage(TakeDamageData takeDamageData)
         {
             Enemy enemy = (Enemy)Damageable;
-            if (KnockoutEnable && enemy.Health > 0 && takeDamageData.HitPoint != Vector3.zero)
+            if (KnockoutEnable && enemy.Health > 0 && takeDamageData.HitData != null)
             {
                 if (!isInKnockout)
                 {

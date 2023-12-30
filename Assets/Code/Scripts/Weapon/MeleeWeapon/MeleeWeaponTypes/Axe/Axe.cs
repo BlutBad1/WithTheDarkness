@@ -1,6 +1,7 @@
 using MyConstants.WeaponConstants;
 using MyConstants.WeaponConstants.MeleeWeaponConstants;
 using PlayerScriptsNS;
+using ScriptableObjectNS.Weapon;
 using SoundNS;
 using System.Collections;
 using UnityEngine;
@@ -40,7 +41,7 @@ public class Axe : MeleeWeaponBase
         OnHit -= PlayAudioOnHit;
         PlayerBattleInput.AttackInputCanceled -= PerformAttack;
         PlayerBattleInput.AltAttackInputStarted -= StartBlockingAnim;
-        PlayerBattleInput.AltAttackInputStarted -= StopBlocking;
+        PlayerBattleInput.AltAttackInputCanceled -= StopBlocking;
     }
     public override void DefineAnim()
     {
@@ -66,12 +67,25 @@ public class Axe : MeleeWeaponBase
     {
         IsBlocking = true;
         PlayerHealth.PercentResistance = PercentBlockingResistance;
+        PlayerHealth.OnTakeDamageWithoutDamageData += DecreaseDurability;
     }
     public void StopBlocking()
     {
         isBlockingAnim = false;
         IsBlocking = false;
         PlayerHealth.PercentResistance = 0;
+        PlayerHealth.OnTakeDamageWithoutDamageData -= DecreaseDurability;
+    }
+    public override void DecreaseDurability()
+    {
+        MeleeData.CurrentDurability -= MeleeData.MoveDurabilityCost;
+        MeleeData.CurrentDurability = MeleeData.CurrentDurability <= 0 ? 0 : MeleeData.CurrentDurability;
+        WeaponDurabilityEnd.OnDurabilityDecrease();
+        if (MeleeData.CurrentDurability <= 0)
+        {
+            StopBlocking();
+            WeaponDurabilityEnd.OnDurabilityEnd();
+        }
     }
     public void PlayAudioOnHit(RaycastHit hit)
     {

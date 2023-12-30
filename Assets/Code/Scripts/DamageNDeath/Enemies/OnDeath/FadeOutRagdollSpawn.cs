@@ -2,6 +2,7 @@ using DecalNS;
 using EnvironmentEffects.MatEffect.Dissolve;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 namespace EnemyNS.Death
 {
@@ -40,10 +41,12 @@ namespace EnemyNS.Death
             // Get the original path within the hierarchy
             string originalPath = GetGameObjectPath(decal.gameObject);
             string newPath = originalPath.Replace($"/{MainGameObjectBody.name}/", "~").Replace("/" + decal.gameObject.name, "");
+            ParticleSystem[] enabledPaticles = UtilitiesNS.Utilities.FindAllComponentsInGameObject<ParticleSystem>(decal.gameObject).Where(x => x.isPlaying).ToArray();
             newPath = newPath.Remove(0, newPath.IndexOf("~") + 1);
             Transform newTransform = FindTransformByPath(newPath);
-            Debug.Log(newTransform);
             decal.transform.parent = newTransform;
+            foreach (var particle in enabledPaticles)
+                particle.Play(true);
         }
         private string GetGameObjectPath(GameObject obj)
         {
@@ -58,13 +61,12 @@ namespace EnemyNS.Death
         }
         private Transform FindTransformByPath(string path)
         {
-            Transform foundTransform = FadeOutRagdollBody.transform.Find(path.Substring(0, path.IndexOf("/"))), nextTransform;
+            Transform foundTransform = FadeOutRagdollBody.transform.Find(path.Substring(0, path.IndexOf("/") < 0 ? path.Length : path.IndexOf("/"))), nextTransform;
             nextTransform = foundTransform;
             // If the transform is not found, iteratively remove the last part of the path until found
             while (nextTransform != null && path.Length > 0)
             {
                 path = path.Remove(0, path.IndexOf("/") + 1);
-                Debug.Log(path);
                 foundTransform = nextTransform;
                 nextTransform = foundTransform.Find(path.Substring(0, path.IndexOf("/") < 0 ? path.Length : path.IndexOf("/")));
             }

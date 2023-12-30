@@ -1,4 +1,3 @@
-using ExtensionMethods;
 using LocationManagementNS;
 using MyConstants.EnironmentConstants.SpawnerConstants;
 using ScriptableObjectNS.Locking;
@@ -11,47 +10,45 @@ namespace GameObjectsControllingNS.Spawner
 {
     public class KeySpawner : SupplySpawner
     {
-        protected override void Start()
-        {
-            SpawningSupply supplyGameObject = (SpawningSupply)SpawnGameObject(SpawningGameObjects);
-            if (supplyGameObject != null && supplyGameObject.GameObject)
-            {
-                ObjectSpawnChanceBase supplySpawningObject = supplyGameObject.GameObject.GetComponentOrInherited<ObjectSpawnChanceBase>();
-                if (!supplySpawningObject)
-                    supplySpawningObject = supplyGameObject.GameObject.GetComponentInChildren<ObjectSpawnChanceBase>();
-                if (supplySpawningObject)
-                    supplySpawningObject.Chance = supplyGameObject.SupplySpawnChance;
-            }
-            gameObject.SetActive(false);
-        }
         protected override SpawningGameObject SpawnGameObject(List<SpawningSupply> spawningGameObjects)
         {
             SpawningGameObject gameobjectToSpawn = null;
             if (spawningGameObjects != null)
             {
                 gameobjectToSpawn = KeysOnLevelManager.Instance ? GetMostImportantRequiredKey(spawningGameObjects) : null;
-                if (gameobjectToSpawn == null && spawningGameObjects.Where(x => x.SpawnChance > 0).ToList().Count > 0)
-                    gameobjectToSpawn = base.SpawnGameObject(spawningGameObjects);
-                else if (gameobjectToSpawn != null)
+                //if (gameobjectToSpawn == null && spawningGameObjects.Where(x => x.SpawnChance > 0).ToList().Count > 0)
+                //{
+                //    gameobjectToSpawn = base.SpawnGameObject(spawningGameObjects);
+                //    KeyData keyData = GetRequiredKeyDataFromGameobject(gameobjectToSpawn.GameObject);
+                //    if (keyData != null)
+                //        keyData.Amount--;
+                //}
+                //else
+                if (gameobjectToSpawn != null)
                     gameobjectToSpawn.GameObject = GameObject.Instantiate(gameobjectToSpawn.GameObject, SpawnTransform.position, SpawnTransform.rotation, gameobjectToSpawn.Parent);
             }
             return gameobjectToSpawn;
         }
+        private KeyData GetRequiredKeyDataFromGameobject(GameObject gameObject)
+        {
+            RequiredKeySpawnChance spawnChanceBase = null;
+            KeyData requiredKey = null;
+            spawnChanceBase = (RequiredKeySpawnChance)GetObjectSpawnChanceFromGameObject(gameObject);
+            if (spawnChanceBase)
+            {
+                requiredKey = Array.Find(KeysOnLevelManager.Instance.RequiredKeys, x => x.IsGeneric == spawnChanceBase.GetKey().IsGeneric
+                   && (x.GenericKeyName == spawnChanceBase.GetKey().GenericKeyName || x.KeyName == spawnChanceBase.GetKey().KeyName) && x.Amount > 0);
+            }
+            return requiredKey;
+        }
         private SpawningSupply GetMostImportantRequiredKey(List<SpawningSupply> spawningGameObjects)
         {
             Dictionary<KeyData, SpawningSupply> importantKeys = new Dictionary<KeyData, SpawningSupply>();
-            RequiredKeySpawnChance spawnChanceBase = null;
-            KeyData requiredKey = null;
             foreach (var spawningSupply in spawningGameObjects)
             {
-                spawnChanceBase = (RequiredKeySpawnChance)GetObjectSpawnChanceFromGameObject(spawningSupply.GameObject);
-                if (spawnChanceBase)
-                {
-                    requiredKey = Array.Find(KeysOnLevelManager.Instance.RequiredKeys, x => x.IsGeneric == spawnChanceBase.GetKey().IsGeneric
-                    && (x.GenericKeyName == spawnChanceBase.GetKey().KeyName || x.KeyName == spawnChanceBase.GetKey().KeyName));
-                    if (requiredKey != null)
-                        importantKeys.Add(requiredKey, spawningSupply);
-                }
+                KeyData requiredKey = GetRequiredKeyDataFromGameobject(spawningSupply.GameObject);
+                if (requiredKey != null)
+                    importantKeys.Add(requiredKey, spawningSupply);
             }
             SpawningSupply theMostImportantKey = null;
             if (importantKeys.Count > 0)
@@ -59,19 +56,22 @@ namespace GameObjectsControllingNS.Spawner
                 KeyData keyBuffer = importantKeys.Keys.First();
                 foreach (KeyData key in importantKeys.Keys)
                 {
-                    if (keyBuffer.Amount > key.Amount && MapData.Instance.ActiveLocations.Count - MapData.Instance.LocationsIterator <= key.Amount)
+                    if (keyBuffer.Amount < key.Amount && MapData.Instance.ActiveLocations.Count - MapData.Instance.LocationsIterator <= key.Amount)
                         keyBuffer = key;
-                    else if (keyBuffer.Amount > key.Amount && !(MapData.Instance.ActiveLocations.Count - MapData.Instance.LocationsIterator <= keyBuffer.Amount))
+                    else if (keyBuffer.Amount > key.Amount && MapData.Instance.ActiveLocations.Count - MapData.Instance.LocationsIterator > keyBuffer.Amount)
                         keyBuffer = key;
                 }
-                if (!(MapData.Instance.ActiveLocations.Count - MapData.Instance.LocationsIterator <= keyBuffer.Amount))
+                if (MapData.Instance.ActiveLocations.Count - MapData.Instance.LocationsIterator > importantKeys.Sum(x => x.Key.Amount))
                 {
-                    if (importantKeys[keyBuffer].SpawnChance > UnityEngine.Random.Range(0, 100 / KeySpawnerConstants.REQUIRED_KEY_SPAWN_CHANCE_COEFF_ON_SECOND_HALF))
+                    float spawnChance = importantKeys[keyBuffer].SpawnChance;
+                    if (MapData.Instance.ActiveLocations.Count / 2 > MapData.Instance.LocationsIterator)
+                        spawnChance /= KeySpawnerConstants.REQUIRED_KEY_SPAWN_CHANCE_DIV_COEFF_ON_FIRST_HALF;
+                    if (spawnChance > UnityEngine.Random.Range(0, 100))
                         theMostImportantKey = importantKeys[keyBuffer];
-                    spawningGameObjects.Remove(importantKeys[keyBuffer]);
                 }
                 else
                     theMostImportantKey = importantKeys[keyBuffer];
+                keyBuffer.Amount--;
             }
             return theMostImportantKey;
         }

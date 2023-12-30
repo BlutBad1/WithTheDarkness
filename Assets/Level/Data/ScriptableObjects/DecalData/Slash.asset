@@ -24,9 +24,9 @@ MonoBehaviour:
   masks: 00000000
   projectionLimit: 46
   _Cutoff: 130
-  _TilingOffset: 893
-  _MaskBase: 894
-  _MaskLayers: 895
+  _TilingOffset: 895
+  _MaskBase: 896
+  _MaskLayers: 897
   albedo:
     texture: {fileID: 2800000, guid: de775ead6059afd4b902787b5938ebfe, type: 3}
     color: {r: 0, g: 0, b: 0, a: 1}

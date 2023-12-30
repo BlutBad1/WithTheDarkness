@@ -19,7 +19,7 @@ MonoBehaviour:
   WeaponPrefab: {fileID: 6464185321356920660, guid: 3f99d4ccabc76704987e362143edc97e, type: 3}
   Damage: 25
   Force: 1.3
-  MaxDistance: 350
+  MaxDistance: 35
   FiringTime: 0.5
   MaxDeviation: 1
   CurrentAmmo: 7

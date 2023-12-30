@@ -18,6 +18,6 @@ namespace PlayerScriptsNS
             inputManager.OnFoot.SwitchWeapon.performed -= PerformChangeWeaponSelection;
         }
         private void PerformChangeWeaponSelection(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
-            WeaponManager.ChangeWeaponSelection(((WeaponType)obj.ReadValue<float>()) - 1);
+            WeaponManager.ChangeActiveWeaponSelection(((WeaponType)obj.ReadValue<float>()) - 1);
     }
 }

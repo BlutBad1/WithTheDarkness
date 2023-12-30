@@ -15,9 +15,10 @@ namespace WeaponNS.MeleeWeaponNS
         protected Animator animator;
         [SerializeField, Tooltip("if not set, will be the main camera")]
         public Camera CameraOrigin;
-        public LayerMask attackLayer;
+        public LayerMask WhatIsRayCastIgnore;
         [Tooltip("if not set, will be the main dataBase")]
         public DamageDecalDataBase bulletHolesDataBase;
+        public DurabilityChange WeaponDurabilityEnd;
         //public AudioClip swordSwing;
         //public AudioClip hitSound;
         protected float damageAndForceMultiplier = 1f;
@@ -93,22 +94,28 @@ namespace WeaponNS.MeleeWeaponNS
                 animator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PICKING_UP)) return false;
             return true;
         }
-        protected virtual void ResetAttack() =>
-            attacking = false;
         public virtual void AttackRaycast()
         {
-            if (Physics.SphereCast(CameraOrigin.transform.position, MeleeData.AttackRadius, CameraOrigin.transform.forward, out RaycastHit hitInfo, MeleeData.AttackDistance, attackLayer))
+            if (Physics.SphereCast(CameraOrigin.transform.position, MeleeData.AttackRadius, CameraOrigin.transform.forward, out RaycastHit hitInfo, MeleeData.AttackDistance, ~WhatIsRayCastIgnore))
             {
                 IDamageable damageable = IDamageable.GetDamageableFromGameObject(hitInfo.transform.gameObject);
-                Debug.Log(MeleeData.Damage * damageAndForceMultiplier);
-                damageable?.TakeDamage(new TakeDamageData(damageable, MeleeData.Damage * damageAndForceMultiplier, MeleeData.Force * damageAndForceMultiplier, hitInfo.point, GameObject.Find(MyConstants.CommonConstants.PLAYER)));
-                Physics.Raycast(CameraOrigin.transform.position, CameraOrigin.transform.forward, out RaycastHit hitInfo2, attackLayer);
-                OnHit?.Invoke(hitInfo2);
+                damageable?.TakeDamage(new TakeDamageData(damageable, MeleeData.Damage * damageAndForceMultiplier, MeleeData.Force * damageAndForceMultiplier, new HitData(hitInfo), GameObject.Find(MyConstants.CommonConstants.PLAYER)));
+                if (Physics.Raycast(CameraOrigin.transform.position, CameraOrigin.transform.forward, out RaycastHit hitInfo2, MeleeData.AttackDistance + 2 * MeleeData.AttackRadius, ~WhatIsRayCastIgnore))
+                    OnHit?.Invoke(hitInfo2);
+                DecreaseDurability();
             }
         }
-        protected virtual void HitTarget(RaycastHit hitInfo)
+        public virtual void DecreaseDurability()
         {
-            bulletHolesDataBase.MakeBulletHoleByInfo(hitInfo, CameraOrigin.transform.position, MeleeData.WeaponEntity);
+            MeleeData.CurrentDurability -= MeleeData.MoveDurabilityCost;
+            MeleeData.CurrentDurability = MeleeData.CurrentDurability <= 0 ? 0 : MeleeData.CurrentDurability;
+            WeaponDurabilityEnd.OnDurabilityDecrease();
+            if (MeleeData.CurrentDurability <= 0)
+                WeaponDurabilityEnd.OnDurabilityEnd();
         }
+        protected virtual void ResetAttack() =>
+            attacking = false;
+        protected virtual void HitTarget(RaycastHit hitInfo) =>
+            bulletHolesDataBase.MakeBulletHoleByInfo(hitInfo, CameraOrigin.transform.position, MeleeData.WeaponEntity);
     }
 }

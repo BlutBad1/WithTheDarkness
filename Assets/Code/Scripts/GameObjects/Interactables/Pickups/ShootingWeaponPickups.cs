@@ -1,4 +1,5 @@
 using HudNS;
+using HudNS.Weapon.ShootingWeapon;
 using MyConstants;
 using ScriptableObjectNS.Weapon.Gun;
 using System;

@@ -14,7 +14,7 @@ namespace DamageableNS
         public float Health = 100;
         public bool InvokeOnTakeDamageAfterDead = true;
         [HideInInspector]
-        public float OriginalHealth;
+        public float HealthOnStart;
         [HideInInspector]
         private bool isDead = false;
         public bool IsDead
@@ -27,12 +27,10 @@ namespace DamageableNS
         /// </summary>
         protected void Start()
         {
-            OriginalHealth = Health;
+            HealthOnStart = Health;
         }
-        public virtual GameObject GetGameObject()
-        {
-            return gameObject;
-        }
+        public virtual GameObject GetGameObject() =>
+            gameObject;
         public virtual void TakeDamage(TakeDamageData takeDamageData)
         {
             TakeDamage(takeDamageData.Damage);

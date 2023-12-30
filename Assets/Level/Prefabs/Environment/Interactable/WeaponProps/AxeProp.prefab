@@ -112,7 +112,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: c709ff2a43c506548b27bbacdfcd0686, type: 2}
+  - {fileID: 2100000, guid: c991a8ecf67c13b44adad6be13c44129, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -158,6 +158,7 @@ GameObject:
   - component: {fileID: 4697391705058523634}
   - component: {fileID: 8901516384813818972}
   - component: {fileID: 2050217406380029024}
+  - component: {fileID: 5542240907414534405}
   - component: {fileID: 9129291831336025326}
   m_Layer: 22
   m_Name: AxeProp
@@ -211,6 +212,11 @@ MonoBehaviour:
   promptMessage: 
   LastWhoInteracted: {fileID: 0}
   WeaponEntity: 0
+  Prop: {fileID: 5542240907414534405}
+  RandomDurability: 1
+  Durability: 100
+  MinDurability: 50
+  MaxDurability: 100
   IfWeaponNotUnlocked:
     m_PersistentCalls:
       m_Calls:
@@ -239,37 +245,22 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  IfWeaponAlreadyUnlocked:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 9129291831336025326}
-        m_TargetAssemblyTypeName: InteractableNS.Common.WriteInfoByInteractable,
-          GameObjects
-        m_MethodName: WriteInformationMessage
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 3477333899614813129}
-        m_TargetAssemblyTypeName: SoundNS.AudioSourcesManager, CommonCore
-        m_MethodName: CreateNewAudioSourceAndPlay
-        m_Mode: 5
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: AxePulling
-          m_BoolArgument: 0
-        m_CallState: 2
   IfWeaponTypeIsOccupiedByOther:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5542240907414534405
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4694614147025075474}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb0d7a77a96dd34195d1e7839c5b2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropBody: {fileID: 4694111067166764618}
 --- !u!114 &9129291831336025326
 MonoBehaviour:
   m_ObjectHideFlags: 0

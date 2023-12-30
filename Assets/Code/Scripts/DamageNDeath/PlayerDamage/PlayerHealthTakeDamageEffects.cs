@@ -87,7 +87,7 @@ namespace PlayerScriptsNS
         }
         public void TakeDamageVisual()
         {
-            if (overlays != null && playerHealth.Health < playerHealth.OriginalHealth)
+            if (overlays != null && playerHealth.Health < playerHealth.HealthOnStart)
             {
                 if (takeDamageCoroutine != null)
                     StopCoroutine(takeDamageCoroutine);
@@ -100,21 +100,21 @@ namespace PlayerScriptsNS
             PostProcessVolume.enabled = true;
             for (float time = 0; time < 1; time += Time.deltaTime)
             {
-                damageEffectIntensity = 1 - (float)(playerHealth.Health / playerHealth.OriginalHealth);
+                damageEffectIntensity = 1 - (float)(playerHealth.Health / playerHealth.HealthOnStart);
                 foreach (var overlay in overlays)
                     overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, Mathf.Lerp(overlay.color.a, damageEffectIntensity, time));
                 PostProcessVolume.weight = Mathf.Lerp(PostProcessVolume.weight, damageEffectIntensity, time);
             }
-            while (playerHealth.Health < playerHealth.OriginalHealth)
+            while (playerHealth.Health < playerHealth.HealthOnStart)
             {
-                damageEffectIntensity = 1 - (float)(playerHealth.Health / playerHealth.OriginalHealth);
+                damageEffectIntensity = 1 - (float)(playerHealth.Health / playerHealth.HealthOnStart);
                 foreach (var overlay in overlays)
                     overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, damageEffectIntensity);
                 PostProcessVolume.weight = damageEffectIntensity;
                 yield return null;
             }
             foreach (var overlay in overlays)
-                overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, 1 - (float)(playerHealth.Health / playerHealth.OriginalHealth));
+                overlay.color = new Color(overlay.color.r, overlay.color.g, overlay.color.b, 1 - (float)(playerHealth.Health / playerHealth.HealthOnStart));
             PostProcessVolume.enabled = false;
             PostProcessVolume.weight = 0;
         }

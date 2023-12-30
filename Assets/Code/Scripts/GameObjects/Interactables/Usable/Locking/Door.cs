@@ -72,9 +72,9 @@ namespace InteractableNS.Usable
         }
         public override void OpenLockWithoutEvents()
         {
-            base.OpenLock();
+            base.OpenLockWithoutEvents();
             isPreviouslyLocked = false;
-            PrintMessage(UnlockMessage);
+            PrintMessage(UnlockMessage?.GetText());
         }
         public override void CloseLock()
         {
@@ -113,7 +113,7 @@ namespace InteractableNS.Usable
                 if (IsLocked)
                 {
                     SetAnimatorValues(IsOpened, IsLocked);
-                    PrintMessage(LockedMessage);
+                    PrintMessage(LockedMessage?.GetText());
                     OnLockedEvent?.Invoke();
                 }
                 else

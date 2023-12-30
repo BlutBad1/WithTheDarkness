@@ -49,4 +49,5 @@ MonoBehaviour:
   - GameObject: {fileID: 4183971913395578814, guid: 84967b3db68603c4a9bfb7d8db336b85, type: 3}
     Parent: {fileID: 0}
     SpawnChance: 10
-    SupplySpawnChance: 0
+    IsPrefab: 1
+    InnerSupplySpawnChance: 100

@@ -732,6 +732,7 @@ GameObject:
   - component: {fileID: 4577018618233252612}
   - component: {fileID: 8844004771707835688}
   - component: {fileID: 4881743828853568643}
+  - component: {fileID: 3487266556504390484}
   - component: {fileID: 35700097509054461}
   m_Layer: 0
   m_Name: RevolverProp
@@ -813,6 +814,7 @@ MonoBehaviour:
   promptMessage: 
   LastWhoInteracted: {fileID: 0}
   WeaponEntity: 1
+  Prop: {fileID: 3487266556504390484}
   MinMaxAmountOfBulletToAdd: {x: 1, y: 7}
   disapperingSpeed: 0.8
   IfWeaponNotUnlocked:
@@ -886,6 +888,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &3487266556504390484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4577018618233252614}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb0d7a77a96dd34195d1e7839c5b2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropBody: {fileID: 4577018617787758966}
 --- !u!54 &35700097509054461
 Rigidbody:
   m_ObjectHideFlags: 0

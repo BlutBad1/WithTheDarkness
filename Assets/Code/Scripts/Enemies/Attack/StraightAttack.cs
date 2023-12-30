@@ -83,9 +83,10 @@ namespace EnemyNS.Attack
             {
                 if (timeBetweenAttacks > AttackDelay)
                 {
+                    HitData hitData = new HitData((Enemy.Movement.PursuedTarget.transform.position - gameObject.transform.position).normalized);
                     IDamageable damageable = UtilitiesNS.Utilities.GetComponentFromGameObject<IDamageable>(other.gameObject);
                     TakeDamageData takeDamageData = new TakeDamageData(damageable, Damage, AttackForce,
-                     (Enemy.Movement.PursuedTarget.transform.position - gameObject.transform.position).normalized, gameObject);
+                    hitData, gameObject);
                     if (IsAttacking && damageable != null)
                         damageable.TakeDamage(takeDamageData);
                     timeBetweenAttacks = 0;

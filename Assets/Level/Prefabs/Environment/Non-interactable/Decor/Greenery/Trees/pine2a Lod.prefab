@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2987197545902301602}
   - component: {fileID: 2987197545407649151}
   - component: {fileID: 8243784025496509046}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: pine2a Lod
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 17e24815e19fc1d4d86e98093700fa03, type: 2}
+  - {fileID: 2100000, guid: e9ad3e92c3d5b8848baa0f62c47f7300, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

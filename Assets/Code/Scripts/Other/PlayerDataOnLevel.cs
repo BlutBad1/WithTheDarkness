@@ -35,6 +35,8 @@ namespace Data.Player
         public float GlowTime = 100f;
         [Min(0)]
         public float MaxGlowTime = 100f;
+        public float LightIntensity = 2.5f;
+        public float LightRange = 22;
         public float LightUpRange = 20;
         public float LightUpSpotAngle = 60;
         private void Awake()
@@ -46,39 +48,27 @@ namespace Data.Player
         public void InitializePlayerStats()
         {
             PlayerHealth[] health = GameObject.FindObjectsOfType<PlayerHealth>();
-            if (health != null)
+            foreach (var h in health)
             {
-                foreach (var h in health)
-                {
-                    h.Health = Health;
-                    h.TimeAfterHitToRegen = TimeAfterHitToRegen;
-                    h.InvincibilityTime = InvincibilityTime;
-                }
+                h.Health = Health;
+                h.TimeAfterHitToRegen = TimeAfterHitToRegen;
+                h.InvincibilityTime = InvincibilityTime;
             }
             PlayerInteract[] interacts = GameObject.FindObjectsOfType<PlayerInteract>();
-            if (interacts != null)
-            {
-                foreach (var interacte in interacts)
-                    interacte.InteracteDistance = PlayerInteracteDistance;
-            }
+            foreach (var interacte in interacts)
+                interacte.InteracteDistance = PlayerInteracteDistance;
             PlayerMotor[] playerMotors = GameObject.FindObjectsOfType<PlayerMotor>();
-            if (playerMotors != null)
+            foreach (var motor in playerMotors)
             {
-                foreach (var motor in playerMotors)
-                {
-                    motor.DefaultSpeed = DefaultSpeed;
-                    motor.SprintingSpeed = SprintingSpeed;
-                }
+                motor.DefaultSpeed = DefaultSpeed;
+                motor.SprintingSpeed = SprintingSpeed;
             }
             PlayerSprintLogic[] playerSprintLogic = GameObject.FindObjectsOfType<PlayerSprintLogic>();
-            if (playerSprintLogic != null)
+            foreach (var sprint in playerSprintLogic)
             {
-                foreach (var sprint in playerSprintLogic)
-                {
-                    sprint.SprintingTime = SprintingTime;
-                    //sprint.TimeBeforeRestore = TimeBeforeStaminaRestore;
-                    //sprint.StaminaRestoreMultiplier = StaminaRestoreMultiplier;
-                }
+                sprint.SprintingTime = SprintingTime;
+                //sprint.TimeBeforeRestore = TimeBeforeStaminaRestore;
+                //sprint.StaminaRestoreMultiplier = StaminaRestoreMultiplier;
             }
         }
         public void InitializeWeapon()
@@ -96,22 +86,23 @@ namespace Data.Player
         public void LightInitazlie()
         {
             LightGlowTimer[] lightGlowTimers = GameObject.FindObjectsOfType<LightGlowTimer>();
-            if (lightGlowTimers != null)
+
+            foreach (var lightGlowTimer in lightGlowTimers)
             {
-                foreach (var lightGlowTimer in lightGlowTimers)
-                {
-                    lightGlowTimer.CurrentTimeLeftToGlow = GlowTime;
-                    lightGlowTimer.MaxTimeOfGlowing = MaxGlowTime;
-                }
+                lightGlowTimer.CurrentTimeLeftToGlow = GlowTime;
+                lightGlowTimer.MaxTimeOfGlowing = MaxGlowTime;
+            }
+            PlayerMainLampLight[] playerMainLampLights = GameObject.FindObjectsOfType<PlayerMainLampLight>();
+            foreach (var playerMainLampLight in playerMainLampLights)
+            {
+                playerMainLampLight.SpotLight.range = LightRange;
+                playerMainLampLight.SpotLight.intensity = LightIntensity;
             }
             PlayerLightUp[] playerLightUp = GameObject.FindObjectsOfType<PlayerLightUp>();
-            if (playerLightUp != null)
+            foreach (var pLU in playerLightUp)
             {
-                foreach (var pLU in playerLightUp)
-                {
-                    pLU.LightUpRange = LightUpRange;
-                    pLU.LightUpSpotAngle = LightUpSpotAngle;
-                }
+                pLU.LightUpRange = LightUpRange;
+                pLU.LightUpSpotAngle = LightUpSpotAngle;
             }
         }
     }

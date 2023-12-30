@@ -3,7 +3,7 @@ using UIControlling;
 using UnityEngine;
 using static SettingsNS.AudioSettings;
 
-namespace SettingsNS.VolumeNS
+namespace UINS.Settings.Audio
 {
     public class VolumeSettings : SliderInputBox
     {

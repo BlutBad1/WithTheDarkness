@@ -1,6 +1,6 @@
 using EffectsNS.PlayerEffects;
-using HudNS;
 using InteractableNS;
+using SoundNS;
 using System.Collections;
 using UnityEditor;
 using UnityEngine;
@@ -9,13 +9,15 @@ namespace ScenesManagementNS
 {
     public class ToNextScene : ProgressingInteractable
     {
-        BlackScreenDimming bSD;
+        public MuteSound MuteSound;
         public float BlackScreenFadeSpeed = 0.8f;
+        public float MuteSoundTranTime = 10f;
         public bool UseAsTrigger = false;
         [HideInInspector]
         public bool DefineByProgressManager = true;
         [HideInInspector]
         public string NextScene;
+        private BlackScreenDimming bSD;
         protected override void Interact()
         {
             bSD = LastWhoInteracted.gameObject.transform.parent.GetComponentInChildren<BlackScreenDimming>();
@@ -24,6 +26,7 @@ namespace ScenesManagementNS
                 bSD.FadeSpeed = BlackScreenFadeSpeed;
                 bSD.DimmingEnable();
             }
+            MuteSound?.MuteVolume(MuteSoundTranTime);
             StartCoroutine(ToTheNextScene());
         }
         private void OnTriggerEnter(Collider other)
@@ -31,7 +34,7 @@ namespace ScenesManagementNS
             if (UseAsTrigger)
             {
                 if (other.gameObject.TryGetComponent(out LastWhoInteracted))
-                    StartBaseInteraction(LastWhoInteracted);
+                    Interact();
             }
         }
         IEnumerator ToTheNextScene()

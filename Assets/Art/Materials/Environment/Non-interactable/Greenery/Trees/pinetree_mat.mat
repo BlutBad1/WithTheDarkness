@@ -15,11 +15,10 @@ Material:
   m_InvalidKeywords:
   - _WINDQUALITY_NONE
   m_LightmapFlags: 5
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2450
-  stringTagMap:
-    RenderType: TreeTransparentCutout
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
@@ -97,7 +96,7 @@ Material:
     - _DstBlend: 0
     - _Glossiness: 0
     - _HueVariationKwToggle: 0
-    - _Metallic: 0
+    - _Metallic: 1
     - _Mode: 0
     - _NormalMapKwToggle: 0
     - _Occlusion: 0
@@ -115,7 +114,7 @@ Material:
     - _WindQuality: 0
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 0.5377358, g: 0.5377358, b: 0.5377358, a: 1}
+    - _Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HueVariation: {r: 1, g: 1, b: 1, a: 0.1}
     - _HueVariationColor: {r: 1, g: 0.5, b: 0, a: 0.1}

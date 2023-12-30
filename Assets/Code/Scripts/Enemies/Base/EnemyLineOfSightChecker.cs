@@ -1,3 +1,4 @@
+using EnemyNS.Base;
 using SerializableTypes;
 using System.Collections;
 using UnityEngine;
@@ -5,6 +6,7 @@ namespace EnemyNS.Attack
 {
     public class EnemyLineOfSightChecker : MonoBehaviour
     {
+        public Enemy Enemy;
         public GameObject GameObjectForRay;
         [Min(1)]
         public int GapBetweenRay = 10;
@@ -31,6 +33,8 @@ namespace EnemyNS.Attack
             if (!GameObjectForRay)
                 GameObjectForRay = gameObject;
             SetRaycastsDeviation();
+            OnGainSight += Enemy.HandleGainCreatureInSight;
+            OnLoseSight += Enemy.HandleLoseCreatureFromSight;
         }
         private void Update()
         {

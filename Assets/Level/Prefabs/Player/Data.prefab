@@ -45,7 +45,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - Name: DefaultDamageDecal
+  - Name: DamageDecal_Default
+    Prefab: {fileID: 2325169165262418282, guid: 32800656310e42f48a92dc5c970fba78, type: 3}
+    Size: 3
+    Iterator: 0
+    poolableObjects:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - Name: DamageDecal_Empty
     Prefab: {fileID: 2325169165262418282, guid: c633dc7aba8f1994cbd1df0a5f40226a, type: 3}
     Size: 1
     Iterator: 0
@@ -60,43 +75,7 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-  - Name: EmptyDamageDecal
-    Prefab: {fileID: 2325169165262418282, guid: c633dc7aba8f1994cbd1df0a5f40226a, type: 3}
-    Size: 1
-    Iterator: 0
-    poolableObjects:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - Name: EnemyBulletHoleDecal
-    Prefab: {fileID: 8546640483927534884, guid: ca9d77b7343fe834f9224f11c1eb5284, type: 3}
-    Size: 10
-    Iterator: 0
-    poolableObjects:
-    - {fileID: 0}
-  - Name: EnemyDamageDecal_Melee
-    Prefab: {fileID: 8546640483927534884, guid: ef88f7e50777f8b48ac5872525562655, type: 3}
-    Size: 10
-    Iterator: 0
-    poolableObjects:
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-    - {fileID: 0}
-  - Name: DefaultBulletHole
+  - Name: BulletHole_Default
     Prefab: {fileID: 2325169165262418282, guid: cbee1daf111edcf4bb33d20d705c348b, type: 3}
     Size: 20
     Iterator: 0
@@ -121,8 +100,14 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-  - Name: InteractableBulletHole
-    Prefab: {fileID: 2325169165262418282, guid: 9f104050b9cbcca4c84c10fce8105559, type: 3}
+  - Name: BulletHole_Enemy
+    Prefab: {fileID: 8546640483927534884, guid: ca9d77b7343fe834f9224f11c1eb5284, type: 3}
+    Size: 10
+    Iterator: 0
+    poolableObjects:
+    - {fileID: 0}
+  - Name: BulletHole_Interactable
+    Prefab: {fileID: 1916846706103980635, guid: 0a70b65f1924a934c98b4e773b3ff339, type: 3}
     Size: 10
     Iterator: 0
     poolableObjects:
@@ -136,9 +121,9 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-  - Name: MeleeDecal
-    Prefab: {fileID: 7674192445221840046, guid: 758048462d7382049a2eda9088cb65fb, type: 3}
-    Size: 15
+  - Name: BulletHole_Metal
+    Prefab: {fileID: 604279374209594092, guid: d5c9d45ae4c493e4a969095c71620499, type: 3}
+    Size: 5
     Iterator: 0
     poolableObjects:
     - {fileID: 0}
@@ -151,9 +136,24 @@ MonoBehaviour:
     - {fileID: 0}
     - {fileID: 0}
     - {fileID: 0}
-  - Name: MetalBulletHole
-    Prefab: {fileID: 2325169165262418282, guid: cbecc4837af34e74884ea69b28b56ea3, type: 3}
-    Size: 5
+  - Name: MeleeDecal_Enemy
+    Prefab: {fileID: 8546640483927534884, guid: ef88f7e50777f8b48ac5872525562655, type: 3}
+    Size: 10
+    Iterator: 0
+    poolableObjects:
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+    - {fileID: 0}
+  - Name: MeleeDecal_AXE_Default
+    Prefab: {fileID: 7674192445221840046, guid: 758048462d7382049a2eda9088cb65fb, type: 3}
+    Size: 15
     Iterator: 0
     poolableObjects:
     - {fileID: 0}
@@ -211,48 +211,54 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DamageDecalObjects:
-  - WeaponEntity: -2
-    Tag: 16385
+  - WeaponEntity: -1
+    Tag: 16384
     LayerMask:
       serializedVersion: 2
-      m_Bits: 8192
-    DamageDecalType: EnemyBulletHoleDecal
-  - WeaponEntity: 1
-    Tag: 16385
+      m_Bits: 130068481
+    DamageDecalType: DamageDecal_Default
+  - WeaponEntity: -1
+    Tag: 4096
     LayerMask:
       serializedVersion: 2
-      m_Bits: 8192
-    DamageDecalType: EnemyDamageDecal_Melee
+      m_Bits: 79696393
+    DamageDecalType: DamageDecal_Empty
   - WeaponEntity: -2
     Tag: 257
     LayerMask:
       serializedVersion: 2
-      m_Bits: 12587529
-    DamageDecalType: DefaultBulletHole
-  - WeaponEntity: -2
-    Tag: 512
-    LayerMask:
-      serializedVersion: 2
-      m_Bits: 12587529
-    DamageDecalType: InteractableBulletHole
-  - WeaponEntity: -1
-    Tag: 8192
-    LayerMask:
-      serializedVersion: 2
-      m_Bits: 12587529
-    DamageDecalType: EmptyDamageDecal
-  - WeaponEntity: 1
-    Tag: 769
-    LayerMask:
-      serializedVersion: 2
-      m_Bits: 12587529
-    DamageDecalType: MeleeDecal
-  - WeaponEntity: 14
+      m_Bits: 130060809
+    DamageDecalType: BulletHole_Default
+  - WeaponEntity: 30
     Tag: 1024
     LayerMask:
       serializedVersion: 2
       m_Bits: 8704
-    DamageDecalType: MetalBulletHole
+    DamageDecalType: BulletHole_Metal
+  - WeaponEntity: -2
+    Tag: 512
+    LayerMask:
+      serializedVersion: 2
+      m_Bits: 79696393
+    DamageDecalType: BulletHole_Interactable
+  - WeaponEntity: -2
+    Tag: 16385
+    LayerMask:
+      serializedVersion: 2
+      m_Bits: 67117056
+    DamageDecalType: BulletHole_Enemy
+  - WeaponEntity: 1
+    Tag: 769
+    LayerMask:
+      serializedVersion: 2
+      m_Bits: 62951945
+    DamageDecalType: MeleeDecal_AXE_Default
+  - WeaponEntity: 1
+    Tag: 16385
+    LayerMask:
+      serializedVersion: 2
+      m_Bits: 67117056
+    DamageDecalType: MeleeDecal_Enemy
 --- !u!1 &8070553945707519146
 GameObject:
   m_ObjectHideFlags: 0

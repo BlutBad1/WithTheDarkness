@@ -19,8 +19,9 @@ namespace EnemyNS.Attack
             {
                 if (IsAttacking && Enemy.Movement.PursuedTarget.TryGetComponent(out IDamageable damageable))
                 {
+                    HitData hitData = new HitData((Enemy.Movement.PursuedTarget.transform.position - gameObject.transform.position).normalized);
                     TakeDamageData takeDamageData = new TakeDamageData(damageable, Damage, AttackForce,
-                        (Enemy.Movement.PursuedTarget.transform.position - gameObject.transform.position).normalized, gameObject);
+                      hitData, gameObject);
                     damageable.TakeDamage(takeDamageData);
                 }
             }

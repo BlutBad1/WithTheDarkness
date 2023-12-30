@@ -14,12 +14,12 @@ namespace PlayerScriptsNS
         public float PercentResistance = 0;
         [HideInInspector]
         public bool HasRegenStarted = false;
-        float timeSinceLastHit;
-        Coroutine CurrentRegenCoroutine;
+        private float timeSinceLastHit;
+        private Coroutine CurrentRegenCoroutine;
         private void Update()
         {
             timeSinceLastHit += Time.deltaTime;
-            if (Health < OriginalHealth && timeSinceLastHit > TimeAfterHitToRegen && !HasRegenStarted)
+            if (Health < HealthOnStart && timeSinceLastHit > TimeAfterHitToRegen && !HasRegenStarted)
                 StartRegen();
             if (Health <= 0 && !IsDead)
                 IsDead = true;
@@ -62,13 +62,13 @@ namespace PlayerScriptsNS
              damage - (damage * PercentResistance / 100);
         private IEnumerator RegenStartCoroutine()
         {
-            while (Health < OriginalHealth)
+            while (Health < HealthOnStart)
             {
                 Health += HealthRegenPerCycle;
                 yield return new WaitForSeconds(HeatlhRegenCycleTime);
             }
-            if (Health > OriginalHealth)
-                Health = OriginalHealth;
+            if (Health > HealthOnStart)
+                Health = HealthOnStart;
             HasRegenStarted = false;
         }
     }

@@ -14,11 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Axe
   WeaponType: 0
-  IsUnlocked: 1
+  WeaponEntity: 0
   IsTwoHanded: 0
+  WeaponPrefab: {fileID: 4694614147025075474, guid: ad9ef0d8f1afcf9468bc5618f29bf0b4, type: 3}
   Damage: 10
   Force: 3
-  AttackDistance: 3
+  AttackDistance: 1.7
   AttackRadius: 0.3
   AttackTime: 1.5
   AnimTransitionTime: 0.4
+  CurrentDurability: 12
+  MaxDurability: 100
+  MoveDurabilityCost: 15

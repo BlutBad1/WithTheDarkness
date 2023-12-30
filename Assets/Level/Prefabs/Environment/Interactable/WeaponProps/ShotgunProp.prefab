@@ -226,6 +226,7 @@ GameObject:
   - component: {fileID: 3905925490967858188}
   - component: {fileID: 2522910263840869985}
   - component: {fileID: 2466662019128985289}
+  - component: {fileID: 1525385011034367812}
   m_Layer: 0
   m_Name: ShotgunProp
   m_TagString: Untagged
@@ -313,6 +314,7 @@ MonoBehaviour:
   promptMessage: 
   LastWhoInteracted: {fileID: 0}
   WeaponEntity: 2
+  Prop: {fileID: 1525385011034367812}
   MinMaxAmountOfBulletToAdd: {x: 1, y: 2}
   disapperingSpeed: 0.8
   IfWeaponNotUnlocked:
@@ -386,3 +388,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1525385011034367812
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3905925490967858189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5fb0d7a77a96dd34195d1e7839c5b2f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PropBody: {fileID: 80749327316612390}

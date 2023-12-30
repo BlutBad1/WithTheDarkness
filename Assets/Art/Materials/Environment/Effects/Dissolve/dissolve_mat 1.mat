@@ -66,6 +66,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - GLOSSYREFLECTIONS_OFF: 0
+    - SPECULARHIGHLIGHTS_OFF: 0
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _BumpScale: 1
@@ -76,6 +78,7 @@ Material:
     - _DissolveTime: -1
     - _DstBlend: 0
     - _EdgeThickness: 0.01
+    - _GLOSSYREFLECTIONS_OFF: 0
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -94,6 +97,8 @@ Material:
     - _RightBound: 0
     - _RightBound_1: 0
     - _RimPower: 1
+    - _SPECULARHIGHLIGHTS: 0
+    - _SPECULARHIGHLIGHTS_OFF: 0
     - _SmoothnessTextureChannel: 0
     - _Smothness: 0
     - _SpecularHighlights: 1

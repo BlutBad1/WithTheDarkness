@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4124335092676201842}
   - component: {fileID: 2222635970785999288}
   - component: {fileID: -7761981482803565856}
+  - component: {fileID: 1302752678711373737}
   m_Layer: 0
   m_Name: SM_AFS_Log16_LowEndPC
   m_TagString: Untagged
@@ -29,6 +30,7 @@ Transform:
   m_LocalRotation: {x: 0.000000021855694, y: 0, z: -0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -52,10 +54,12 @@ MeshRenderer:
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -80,6 +84,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!65 &-7761981482803565856
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -93,3 +98,22 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.11683898, y: 0.32625243, z: 0.099831596}
   m_Center: {x: 0.0008765124, y: 0.15641366, z: 0.00037880056}
+--- !u!205 &1302752678711373737
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 421262296314796141}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.0008765124, y: 0.15641366, z: 0.00037880242}
+  m_Size: 0.32625243
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.09358239
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 2222635970785999288}
+  m_Enabled: 1

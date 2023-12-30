@@ -16,7 +16,18 @@ namespace InteractableNS.Usable.Locking
         [HideInInspector, ListToPopup(typeof(KeyInteractable), "LockingTypes")]
         public string GenericKeyName;
         [HideInInspector]
-        public KeyData Key = new KeyData();
+        public KeyData key = new KeyData();
+        public KeyData Key
+        {
+            get
+            {
+                key.IsGeneric = IsGeneric;
+                key.KeyName = KeyName;
+                key.GenericKeyName = GenericKeyName;
+                return key;
+            }
+            set { key = value; }
+        }
         [HideInInspector]
         public AvailableKeyData AvailableKeyData;
         protected override void Interact()
@@ -27,11 +38,8 @@ namespace InteractableNS.Usable.Locking
             else if (IsGeneric)
                 AvailableKeyData.AvailableKeys.Add(Key);
         }
-        public void OnBeforeSerialize()
-        {
+        public void OnBeforeSerialize() =>
             LockingTypes = LockingTypeData.Instance.LockingTypes;
-        }
-
         public void OnAfterDeserialize()
         {
         }
@@ -59,7 +67,7 @@ namespace InteractableNS.Usable.Locking
             {
                 property = serializedObject.FindProperty("GenericKeyName");
                 EditorGUILayout.PropertyField(property, new GUIContent("KeyName"), true);
-                script.Key.KeyName = script.GenericKeyName;
+                script.Key.GenericKeyName = script.GenericKeyName;
                 script.Key.IsGeneric = true;
             }
             property = serializedObject.FindProperty("AvailableKeyData");

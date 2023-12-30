@@ -3,11 +3,13 @@ using DifferentUnityMethods;
 using MyConstants;
 using SerializableTypes;
 using SettingsNS;
+using UINS.Settings.Audio;
+using UINS.Settings.Game;
+using UINS.Settings.Video;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
-namespace UINS
+namespace UINS.Settings
 {
     [System.Serializable]
     public class SettingsData : ISaveData
@@ -16,6 +18,7 @@ namespace UINS
         public float MasterVolume;
         public float SoundVolume;
         public float MusicVolume;
+        public float SFXVolume;
         ///VIDEO
         public int ResolutionWidth;
         public int ResolutionHeight;
@@ -30,11 +33,12 @@ namespace UINS
         public bool YInverse;
         public bool ChangeWeaponAfterPickup;
         public SerializableDictionary<string, string> Bindings = new SerializableDictionary<string, string>();
-        public SettingsData(float masterVolume, float soundVolume, float musicVolume, int resolutionWidth, int resolutionHeight, FullScreenMode fullScreenMode, int vSync, float brightness, bool hdrOn, float xSensitivity, float ySensitivity, bool xInverse, bool yInverse, bool changeWeaponAfterPickup, SerializableDictionary<string, string> bindings)
+        public SettingsData(float masterVolume, float soundVolume, float musicVolume, float sfxVolume, int resolutionWidth, int resolutionHeight, FullScreenMode fullScreenMode, int vSync, float brightness, bool hdrOn, float xSensitivity, float ySensitivity, bool xInverse, bool yInverse, bool changeWeaponAfterPickup, SerializableDictionary<string, string> bindings)
         {
             MasterVolume = masterVolume;
             SoundVolume = soundVolume;
             MusicVolume = musicVolume;
+            SFXVolume = sfxVolume;
             ResolutionWidth = resolutionWidth;
             ResolutionHeight = resolutionHeight;
             FullScreenMode = fullScreenMode;
@@ -54,13 +58,11 @@ namespace UINS
         public GameObject SettingsMenuGameObject;
         public static SettingsMenuInitialize instance;
         [Header("Volume Settings")]
-        public Slider MasterVolumeSlider;
-        public Slider SoundVolumeSlider;
-        public Slider MusicVolumeSlider;
+        public AudioSettingsMenu AudioSettings;
         [Header("Video Settings")]
-        public VideoSettings VideoSettings;
+        public VideoSettingsMenu VideoSettings;
         [Header("Game Settings")]
-        public GameSettingsUI GameSettingsUI;
+        public GameSettingsMenu GameSettingsUI;
         private SettingsData currentSavedSettings;
         public SettingsData CurrentSavedSettings
         {
@@ -89,6 +91,7 @@ namespace UINS
                 SettingsNS.AudioSettings.MasterVolume = CurrentSavedSettings.MasterVolume;
                 SettingsNS.AudioSettings.SoundVolume = CurrentSavedSettings.SoundVolume;
                 SettingsNS.AudioSettings.MusicVolume = CurrentSavedSettings.MusicVolume;
+                SettingsNS.AudioSettings.SFXVolume = CurrentSavedSettings.SFXVolume;
                 Resolution resolution = new Resolution();
                 resolution.width = CurrentSavedSettings.ResolutionWidth;
                 resolution.height = CurrentSavedSettings.ResolutionHeight;
@@ -118,6 +121,7 @@ namespace UINS
                 SettingsNS.AudioSettings.MasterVolume = 1f;
                 SettingsNS.AudioSettings.SoundVolume = 1f;
                 SettingsNS.AudioSettings.MusicVolume = 1f;
+                SettingsNS.AudioSettings.SFXVolume = 1f;
                 GraphicSettings.CurrentResolution = Screen.currentResolution;
                 GraphicSettings.CurrentFullScreenMode = FullScreenMode.ExclusiveFullScreen;
                 GraphicSettings.Brightness = 1f;
@@ -139,10 +143,22 @@ namespace UINS
                     if (!string.IsNullOrEmpty(binding.overridePath))
                         bindings[binding.id.ToString()] = binding.overridePath;
                 }
-            CurrentSavedSettings = new SettingsData(SettingsNS.AudioSettings.MasterVolume, SettingsNS.AudioSettings.SoundVolume,
-            SettingsNS.AudioSettings.MusicVolume, GraphicSettings.CurrentResolution.width, GraphicSettings.CurrentResolution.height, GraphicSettings.CurrentFullScreenMode, GraphicSettings.VSync,
-            GraphicSettings.Brightness, GraphicSettings.HDROn, Mathf.Abs(GameSettings.XSensitivity), Mathf.Abs(GameSettings.YSensitivity), GameSettings.XInverse,
-            GameSettings.YInverse, GameSettings.ChangeWeaponAfterPickup, bindings);
+            CurrentSavedSettings = new SettingsData(
+                SettingsNS.AudioSettings.MasterVolume,
+                SettingsNS.AudioSettings.SoundVolume,
+                SettingsNS.AudioSettings.MusicVolume,
+                SettingsNS.AudioSettings.SFXVolume,
+                GraphicSettings.CurrentResolution.width,
+                GraphicSettings.CurrentResolution.height,
+                GraphicSettings.CurrentFullScreenMode,
+                GraphicSettings.VSync,
+                GraphicSettings.Brightness,
+                GraphicSettings.HDROn,
+                Mathf.Abs(GameSettings.XSensitivity),
+                Mathf.Abs(GameSettings.YSensitivity),
+                GameSettings.XInverse,
+                GameSettings.YInverse,
+                GameSettings.ChangeWeaponAfterPickup, bindings);
             FileDataHandler fileDataHandler = new FileDataHandler(Application.persistentDataPath, DataConstants.SETTINGS_DATA_PATH, false);
             fileDataHandler.Save(CurrentSavedSettings);
         }
@@ -163,20 +179,7 @@ namespace UINS
         }
         public void InitializeVolumeSettings()
         {
-            UnityEngine.UI.Slider.SliderEvent sliderBufferEvent = MasterVolumeSlider.onValueChanged;
-            MasterVolumeSlider.onValueChanged = new UnityEngine.UI.Slider.SliderEvent();
-            MasterVolumeSlider.value = SettingsNS.AudioSettings.MasterVolume * 100f;
-            MasterVolumeSlider.onValueChanged = sliderBufferEvent;
-            ////
-            sliderBufferEvent = SoundVolumeSlider.onValueChanged;
-            SoundVolumeSlider.onValueChanged = new UnityEngine.UI.Slider.SliderEvent();
-            SoundVolumeSlider.value = SettingsNS.AudioSettings.SoundVolume * 100f;
-            SoundVolumeSlider.onValueChanged = sliderBufferEvent;
-            ////
-            sliderBufferEvent = MusicVolumeSlider.onValueChanged;
-            MusicVolumeSlider.onValueChanged = new UnityEngine.UI.Slider.SliderEvent();
-            MusicVolumeSlider.value = SettingsNS.AudioSettings.MusicVolume * 100f;
-            MusicVolumeSlider.onValueChanged = sliderBufferEvent;
+            AudioSettings.InitializeSliders();
         }
         public void InitializeVideoSettings()
         {

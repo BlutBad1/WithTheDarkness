@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 134605576006911860}
   - component: {fileID: 134605576074970341}
   - component: {fileID: 3233898854679795798}
-  - component: {fileID: 1215558520932402270}
   - component: {fileID: 888949499015243895}
+  - component: {fileID: 4267668228036702790}
   - component: {fileID: 7848366456721622146}
   m_Layer: 15
   m_Name: rock_08
@@ -121,18 +121,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 5356997691750109365, guid: f3fcc5cde807e0e468ed655fd5460fd6, type: 3}
---- !u!114 &1215558520932402270
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 134605576004917684}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d0dede48ce2124478f4b51ca54d5e72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &888949499015243895
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -149,6 +137,21 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &4267668228036702790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134605576004917684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6766ac2f9c4487b4abd7d3be75bfad1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
+  InvokeOnTakeDamageAfterDead: 1
+  OriginalHealth: 0
 --- !u!114 &7848366456721622146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,4 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68e11f66a005dab4dacfacd732e613d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImpactForce: 10
+  damageable: {fileID: 4267668228036702790}
+  Rigidbody: {fileID: 888949499015243895}
+  PushForce: 1

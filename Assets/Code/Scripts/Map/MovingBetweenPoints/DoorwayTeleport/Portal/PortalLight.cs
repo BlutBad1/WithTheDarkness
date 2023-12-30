@@ -8,11 +8,11 @@ namespace PortalNS
         public Light SpotLight;
         public float LerpSpeed = 100;
         private Vector3 originalSpotLightLocalPosition;
-        private PlayerLampSpotLight playerLampSpotLight;
+        private PlayerMainLampLight playerLampSpotLight;
         private void Awake()
         {
             originalSpotLightLocalPosition = SpotLight.transform.localPosition;
-            playerLampSpotLight = UnityEngine.Object.FindObjectsOfType<PlayerLampSpotLight>()[0];
+            playerLampSpotLight = UnityEngine.Object.FindObjectsOfType<PlayerMainLampLight>()[0];
             SpotLight.intensity = playerLampSpotLight.SpotLight.intensity;
         }
         private void Update()

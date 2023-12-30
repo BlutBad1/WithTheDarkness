@@ -57,11 +57,10 @@ namespace MyConstants
         {
             public static class MainSpawnerConstants
             {
-                public const int MAX_AMOUNT_OF_CYCLES = 5;
             }
             public static class KeySpawnerConstants
             {
-                public const float REQUIRED_KEY_SPAWN_CHANCE_COEFF_ON_SECOND_HALF = 2;
+                public const float REQUIRED_KEY_SPAWN_CHANCE_DIV_COEFF_ON_FIRST_HALF = 2;
             }
         }
         namespace ItemConstants
@@ -128,7 +127,7 @@ namespace MyConstants
             public const string PUTTING_DOWN = "PuttingDown";
             public const string PICKING_UP = "PickingUp";
             public const string DAMAGE_DECALS_DATA_BASE = "Data/MainDamageDecalsDataBase";
-            public const string DEFAULT_DAMAGE_DECAL = "DefaultDamageDecal";
+            public const string DEFAULT_DAMAGE_DECAL = "DamageDecal_Default";
         }
         public static class LampConstants
         {

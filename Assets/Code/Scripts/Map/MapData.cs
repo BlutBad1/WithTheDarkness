@@ -55,7 +55,7 @@ namespace LocationManagementNS
             if (locations != null && locations?.Count > 0)
                 ShuffleLocations();
             DefineLocationElements(TheFirstLocation, true);
-            DefineLocationElements(TheLastLocation);
+            DefineLocationElements(TheLastLocation, TheLastLocation.EntryTeleportTrigger == TheFirstLocation.EntryTeleportTrigger);
         }
         public void AddNewLocation(Location location)
         {
@@ -129,7 +129,10 @@ namespace LocationManagementNS
                     break;
             }
             if (!loc.EntryTeleportTrigger)
-                loc.EntryTeleportTrigger = loc.MapData.transform.Find(LocationsConstants.ENTRY_TO_LOCATION).GetComponentInChildren<TeleportTrigger>();
+            {
+                loc.EntryTeleportTrigger = loc.MapData.GetComponentInChildren<EntryToLocation>().EntryTeleportTrigger;
+                //loc.EntryTeleportTrigger = loc.MapData.transform.Find(LocationsConstants.ENTRY_TO_LOCATION).GetComponentInChildren<TeleportTrigger>();
+            }
             loc.MapData.SetActive(true);
             loc.MapData.SetActive(lastStatus);
         }
@@ -149,7 +152,7 @@ namespace LocationManagementNS
                 DefineLocationElements(location);
             ActiveLocations.Add(location);
         }
-        struct MapShuffleJob : IJobFor
+        private struct MapShuffleJob : IJobFor
         {
             public NativeArray<bool> _isLocationSpawned;
             public NativeArray<float> _locationsSpawnChance;

@@ -4,8 +4,10 @@ using System.Linq;
 using TMPro;
 using UnityEngine;
 using WeaponManagement;
+using WeaponNS;
+using WeaponNS.ShootingWeaponNS;
 
-namespace WeaponNS.ShootingWeaponNS
+namespace HudNS.Weapon.ShootingWeapon
 {
     [RequireComponent(typeof(WeaponManagement.WeaponManager))]
     public class ShowAmmo : MonoBehaviour

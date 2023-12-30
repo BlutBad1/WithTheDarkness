@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 239825549039182619}
   - component: {fileID: 239825549039182616}
   - component: {fileID: 239825549039182617}
+  - component: {fileID: 3720362673942374872}
   m_Layer: 20
   m_Name: EntryToLocation
   m_TagString: Untagged
@@ -106,14 +107,27 @@ MonoBehaviour:
     m_Bits: 2048
   TeleportPointToHere: {fileID: 239825548857660513}
   TeleportPoint: {fileID: 0}
+  IsConnectedToMapData: 1
+  DefineNextLocation: 1
   spawnAfter: 2
   dimming: {fileID: 0}
   audioManager: {fileID: 0}
-  IsConnectedToMapData: 1
   DissolvingRefMat: {fileID: 2100000, guid: 78876caaf0904b345bf8973f3c9d053e, type: 2}
   DissolvingTime: 5
   DissolvingRefAudioSource: {fileID: 8598032991366998575}
-  ConnectedLocIndex: -2
+--- !u!114 &3720362673942374872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 239825549039182622}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dafa658bbcf093a4687f9aad3e24ce4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EntryTeleportTrigger: {fileID: 239825549039182617}
 --- !u!1 &2616234406148645303
 GameObject:
   m_ObjectHideFlags: 0

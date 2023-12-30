@@ -2,19 +2,32 @@ using UnityEngine;
 
 namespace DamageableNS
 {
+    public class HitData
+    {
+        public RaycastHit HitPoint;
+        public HitData(RaycastHit hitPoint)
+        {
+            HitPoint = hitPoint;
+        }
+        public HitData(Vector3 hitPosition)
+        {
+            HitPoint = new RaycastHit();
+            HitPoint.point = hitPosition;
+        }
+    }
     public class TakeDamageData
     {
         public IDamageable DamagedObject;
         public float Damage;
         public float Force;
-        public Vector3 HitPoint;
+        public HitData HitData;
         public GameObject FromGameObject;
-        public TakeDamageData(IDamageable damagedObject, float damage, float force, Vector3 hitPoint, GameObject fromGameObject = null)
+        public TakeDamageData(IDamageable damagedObject, float damage, float force, HitData hitPoint, GameObject fromGameObject = null)
         {
             DamagedObject = damagedObject;
             Damage = damage;
             Force = force;
-            HitPoint = hitPoint;
+            HitData = hitPoint;
             FromGameObject = fromGameObject;
         }
     }
@@ -24,15 +37,11 @@ namespace DamageableNS
         public delegate void DamageWithoutData();
         public event DamageWIthData OnTakeDamageWithDamageData;
         public event DamageWithoutData OnTakeDamageWithoutDamageData;
+        public event DamageWithoutData OnDead;
         public void TakeDamage(TakeDamageData takeDamageData);
         public void TakeDamage(float damage);
         public GameObject GetGameObject();
-        public static IDamageable GetDamageableFromGameObject(GameObject gameObject)
-        {
-            IDamageable damageable = gameObject.GetComponent<IDamageable>() != null ? gameObject.GetComponent<IDamageable>()
-            : gameObject.GetComponentInParent<IDamageable>() != null ? gameObject.GetComponentInParent<IDamageable>()
-            : gameObject.GetComponentInChildren<IDamageable>();
-            return damageable;
-        }
+        public static IDamageable GetDamageableFromGameObject(GameObject gameObject) =>
+            UtilitiesNS.Utilities.GetComponentFromGameObject<IDamageable>(gameObject, true);
     }
 }

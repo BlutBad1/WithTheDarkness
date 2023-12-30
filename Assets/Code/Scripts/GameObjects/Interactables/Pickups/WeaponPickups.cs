@@ -1,4 +1,4 @@
-using SettingsNS;
+using InteractableNS.Pickups.PropNS;
 using System;
 using UnityEngine;
 using WeaponManagement;
@@ -9,6 +9,7 @@ namespace InteractableNS.Pickups
     public class WeaponPickups : Interactable
     {
         public WeaponEntity WeaponEntity;
+        public Prop Prop;
         public Action ActionIfWeaponTypeIsNotOccupied;
         public Action ActionIfWeaponTypeIsOccupiedBySame;
         public Action ActionIfWeaponTypeIsOccupiedByOther;
@@ -26,14 +27,13 @@ namespace InteractableNS.Pickups
                 if (currentActiveWeapon == null)
                 {
                     weaponManager.ChangeActiveWeapon(thisWeapon.WeaponData.WeaponType, thisWeapon.WeaponData);
-                    if (GameSettings.ChangeWeaponAfterPickup)
-                        weaponManager.ChangeWeaponSelection(thisWeapon.WeaponData.WeaponType);
                     ActionIfWeaponTypeIsNotOccupied?.Invoke();
                 }
                 else if (thisWeapon == currentActiveWeapon)
                     ActionIfWeaponTypeIsOccupiedBySame?.Invoke();
                 else
                 {
+                    Prop.PropBody.SetActive(false);
                     Action methodToExecute = null;
                     methodToExecute = () =>
                     {
@@ -46,7 +46,7 @@ namespace InteractableNS.Pickups
                 }
             }
         }
-        protected GameObject SwitchPrefabs(GameObject prefab)
+        protected virtual GameObject SwitchPrefabs(GameObject prefab)
         {
             Transform newPropRootTran = transform.root.name == MyConstants.EnironmentConstants.ItemConstants.PropConstants.NEW_PROP_ROOT ?
                 transform.root : transform.root.Find(MyConstants.EnironmentConstants.ItemConstants.PropConstants.NEW_PROP_ROOT);
@@ -54,7 +54,16 @@ namespace InteractableNS.Pickups
             if (!propRoot)
                 propRoot = new GameObject(MyConstants.EnironmentConstants.ItemConstants.PropConstants.NEW_PROP_ROOT);
             propRoot.transform.parent = transform.parent;
-            Transform newPropTran = propRoot.transform.Find(prefab.name);
+            Prop[] props = UtilitiesNS.Utilities.FindAllComponentsInGameObject<Prop>(propRoot, true).ToArray();
+            Transform newPropTran = null;
+            foreach (var prop in props)
+            {
+                if (prop.name.Contains(prefab.name) && prop != Prop)
+                {
+                    prop.PropBody.SetActive(true);
+                    newPropTran = prop.gameObject.transform;
+                }
+            }
             GameObject newProp = newPropTran == null ? null : newPropTran.gameObject;
             if (!newProp)
             {
@@ -64,8 +73,8 @@ namespace InteractableNS.Pickups
             newProp.transform.parent = propRoot.transform;
             gameObject.transform.parent = propRoot.transform;
             ActionIfWeaponTypeIsOccupiedByOther?.Invoke();
-            gameObject.SetActive(false);
             newProp.SetActive(true);
+            gameObject.SetActive(false);
             return newProp;
         }
         protected void UnsubscribeFromEvent(Action method, WeaponManager weaponManager)

@@ -31,6 +31,7 @@ namespace LocationConnector
         [Min(0)]
         public float DissolvingTime = 5f;
         public AudioSourcesManager DissolveSounds;
+        public GameObject DissolveSoundGameObject;
         private Connector connector;
         private Dictionary<GameObject, Coroutine> currentTeleportCoroutines = new Dictionary<GameObject, Coroutine>();
         private Dictionary<GameObject, TeleportedGameobject> currentDisolveAudioSourcesManager = new Dictionary<GameObject, TeleportedGameobject>();
@@ -70,8 +71,9 @@ namespace LocationConnector
             connector.OriginGameObject.SetActive(false);
             if (IsConnectedToMapData)
             {
-                GameObject connectedLoc = MapData.Instance.GetLocationByIndex(connectedLocIndex).MapData;
-                connectedLoc.SetActive(false);
+                Location connectedLoc = MapData.Instance.GetLocationByIndex(connectedLocIndex);
+                //connectedLoc.SetActive(false);
+                StartCoroutine(DisableLoc(connectedLoc.MapData));
             }
         }
         public void DefineObjectLogic(GameObject gameObjectToTeleport)
@@ -107,13 +109,13 @@ namespace LocationConnector
                 {
                     foreach (var location in MapData.Instance.ActiveLocations.Where(x => x.MapData.activeInHierarchy))
                     {
-                        if (location.EntryTeleportTrigger.ThisLocIndex != connectedLocIndex && location.EntryTeleportTrigger.ThisLocIndex != thisLocIndex)
-                            location.MapData.SetActive(false);
+                        if (location.MapData != connectedLoc.MapData)
+                            StartCoroutine(DisableLoc(location.MapData));
                     }
-                    if (connectedLocIndex != -1 && thisLocIndex != -1)
-                        MapData.Instance.TheFirstLocation.MapData.SetActive(false);
-                    if (connectedLocIndex != -2 && thisLocIndex != -2)
-                        MapData.Instance.TheLastLocation.MapData.SetActive(false);
+                    if (connectedLoc.MapData != MapData.Instance.GetLocationByIndex(-1).MapData)
+                        StartCoroutine(DisableLoc(MapData.Instance.TheFirstLocation.MapData));
+                    if (connectedLoc.MapData != MapData.Instance.GetLocationByIndex(-2).MapData)
+                        StartCoroutine(DisableLoc(MapData.Instance.TheLastLocation.MapData));
                 }
             }
         }
@@ -135,7 +137,7 @@ namespace LocationConnector
             {
                 audioSourceManager = gameObjectToTeleport.AddComponent<AudioSourcesManager>();
                 List<Renderer> meshRenderers = Utilities.FindAllComponentsInGameObject<Renderer>(gameObjectToTeleport, includeInactive: false)
-                    .Where(x => x.GetType() != typeof(ParticleSystemRenderer)).ToList(); //HARDCODE 
+                    .Where(x => x.GetType() != typeof(ParticleSystemRenderer)).ToList(); //HARDCODE, need to fix
                 dissolve = gameObjectToTeleport.AddComponent<Dissolve>();
                 yield return null;
                 dissolve.meshRenderers = meshRenderers;
@@ -145,7 +147,11 @@ namespace LocationConnector
             dissolve.InitializeMat();
             dissolve.StartDissolving(DissolvingTime);
             if (DissolveSounds)
+            {
+                DissolveSoundGameObject.transform.position = gameObjectToTeleport.transform.position;
+                DissolveSoundGameObject.transform.rotation = gameObjectToTeleport.transform.rotation;
                 audioSourceManager.CreateNewAudioSourceAndPlay(DissolveSounds.GetRandomSound());
+            }
             ICreature creature = Utilities.GetComponentFromGameObject<ICreature>(gameObjectToTeleport);
             while (dissolve.CurrentDissolve < 0.95f)
                 yield return null;
@@ -164,6 +170,12 @@ namespace LocationConnector
             while (dissolve.CurrentDissolve > -0.95f)
                 yield return new WaitForSeconds(0.05f);
             currentTeleportCoroutines[gameObjectToTeleport] = null;
+        }
+        protected IEnumerator DisableLoc(GameObject locToDisable)
+        {
+            yield return null;
+            if (locToDisable != MapData.Instance.GetLocationByIndex(thisLocIndex).MapData)
+                locToDisable.SetActive(false);
         }
     }
 }

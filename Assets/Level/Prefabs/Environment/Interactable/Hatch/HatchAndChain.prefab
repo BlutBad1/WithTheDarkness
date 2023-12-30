@@ -77,7 +77,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7283899720620806450}
-        m_TargetAssemblyTypeName: InteractableNS.Usable.Doors, GameObjects
+        m_TargetAssemblyTypeName: InteractableNS.Usable.Locking.Lock, Locking
         m_MethodName: OpenLock
         m_Mode: 1
         m_Arguments:
@@ -140,7 +140,7 @@ Transform:
   - {fileID: 2222517558213438894}
   m_Father: {fileID: 2222517557816887110}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: -89.888084, y: -0.11142326, z: 0}
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &7283899720620806448
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -215,20 +215,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1538288372104471432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e4cb19bc00da144c89228e5b8c75f23, type: 3}
+  m_Script: {fileID: 11500000, guid: f449e58564ae94d4dabfa60cb59dd84c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   useEvents: 0
   promptMessage: 
   LastWhoInteracted: {fileID: 0}
-  IsGeneric: 0
+  IsGeneric: 1
   GenericKeyName: main_exit
   KeyName: HatchLock
   ConnectedKey: {fileID: 0}
   AvailableKeyData: {fileID: 11400000, guid: 62c147480aa3bb149a78ac93efec608d, type: 2}
   IsLocked: 1
-  LockedMessage: I NEED THE KEYS
-  UnlockMessage: 
+  LockedMessage: {fileID: 11400000, guid: 0e2813379d83e3b4d9d2c742f415025a, type: 2}
+  UnlockMessage: {fileID: 0}
   DisapperingSpeed: 0.8
   OnUnlockEvent:
     m_PersistentCalls:
@@ -264,7 +264,7 @@ MonoBehaviour:
           m_IntArgument: 0
           m_FloatArgument: 0.1
           m_StringArgument: 
-          m_BoolArgument: 1
+          m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 7994838540860440685}
         m_TargetAssemblyTypeName: UnityEngine.Rigidbody, UnityEngine

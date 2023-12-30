@@ -1,3 +1,4 @@
+using Data.Text;
 using HudNS;
 using ScriptableObjectNS.Locking;
 using System.Collections.Generic;
@@ -24,9 +25,9 @@ namespace InteractableNS.Usable.Locking
         [HideInInspector]
         public bool IsLocked = true;
         [HideInInspector]
-        public string LockedMessage;
+        public TextData LockedMessage;
         [HideInInspector]
-        public string UnlockMessage;
+        public TextData UnlockMessage;
         [HideInInspector]
         public float DisapperingSpeed;
         [HideInInspector]
@@ -73,10 +74,10 @@ namespace InteractableNS.Usable.Locking
             if (IsLocked && CheckIfDataHasKey())
                 OpenLock();
             if (!IsLocked)
-                PrintMessage(UnlockMessage);
+                PrintMessage(UnlockMessage?.GetText());
             else
             {
-                PrintMessage(LockedMessage);
+                PrintMessage(LockedMessage?.GetText());
                 OnLockedEvent?.Invoke();
             }
         }
@@ -116,8 +117,10 @@ namespace InteractableNS.Usable.Locking
             EditorGUILayout.Space();
             EditorGUILayout.LabelField("Locking Settings", EditorStyles.boldLabel);
             script.IsLocked = EditorGUILayout.Toggle("IsLocked", script.IsLocked);
-            script.LockedMessage = EditorGUILayout.TextField("LockedMessage", script.LockedMessage);
-            script.UnlockMessage = EditorGUILayout.TextField("UnlockedMessage", script.UnlockMessage);
+            property = serializedObject.FindProperty("LockedMessage");
+            EditorGUILayout.PropertyField(property, new GUIContent("LockedMessage"), true);
+            property = serializedObject.FindProperty("UnlockMessage");
+            EditorGUILayout.PropertyField(property, new GUIContent("UnlockMessage"), true);
             script.DisapperingSpeed = EditorGUILayout.FloatField("DisapperingSpeed", script.DisapperingSpeed);
             EditorGUILayout.Space();
             property = serializedObject.FindProperty("OnUnlockEvent");

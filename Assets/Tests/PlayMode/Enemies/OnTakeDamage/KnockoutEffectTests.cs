@@ -37,7 +37,7 @@ namespace Enemies.OnTakeDamage
         {
             //Act+Assert
 
-            enemyScript.TakeDamage(new TakeDamageData(enemyScript,10, 100, new Vector3(0, 0, 0), null));
+            enemyScript.TakeDamage(new TakeDamageData(enemyScript,10, 100, null, null));
             Assert.AreEqual(false, enemyScript.Movement.Agent.enabled);
             Assert.AreEqual(false, rigidbody.isKinematic);
             Assert.AreEqual(Vector3.zero, enemyScript.Movement.Agent.velocity);

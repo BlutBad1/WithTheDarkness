@@ -70,7 +70,7 @@ namespace SoundNS
         //}
         private void OnTakeDamage(TakeDamageData takeDamageData)
         {
-            if (OnTakeDamageSounds.Length != 0 && takeDamageData.HitPoint != Vector3.zero)
+            if (OnTakeDamageSounds.Length != 0 && takeDamageData.HitData != null)
                 PlayRandomSoundFromCollection(OnTakeDamageSounds);
         }
         private void OnDeath()

@@ -21,7 +21,7 @@ namespace SettingsNS
                 case AudioKind.Music:
                     return masterScale ? MusicVolume * MasterVolume : MusicVolume;
                 case AudioKind.SFX:
-                    return masterScale ? MusicVolume * MasterVolume : MusicVolume;
+                    return masterScale ? SFXVolume * MasterVolume : SFXVolume;
                 default:
                     return 1f;
             }
@@ -37,7 +37,7 @@ namespace SettingsNS
                     MusicVolume = volume;
                     break;
                 case AudioKind.SFX:
-                    MusicVolume = volume;
+                    SFXVolume = volume;
                     break;
                 default:
                     break;
@@ -49,6 +49,8 @@ namespace SettingsNS
         private static float soundVolume = 1f;
         [Min(0)]
         private static float musicVolume = 1f;
+        [Min(0)]
+        private static float sfxVolume = 1f;
         public static float MasterVolume
         {
             get { return masterVolume; }
@@ -63,6 +65,11 @@ namespace SettingsNS
         {
             get { return musicVolume; }
             set { musicVolume = Mathf.Clamp01(value); OnVolumeChangeEvent?.Invoke(); }
+        }
+        public static float SFXVolume
+        {
+            get { return sfxVolume; }
+            set { sfxVolume = Mathf.Clamp01(value); OnVolumeChangeEvent?.Invoke(); }
         }
     }
     public class GraphicSettings

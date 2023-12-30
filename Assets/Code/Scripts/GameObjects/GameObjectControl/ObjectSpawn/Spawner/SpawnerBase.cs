@@ -1,4 +1,3 @@
-using MyConstants.EnironmentConstants.SpawnerConstants;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,21 +29,18 @@ namespace GameObjectsControllingNS.Spawner
             List<T> notNullChanceGameObjects = spawningGameObjects.Where(x => x.SpawnChance > 0).ToList();
             if (spawningGameObjects != null && notNullChanceGameObjects.Count > 0)
             {
-                int amountOfCycles = 0;
-                while (gameobjectToSpawn == null && amountOfCycles <= MainSpawnerConstants.MAX_AMOUNT_OF_CYCLES)
+                int mutualSpawnChance = (int)notNullChanceGameObjects.Sum(x => x.SpawnChance);
+                int randomNumber = UnityEngine.Random.Range(1, mutualSpawnChance);
+                float spawnChanceCounter = 0;
+                foreach (var spawningGameObject in notNullChanceGameObjects)
                 {
-                    foreach (SpawningGameObject spawningGameObject in notNullChanceGameObjects)
+                    if (randomNumber > spawnChanceCounter && randomNumber <= spawnChanceCounter + spawningGameObject.SpawnChance)
                     {
-                        if (spawningGameObject.SpawnChance > UnityEngine.Random.Range(0, 100))
-                        {
-                            gameobjectToSpawn = spawningGameObject;
-                            break;
-                        }
+                        gameobjectToSpawn = spawningGameObject;
+                        break;
                     }
-                    amountOfCycles++;
+                    spawnChanceCounter += spawningGameObject.SpawnChance;
                 }
-                if (gameobjectToSpawn == null)
-                    gameobjectToSpawn = notNullChanceGameObjects[UnityEngine.Random.Range(0, notNullChanceGameObjects.Count)];
                 if (gameobjectToSpawn.IsPrefab)
                     gameobjectToSpawn.GameObject = GameObject.Instantiate(gameobjectToSpawn.GameObject, SpawnTransform.position, SpawnTransform.rotation, gameobjectToSpawn.Parent);
                 else

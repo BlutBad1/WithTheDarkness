@@ -10,7 +10,8 @@ Material:
   m_Name: dissolve_mat_chainNLock
   m_Shader: {fileID: -6465566751694194690, guid: 8169fa8fc79acc441abe823aed9c178f, type: 3}
   m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_InvalidKeywords:
+  - _GLOSSYREFLECTIONS_ON
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -66,6 +67,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - SPECULARHIGHLIGHTS_OFF: 0
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _BumpScale: 1
@@ -76,6 +78,8 @@ Material:
     - _DissolveTime: -1
     - _DstBlend: 0
     - _EdgeThickness: 0.01
+    - _GLOSSYREFLECTIONS: 1
+    - _GLOSSYREFLECTIONS_OFF: 0
     - _GlossMapScale: 1
     - _Glossiness: 0
     - _GlossyReflections: 1
@@ -85,7 +89,7 @@ Material:
     - _Metallic: 0
     - _MinField: 0
     - _Mode: 0
-    - _NoiseAmount: 20
+    - _NoiseAmount: 10
     - _NormalCoeff: 0
     - _NormalStrength: 0
     - _OcclusionStrength: 1
@@ -94,6 +98,8 @@ Material:
     - _RightBound: 0
     - _RightBound_1: 0
     - _RimPower: 1
+    - _SPECULARHIGHLIGHTS: 0
+    - _SPECULARHIGHLIGHTS_OFF: 0
     - _SmoothnessTextureChannel: 0
     - _Smothness: 0
     - _SpecularHighlights: 1

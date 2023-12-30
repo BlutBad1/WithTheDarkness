@@ -36,7 +36,7 @@ namespace WeaponNS.ShootingWeaponNS
             if (Physics.Raycast(CameraOrigin.transform.position, forwardVector, out RaycastHit hitInfo, gunData.MaxDistance, ~WhatIsRayCastIgnore))
             {
                 IDamageable damageable = IDamageable.GetDamageableFromGameObject(hitInfo.transform.gameObject);
-                damageable?.TakeDamage(new TakeDamageData(damageable, gunData.Damage, gunData.Force, hitInfo.point, GameObject.Find(MyConstants.CommonConstants.PLAYER)));
+                damageable?.TakeDamage(new TakeDamageData(damageable, gunData.Damage, gunData.Force, new HitData(hitInfo), GameObject.Find(MyConstants.CommonConstants.PLAYER)));
                 bulletHolesDataBase.MakeBulletHoleByInfo(hitInfo, CameraOrigin.transform.position, gunData.WeaponEntity);
             }
         }

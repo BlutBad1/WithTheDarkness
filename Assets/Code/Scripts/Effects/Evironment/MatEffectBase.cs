@@ -59,6 +59,10 @@ namespace EnvironmentEffects.MatEffect
                     currentBlock.SetFloat("_Metallic", originalMat.GetFloat("_Metallic"));
                 if (originalMat.HasProperty("_Glossiness"))
                     currentBlock.SetFloat("_Glossiness", originalMat.GetFloat("_Glossiness"));
+                if (originalMat.HasProperty("_SpecularHighlights"))
+                    currentBlock.SetFloat("_SPECULARHIGHLIGHTS_OFF", 1 - originalMat.GetFloat("_SpecularHighlights"));
+                if (originalMat.HasProperty("_GlossyReflections"))
+                    currentBlock.SetFloat("_GLOSSYREFLECTIONS_OFF", 1 - originalMat.GetFloat("_GlossyReflections"));
             }
             else
             {
@@ -78,6 +82,10 @@ namespace EnvironmentEffects.MatEffect
                     currentBlock.SetFloat("_Metallic", originalPropBlock.GetFloat("_Metallic"));
                 if (originalPropBlock.HasProperty("_Glossiness"))
                     currentBlock.SetFloat("_Glossiness", originalPropBlock.GetFloat("_Glossiness"));
+                if (originalPropBlock.HasProperty("_SpecularHighlights"))
+                    currentBlock.SetFloat("_SPECULARHIGHLIGHTS_OFF", 1 - originalPropBlock.GetFloat("_SpecularHighlights"));
+                if (originalPropBlock.HasProperty("_GlossyReflections"))
+                    currentBlock.SetFloat("_GLOSSYREFLECTIONS_OFF", 1 - originalPropBlock.GetFloat("_GlossyReflections"));
             }
         }
     }

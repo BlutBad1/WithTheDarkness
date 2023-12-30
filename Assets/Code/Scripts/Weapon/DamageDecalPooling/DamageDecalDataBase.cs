@@ -31,16 +31,19 @@ namespace WeaponNS.ShootingWeaponNS
         public void MakeBulletHoleByInfo(RaycastHit hitInfo, Vector3 rayCastOrigin, WeaponEntity weaponType)
         {
             DamageDecalObject[] damageDecals = new DamageDecalObject[0];
-            DamageDecalObject[] weaponMatched = Array.FindAll(DamageDecalObjects, x => ((int)x.WeaponEntity & (1 << Utilities.GetIndexOfElementInEnum(weaponType))) != 0);
-            DamageDecalObject[] tagMatched = Array.FindAll(DamageDecalObjects, x => (x.Tag & (1 << DamageDecalObject.Tags.IndexOf(hitInfo.collider.gameObject.tag))) != 0);
-            DamageDecalObject[] layerMatched = Array.FindAll(DamageDecalObjects, x => x.LayerMask == (x.LayerMask | (1 << hitInfo.collider.gameObject.layer)));
-            damageDecals = weaponMatched.Intersect(tagMatched).Intersect(layerMatched).ToArray();
-            if (damageDecals == null || damageDecals.Length == 0)
-                damageDecals = weaponMatched.Intersect(tagMatched).ToArray();
-            if (damageDecals == null || damageDecals.Length == 0)
-                damageDecals = weaponMatched.Intersect(layerMatched).ToArray();
-            if (damageDecals == null || damageDecals.Length == 0)
-                damageDecals = weaponMatched;
+            if (hitInfo.collider != null)
+            {
+                DamageDecalObject[] weaponMatched = Array.FindAll(DamageDecalObjects, x => ((int)x.WeaponEntity & (1 << Utilities.GetIndexOfElementInEnum(weaponType))) != 0);
+                DamageDecalObject[] tagMatched = Array.FindAll(DamageDecalObjects, x => (x.Tag & (1 << DamageDecalObject.Tags.IndexOf(hitInfo.collider.gameObject.tag))) != 0);
+                DamageDecalObject[] layerMatched = Array.FindAll(DamageDecalObjects, x => x.LayerMask == (x.LayerMask | (1 << hitInfo.collider.gameObject.layer)));
+                damageDecals = weaponMatched.Intersect(tagMatched).Intersect(layerMatched).ToArray();
+                if (damageDecals == null || damageDecals.Length == 0)
+                    damageDecals = weaponMatched.Intersect(tagMatched).ToArray();
+                if (damageDecals == null || damageDecals.Length == 0)
+                    damageDecals = weaponMatched.Intersect(layerMatched).ToArray();
+                if (damageDecals == null || damageDecals.Length == 0)
+                    damageDecals = weaponMatched;
+            }
             if (damageDecals == null || damageDecals.Length == 0)
                 damageDecals = new DamageDecalObject[1] { new DamageDecalObject { DamageDecalType = MainWeaponConstants.DEFAULT_DAMAGE_DECAL } };
             if (damageDecals.Length > 1)

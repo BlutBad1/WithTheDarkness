@@ -1,9 +1,9 @@
+using HudNS.Weapon.ShootingWeapon;
 using InteractableNS.Common;
 using MyConstants;
 using ScriptableObjectNS.Weapon.Gun;
 using UnityEngine;
 using UtilitiesNS;
-using WeaponNS.ShootingWeaponNS;
 
 namespace InteractableNS.Pickups
 {

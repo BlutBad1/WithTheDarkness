@@ -113,14 +113,14 @@ MonoBehaviour:
     color: {r: 0, g: 0, b: 0, a: 1}
     value: 0
     enabled: 0
-  tiling: {x: 0.63, y: 0.45}
-  offset: {x: -0.044, y: 0.06}
+  tiling: {x: 0.5, y: 0.5}
+  offset: {x: 0.02, y: 0}
   maskMethod: 0
   masks: 00000000
-  _TilingOffset: 893
-  _MaskBase: 894
-  _MaskLayers: 895
-  instanceID: 134186
+  _TilingOffset: 895
+  _MaskBase: 896
+  _MaskLayers: 897
+  instanceID: -244288
 --- !u!114 &3963815543606785624
 MonoBehaviour:
   m_ObjectHideFlags: 0

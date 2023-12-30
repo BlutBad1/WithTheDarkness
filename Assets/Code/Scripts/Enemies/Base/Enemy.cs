@@ -1,11 +1,10 @@
+using DamageableNS;
 using EnemyNS.Attack;
 using EnemyNS.Skills;
-using MyConstants;
 using MyConstants.CreatureConstants.EnemyConstants;
 using ScriptableObjectNS.Enemy;
 using System.Collections;
 using UnityEngine;
-using DamageableNS;
 namespace EnemyNS.Base
 {
     public class Enemy : Damageable
@@ -42,6 +41,14 @@ namespace EnemyNS.Base
                     }
                 }
             }
+        }
+        public virtual void HandleGainCreatureInSight(GameObject spottedTarget)
+        {
+            Movement.HandleGainCreatureInSight(spottedTarget);
+        }
+        public virtual void HandleLoseCreatureFromSight(GameObject lostTarget)
+        {
+            Movement.HandleLoseCreatureFromSight(lostTarget);
         }
         public virtual void SetupAgentFromConfiguration()
         {
@@ -87,10 +94,5 @@ namespace EnemyNS.Base
             }
             transform.rotation = lookRotation;
         }
-        //public virtual void OnEnable()
-        //{
-        //    if (EnemyScriptableObject!=null)
-        //     SetupAgentFromConfiguration();
-        //}
     }
 }

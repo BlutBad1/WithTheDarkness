@@ -1,11 +1,11 @@
 using MyConstants.WeaponConstants;
 using ScriptableObjectNS.Weapon;
+using SettingsNS;
 using System;
 using System.Collections;
 using System.Linq;
 using UnityEngine;
 using WeaponNS;
-using static Codice.Client.Common.Connection.AskCredentialsToUser;
 
 namespace WeaponManagement
 {
@@ -56,7 +56,7 @@ namespace WeaponManagement
                     default:
                         break;
                 }
-                if (ActiveWeapon.CurrentSelectedActiveWeapon == null || ActiveWeapon.CurrentSelectedActiveWeapon.WeaponData.WeaponType == weaponType)
+                if (ActiveWeapon.CurrentSelectedActiveWeapon == null || ActiveWeapon.CurrentSelectedActiveWeapon.WeaponData.WeaponType == weaponType || GameSettings.ChangeWeaponAfterPickup)
                     ChangeWeaponSelection(weapon);
             }
 #if UNITY_EDITOR
@@ -69,14 +69,16 @@ namespace WeaponManagement
             if (weaponData == ActiveWeapon.ActiveWeapons.ActiveMeleeWeapon || weaponData == ActiveWeapon.ActiveWeapons.ActiveOneHandedGun || weaponData == ActiveWeapon.ActiveWeapons.ActiveTwoHandedGun) return true;
             return false;
         }
-        public void ChangeWeaponSelection(WeaponType weaponType)
+        //For player button weapon change 
+        public void ChangeActiveWeaponSelection(WeaponType weaponType)
         {
             Weapon newWeapon = Weapons.FirstOrDefault(x => x.WeaponData.WeaponType == weaponType && IsActiveWeapon(x.WeaponData));
-            ChangeWeaponSelection(newWeapon);
+            if (newWeapon != ActiveWeapon.CurrentSelectedActiveWeapon)
+                ChangeWeaponSelection(newWeapon);
         }
         public void ChangeWeaponSelection(Weapon newWeapon)
         {
-            if (ActiveWeapon.CurrentSelectedActiveWeapon != newWeapon && newWeapon != null)
+            if (newWeapon != null)
                 StartCoroutine(ChangeWeaponCoroutine(newWeapon));
         }
         private void DefineSelection()
@@ -122,7 +124,7 @@ namespace WeaponManagement
                 while (!lampAnimator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN))
                     yield return null;
             }
-            while (ActiveWeapon.CurrentSelectedActiveWeapon != null && !currentWeaponAnimator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN))
+            while (ActiveWeapon.CurrentSelectedActiveWeapon != null && ActiveWeapon.CurrentSelectedActiveWeapon.WeaponGameObject.activeInHierarchy && !currentWeaponAnimator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN))
                 yield return null;
             while ((lampAnimator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN) && lampAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
                 || (ActiveWeapon.CurrentSelectedActiveWeapon != null && currentWeaponAnimator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN) && currentWeaponAnimator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f))

@@ -10,8 +10,9 @@ TagManager:
   - Metal
   - Oil
   - NoDamageDecal
-  - NoBulletHole
   - EnemyRagdoll
+  - DefaultDamageDecal
+  - NoBulletHole
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - UI
   - 
   - Lamp
-  - Gun
+  - WeaponFPV
   - 
   - Hand
   - Player

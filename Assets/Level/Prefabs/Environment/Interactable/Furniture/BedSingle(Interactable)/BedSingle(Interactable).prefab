@@ -179,7 +179,6 @@ GameObject:
   - component: {fileID: 5632168511124054316}
   - component: {fileID: 4999747407622241176}
   - component: {fileID: 4999747407622241180}
-  - component: {fileID: 4999747407622241183}
   m_Layer: 22
   m_Name: BedSingle(Interactable)
   m_TagString: Untagged
@@ -251,14 +250,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6170ea236da938e47a82be314733232e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useEvents: 1
+  useEvents: 0
   promptMessage: 
   LastWhoInteracted: {fileID: 0}
   InteractingSpeed: 1.5
   CoroutineDelay: 0.01
   IsInteracting: 0
   InteractionProgress: 0
+  MuteSound: {fileID: 4999747407622241180}
   BlackScreenFadeSpeed: 1.2
+  MuteSoundTranTime: 10
   UseAsTrigger: 0
   DefineByProgressManager: 1
   NextScene: 
@@ -274,34 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd59186459fe5d24a8d2bfff6ba13234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioKind: -2
---- !u!114 &4999747407622241183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5632168511124054317}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0b87e6e3f325c664c8080512c3fb05c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  OnInteract:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 4999747407622241180}
-        m_TargetAssemblyTypeName: SoundNS.MuteSound, CommonCore
-        m_MethodName: MuteVolume
-        m_Mode: 4
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 10
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+  AudioKind: -1
 --- !u!1 &7944010361743243460
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,16 +19,18 @@ namespace GameObjectsControllingNS
                 && (x.GenericKeyName == key.KeyName || x.KeyName == key.KeyName));
                 if (requiredKey == null || !(MapData.Instance.ActiveLocations.Count - MapData.Instance.LocationsIterator <= requiredKey.Amount))
                     if (!objectsSupplyInstance.CalculateObjectChances(Chance))
-                        Destroy(gameObject);
+                        gameObject.SetActive(false);
+                // Destroy(gameObject);
                 if (requiredKey != null)
                     requiredKey.Amount--;
             }
             else if (Chance > UnityEngine.Random.Range(0, 100))
-                Destroy(gameObject);
+                gameObject.SetActive(false);
+            // Destroy(gameObject);
         }
-        public Key GetKey()
+        public KeyData GetKey()
         {
-            Key key = GetComponent<KeyInteractable>().Key;
+            KeyData key = GetComponent<KeyInteractable>().Key;
             return key;
         }
     }

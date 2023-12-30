@@ -1,4 +1,3 @@
-using ExtensionMethods;
 using System;
 using UnityEngine;
 
@@ -8,7 +7,7 @@ namespace GameObjectsControllingNS.Spawner
     public class SpawningSupply : SpawningGameObject
     {
         [Min(0)]
-        public float SupplySpawnChance;
+        public float InnerSupplySpawnChance = 100f;
     }
     public class SupplySpawner : SpawnerBase<SpawningSupply>
     {
@@ -19,15 +18,13 @@ namespace GameObjectsControllingNS.Spawner
             {
                 ObjectSpawnChanceBase supplySpawningObject = GetObjectSpawnChanceFromGameObject(supplyGameObject.GameObject);
                 if (supplySpawningObject)
-                    supplySpawningObject.Chance = supplyGameObject.SupplySpawnChance;
+                    supplySpawningObject.Chance = supplyGameObject.InnerSupplySpawnChance;
             }
             gameObject.SetActive(false);
         }
         protected ObjectSpawnChanceBase GetObjectSpawnChanceFromGameObject(GameObject gameObject)
         {
-            ObjectSpawnChanceBase supplySpawningObject = gameObject.GetComponentOrInherited<ObjectSpawnChanceBase>();
-            if (!supplySpawningObject)
-                supplySpawningObject = gameObject.GetComponentInChildren<ObjectSpawnChanceBase>();
+            ObjectSpawnChanceBase supplySpawningObject = UtilitiesNS.Utilities.GetComponentFromGameObject<ObjectSpawnChanceBase>(gameObject);
             return supplySpawningObject;
         }
     }

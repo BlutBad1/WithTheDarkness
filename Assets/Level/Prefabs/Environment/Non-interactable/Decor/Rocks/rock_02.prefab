@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 5457159861951817598}
   - component: {fileID: 5457159861951817599}
   - component: {fileID: 5457159861951817597}
+  - component: {fileID: 7839049938890066893}
   - component: {fileID: 5457159861951817593}
-  - component: {fileID: 5457159861951817596}
   m_Layer: 15
   m_Name: rock_02
   m_TagString: SmallSize
@@ -137,6 +137,21 @@ LODGroup:
     renderers:
     - renderer: {fileID: 5457159862409739118}
   m_Enabled: 1
+--- !u!114 &7839049938890066893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5457159862407472558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6766ac2f9c4487b4abd7d3be75bfad1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
+  InvokeOnTakeDamageAfterDead: 1
+  OriginalHealth: 0
 --- !u!114 &5457159861951817593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -149,16 +164,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 68e11f66a005dab4dacfacd732e613d2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ImpactForce: 10
---- !u!114 &5457159861951817596
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5457159862407472558}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8d0dede48ce2124478f4b51ca54d5e72, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  damageable: {fileID: 7839049938890066893}
+  Rigidbody: {fileID: 5457159861951817598}
+  PushForce: 1
