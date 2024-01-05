@@ -4992,8 +4992,8 @@ GameObject:
   - component: {fileID: 2552838433854887916}
   - component: {fileID: 779147809996477081}
   - component: {fileID: 2552838433854887827}
-  - component: {fileID: 2552838433854887826}
   - component: {fileID: 8013488899360638689}
+  - component: {fileID: 2552838433854887826}
   m_Layer: 22
   m_Name: PickupableLamp
   m_TagString: Untagged
@@ -5069,6 +5069,31 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.4, y: 0.7, z: 0.5}
   m_Center: {x: 0, y: -0.07, z: -0.07}
+--- !u!114 &8013488899360638689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2552838433854887831}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ca12042baf4c2249b2cb447b46ef24b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useEvents: 1
+  promptMessage: 
+  LastWhoInteracted: {fileID: 0}
+  InteractingSpeed: 1.5
+  CoroutineDelay: 0.01
+  IsInteracting: 0
+  InteractionProgress: 0
+  PickupableLamp: {fileID: 2552838433854887831}
+  IsLampPlaced: 1
+  TriggerableLayers:
+    serializedVersion: 2
+    m_Bits: 2048
+  IsProgressInteraction: 0
 --- !u!114 &2552838433854887826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5096,26 +5121,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &8013488899360638689
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2552838433854887831}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ca12042baf4c2249b2cb447b46ef24b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useEvents: 1
-  promptMessage: 
-  LastWhoInteracted: {fileID: 0}
-  PickupableLamp: {fileID: 2552838433854887831}
-  IsLampPlaced: 1
-  TriggerableLayers:
-    serializedVersion: 2
-    m_Bits: 2048
 --- !u!1 &2552838433947354804
 GameObject:
   m_ObjectHideFlags: 0
@@ -5224,6 +5229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc7f01e479f58d74abb94ebe5b5789b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  light: {fileID: 0}
   StartingIntensity: 1
   GlowingIntensity: 0.7
   MaxRandomPercentVariance: 0.3
@@ -5242,6 +5248,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LightGlowTimer: {fileID: 0}
+  light: {fileID: 0}
+  halo: {fileID: 0}
 --- !u!1 &2552838434012413404
 GameObject:
   m_ObjectHideFlags: 0
@@ -10249,6 +10257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc7f01e479f58d74abb94ebe5b5789b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  light: {fileID: 0}
   StartingIntensity: 0.2
   GlowingIntensity: 0.14
   MaxRandomPercentVariance: 0.3
@@ -10267,6 +10276,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LightGlowTimer: {fileID: 0}
+  light: {fileID: 0}
+  halo: {fileID: 0}
 --- !u!1 &2552838434167680391
 GameObject:
   m_ObjectHideFlags: 0
@@ -10375,6 +10386,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc7f01e479f58d74abb94ebe5b5789b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  light: {fileID: 0}
   StartingIntensity: 1
   GlowingIntensity: 0.7
   MaxRandomPercentVariance: 0.3
@@ -10393,6 +10405,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LightGlowTimer: {fileID: 0}
+  light: {fileID: 0}
+  halo: {fileID: 0}
 --- !u!1 &2552838434583380991
 GameObject:
   m_ObjectHideFlags: 0
@@ -10515,6 +10529,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   LightGlowTimer: {fileID: 0}
+  light: {fileID: 0}
+  halo: {fileID: 0}
 --- !u!114 &2552838434583380985
 MonoBehaviour:
   m_ObjectHideFlags: 0

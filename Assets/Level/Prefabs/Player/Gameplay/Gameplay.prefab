@@ -5139,7 +5139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc59b69b1f2301f488d131b0ec8fa2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightGlowTimer: {fileID: 0}
+  LightGlowTimer: {fileID: 8208554030209216225}
 --- !u!1 &605875025308864642
 GameObject:
   m_ObjectHideFlags: 0
@@ -14327,9 +14327,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f50208716b286469d7c23569d79079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightGlowTimer: {fileID: 0}
-  light: {fileID: 0}
-  halo: {fileID: 0}
+  LightGlowTimer: {fileID: 8208554030209216225}
+  light: {fileID: 2326307985191983982}
+  halo: {fileID: 2326307985191983982}
 --- !u!1 &4821686728754676753
 GameObject:
   m_ObjectHideFlags: 0
@@ -29386,9 +29386,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f50208716b286469d7c23569d79079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightGlowTimer: {fileID: 0}
-  light: {fileID: 0}
-  halo: {fileID: 0}
+  LightGlowTimer: {fileID: 8208554030209216225}
+  light: {fileID: 3129228739625993837}
+  halo: {fileID: 3129228739625993837}
 --- !u!1 &5548467859163715210
 GameObject:
   m_ObjectHideFlags: 0
@@ -30466,9 +30466,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f50208716b286469d7c23569d79079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightGlowTimer: {fileID: 0}
-  light: {fileID: 0}
-  halo: {fileID: 0}
+  LightGlowTimer: {fileID: 8208554030209216225}
+  light: {fileID: 6889432030217770889}
+  halo: {fileID: 6889432030217770889}
 --- !u!1 &7037892494922199702
 GameObject:
   m_ObjectHideFlags: 0
@@ -35591,7 +35591,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc59b69b1f2301f488d131b0ec8fa2c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightGlowTimer: {fileID: 0}
+  LightGlowTimer: {fileID: 8208554030209216225}
 --- !u!1 &7076577625014858740
 GameObject:
   m_ObjectHideFlags: 0
@@ -35948,12 +35948,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ProgressImage: {fileID: 3327448963066431158}
   InteracteDistance: 3
+  InteracteRadius: 0.15
   interactableLayers:
     serializedVersion: 2
-    m_Bits: 12648512
+    m_Bits: 12582976
   obstacleLayers:
     serializedVersion: 2
-    m_Bits: 33591305
+    m_Bits: 33558537
 --- !u!114 &4081573023399793394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35980,7 +35981,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   InvokeOnTakeDamageAfterDead: 0
-  OriginalHealth: 0
+  HealthOnStart: 0
   HealthRegenPerCycle: 0.25
   TimeAfterHitToRegen: 6
   HeatlhRegenCycleTime: 0.1
@@ -38165,9 +38166,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f50208716b286469d7c23569d79079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightGlowTimer: {fileID: 0}
-  light: {fileID: 0}
-  halo: {fileID: 0}
+  LightGlowTimer: {fileID: 8208554030209216225}
+  light: {fileID: 8208554028870468908}
+  halo: {fileID: 8208554028870468908}
 --- !u!114 &8208554028870468906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38327,9 +38328,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f50208716b286469d7c23569d79079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightGlowTimer: {fileID: 0}
-  light: {fileID: 0}
-  halo: {fileID: 0}
+  LightGlowTimer: {fileID: 8208554030209216225}
+  light: {fileID: 8208554028887625195}
+  halo: {fileID: 8208554028887625195}
 --- !u!114 &8208554028887625193
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38605,9 +38606,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f50208716b286469d7c23569d79079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightGlowTimer: {fileID: 0}
-  light: {fileID: 0}
-  halo: {fileID: 0}
+  LightGlowTimer: {fileID: 8208554030209216225}
+  light: {fileID: 8208554028969327150}
+  halo: {fileID: 8208554028969327150}
 --- !u!114 &8208554028969327148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -39534,9 +39535,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f50208716b286469d7c23569d79079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightGlowTimer: {fileID: 0}
-  light: {fileID: 0}
-  halo: {fileID: 0}
+  LightGlowTimer: {fileID: 8208554030209216225}
+  light: {fileID: 8208554029214863602}
+  halo: {fileID: 8208554029214863603}
 --- !u!114 &8208554029214863600
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57360,9 +57361,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8208554030474810894}
+  - component: {fileID: 8208554030474810889}
   - component: {fileID: 8208554030474810893}
   - component: {fileID: 8208554030474810892}
-  - component: {fileID: 8208554030474810889}
   - component: {fileID: 8208554030474810888}
   - component: {fileID: 8208554030474810887}
   m_Layer: 0
@@ -57387,6 +57388,27 @@ Transform:
   m_Father: {fileID: 4501233169733628188}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &8208554030474810889
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8208554030474810895}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 17164aab07b3a3c43aa4eb4407c0974c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!108 &8208554030474810893
 Light:
   m_ObjectHideFlags: 0
@@ -57461,27 +57483,6 @@ Halo:
     serializedVersion: 2
     rgba: 4286611584
   m_Size: 5
---- !u!95 &8208554030474810889
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8208554030474810895}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 17164aab07b3a3c43aa4eb4407c0974c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &8208554030474810888
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57494,9 +57495,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f50208716b286469d7c23569d79079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightGlowTimer: {fileID: 0}
-  light: {fileID: 0}
-  halo: {fileID: 0}
+  LightGlowTimer: {fileID: 8208554030209216225}
+  light: {fileID: 8208554030474810893}
+  halo: {fileID: 8208554030474810892}
 --- !u!114 &8208554030474810887
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59008,9 +59009,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3f50208716b286469d7c23569d79079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightGlowTimer: {fileID: 0}
-  light: {fileID: 0}
-  halo: {fileID: 0}
+  LightGlowTimer: {fileID: 8208554030209216225}
+  light: {fileID: 8690660586956130400}
+  halo: {fileID: 8690660586956130400}
 --- !u!1 &8842100278930573397
 GameObject:
   m_ObjectHideFlags: 0

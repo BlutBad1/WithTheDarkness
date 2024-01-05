@@ -16,7 +16,7 @@ MonoBehaviour:
   WeaponType: 1
   WeaponEntity: 1
   IsTwoHanded: 0
-  WeaponPrefab: {fileID: 6464185321356920660, guid: 3f99d4ccabc76704987e362143edc97e, type: 3}
+  WeaponPrefab: {fileID: 465455323829972049, guid: f9714685aaf2ad841aa5018fd6f46be2, type: 3}
   Damage: 25
   Force: 1.3
   MaxDistance: 35

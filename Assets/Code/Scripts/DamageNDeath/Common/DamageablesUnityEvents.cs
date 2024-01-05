@@ -12,6 +12,11 @@ namespace DamageableNS.OnActions
             OnTakeDamageWithDataEvent += OnTakeDamage;
             OnDeadEvent += OnDead;
         }
+        private void OnDisable()
+        {
+            OnTakeDamageWithDataEvent -= OnTakeDamage;
+            OnDeadEvent -= OnDead;
+        }
         protected void OnTakeDamage(TakeDamageData takeDamageData) =>
             EventOnTakeDamage?.Invoke();
         protected void OnDead() =>

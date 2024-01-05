@@ -127,8 +127,7 @@ namespace PlayerScriptsNS
             PlayerLook.SetLookingInputLockStats(true);
             PlayerInputManager.SetMovingLock(true, true);
             PlaySound(DeathSounds);
-            dimming.FadeSpeed = DimmingFadeSpeed;
-            dimming.DimmingEnable(false, DimmingWaitTime);
+            dimming.DimmingEnable(DimmingFadeSpeed, false, DimmingWaitTime);
             if (deathCoroutine != null)
                 StopCoroutine(deathCoroutine);
             deathCoroutine = StartCoroutine(DeathCoroutine());

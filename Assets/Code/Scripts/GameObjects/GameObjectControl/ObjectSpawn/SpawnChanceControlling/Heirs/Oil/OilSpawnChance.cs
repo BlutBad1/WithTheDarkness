@@ -1,4 +1,5 @@
 using LightNS;
+using UnityEngine;
 
 namespace GameObjectsControllingNS
 {
@@ -8,7 +9,8 @@ namespace GameObjectsControllingNS
         {
             base.AssignSupplyType();
             OilSupply oilSupply = (OilSupply)objectsSupplyInstance;
-            oilSupply.LightGlowTimer = UtilitiesNS.Utilities.GetClosestComponent<LightGlowTimer>(transform.position);
+            //oilSupply.LightGlowTimer = UtilitiesNS.Utilities.GetClosestComponent<LightGlowTimer>(transform.position);
+            oilSupply.LightGlowTimer = GameObject.FindAnyObjectByType<LightGlowTimer>();
         }
     }
 }

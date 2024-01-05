@@ -99,10 +99,13 @@ namespace WeaponNS.MeleeWeaponNS
             if (Physics.SphereCast(CameraOrigin.transform.position, MeleeData.AttackRadius, CameraOrigin.transform.forward, out RaycastHit hitInfo, MeleeData.AttackDistance, ~WhatIsRayCastIgnore))
             {
                 IDamageable damageable = IDamageable.GetDamageableFromGameObject(hitInfo.transform.gameObject);
-                damageable?.TakeDamage(new TakeDamageData(damageable, MeleeData.Damage * damageAndForceMultiplier, MeleeData.Force * damageAndForceMultiplier, new HitData(hitInfo), GameObject.Find(MyConstants.CommonConstants.PLAYER)));
+                if (damageable != null && !damageable.Equals(null))
+                {
+                    damageable.TakeDamage(new TakeDamageData(damageable, MeleeData.Damage * damageAndForceMultiplier, MeleeData.Force * damageAndForceMultiplier, new HitData(hitInfo), GameObject.Find(MyConstants.CommonConstants.PLAYER)));
+                    DecreaseDurability();
+                }
                 if (Physics.Raycast(CameraOrigin.transform.position, CameraOrigin.transform.forward, out RaycastHit hitInfo2, MeleeData.AttackDistance + 2 * MeleeData.AttackRadius, ~WhatIsRayCastIgnore))
                     OnHit?.Invoke(hitInfo2);
-                DecreaseDurability();
             }
         }
         public virtual void DecreaseDurability()

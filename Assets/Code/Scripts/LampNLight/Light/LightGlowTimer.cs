@@ -12,7 +12,6 @@ namespace LightNS
         [Min(0)]
         public float MaxTimeOfGlowing = 100f;
         public TextMeshProUGUI Showcaser;
-
         static private Dictionary<int, bool> showingPercents = new Dictionary<int, bool>() { { 90,true },
             { 50, true }, { 25, true }, { 10,true }, { 5, true }, { 2, true }, { 1, true } };
         private void Awake()

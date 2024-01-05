@@ -16,7 +16,7 @@ MonoBehaviour:
   WeaponType: 0
   WeaponEntity: 0
   IsTwoHanded: 0
-  WeaponPrefab: {fileID: 4694614147025075474, guid: ad9ef0d8f1afcf9468bc5618f29bf0b4, type: 3}
+  WeaponPrefab: {fileID: 4974798420220540098, guid: 9b6965fae126ad74a982a987e7c86e89, type: 3}
   Damage: 10
   Force: 3
   AttackDistance: 1.7

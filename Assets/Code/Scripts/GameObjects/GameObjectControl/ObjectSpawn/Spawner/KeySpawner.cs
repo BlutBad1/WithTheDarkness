@@ -25,7 +25,7 @@ namespace GameObjectsControllingNS.Spawner
                 //}
                 //else
                 if (gameobjectToSpawn != null)
-                    gameobjectToSpawn.GameObject = GameObject.Instantiate(gameobjectToSpawn.GameObject, SpawnTransform.position, SpawnTransform.rotation, gameobjectToSpawn.Parent);
+                    gameobjectToSpawn.GameObject = GameObject.Instantiate(gameobjectToSpawn.GameObject, SpawnPoint.position, SpawnPoint.rotation, gameobjectToSpawn.Parent);
             }
             return gameobjectToSpawn;
         }

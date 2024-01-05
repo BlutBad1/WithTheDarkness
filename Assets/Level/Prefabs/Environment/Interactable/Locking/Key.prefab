@@ -146,7 +146,7 @@ GameObject:
   m_Layer: 22
   m_Name: Key
   m_TagString: NoBulletHole
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: 4856223cc7759bf46b779c8ec49fd980, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -182,6 +182,7 @@ MonoBehaviour:
   meshRenderers:
   - {fileID: 8217799286638607338}
   referenceMat: {fileID: 2100000, guid: 57854568d07548d4081eed2a7fbee7a0, type: 2}
+  hightLightEmissionColor: {r: 0.7490196, g: 0.24705882, b: 0.023529412, a: 1}
   MinDistance: 7
   MaxIntensity: 0.8
   MinIntensity: 0
@@ -204,10 +205,10 @@ MonoBehaviour:
   IsGeneric: 1
   KeyName: fromChest
   GenericKeyName: main_exit
-  Key:
+  key:
     IsGeneric: 1
-    KeyName: main_exit
-    GenericKeyName: 
+    KeyName: fromChest
+    GenericKeyName: main_exit
     Amount: 1
   AvailableKeyData: {fileID: 11400000, guid: 62c147480aa3bb149a78ac93efec608d, type: 2}
 --- !u!114 &4183971913395578752

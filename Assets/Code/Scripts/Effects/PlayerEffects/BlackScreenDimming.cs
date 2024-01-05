@@ -12,47 +12,36 @@ namespace EffectsNS.PlayerEffects
         private Coroutine followCoroutine;
         private void Awake() =>
             BlackScreen.color = new Color(BlackScreen.color.r, BlackScreen.color.g, BlackScreen.color.b, BlackScreenOnStart ? 1f : BlackScreen.color.a);
-        public void SetFadeSpeed(float fadeSpeed) =>
-            FadeSpeed = fadeSpeed;
         public void DimmingEnable() =>
-            DimmingEnable(true, 0);
+            DimmingEnable(FadeSpeed);
+        public void DimmingEnable(float fadeSpeed, bool scaleFromDeltaTime = true, float updateTime = 0)
+        {
+            if (followCoroutine != null)
+                StopCoroutine(followCoroutine);
+            followCoroutine = StartCoroutine(Dimming(true, fadeSpeed, scaleFromDeltaTime, updateTime));
+        }
         public void DimmingDisable() =>
-           DimmingDisable(true, 0);
-        public void DimmingEnable(bool scaleFromDeltaTime = true, float waitTime = 0)
+            DimmingDisable(FadeSpeed);
+        public void DimmingDisable(float fadeSpeed, bool scaleFromDeltaTime = true, float updateTime = 0)
         {
             if (followCoroutine != null)
                 StopCoroutine(followCoroutine);
-            followCoroutine = StartCoroutine(Dimming(true, scaleFromDeltaTime, waitTime));
+            followCoroutine = StartCoroutine(Dimming(false, fadeSpeed, scaleFromDeltaTime, updateTime));
         }
-        public void DimmingDisable(bool scaleFromDeltaTime = true, float waitTime = 0)
-        {
-            if (followCoroutine != null)
-                StopCoroutine(followCoroutine);
-            followCoroutine = StartCoroutine(Dimming(false, scaleFromDeltaTime, waitTime));
-        }
-        private IEnumerator Dimming(bool enable, bool scaleFromDeltaTime = true, float waitTime = 0)
+        private IEnumerator Dimming(bool enable, float fadeSpeed, bool scaleFromDeltaTime = true, float updateTime = 0)
         {
             float tempAlpha = BlackScreen.color.a;
             while (tempAlpha <= 1 && enable || tempAlpha >= 0 && !enable)
             {
                 BlackScreen.color = new Color(BlackScreen.color.r, BlackScreen.color.g, BlackScreen.color.b, tempAlpha);
                 if (enable)
-                {
-                    if (scaleFromDeltaTime)
-                        tempAlpha += Time.deltaTime * FadeSpeed;
-                    else
-                        tempAlpha += FadeSpeed;
-                }
+                    tempAlpha += scaleFromDeltaTime ? Time.deltaTime * fadeSpeed : fadeSpeed;
                 else
-                {
-                    if (scaleFromDeltaTime)
-                        tempAlpha -= Time.deltaTime * FadeSpeed;
-                    else
-                        tempAlpha -= FadeSpeed;
-                }
-                yield return scaleFromDeltaTime ? new WaitForSecondsRealtime(waitTime) : new WaitForSeconds(waitTime);
+                    tempAlpha -= scaleFromDeltaTime ? Time.deltaTime * fadeSpeed : fadeSpeed;
+                yield return scaleFromDeltaTime ? new WaitForSecondsRealtime(updateTime) : new WaitForSeconds(updateTime);
             }
             BlackScreen.color = new Color(BlackScreen.color.r, BlackScreen.color.g, BlackScreen.color.b, enable ? 1f : 0f);
+            followCoroutine = null;
         }
     }
 }

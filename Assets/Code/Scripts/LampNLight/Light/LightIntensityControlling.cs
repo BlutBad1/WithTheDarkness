@@ -1,5 +1,4 @@
 using UnityEngine;
-using UtilitiesNS;
 
 namespace LightNS
 {
@@ -14,8 +13,10 @@ namespace LightNS
         private void Awake()
         {
             if (!LightGlowTimer)
-                LightGlowTimer = Utilities.GetComponentFromGameObject<LightGlowTimer>(gameObject) != null ?
-                    Utilities.GetComponentFromGameObject<LightGlowTimer>(gameObject) : GameObject.FindAnyObjectByType<LightGlowTimer>();
+            {
+                //LightGlowTimer = Utilities.GetComponentFromGameObject<LightGlowTimer>(gameObject);
+                LightGlowTimer =/* LightGlowTimer ? LightGlowTimer :*/ GameObject.FindAnyObjectByType<LightGlowTimer>();
+            }
             if (!light)
                 light = GetComponent<Light>();
             if (!halo)

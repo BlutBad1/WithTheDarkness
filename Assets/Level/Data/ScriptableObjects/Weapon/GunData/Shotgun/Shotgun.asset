@@ -16,13 +16,13 @@ MonoBehaviour:
   WeaponType: 2
   WeaponEntity: 2
   IsTwoHanded: 1
-  WeaponPrefab: {fileID: 9164239732040454416, guid: fcc398b0829a5214e9318ed01d481d02, type: 3}
+  WeaponPrefab: {fileID: 6504666989044958413, guid: 7575d35267357234cb60be91a9b4a37e, type: 3}
   Damage: 25
   Force: 10
   MaxDistance: 70
   FiringTime: 1.5
   MaxDeviation: 5
-  CurrentAmmo: 1
+  CurrentAmmo: 2
   MagSize: 2
   ReserveAmmoData: {fileID: 11400000, guid: 45dabed2131961b4ca3087f8a31e8700, type: 2}
   FireRate: 150

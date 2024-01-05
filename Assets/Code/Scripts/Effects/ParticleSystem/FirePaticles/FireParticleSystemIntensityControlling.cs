@@ -14,8 +14,10 @@ namespace LightNS
             particleSystem = GetComponent<ParticleSystem>();
             startingAlpha = particleSystem.main.startColor.color.a;
             if (!LightGlowTimer)
-                LightGlowTimer = Utilities.GetComponentFromGameObject<LightGlowTimer>(gameObject) != null ?
-                    Utilities.GetComponentFromGameObject<LightGlowTimer>(gameObject) : GameObject.FindAnyObjectByType<LightGlowTimer>();
+            {
+                //LightGlowTimer = Utilities.GetComponentFromGameObject<LightGlowTimer>(gameObject);
+                LightGlowTimer =/* LightGlowTimer ? LightGlowTimer :*/ GameObject.FindAnyObjectByType<LightGlowTimer>();
+            }
             SetIntensity();
         }
         private void Update()

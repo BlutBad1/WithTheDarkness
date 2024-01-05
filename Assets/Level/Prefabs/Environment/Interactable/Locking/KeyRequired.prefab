@@ -147,7 +147,7 @@ GameObject:
   m_Layer: 22
   m_Name: KeyRequired
   m_TagString: NoBulletHole
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: 4856223cc7759bf46b779c8ec49fd980, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -183,6 +183,7 @@ MonoBehaviour:
   meshRenderers:
   - {fileID: 8217799286638607338}
   referenceMat: {fileID: 2100000, guid: 57854568d07548d4081eed2a7fbee7a0, type: 2}
+  hightLightEmissionColor: {r: 0.7254902, g: 0.05490196, b: 0.039215688, a: 1}
   MinDistance: 7
   MaxIntensity: 0.8
   MinIntensity: 0

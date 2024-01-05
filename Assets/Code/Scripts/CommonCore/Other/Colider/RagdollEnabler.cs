@@ -6,7 +6,7 @@ public class RagdollEnabler : MonoBehaviour
     [SerializeField]
     public Transform RagdollRoot;
     public Animator Animator;
-    public NavMeshAgent Aagent;
+    public NavMeshAgent Agent;
     public bool EnableRagdollOnStart = true;
     private bool isRagdollEnabled = false;
     public bool IsRagdollEnabled
@@ -24,13 +24,15 @@ public class RagdollEnabler : MonoBehaviour
         colliders = RagdollRoot.GetComponentsInChildren<Collider>();
         if (EnableRagdollOnStart)
             EnableRagdoll();
+        else
+            DisableAllRigidbodies();
     }
     public void EnableAnimator()
     {
         isRagdollEnabled = false;
         Animator.enabled = true;
-        if (Aagent)
-            Aagent.enabled = true;
+        if (Agent)
+            Agent.enabled = true;
         foreach (CharacterJoint joint in joints)
             joint.enableCollision = false;
         foreach (Rigidbody rigidbody in rigidbodies)
@@ -57,8 +59,8 @@ public class RagdollEnabler : MonoBehaviour
         isRagdollEnabled = true;
         if (Animator)
             Animator.enabled = false;
-        if (Aagent)
-            Aagent.enabled = false;
+        if (Agent)
+            Agent.enabled = false;
         foreach (CharacterJoint joint in joints)
             joint.enableCollision = true;
         foreach (Rigidbody rigidbody in rigidbodies)

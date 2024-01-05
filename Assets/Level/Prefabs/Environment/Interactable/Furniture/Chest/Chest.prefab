@@ -772,7 +772,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 25
+  MaxDistance: 35
   Pan2D: 0
   rolloffMode: 1
   BypassEffects: 0
@@ -858,6 +858,7 @@ GameObject:
   - component: {fileID: 8976250933043687541}
   - component: {fileID: 8976250933043687543}
   - component: {fileID: 8976250933043687542}
+  - component: {fileID: 3995389507993936227}
   - component: {fileID: 8976250933043687539}
   - component: {fileID: 8976250933043687537}
   m_Layer: 22
@@ -933,6 +934,132 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3995389507993936227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8976250933043687545}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f449e58564ae94d4dabfa60cb59dd84c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useEvents: 0
+  promptMessage: 
+  LastWhoInteracted: {fileID: 0}
+  IsGeneric: 1
+  GenericKeyName: regular_1
+  KeyName: 
+  ConnectedKey: {fileID: 0}
+  AvailableKeyData: {fileID: 11400000, guid: 62c147480aa3bb149a78ac93efec608d, type: 2}
+  IsLocked: 1
+  LockedMessage: {fileID: 0}
+  UnlockMessage: {fileID: 0}
+  DisapperingSpeed: 0.5
+  OnUnlockEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8976250933043687542}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: ResetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: IsLocked
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8976250933043687542}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Open
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 5619861634712297322}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: set_layer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 24
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnLockedEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8976250933043687542}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: IsLocked
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 8976250933043687542}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Open
+          m_BoolArgument: 0
+        m_CallState: 2
+  Animator: {fileID: 8976250933043687542}
+  IsOpened: 0
+  PlayEventsOnStart: 0
+  OnOpenDoorEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 8976250933043687542}
+        m_TargetAssemblyTypeName: UnityEngine.Animator, UnityEngine
+        m_MethodName: SetTrigger
+        m_Mode: 5
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: Open
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 7818424477293823892}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: set_layer
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 24
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnCloseDoorEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  OnLockEvent:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8976250933043687539
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -954,8 +1081,8 @@ MonoBehaviour:
   ConnectedKey: {fileID: 0}
   AvailableKeyData: {fileID: 11400000, guid: 62c147480aa3bb149a78ac93efec608d, type: 2}
   IsLocked: 1
-  LockedMessage: I LOST MY KEY
-  UnlockMessage: 
+  LockedMessage: {fileID: 0}
+  UnlockMessage: {fileID: 0}
   DisapperingSpeed: 0.5
   OnUnlockEvent:
     m_PersistentCalls:

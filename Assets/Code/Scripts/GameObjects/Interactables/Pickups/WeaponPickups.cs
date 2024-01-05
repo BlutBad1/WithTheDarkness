@@ -67,11 +67,11 @@ namespace InteractableNS.Pickups
             GameObject newProp = newPropTran == null ? null : newPropTran.gameObject;
             if (!newProp)
             {
-                newProp = GameObject.Instantiate(prefab, transform.position, prefab.transform.rotation, transform.root);
+                newProp = GameObject.Instantiate(prefab, transform.position, transform.rotation, transform.root);
                 newProp.name = prefab.name;
             }
             newProp.transform.parent = propRoot.transform;
-            gameObject.transform.parent = propRoot.transform;
+            transform.parent = propRoot.transform;
             ActionIfWeaponTypeIsOccupiedByOther?.Invoke();
             newProp.SetActive(true);
             gameObject.SetActive(false);

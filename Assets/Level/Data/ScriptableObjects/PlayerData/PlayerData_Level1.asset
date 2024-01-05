@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99a6af15edefed94f8e26b13d8f655b2, type: 3}
+  m_Name: PlayerData_Level1
+  m_EditorClassIdentifier: 
+  Health: 100
+  TimeAfterHitToRegen: 3
+  InvincibilityTime: 1
+  PlayerInteracteDistance: 3
+  DefaultSpeed: 2
+  SprintingSpeed: 3.5
+  SprintingTime: 7
+  ActiveWeapons:
+    ActiveMeleeWeapon: {fileID: 0}
+    ActiveOneHandedGun: {fileID: 0}
+    ActiveTwoHandedGun: {fileID: 0}
+  ActiveWeaponData: {fileID: 11400000, guid: 32680db33575ebf408c11759d77dac64, type: 2}
+  GunObjects:
+  - WeaponData: {fileID: 11400000, guid: 993ce40b0bc1cdf4d8411ecd74dc82de, type: 2}
+    CurrentAmmo: 7
+  - WeaponData: {fileID: 11400000, guid: 3424be93d5a376b438f64d59164bd657, type: 2}
+    CurrentAmmo: 2
+  AmmoObjects:
+  - ReserveAmmoData: {fileID: 11400000, guid: a527334e743c06e45928881c442208fd, type: 2}
+    ReserveAmmo: 0
+  - ReserveAmmoData: {fileID: 11400000, guid: 45dabed2131961b4ca3087f8a31e8700, type: 2}
+    ReserveAmmo: 0
+  GlowTime: 360
+  MaxGlowTime: 360
+  LightIntensity: 2.5
+  LightRange: 22
+  LightUpRange: 32
+  LightUpSpotAngle: 60

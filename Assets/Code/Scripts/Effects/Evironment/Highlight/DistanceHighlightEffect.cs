@@ -20,7 +20,8 @@ namespace EnvironmentEffects.MatEffect.Highlight
         {
             startIntensity = MinIntensity;
             startDistanceOfEffect = MinDistance;
-            player = UtilitiesNS.Utilities.GetClosestComponent<PlayerCreature>(transform.position).gameObject;
+            //player = UtilitiesNS.Utilities.GetClosestComponent<PlayerCreature>(transform.position).gameObject;
+            player = GameObject.FindAnyObjectByType<PlayerCreature>().gameObject;
             base.Start();
         }
         protected void FixedUpdate()

@@ -1261,6 +1261,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f4be4103fe8d55540bd741a0f851f147, type: 3}
+--- !u!1 &738049661831049736 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 914481793971781702, guid: f4be4103fe8d55540bd741a0f851f147, type: 3}
+  m_PrefabInstance: {fileID: 472579002751087182}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &9160229378843908408
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738049661831049736}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1db5f3014b761af43b5eee305ac49df5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventOnEnable:
+    m_PersistentCalls:
+      m_Calls: []
+  EventOnDisable:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 4340732478906450560}
+        m_TargetAssemblyTypeName: TMPro.TMP_Text, Unity.TextMeshPro
+        m_MethodName: set_enableVertexGradient
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &4340732478906450560 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4229884082952155342, guid: f4be4103fe8d55540bd741a0f851f147, type: 3}
+  m_PrefabInstance: {fileID: 472579002751087182}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8223330916990508395 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8399727872242986789, guid: f4be4103fe8d55540bd741a0f851f147, type: 3}

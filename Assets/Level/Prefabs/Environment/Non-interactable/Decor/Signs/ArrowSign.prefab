@@ -203,6 +203,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5644547708939977006}
+  - component: {fileID: 1069348311971655527}
   m_Layer: 0
   m_Name: ArrowSign
   m_TagString: Untagged
@@ -229,6 +230,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!205 &1069348311971655527
+LODGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4980601378271173524}
+  serializedVersion: 2
+  m_LocalReferencePoint: {x: 0.74998474, y: 1.8059998, z: -0.27942944}
+  m_Size: 8.623335
+  m_FadeMode: 0
+  m_AnimateCrossFading: 0
+  m_LastLODIsBillboard: 0
+  m_LODs:
+  - screenRelativeHeight: 0.22459355
+    fadeTransitionWidth: 0
+    renderers:
+    - renderer: {fileID: 5323201164630321319}
+    - renderer: {fileID: 2479136593641702612}
+    - renderer: {fileID: 4560708382497128712}
+    - renderer: {fileID: 4398551853227380667}
+  m_Enabled: 1
 --- !u!1 &5323201164630321314
 GameObject:
   m_ObjectHideFlags: 0

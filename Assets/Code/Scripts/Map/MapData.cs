@@ -133,7 +133,7 @@ namespace LocationManagementNS
                 loc.EntryTeleportTrigger = loc.MapData.GetComponentInChildren<EntryToLocation>().EntryTeleportTrigger;
                 //loc.EntryTeleportTrigger = loc.MapData.transform.Find(LocationsConstants.ENTRY_TO_LOCATION).GetComponentInChildren<TeleportTrigger>();
             }
-            loc.MapData.SetActive(true);
+            //loc.MapData.SetActive(true);
             loc.MapData.SetActive(lastStatus);
         }
         public Location GetLocationByIndex(int index)

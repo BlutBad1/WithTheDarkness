@@ -1,7 +1,9 @@
 using LightNS;
 using PlayerScriptsNS;
+using ScriptableObjectNS.Player;
 using ScriptableObjectNS.Weapon;
 using ScriptableObjectNS.Weapon.Gun;
+using UnityEditor;
 using UnityEngine;
 using WeaponManagement;
 
@@ -9,6 +11,7 @@ namespace Data.Player
 {
     public class PlayerDataOnLevel : MonoBehaviour
     {
+        public PlayerData PlayerData;
         [Header("Player Stats")]
         [Min(0)]
         public float Health = 100;
@@ -41,9 +44,37 @@ namespace Data.Player
         public float LightUpSpotAngle = 60;
         private void Awake()
         {
+            GetDataFromScriptableObject();
             InitializeWeapon();
             InitializePlayerStats();
             LightInitazlie();
+        }
+        public void GetDataFromScriptableObject()
+        {
+            if (PlayerData)
+            {
+                PlayerData copiedPlayerData = PlayerData.GetCoppiedValues();
+                //Player
+                Health = copiedPlayerData.Health;
+                TimeAfterHitToRegen = copiedPlayerData.TimeAfterHitToRegen;
+                InvincibilityTime = copiedPlayerData.InvincibilityTime;
+                PlayerInteracteDistance = copiedPlayerData.PlayerInteracteDistance;
+                DefaultSpeed = copiedPlayerData.DefaultSpeed;
+                SprintingSpeed = copiedPlayerData.SprintingSpeed;
+                SprintingTime = copiedPlayerData.SprintingTime;
+                //Weapon
+                ActiveWeapons = copiedPlayerData.ActiveWeapons;
+                ActiveWeaponData = copiedPlayerData.ActiveWeaponData;
+                GunObjects = copiedPlayerData.GunObjects;
+                AmmoObjects = copiedPlayerData.AmmoObjects;
+                //Light
+                GlowTime = copiedPlayerData.GlowTime;
+                MaxGlowTime = copiedPlayerData.MaxGlowTime;
+                LightIntensity = copiedPlayerData.LightIntensity;
+                LightRange = copiedPlayerData.LightRange;
+                LightUpRange = copiedPlayerData.LightUpRange;
+                LightUpSpotAngle = copiedPlayerData.LightUpSpotAngle;
+            }
         }
         public void InitializePlayerStats()
         {
@@ -106,4 +137,59 @@ namespace Data.Player
             }
         }
     }
+#if UNITY_EDITOR
+    [CustomEditor(typeof(PlayerDataOnLevel))]
+    public class PlayerDataOnLevel_CustomEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            //DrawDefaultInspector(); // for other non-HideInInspector fields
+            PlayerDataOnLevel script = (PlayerDataOnLevel)target;
+            SerializedProperty property;
+            property = serializedObject.FindProperty("PlayerData");
+            EditorGUILayout.PropertyField(property, new GUIContent("PlayerData"), true);
+            if (!script.PlayerData)
+            {
+                //PlayerStats
+                property = serializedObject.FindProperty("Health");
+                EditorGUILayout.PropertyField(property, new GUIContent("Health"), true);
+                property = serializedObject.FindProperty("TimeAfterHitToRegen");
+                EditorGUILayout.PropertyField(property, new GUIContent("TimeAfterHitToRegen"), true);
+                property = serializedObject.FindProperty("InvincibilityTime");
+                EditorGUILayout.PropertyField(property, new GUIContent("InvincibilityTime"), true);
+                property = serializedObject.FindProperty("PlayerInteracteDistance");
+                EditorGUILayout.PropertyField(property, new GUIContent("PlayerInteracteDistance"), true);
+                property = serializedObject.FindProperty("DefaultSpeed");
+                EditorGUILayout.PropertyField(property, new GUIContent("DefaultSpeed"), true);
+                property = serializedObject.FindProperty("SprintingSpeed");
+                EditorGUILayout.PropertyField(property, new GUIContent("SprintingSpeed"), true);
+                property = serializedObject.FindProperty("SprintingTime");
+                EditorGUILayout.PropertyField(property, new GUIContent("SprintingTime"), true);
+                //WeaponData
+                property = serializedObject.FindProperty("ActiveWeapons");
+                EditorGUILayout.PropertyField(property, new GUIContent("ActiveWeapons"), true);
+                property = serializedObject.FindProperty("ActiveWeaponData");
+                EditorGUILayout.PropertyField(property, new GUIContent("ActiveWeaponData"), true);
+                property = serializedObject.FindProperty("GunObjects");
+                EditorGUILayout.PropertyField(property, new GUIContent("GunObjects"), true);
+                property = serializedObject.FindProperty("AmmoObjects");
+                EditorGUILayout.PropertyField(property, new GUIContent("AmmoObjects"), true);
+                //LightData
+                property = serializedObject.FindProperty("GlowTime");
+                EditorGUILayout.PropertyField(property, new GUIContent("GlowTime"), true);
+                property = serializedObject.FindProperty("MaxGlowTime");
+                EditorGUILayout.PropertyField(property, new GUIContent("MaxGlowTime"), true);
+                property = serializedObject.FindProperty("LightIntensity");
+                EditorGUILayout.PropertyField(property, new GUIContent("LightIntensity"), true);
+                property = serializedObject.FindProperty("LightRange");
+                EditorGUILayout.PropertyField(property, new GUIContent("LightRange"), true);
+                property = serializedObject.FindProperty("LightUpRange");
+                EditorGUILayout.PropertyField(property, new GUIContent("LightUpRange"), true);
+                property = serializedObject.FindProperty("LightUpSpotAngle");
+                EditorGUILayout.PropertyField(property, new GUIContent("LightUpSpotAngle"), true);
+            }
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
+#endif
 }

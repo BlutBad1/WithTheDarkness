@@ -396,7 +396,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   InvokeOnTakeDamageAfterDead: 1
-  OriginalHealth: 0
+  HealthOnStart: 0
   Animator: {fileID: 5079124951260837736}
   Movement: {fileID: 5079124951260837652}
   EnemyAttack: {fileID: 5079124951260837653}
@@ -7628,7 +7628,7 @@ GameObject:
   m_Layer: 0
   m_Name: Hand
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 2800000, guid: d428d886299fdfc42bff4b2187bd85b8, type: 3}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

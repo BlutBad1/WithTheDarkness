@@ -26,7 +26,6 @@ namespace EnemyNS.Attack
         public event LoseSightEvent OnLoseSight;
         private SerializableDictionary<GameObject, Coroutine> seenObjectsInSight;
         private Quaternion currentRayGameObjectRotation;
-
         private void Start()
         {
             seenObjectsInSight = new SerializableDictionary<GameObject, Coroutine>();
@@ -35,6 +34,7 @@ namespace EnemyNS.Attack
             SetRaycastsDeviation();
             OnGainSight += Enemy.HandleGainCreatureInSight;
             OnLoseSight += Enemy.HandleLoseCreatureFromSight;
+            Enemy.OnDead += OnDead;
         }
         private void Update()
         {
@@ -91,6 +91,23 @@ namespace EnemyNS.Attack
                     deviation -= GapBetweenRay;
             }
         }
+        private void OnDead()
+        {
+            this.enabled = false;
+        }
+        private bool CheckIfNonEqualOrParent(GameObject gameObjectThatHasParent, GameObject gameObject)
+        {
+            if (gameObjectThatHasParent == gameObject)
+                return false;
+            Transform currentParent = gameObjectThatHasParent.transform.parent;
+            while (currentParent != null)
+            {
+                if (currentParent.gameObject == gameObject)
+                    return false;
+                currentParent = currentParent.transform.parent;
+            }
+            return true;
+        }
         private IEnumerator checkGameObjectWhileInSight(GameObject gameObject)
         {
             WaitForSeconds Wait = new WaitForSeconds(0.1f);
@@ -113,19 +130,6 @@ namespace EnemyNS.Attack
                 }
             }
             return false;
-        }
-        private bool CheckIfNonEqualOrParent(GameObject gameObjectThatHasParent, GameObject gameObject)
-        {
-            if (gameObjectThatHasParent == gameObject)
-                return false;
-            Transform currentParent = gameObjectThatHasParent.transform.parent;
-            while (currentParent != null)
-            {
-                if (currentParent.gameObject == gameObject)
-                    return false;
-                currentParent = currentParent.transform.parent;
-            }
-            return true;
         }
     }
 }

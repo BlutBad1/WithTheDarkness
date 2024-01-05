@@ -2502,7 +2502,7 @@ MonoBehaviour:
   Windows:
   - Name: SettingsMenu
     WindowGameObjects: []
-  - Name: SureMenu(MainMenuExit)
+  - Name: SureMenu(Exit)
     WindowGameObjects:
     - {fileID: 6199493767198563725}
   - Name: SureMenu(NewGame)

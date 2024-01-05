@@ -22,10 +22,12 @@ namespace GameObjectsControllingNS
             if (IsConnectedToSupply)
             {
                 if (!objectsSupplyInstance.CalculateObjectChances(Chance))
-                    Destroy(gameObject);
+                    gameObject.SetActive(false);
+                //Destroy(gameObject);
             }
             else if (Chance <= Random.Range(0, 100))
-                Destroy(gameObject);
+                gameObject.SetActive(false);
+            //Destroy(gameObject);
         }
     }
 }

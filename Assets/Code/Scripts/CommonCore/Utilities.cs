@@ -23,16 +23,16 @@ namespace UtilitiesNS
             }
             return index;
         }
-        public static T GetComponentFromGameObject<T>(GameObject gameObject, bool includeSiblings = true) where T : class
+        public static T GetComponentFromGameObject<T>(GameObject gameObject, bool includeSiblings = false) where T : class
         {
             T component = gameObject.GetComponent<T>();
-            if (component != null) return component;
+            if (component != null && !component.Equals(null)) return component; // I don't know why, but sometimes component.Equals(null) is true and at the same time component != null is true too
             Transform currentTransform = gameObject.transform;
             while (currentTransform.parent != null)
             {
                 currentTransform = currentTransform.parent;
                 component = currentTransform.GetComponent<T>();
-                if (component != null)
+                if (component != null && !component.Equals(null))
                     return component;
             }
             Queue<Transform> queue = new Queue<Transform>();
@@ -41,7 +41,7 @@ namespace UtilitiesNS
             {
                 Transform current = queue.Dequeue();
                 component = current.GetComponent<T>();
-                if (component != null)
+                if (component != null && !component.Equals(null))
                     return component;
                 foreach (Transform child in current)
                     queue.Enqueue(child);

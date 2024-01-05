@@ -1,3 +1,4 @@
+using PlayerScriptsNS;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -26,6 +27,23 @@ namespace EnemyNS.Type.Follower
             for (int i = 0; i < FollowersObjects?.Length; i++)
                 gameObjectsTransforms.Add(FollowersObjects[i].transform);
         }
+        private void Start()
+        {
+            if (!Player)
+                Player = FindAnyObjectByType<PlayerCreature>().gameObject;
+#if UNITY_EDITOR
+            if (!Player)
+                UnityEngine.Debug.LogWarning("Player is not found");
+#endif
+        }
+        private void Update()
+        {
+            if (Vector3.Distance(transform.position, Player.transform.position) <= FollowingDistance)
+            {
+                if (followCoroutine == null)
+                    followCoroutine = StartCoroutine(StartFollow());
+            }
+        }
         public void AddGameObject(GameObject gameObject)
         {
             if (FollowersObjects == null)
@@ -34,24 +52,20 @@ namespace EnemyNS.Type.Follower
             FollowersObjects[^1] = gameObject;
             gameObjectsTransforms.Add(gameObject.transform);
         }
-        private void Start()
+        public struct FollowJob : IJobParallelForTransform
         {
-            if (!Player)
-                Player = GameObject.Find(MyConstants.CommonConstants.PLAYER);
-#if UNITY_EDITOR
-            if (!Player)
-                UnityEngine.Debug.LogWarning("Player is not found");
-#endif
-        }
-        void Update()
-        {
-            if (Vector3.Distance(transform.position, Player.transform.position) <= FollowingDistance)
+            public Vector3 _playerPosition;
+            public float _followSpeed;
+            public float _followingDistance;
+            public float _stoppingDistance;
+            public float _deltaTime;
+            public void Execute(int index, TransformAccess transform)
             {
-                if (followCoroutine == null)
-                    followCoroutine = StartCoroutine(StartFollow());
+                if (Vector3.Distance(transform.position, _playerPosition) <= _followingDistance && Vector3.Distance(transform.position, _playerPosition) > _stoppingDistance)
+                    transform.position = Vector3.Lerp(transform.position, _playerPosition, _followSpeed * _deltaTime);
             }
         }
-        IEnumerator StartFollow()
+        private IEnumerator StartFollow()
         {
             if ((FollowersObjects?.Length > automaticallyEnableAfter && automaticallyEnableAfter != -1) || alwaysMultithreading)
             {
@@ -77,21 +91,6 @@ namespace EnemyNS.Type.Follower
             }
             yield return new WaitForSeconds(UpdatingSpeed);
             followCoroutine = null;
-
-        }
-
-        public struct FollowJob : IJobParallelForTransform
-        {
-            public Vector3 _playerPosition;
-            public float _followSpeed;
-            public float _followingDistance;
-            public float _stoppingDistance;
-            public float _deltaTime;
-            public void Execute(int index, TransformAccess transform)
-            {
-                if (Vector3.Distance(transform.position, _playerPosition) <= _followingDistance && Vector3.Distance(transform.position, _playerPosition) > _stoppingDistance)
-                    transform.position = Vector3.Lerp(transform.position, _playerPosition, _followSpeed * _deltaTime);
-            }
         }
     }
 }

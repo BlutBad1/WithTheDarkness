@@ -6,6 +6,7 @@ namespace EnvironmentEffects.MatEffect.Highlight
     {
         [SerializeField] protected MeshRenderer[] meshRenderers;
         [SerializeField] protected Material referenceMat;
+        [SerializeField, ColorUsageAttribute(true, true)] protected Color hightLightEmissionColor;
         protected MaterialPropertyBlock matPropBlock;
         protected float startIntensity = 0f;
         protected virtual void Start()
@@ -22,7 +23,8 @@ namespace EnvironmentEffects.MatEffect.Highlight
                 for (int i = 0; i < rendererMaterials.Length; i++)
                 {
                     InitializeRenderer(renderer, currentBlock, i, referenceMat, rendererMaterials);
-                    currentBlock.SetColor("_EmissionColor", referenceMat.GetColor("_EmissionColor") * startIntensity);
+                    currentBlock.SetColor("_EmissionColor", hightLightEmissionColor * startIntensity);
+                    //currentBlock.SetColor("_EmissionColor", referenceMat.GetColor("_EmissionColor") * startIntensity);
                     renderer.SetPropertyBlock(currentBlock, i);
                 }
                 renderer.materials = rendererMaterials;  // Set the whole array back onto the renderer
@@ -37,7 +39,8 @@ namespace EnvironmentEffects.MatEffect.Highlight
                     for (int i = 0; i < renderer.materials.Length; i++)
                     {
                         renderer.GetPropertyBlock(matPropBlock, i);
-                        matPropBlock.SetColor("_EmissionColor", referenceMat.GetColor("_EmissionColor") * intensity);
+                        matPropBlock.SetColor("_EmissionColor", hightLightEmissionColor * intensity);
+                        //currentBlock.SetColor("_EmissionColor", referenceMat.GetColor("_EmissionColor") * startIntensity);
                         renderer.SetPropertyBlock(matPropBlock, i);
                     }
                 }

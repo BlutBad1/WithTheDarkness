@@ -42,6 +42,6 @@ namespace DamageableNS
         public void TakeDamage(float damage);
         public GameObject GetGameObject();
         public static IDamageable GetDamageableFromGameObject(GameObject gameObject) =>
-            UtilitiesNS.Utilities.GetComponentFromGameObject<IDamageable>(gameObject, true);
+            UtilitiesNS.Utilities.GetComponentFromGameObject<IDamageable>(gameObject, false);
     }
 }

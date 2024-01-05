@@ -16,12 +16,13 @@ namespace GameObjectsControllingNS.Spawner
     }
     public class SpawnerBase<T> : MonoBehaviour where T : SpawningGameObject
     {
-        public Transform SpawnTransform;
+        [Tooltip("If SpawnPoint is not set, it would use a Parent transform as a spawn point.")]
+        public Transform SpawnPoint;
         public List<T> SpawningGameObjects;
         protected virtual void Start()
         {
             SpawnGameObject(SpawningGameObjects);
-            gameObject.SetActive(false);
+            //gameObject.SetActive(false);
         }
         protected virtual SpawningGameObject SpawnGameObject(List<T> spawningGameObjects)
         {
@@ -30,7 +31,7 @@ namespace GameObjectsControllingNS.Spawner
             if (spawningGameObjects != null && notNullChanceGameObjects.Count > 0)
             {
                 int mutualSpawnChance = (int)notNullChanceGameObjects.Sum(x => x.SpawnChance);
-                int randomNumber = UnityEngine.Random.Range(1, mutualSpawnChance);
+                int randomNumber = UnityEngine.Random.Range(1, mutualSpawnChance + 1);
                 float spawnChanceCounter = 0;
                 foreach (var spawningGameObject in notNullChanceGameObjects)
                 {
@@ -41,10 +42,12 @@ namespace GameObjectsControllingNS.Spawner
                     }
                     spawnChanceCounter += spawningGameObject.SpawnChance;
                 }
+                Transform spawnTransform = SpawnPoint ? SpawnPoint : gameobjectToSpawn.Parent;
                 if (gameobjectToSpawn.IsPrefab)
-                    gameobjectToSpawn.GameObject = GameObject.Instantiate(gameobjectToSpawn.GameObject, SpawnTransform.position, SpawnTransform.rotation, gameobjectToSpawn.Parent);
+                    gameobjectToSpawn.GameObject = GameObject.Instantiate(gameobjectToSpawn.GameObject, spawnTransform.position, spawnTransform.rotation);
                 else
-                    gameobjectToSpawn.GameObject.transform.position = SpawnTransform.position;
+                    gameobjectToSpawn.GameObject.transform.position = spawnTransform.position;
+                gameobjectToSpawn.GameObject.transform.parent = gameobjectToSpawn.Parent;
             }
             foreach (var spawningGameObject in spawningGameObjects)
             {

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 75
   AttackDelay: 1.5
-  Damage: 25
+  Damage: 20
   AttackForce: 5
   AttackRadius: 0.9
   AttackDistance: 1.6
