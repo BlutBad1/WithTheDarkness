@@ -1,24 +1,16 @@
 # WithTheDarkness
-## [Gameplay and video report  (Ukrainian)](https://www.youtube.com/watch?v=tZQDrA5Vypk&ab_channel=%D0%84%D0%B2%D0%B3%D0%B5%D0%BD%D1%96%D0%B9%D0%9F%D1%88%D0%BE%D0%BD%D0%BE%D0%B2%D1%81%D1%8C%D0%BA%D0%B8%D0%B9)
 
 ### About the project 
-  This is a 3D first-person horror game with survival and roguelike elements. 
-  The point of the game is to pass stages, which are arranged differently in each session.
-Each game session has its own path, consisting of pre-created locations. Alternatively, these locations may not appear at all. In addition, items 
-(currently bullets and oil) and opponents appear at random.
+This is a survival horror game with first-person perspective, featuring 3D graphics and incorporating elements of both survival and roguelike genres.
 
-You have to fight the enemies and try to survive, and to do this you have to constantly move around the locations in search of oil for the light or you will die. And this is prevented by the above-mentioned random locational distribution. The main trick besides the random path is light and dark. You literally can't see further than your nose in the game, so you don't know what will be waiting for you ahead. So be wary.
+In the game, players must navigate through stages, each uniquely arranged in every session. The paths are composed of predefined locations, though these may vary, and items such as bullets and oil, as well as adversaries, appear randomly.
 
-Some screenshots: 
+The primary objective is to confront enemies and ensure survival. Players must continually explore the locations, searching for oil to illuminate their surroundings; failure to do so results in death. The game introduces an element of uncertainty through the random distribution of locations, adding to the challenge. Notably, visibility is severely limited, making it impossible to see beyond one's immediate surroundings, creating an atmosphere of suspense and requiring players to exercise caution as they progress.
 
-![Here was the main menu img :(](https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81prhHhv9HThiBoaVok9qOibTz-lNGub2j8jIyMBsgPVXN8TV8y348N2G07C0KTm8AuqtMkFckQjsZUKw5V7T01KQwlf=w1920-h968)
 
-![Here was the img1 :(](https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81oA1VN90mdeTMUibTbOJtAHlm6pMY-GIDTmiVzU2tF8UbNN9U-uEmCHsAeHekYA93GNVW9EfdqOJkUrgvO36IbqO2RAKA=w1920-h968)
-![Here was the img2 :(](https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81p1rYRvPrD9ntsiutc6J57i--dKd0YwS368c88Ainx-f34rCxjR3XqU90-sfkJ_I1aXKN1F8YV6nI_xHCBWS5JSXTRoyg=w1920-h969)
-
-  The game is still under development. 
+The game is still under development. 
   
-  A few words about Unit. This engine was chosen because of its simplicity, a lot of indie, mobile and other games are made on this engine. The engine is great for small and inexpensive games, does not contain unnecessary elements, and the c# language is incredibly convenient.
+A few words about Unity. This engine was chosen because of its simplicity, a lot of indie, mobile and other games are made on this engine. The engine is great for small and inexpensive games, does not contain unnecessary elements, and the c# language is incredibly convenient.
 ### <ins>[All code](https://github.com/BlutBad1/WithTheDarkness/tree/main/Assets) in the folder: [Assets -> Scripts](https://github.com/BlutBad1/WithTheDarkness/tree/main/Assets)</ins>
 
 ## Lab№2 (Patterns)
