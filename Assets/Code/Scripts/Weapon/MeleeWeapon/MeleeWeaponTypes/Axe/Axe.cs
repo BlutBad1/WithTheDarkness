@@ -1,7 +1,6 @@
 using MyConstants.WeaponConstants;
 using MyConstants.WeaponConstants.MeleeWeaponConstants;
 using PlayerScriptsNS;
-using ScriptableObjectNS.Weapon;
 using SoundNS;
 using System.Collections;
 using UnityEngine;
@@ -10,20 +9,21 @@ using WeaponNS.ShootingWeaponNS;
 
 public class Axe : MeleeWeaponBase
 {
-    public AudioSourcesManager AudioSourcesManager;
-    [Header("Attacking"), Min(0)]
-    public float MaxHoldingUpAttackMultiplier = 1.5f;
-    [Min(0)]
-    public float TimeOfHoldingUp = 2f;
-    [HideInInspector]
-    public bool IsHoldingUp = false;
-    [Header("Blocking")]
-    public float BlockingTranTime = 0.5f;
-    [Range(0, 100)]
-    public float PercentBlockingResistance = 35f;
-    public PlayerHealth PlayerHealth;
-    [HideInInspector]
-    public bool IsBlocking = false;
+    [SerializeField]
+    private AudioSourcesManager audioSourcesManager;
+    [Header("Attacking"), SerializeField, Min(0)]
+    private float maxHoldingUpAttackMultiplier = 1.5f;
+    [SerializeField, Min(0)]
+    private float timeOfHoldingUp = 2f;
+    [Header("Blocking"), SerializeField]
+    private float blockingTranTime = 0.5f;
+    [SerializeField, Range(0, 100)]
+    private float percentBlockingResistance = 35f;
+    [SerializeField]
+    private PlayerHealth playerHealth;
+
+    private bool isHoldingUp = false;
+    private bool isBlocking = false;
     private bool isBlockingAnim = false;
     private Coroutine holdingUpAttackCoroutine = null;
 
@@ -46,8 +46,8 @@ public class Axe : MeleeWeaponBase
     public override void DefineAnim()
     {
         string nextAnim = string.Empty;
-        float tranTime = MeleeData.AnimTransitionTime;
-        if (IsHoldingUp && !attacking && !IsBlocking && !isBlockingAnim)
+        float tranTime = meleeData.AnimTransitionTime;
+        if (isHoldingUp && !attacking && !isBlocking && !isBlockingAnim)
             nextAnim = AxeConstants.ATTACK_PREPARING;
         else if (attacking)
             nextAnim = AxeConstants.ATTACK_PERFORMING;
@@ -56,7 +56,7 @@ public class Axe : MeleeWeaponBase
         else
             nextAnim = MainMeleeWeaponConstants.IDLE;
         if (currentAnimationState == AxeConstants.BLOCKING || nextAnim == AxeConstants.BLOCKING)
-            tranTime = BlockingTranTime;
+            tranTime = blockingTranTime;
         if (!CheckAnimConditions(nextAnim)) return;
         animator.CrossFadeInFixedTime(nextAnim, tranTime);
         currentAnimationState = nextAnim;
@@ -65,31 +65,31 @@ public class Axe : MeleeWeaponBase
         isBlockingAnim = true;
     public void Block()
     {
-        IsBlocking = true;
-        PlayerHealth.PercentResistance = PercentBlockingResistance;
-        PlayerHealth.OnTakeDamageWithoutDamageData += DecreaseDurability;
+        isBlocking = true;
+        playerHealth.PercentResistance = percentBlockingResistance;
+        playerHealth.OnTakeDamageWithoutDamageData += DecreaseDurability;
     }
     public void StopBlocking()
     {
         isBlockingAnim = false;
-        IsBlocking = false;
-        PlayerHealth.PercentResistance = 0;
-        PlayerHealth.OnTakeDamageWithoutDamageData -= DecreaseDurability;
+        isBlocking = false;
+        playerHealth.PercentResistance = 0;
+        playerHealth.OnTakeDamageWithoutDamageData -= DecreaseDurability;
     }
     public override void DecreaseDurability()
     {
-        MeleeData.CurrentDurability -= MeleeData.MoveDurabilityCost;
-        MeleeData.CurrentDurability = MeleeData.CurrentDurability <= 0 ? 0 : MeleeData.CurrentDurability;
-        WeaponDurabilityEnd.OnDurabilityDecrease();
-        if (MeleeData.CurrentDurability <= 0)
+        meleeData.CurrentDurability -= meleeData.MoveDurabilityCost;
+        meleeData.CurrentDurability = meleeData.CurrentDurability <= 0 ? 0 : meleeData.CurrentDurability;
+        weaponDurabilityEnd.OnDurabilityDecrease();
+        if (meleeData.CurrentDurability <= 0)
         {
             StopBlocking();
-            WeaponDurabilityEnd.OnDurabilityEnd();
+            weaponDurabilityEnd.OnDurabilityEnd();
         }
     }
     public void PlayAudioOnHit(RaycastHit hit)
     {
-        AudioSourcesManager.CreateNewAudioSourceAndPlay(AxeConstants.HIT_SOUND);
+        audioSourcesManager.CreateNewAudioSourceAndPlay(AxeConstants.HIT_SOUND);
     }
     public override bool CanAttack()
     {
@@ -101,7 +101,7 @@ public class Axe : MeleeWeaponBase
     public override void Attack()
     {
         if (!CanAttack()) return;
-        IsHoldingUp = true;
+        isHoldingUp = true;
         // Invoke(nameof(ResetAttack), MeleeData.AttackTime);
     }
     public void AttackPreparing()
@@ -116,16 +116,16 @@ public class Axe : MeleeWeaponBase
         if (holdingUpAttackCoroutine != null)
             StopCoroutine(holdingUpAttackCoroutine);
         holdingUpAttackCoroutine = null;
-        if (IsHoldingUp && !isBlockingAnim)
+        if (isHoldingUp && !isBlockingAnim)
             attacking = true;
-        IsHoldingUp = false;
+        isHoldingUp = false;
     }
     protected IEnumerator AttackTimer()
     {
         float time = 0;
-        while (time <= TimeOfHoldingUp)
+        while (time <= timeOfHoldingUp)
         {
-            damageAndForceMultiplier = Mathf.Lerp(1, MaxHoldingUpAttackMultiplier, time / TimeOfHoldingUp);
+            damageAndForceMultiplier = Mathf.Lerp(1, maxHoldingUpAttackMultiplier, time / timeOfHoldingUp);
             time += Time.deltaTime;
             yield return null;
         }

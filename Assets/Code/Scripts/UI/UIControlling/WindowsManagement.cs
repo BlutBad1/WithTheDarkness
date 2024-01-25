@@ -34,7 +34,7 @@ namespace UIControlling
         {
             if (!instance)
                 instance = this;
-            else
+            else if (instance != this)
                 Destroy(this);
             currentWindow = Menu;
             foreach (var item in currentWindow.WindowGameObjects)

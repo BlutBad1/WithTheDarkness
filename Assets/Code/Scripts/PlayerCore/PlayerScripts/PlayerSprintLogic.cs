@@ -28,7 +28,7 @@ namespace PlayerScriptsNS
             audioSource.volume = StaminaLackSound.volume;
             StaminaLackSound.source = audioSource;
             audioSourceManager = gameObject.AddComponent<AudioSourceManager>();
-            audioSourceManager.audioType = StaminaLackSound.audioKind;
+            audioSource.outputAudioMixerGroup = MixerVolumeChanger.Instance.GetAudioMixerGroup(StaminaLackSound.audioKind);
             audioSourceManager.SetAudioSource(audioSource);
         }
         private void Update()

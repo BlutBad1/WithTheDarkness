@@ -1,6 +1,8 @@
 using ScriptableObjectNS.Weapon;
 using UnityEngine;
+using UnityEngine.Serialization;
 using WeaponManagement;
+using WeaponNS.DataNS;
 
 namespace ScriptableObjectNS.Player
 {
@@ -27,8 +29,11 @@ namespace ScriptableObjectNS.Player
         [Header("WeaponData")]
         public SerializableActiveWeapon ActiveWeapons;
         public ActiveWeapon ActiveWeaponData;
-        public CurrentAmmoObject[] GunObjects;
-        public ReserveAmmoObject[] AmmoObjects;
+        public MeleeDurabilityDataObject[] MeleeDurabilityData;
+        [FormerlySerializedAs("GunObjects")]
+        public CurrentAmmoDataObject[] CurrentAmmoData;
+        [FormerlySerializedAs("AmmoObjects")]
+        public ReserveAmmoDataObject[] ReserveAmmoData;
         [Header("Light"), Min(0)]
         public float GlowTime = 100f;
         [Min(0)]

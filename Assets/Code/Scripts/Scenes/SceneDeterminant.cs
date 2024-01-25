@@ -27,29 +27,18 @@ namespace ScenesManagementNS
             else
                 Destroy(this);
         }
-        /// <summary>
-        /// If scenes chosen in scenemask, last scene always has 100%, otherwise it will return main menu scene.
-        /// </summary>
-        /// <param name="SceneMask"></param>
-        /// <returns></returns>
-        public string GetRandomScene(int SceneMask, SerializableDictionary<string, float> collection)
+        public void OnAfterDeserialize()
         {
-            string scene = "";
-            for (int i = 0; i < GetAllScenesInBuld().Count; i++)
-            {
-                if ((SceneMask & (1 << i)) != 0)
-                {
-                    if (collection[GetAllScenesInBuld()[i]] > Random.Range(0, 100))
-                        return GetAllScenesInBuld()[i];
-                    scene = GetAllScenesInBuld()[i];
-                }
-            }
-            if (string.IsNullOrEmpty(scene))
-                return MyConstants.SceneConstants.MAIN_MENU;
-            else
-                return scene;
         }
-        public List<string> GetAllScenesInBuld()
+        public void OnBeforeSerialize()
+        {
+            InitializeAndCheckCollectionOfChances(NextScenesSpawnChances);
+            InitializeAndCheckCollectionOfChances(AfterLoseScenesSpawnChances);
+            SceneNames = GetAllScenesInBuild();
+            ScenesAfterLose = ScenesAfterLose == 0 ? 1 : ScenesAfterLose;
+            NextScenes = NextScenes == 0 ? 1 : NextScenes;
+        }
+        public List<string> GetAllScenesInBuild()
         {
             List<string> SceneList = new List<string>();
             for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
@@ -60,29 +49,43 @@ namespace ScenesManagementNS
             }
             return SceneList;
         }
-        public void OnAfterDeserialize()
+        public string GetRandomNextScene() =>
+            GetRandomScene(NextScenes, NextScenesSpawnChances);
+        public string GetRandomLoseScene() =>
+           GetRandomScene(ScenesAfterLose, AfterLoseScenesSpawnChances);
+        private string GetRandomScene(int SceneMask, SerializableDictionary<string, float> collection)
         {
-        }
-        public void OnBeforeSerialize()
-        {
-            InitializeAndCheckCollectionOfChances(NextScenesSpawnChances);
-            InitializeAndCheckCollectionOfChances(AfterLoseScenesSpawnChances);
-            SceneNames = GetAllScenesInBuld();
-            ScenesAfterLose = ScenesAfterLose == 0 ? 1 : ScenesAfterLose;
-            NextScenes = NextScenes == 0 ? 1 : NextScenes;
+            string scene = "";
+            Dictionary<string, float> notZeroChancesList = collection.Where(x => x.Value > 0).ToDictionary(x => x.Key, x => x.Value);
+            int mutualSpawnChance = (int)notZeroChancesList.Values.Sum();
+            int randomNumber = UnityEngine.Random.Range(1, mutualSpawnChance + 1);
+            float spawnChanceCounter = 0;
+            foreach (var spawningGameObject in notZeroChancesList)
+            {
+                if (randomNumber > spawnChanceCounter && randomNumber <= spawnChanceCounter + spawningGameObject.Value)
+                {
+                    scene = spawningGameObject.Key;
+                    break;
+                }
+                spawnChanceCounter += spawningGameObject.Value;
+            }
+            if (string.IsNullOrEmpty(scene))
+                return MyConstants.SceneConstants.MAIN_MENU;
+            else
+                return scene;
         }
         private void InitializeAndCheckCollectionOfChances(SerializableDictionary<string, float> collection)
         {
-            if (collection == null || collection.Count != GetAllScenesInBuld().Count)
+            if (collection == null || collection.Count != GetAllScenesInBuild().Count)
             {
                 if (collection == null)
                     collection = new SerializableDictionary<string, float>();
-                foreach (var scene in GetAllScenesInBuld())
+                foreach (var scene in GetAllScenesInBuild())
                 {
                     if (!collection.ContainsKey(scene))
                         collection.Add(scene, 0);
                 }
-                foreach (var scene in collection.Keys.Where(x => !GetAllScenesInBuld().Contains(x)).ToList())
+                foreach (var scene in collection.Keys.Where(x => !GetAllScenesInBuild().Contains(x)).ToList())
                     collection.Remove(scene);
             }
         }
@@ -107,11 +110,11 @@ namespace ScenesManagementNS
             if (visible)
             {
                 string scene;
-                for (int i = 0; i < script.GetAllScenesInBuld().Count; i++)
+                for (int i = 0; i < script.GetAllScenesInBuild().Count; i++)
                 {
                     if ((mask & (1 << i)) != 0)
                     {
-                        scene = script.GetAllScenesInBuld()[i];
+                        scene = script.GetAllScenesInBuild()[i];
                         collection[scene] = EditorGUILayout.Slider(scene, collection[scene], 0f, 100f);
                     }
                 }

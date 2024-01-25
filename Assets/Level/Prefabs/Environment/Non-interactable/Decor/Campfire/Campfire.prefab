@@ -85,7 +85,7 @@ MonoBehaviour:
   SpawningGameObjects:
   - GameObject: {fileID: 8367390784191006764}
     Parent: {fileID: 8367390782198215331}
-    SpawnChance: 1
+    SpawnChance: 50
     IsPrefab: 0
   - GameObject: {fileID: 8367390782933981126}
     Parent: {fileID: 8367390782198215331}
@@ -440,7 +440,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PauseSourcesInGameMenu: 1
   audioSource: {fileID: 8367390783263450918}
-  audioType: 2
 --- !u!82 &8367390783263450918
 AudioSource:
   m_ObjectHideFlags: 0
@@ -617,7 +616,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PauseSourcesInGameMenu: 1
   audioSource: {fileID: 8367390783885188327}
-  audioType: 2
 --- !u!82 &8367390783885188327
 AudioSource:
   m_ObjectHideFlags: 0
@@ -627,7 +625,7 @@ AudioSource:
   m_GameObject: {fileID: 8367390783885188330}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3142095646204127613, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 183abbdce2e419b46ba19f08bc1e8eab, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.896
@@ -1220,6 +1218,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8367390784215178692}
     m_Modifications:
+    - target: {fileID: 5457159861951817598, guid: 6e0e1f50d36b4c948b93eebb7b94a823, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5457159862407472558, guid: 6e0e1f50d36b4c948b93eebb7b94a823, type: 3}
       propertyPath: m_Name
       value: rock_02
@@ -1365,6 +1367,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock_01 (17)
       objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
       value: 1
@@ -1394,6 +1400,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8367390784215178692}
     m_Modifications:
+    - target: {fileID: 5457159861951817598, guid: 6e0e1f50d36b4c948b93eebb7b94a823, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5457159862407472558, guid: 6e0e1f50d36b4c948b93eebb7b94a823, type: 3}
       propertyPath: m_Name
       value: rock_02 (3)
@@ -1479,6 +1489,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8367390782448929490}
     m_Modifications:
+    - target: {fileID: 234925104944512513, guid: 4930aede1b68124468a04521ce92c9b0, type: 3}
+      propertyPath: m_Mass
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3813780008515072474, guid: 4930aede1b68124468a04521ce92c9b0, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -1632,6 +1646,10 @@ PrefabInstance:
     - target: {fileID: 607455844156887934, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: m_Name
       value: rock_01 (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
@@ -1813,6 +1831,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock_01 (9)
       objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
       value: 1
@@ -1842,6 +1864,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8367390782448929490}
     m_Modifications:
+    - target: {fileID: 234925104944512513, guid: 4930aede1b68124468a04521ce92c9b0, type: 3}
+      propertyPath: m_Mass
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3813780008515072474, guid: 4930aede1b68124468a04521ce92c9b0, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1996,6 +2022,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock_01 (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
       value: 1
@@ -2085,6 +2115,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock_01 (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
       value: 1
@@ -2114,6 +2148,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8367390782448929490}
     m_Modifications:
+    - target: {fileID: 234925104944512513, guid: 4930aede1b68124468a04521ce92c9b0, type: 3}
+      propertyPath: m_Mass
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3813780008515072474, guid: 4930aede1b68124468a04521ce92c9b0, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -2268,6 +2306,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock_01
       objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
       value: 1
@@ -2356,6 +2398,10 @@ PrefabInstance:
     - target: {fileID: 607455844156887934, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: m_Name
       value: rock_01 (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
@@ -2570,6 +2616,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8367390784215178692}
     m_Modifications:
+    - target: {fileID: 5457159861951817598, guid: 6e0e1f50d36b4c948b93eebb7b94a823, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5457159862407472558, guid: 6e0e1f50d36b4c948b93eebb7b94a823, type: 3}
       propertyPath: m_Name
       value: rock_02 (1)
@@ -2715,6 +2765,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock_01 (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
       value: 1
@@ -2803,6 +2857,10 @@ PrefabInstance:
     - target: {fileID: 607455844156887934, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: m_Name
       value: rock_01 (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
@@ -2893,6 +2951,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock_01 (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
       value: 1
@@ -2922,6 +2984,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8367390782448929490}
     m_Modifications:
+    - target: {fileID: 234925104944512513, guid: 4930aede1b68124468a04521ce92c9b0, type: 3}
+      propertyPath: m_Mass
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3813780008515072474, guid: 4930aede1b68124468a04521ce92c9b0, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -3024,6 +3090,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8367390784215178692}
     m_Modifications:
+    - target: {fileID: 5457159861951817598, guid: 6e0e1f50d36b4c948b93eebb7b94a823, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5457159862407472558, guid: 6e0e1f50d36b4c948b93eebb7b94a823, type: 3}
       propertyPath: m_Name
       value: rock_02 (2)
@@ -3239,6 +3309,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock_01 (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
       value: 1
@@ -3327,6 +3401,10 @@ PrefabInstance:
     - target: {fileID: 607455844156887934, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: m_Name
       value: rock_01 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
@@ -3417,6 +3495,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock_01 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
       value: 1
@@ -3446,6 +3528,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8367390782448929490}
     m_Modifications:
+    - target: {fileID: 234925104944512513, guid: 4930aede1b68124468a04521ce92c9b0, type: 3}
+      propertyPath: m_Mass
+      value: 7
+      objectReference: {fileID: 0}
     - target: {fileID: 3813780008515072474, guid: 4930aede1b68124468a04521ce92c9b0, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -3604,6 +3690,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock_01 (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
       value: 1
@@ -3759,6 +3849,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock_01 (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
       value: 1
@@ -3847,6 +3941,10 @@ PrefabInstance:
     - target: {fileID: 607455844156887934, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: m_Name
       value: rock_01 (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
@@ -3937,6 +4035,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: rock_01 (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health
       value: 1
@@ -4025,6 +4127,10 @@ PrefabInstance:
     - target: {fileID: 607455844156887934, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: m_Name
       value: rock_01 (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 5816695250840933849, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
+      propertyPath: m_Mass
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6288131554728554452, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
       propertyPath: Health

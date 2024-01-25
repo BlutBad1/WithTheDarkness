@@ -3,16 +3,23 @@ using DamageableNS.OnTakeDamage;
 using EnemyNS.Base;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace EnemyNS.OnTakeDamage
 {
     public class EnemyKnockoutEffect : PushDamageable
     {
-        public bool KnockoutEnable = false;
-        public float InKnockoutTime = 0.3f;
+        [SerializeField]
+        private bool knockoutEnable = false;
+        [SerializeField]
+        private float inKnockoutTime = 0.3f;
+
         private bool isInKnockout = false;
         private Vector3 agentBeforeDestination;
         private Coroutine knockoutCoroutine;
+
+        public bool KnockoutEnable { get => knockoutEnable; set => knockoutEnable = value; }
+
         protected override void OnTakeDamage(TakeDamageData takeDamageData)
         {
             Enemy enemy = (Enemy)Damageable;
@@ -22,18 +29,18 @@ namespace EnemyNS.OnTakeDamage
                 {
                     agentBeforeDestination = enemy.Movement.Agent.destination;
                     enemy.Movement.Agent.enabled = false;
-                    Rigidbody.isKinematic = false;
+                    DamageableRigidbody.isKinematic = false;
                     isInKnockout = true;
                     enemy.Movement.Agent.velocity = Vector3.zero;
-                    PushRigidbody(Rigidbody, takeDamageData);
+                    PushRigidbody(DamageableRigidbody, takeDamageData);
                     if (knockoutCoroutine == null)
-                        knockoutCoroutine = StartCoroutine(InKnockout(Rigidbody, enemy));
+                        knockoutCoroutine = StartCoroutine(InKnockout(DamageableRigidbody, enemy));
                 }
             }
         }
         private IEnumerator InKnockout(Rigidbody hittedRigidbody, Enemy enemy)
         {
-            yield return new WaitForSeconds(InKnockoutTime);
+            yield return new WaitForSeconds(inKnockoutTime);
             if (enemy.Health > 0)
             {
                 enemy.Movement.Agent.enabled = true;

@@ -57,7 +57,7 @@ AudioSource:
   m_GameObject: {fileID: 714975053234541542}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3142095646204127613, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0
@@ -201,7 +201,7 @@ AudioSource:
   m_GameObject: {fileID: 3567533323047090213}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3142095646204127613, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0
@@ -379,7 +379,7 @@ AudioSource:
   m_GameObject: {fileID: 6444511819488241153}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3142095646204127613, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 0
@@ -10169,7 +10169,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     loop: 1
-    audioKind: 0
+    audioKind: 2
     source: {fileID: 0}
   RainOutsideSounds:
   - name: 
@@ -10177,7 +10177,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     loop: 1
-    audioKind: 0
+    audioKind: 2
     source: {fileID: 0}
   ThunderSounds:
   - name: 
@@ -10185,7 +10185,7 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     loop: 0
-    audioKind: 0
+    audioKind: 2
     source: {fileID: 0}
   - name: 
     clip: {fileID: 8300000, guid: 5d371fb92e6357c40b7ba55da0e1b2b5, type: 3}
@@ -10199,14 +10199,14 @@ MonoBehaviour:
     volume: 1
     pitch: 1
     loop: 0
-    audioKind: 0
+    audioKind: 2
     source: {fileID: 0}
   - name: 
     clip: {fileID: 8300000, guid: 030571ecdffc43f479014034fa06f85d, type: 3}
     volume: 1
     pitch: 1
     loop: 0
-    audioKind: 0
+    audioKind: 2
     source: {fileID: 0}
   RainInsideAudioSourceManager: {fileID: 2726680496580622984}
   RainOutsideAudioSourceManager: {fileID: 7261668268723006076}

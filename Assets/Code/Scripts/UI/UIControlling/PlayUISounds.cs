@@ -6,23 +6,23 @@ namespace UIControlling
 {
     public class PlayUISounds : MonoBehaviour
     {
-        AudioManager audioManager;
+        private AudioSourcesManager audioSourcesManager;
         private void Start()
         {
-            GameObject.Find(MainUIConstants.UI_SOUNDS).TryGetComponent(out audioManager);
+            GameObject.Find(MainUIConstants.UI_SOUNDS).TryGetComponent(out audioSourcesManager);
         }
         public void PlaySound(string soundName)
         {
             if (gameObject.activeInHierarchy)
-                audioManager?.Play(soundName);
+                audioSourcesManager?.PlayAudioSource(soundName);
         }
         public void PlaySoundOnceAtTime(string soundName)
         {
             if (gameObject.activeInHierarchy)
-                audioManager?.PlayOnceAtTime(soundName);
+                audioSourcesManager?.PlayAudioSourceOnceAtTime(soundName);
         }
         public void CreateAndPlaySound(string soundName) =>
-        audioManager.CreateAndPlay(soundName);
+        audioSourcesManager.CreateNewAudioSourceAndPlay(soundName);
         public void PlayButtonHover() =>
           PlaySoundOnceAtTime(UISoundsNameConstants.BUTTON_HOVER_SOUND);
         public void PlayButtonClick() =>

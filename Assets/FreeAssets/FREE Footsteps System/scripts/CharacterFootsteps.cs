@@ -35,7 +35,6 @@ namespace Footsteps
         [SerializeField] PlayerMotor characterController;//	[SerializeField] CharacterController characterController;
         [Tooltip("You need an audio source to play a footstep sound.")]
         [SerializeField] AudioSource audioSource;
-        [SerializeField] AudioKind audioKind;
         // Random volume between this limits
         [SerializeField] float minVolume = 0.3f;
         [SerializeField] float maxVolume = 0.5f;
@@ -67,7 +66,7 @@ namespace Footsteps
             else if (triggeredBy == TriggeredBy.TRAVELED_DISTANCE && !characterRigidbody && !characterController) errorMessage = "Please assign a Rigidbody or CharacterController component in the inspector, footsteps cannot be played";
             else if (!FindObjectOfType<SurfaceManager>()) errorMessage = "Please create a Footstep Database, otherwise footsteps cannot be played, you can create a database" +
                                                                         " by clicking 'FootstepsCreator' in the main menu";
-            availableSources.Add(new AudioObject(audioSource, audioSource.volume, audioKind));
+            audioObjects.Add(new AudioObject(audioSource, audioSource.volume));
             if (errorMessage != "")
             {
                 Debug.LogError(errorMessage);
@@ -93,7 +92,7 @@ namespace Footsteps
                 PlayFootstep();
         }
         private void PlayLandSound() =>
-            audioSource.PlayOneShot(SurfaceManager.singleton.GetLandsound(currentGroundInfo.collider, currentGroundInfo.point), landVolume * GetVolumeOfType(audioKind));
+            audioSource.PlayOneShot(SurfaceManager.singleton.GetLandsound(currentGroundInfo.collider, currentGroundInfo.point), landVolume);
         private void AdvanceStepCycle(float increment)
         {
             stepCycleProgress += increment;
@@ -108,7 +107,7 @@ namespace Footsteps
             AudioClip randomFootstep = SurfaceManager.singleton.GetFootstep(currentGroundInfo.collider, currentGroundInfo.point);
             float randomVolume = Random.Range(minVolume, maxVolume);
             if (randomFootstep)
-                audioSource.PlayOneShot(randomFootstep, randomVolume * GetVolumeOfType(audioKind));
+                audioSource.PlayOneShot(randomFootstep, randomVolume);
         }
         private void OnDrawGizmos()
         {

@@ -1,79 +1,21 @@
 using ScriptableObjectNS.Locking;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace InteractableNS.Usable.Locking
 {
-    public class KeyInteractable : Interactable, ISerializationCallbackReceiver
+    public class KeyInteractable : Interactable
     {
-        [HideInInspector]
-        public bool IsGeneric = false;
-        [HideInInspector]
-        public string KeyName;
-        [HideInInspector]
-        public static List<string> LockingTypes;
-        [HideInInspector, ListToPopup(typeof(KeyInteractable), "LockingTypes")]
-        public string GenericKeyName;
-        [HideInInspector]
-        public KeyData key = new KeyData();
-        public KeyData Key
-        {
-            get
-            {
-                key.IsGeneric = IsGeneric;
-                key.KeyName = KeyName;
-                key.GenericKeyName = GenericKeyName;
-                return key;
-            }
-            set { key = value; }
-        }
-        [HideInInspector]
-        public AvailableKeyData AvailableKeyData;
+        [SerializeField]
+        private KeyData key;
+        [SerializeField, HideInInspector, FormerlySerializedAs("AvailableKeyData")]
+        public AvailableKeysData availableKeyData;
+
+        public KeyData Key { get => key; }
+
         protected override void Interact()
         {
-            base.Interact();
-            if (!IsGeneric && AvailableKeyData.AvailableKeys.Find(x => x.KeyName == Key.KeyName) == null)
-                AvailableKeyData.AvailableKeys.Add(Key);
-            else if (IsGeneric)
-                AvailableKeyData.AvailableKeys.Add(Key);
-        }
-        public void OnBeforeSerialize() =>
-            LockingTypes = LockingTypeData.Instance.LockingTypes;
-        public void OnAfterDeserialize()
-        {
+            KeysOnLevelManager.Instance.AddKeyToAvailable(key);
         }
     }
-#if UNITY_EDITOR
-    [CustomEditor(typeof(KeyInteractable))]
-    public class KeyInteractableCustomEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-            DrawDefaultInspector(); // for other non-HideInInspector fields
-            KeyInteractable script = (KeyInteractable)target;
-            SerializedProperty property;
-            //Locking Data
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Locking Data", EditorStyles.boldLabel);
-            script.IsGeneric = EditorGUILayout.Toggle("IsGeneric", script.IsGeneric);
-            if (!script.IsGeneric) // if bool is true, show other fields
-            {
-                script.KeyName = EditorGUILayout.TextField("KeyName", script.KeyName);
-                script.Key.KeyName = script.KeyName;
-                script.Key.IsGeneric = false;
-            }
-            else
-            {
-                property = serializedObject.FindProperty("GenericKeyName");
-                EditorGUILayout.PropertyField(property, new GUIContent("KeyName"), true);
-                script.Key.GenericKeyName = script.GenericKeyName;
-                script.Key.IsGeneric = true;
-            }
-            property = serializedObject.FindProperty("AvailableKeyData");
-            EditorGUILayout.PropertyField(property, new GUIContent("AvailableKeyData"), true);
-            serializedObject.ApplyModifiedProperties();
-        }
-    }
-#endif
 }

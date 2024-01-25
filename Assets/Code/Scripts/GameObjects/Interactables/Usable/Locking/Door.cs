@@ -1,187 +1,108 @@
 using InteractableNS.Usable.Locking;
 using MyConstants.EnironmentConstants.DecorConstants;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace InteractableNS.Usable
 {
     public class Door : Lock
     {
-        public Animator Animator;
-        public bool IsOpened = false;
-        public bool PlayEventsOnStart = false;
-        [HideInInspector] //"When you open a door
-        public UnityEvent OnOpenDoorEvent;
-        [HideInInspector] //When you close a door
-        public UnityEvent OnCloseDoorEvent;
-        [HideInInspector] //When you lock a door
-        public UnityEvent OnLockEvent;
-        private bool isPreviouslyLocked;
-        private new void Start()
+        [SerializeField, FormerlySerializedAs("Animator")]
+        private Animator animator;
+        [SerializeField, FormerlySerializedAs("IsOpened")]
+        private bool isOpened = false;
+        [SerializeField, FormerlySerializedAs("PlayEventsOnStart")]
+        private bool playEventsOnStart = false;
+        [SerializeField, FormerlySerializedAs("OnOpenDoorEvent")] //When you open a door
+        private UnityEvent onOpenDoorEvent;
+        [SerializeField, FormerlySerializedAs("OnCloseDoorEvent")] //When you close a door
+        private UnityEvent onCloseDoorEvent;
+
+        public bool IsOpened { get => isOpened; }
+        public UnityEvent OnOpenDoorEvent { get => onOpenDoorEvent; }
+        public UnityEvent OnCloseDoorEvent { get => onCloseDoorEvent; }
+        public override bool IsLocked
+        {
+            get => base.IsLocked;
+            protected set
+            {
+                base.IsLocked = value;
+                if (IsLocked && IsOpened)
+                    CloseDoor();
+            }
+        }
+
+        protected override void Start()
         {
             base.Start();
-            isPreviouslyLocked = IsLocked;
-
-            if (IsOpened)
-            {
-                switch (PlayEventsOnStart)
-                {
-                    case true:
-                        OpenDoor();
-                        break;
-                    case false:
-                        OpenDoorWithoutEvents();
-                        break;
-                }
-            }
-            else if (!IsOpened && Animator.GetBool("IsOpened"))
-            {
-                switch (PlayEventsOnStart)
-                {
-                    case true:
-                        CloseDoor();
-                        break;
-                    case false:
-                        CloseDoorWithoutEvents();
-                        break;
-                }
-            }
+            SetDoorStartCondition();
         }
         public void OpenDoor()
         {
-            OpenDoorWithoutEvents();
-            OnOpenDoorEvent?.Invoke();
-        }
-        public void OpenDoorWithoutEvents()
-        {
-            IsLocked = false;
-            isPreviouslyLocked = false;
-            IsOpened = true;
-            SetAnimatorValues(false, IsLocked); //Open Doors
+            if (!IsOpened)
+            {
+                OpenDoorWithoutEvents();
+                onOpenDoorEvent?.Invoke();
+            }
         }
         public void CloseDoor()
         {
-            CloseDoorWithoutEvents();
-            OnCloseDoorEvent?.Invoke();
+            if (isOpened)
+            {
+                CloseDoorWithoutEvents();
+                onCloseDoorEvent?.Invoke();
+            }
+        }
+        public void OpenDoorWithoutEvents()
+        {
+            isOpened = true;
+            OpenLockWithoutEvent();
+            SetAnimatorValues(wasOpened: false, isLocked: false); //Open Doors
         }
         public void CloseDoorWithoutEvents()
         {
-            IsOpened = false;
-            SetAnimatorValues(true, IsLocked); //Close Doors
-        }
-        public override void OpenLockWithoutEvents()
-        {
-            base.OpenLockWithoutEvents();
-            isPreviouslyLocked = false;
-            PrintMessage(UnlockMessage?.GetText());
-        }
-        public override void CloseLock()
-        {
-            CloseLockWithoutEvents();
-            OnLockEvent?.Invoke();
-        }
-        public void CloseLockWithoutEvents()
-        {
-            base.CloseLock();
-            if (IsOpened)
-                CloseDoor();
-            isPreviouslyLocked = true;
-        }
-        public void SetAnimatorValues(bool IsOpened, bool IsLocked)
-        {
-            Animator.SetBool(DoorsConstants.DOORS_ANIMATOR_IS_OPENED, IsOpened);
-            Animator.SetBool(DoorsConstants.DOORS_ANIMATOR_IS_LOCKED, IsLocked);
-            Animator.SetTrigger(DoorsConstants.DOORS_ANIMATOR_TRIGGER);
+            isOpened = false;
+            SetAnimatorValues(wasOpened: true, isLocked: false); //Close Doors
         }
         protected override void Interact()
         {
-            if (IsLocked && CheckIfDataHasKey())
-                IsLocked = false;
-            if (isPreviouslyLocked && !IsLocked)
+            bool wasLocked = IsLocked;
+            base.Interact();
+            if (wasLocked && !IsLocked)
+                return;
+            if (!IsLocked)
             {
-                OpenLock();
+                SetDoorCondition();
                 return;
             }
-            else if (!isPreviouslyLocked && IsLocked)
-            {
-                CloseLock();
-                return;
-            }
-            else
-            {
-                if (IsLocked)
-                {
-                    SetAnimatorValues(IsOpened, IsLocked);
-                    PrintMessage(LockedMessage?.GetText());
-                    OnLockedEvent?.Invoke();
-                }
-                else
-                {
-                    if (IsOpened)
-                        CloseDoor();
-                    else
-                        OpenDoor();
-                }
-            }
+            SetAnimatorValues(isOpened, IsLocked);
+            OnLockedEvent?.Invoke();
         }
-    }
-#if UNITY_EDITOR
-    [CustomEditor(typeof(Door))]
-    public class DoorsCustomEditor : Editor
-    {
-        public override void OnInspectorGUI()
+        private void SetDoorStartCondition()
         {
-            DrawDefaultInspector(); // for other non-HideInInspector fields
-            Door script = (Door)target;
-            SerializedProperty property;
-            //Locking Data
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Locking Data", EditorStyles.boldLabel);
-            property = serializedObject.FindProperty("IsGeneric");
-            EditorGUILayout.PropertyField(property, new GUIContent("IsGeneric"), true);
-            if (!script.IsGeneric) // if bool is false, show other fields
+            if (!playEventsOnStart)
             {
-                property = serializedObject.FindProperty("KeyName");
-                EditorGUILayout.PropertyField(property, new GUIContent("KeyName"), true);
-                property = serializedObject.FindProperty("ConnectedKey");
-                EditorGUILayout.PropertyField(property, new GUIContent("ConnectedKey"));
-                if (script.ConnectedKey != null)
-                    script.KeyName = script.ConnectedKey.Key.KeyName;
+                if (isOpened)
+                    OpenDoorWithoutEvents();
+                else
+                    CloseDoorWithoutEvents();
             }
             else
-            {
-                property = serializedObject.FindProperty("GenericKeyName");
-                EditorGUILayout.PropertyField(property, new GUIContent("KeyName"), true);
-            }
-            property = serializedObject.FindProperty("AvailableKeyData");
-            EditorGUILayout.PropertyField(property, new GUIContent("AvailableKeyData"), true);
-            //Locking Settings
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Locking Settings", EditorStyles.boldLabel);
-            property = serializedObject.FindProperty("IsLocked");
-            EditorGUILayout.PropertyField(property, new GUIContent("IsLocked"), true);
-            property = serializedObject.FindProperty("LockedMessage");
-            EditorGUILayout.PropertyField(property, new GUIContent("LockedMessage"), true);
-            property = serializedObject.FindProperty("UnlockMessage");
-            EditorGUILayout.PropertyField(property, new GUIContent("UnlockMessage"), true);
-            property = serializedObject.FindProperty("DisapperingSpeed");
-            EditorGUILayout.PropertyField(property, new GUIContent("DisapperingSpeed"), true);
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Events", EditorStyles.boldLabel);
-            //Door class fields
-            property = serializedObject.FindProperty("OnOpenDoorEvent");
-            EditorGUILayout.PropertyField(property, new GUIContent("OnOpenDoorEvent"), true);
-            property = serializedObject.FindProperty("OnCloseDoorEvent");
-            EditorGUILayout.PropertyField(property, new GUIContent("OnCloseDoorEvent"), true);
-            property = serializedObject.FindProperty("OnUnlockEvent");
-            EditorGUILayout.PropertyField(property, new GUIContent("OnUnlockEvent"), true);
-            property = serializedObject.FindProperty("OnLockEvent");
-            EditorGUILayout.PropertyField(property, new GUIContent("OnLockEvent"), true);
-            property = serializedObject.FindProperty("OnLockedEvent");
-            EditorGUILayout.PropertyField(property, new GUIContent("OnLockedEvent"), true);
-            serializedObject.ApplyModifiedProperties();
+                SetDoorCondition();
+        }
+        private void SetDoorCondition()
+        {
+            if (isOpened)
+                CloseDoor();
+            else
+                OpenDoor();
+        }
+        private void SetAnimatorValues(bool wasOpened, bool isLocked)
+        {
+            animator.SetBool(DoorsConstants.DOORS_ANIMATOR_IS_OPENED, wasOpened);
+            animator.SetBool(DoorsConstants.DOORS_ANIMATOR_IS_LOCKED, isLocked);
+            animator.SetTrigger(DoorsConstants.DOORS_ANIMATOR_TRIGGER);
         }
     }
-#endif
 }

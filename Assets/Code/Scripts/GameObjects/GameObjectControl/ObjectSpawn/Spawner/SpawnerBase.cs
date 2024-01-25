@@ -19,6 +19,7 @@ namespace GameObjectsControllingNS.Spawner
         [Tooltip("If SpawnPoint is not set, it would use a Parent transform as a spawn point.")]
         public Transform SpawnPoint;
         public List<T> SpawningGameObjects;
+
         protected virtual void Start()
         {
             SpawnGameObject(SpawningGameObjects);

@@ -15,19 +15,25 @@ namespace LocationManagementNS
     {
         [SerializeField, Min(0)]
         private float spawnAfter = 2;
-        public BlackScreenDimming dimming;
-        public AudioManager audioManager;
-        [Header("DissolvingEffect")]
-        public Material DissolvingRefMat;
-        public float DissolvingTime = 5f;
-        public AudioSource DissolvingRefAudioSource;
+        [SerializeField]
+        private BlackScreenDimming dimming;
+        [SerializeField]
+        private AudioManager audioManager;
+        [Header("DissolvingEffect"), SerializeField]
+        private Material dissolvingRefMat;
+        [SerializeField]
+        private float dissolvingTime = 5f;
+        [SerializeField]
+        private AudioSource dissolvingRefAudioSource;
+
         private Dictionary<GameObject, Coroutine> currentTeleportCoroutines = new Dictionary<GameObject, Coroutine>();
         private Dictionary<GameObject, Coroutine> currentDisolveCoroutines = new Dictionary<GameObject, Coroutine>();
         private Dictionary<GameObject, AudioSourcesManager> currentDisolveAudioSourcesManager = new Dictionary<GameObject, AudioSourcesManager>();
+
         protected override void Start()
         {
             base.Start();
-            if (IsConnectedToMapData)
+            if (isConnectedToMapData)
             {
                 if (!dimming)
                     dimming = GameObject.Find(HUDConstants.BLACK_SCREEN_DIMMING).GetComponent<BlackScreenDimming>();
@@ -39,7 +45,7 @@ namespace LocationManagementNS
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.name == CommonConstants.PLAYER || LayerObjectToTeleport == (LayerObjectToTeleport | (1 << other.gameObject.layer)))
+            if (other.gameObject.name == CommonConstants.PLAYER || layerObjectToTeleport == (layerObjectToTeleport | (1 << other.gameObject.layer)))
                 StartTeleporting(other.attachedRigidbody == null ? other.gameObject : other.attachedRigidbody.gameObject);
         }
         public void StartTeleporting(GameObject gameObjectToTeleport)
@@ -54,7 +60,7 @@ namespace LocationManagementNS
                 ((int)ObjectToTeleport & (1 << Utilities.GetIndexOfElementInEnum(TypeObjectToTeleport.Player))) != 0)
             {
                 dimming?.DimmingEnable();
-                audioManager?.CreateAndPlay(MainAudioManagerConstants.TRANSITION);
+                audioManager?.CreateAndPlay(AudioConstants.TRANSITION);
                 currentTeleportCoroutines[gameObjectToTeleport] = StartCoroutine(Teleport(gameObjectToTeleport, true));
             }
             else if (gameObjectToTeleport.name != CommonConstants.PLAYER)
@@ -84,11 +90,11 @@ namespace LocationManagementNS
                 yield return null;
             }
             dissolve.meshRenderers = meshRenderers;
-            dissolve.referenceMat = DissolvingRefMat;
+            dissolve.referenceMat = dissolvingRefMat;
             dissolve.InitializeMat();
-            dissolve.StartDissolving(DissolvingTime);
+            dissolve.StartDissolving(dissolvingTime);
             float timeElapsed = 0;
-            if (DissolvingRefAudioSource)
+            if (dissolvingRefAudioSource)
             {
                 AudioSourcesManager audioSourceManager = currentDisolveAudioSourcesManager.ContainsKey(gameObjectToTeleport) ? currentDisolveAudioSourcesManager[gameObjectToTeleport] : null;
                 if (!audioSourceManager)
@@ -97,9 +103,8 @@ namespace LocationManagementNS
                     currentDisolveAudioSourcesManager[gameObjectToTeleport] = audioSourceManager;
                 }
                 AudioSourceObject audioSourceObject = new AudioSourceObject();
-                audioSourceObject.AudioKind = SettingsNS.AudioSettings.AudioKind.SFX;
-                audioSourceObject.AudioObject = new AudioObject(DissolvingRefAudioSource, DissolvingRefAudioSource.volume, SettingsNS.AudioSettings.AudioKind.SFX);
-                audioSourceObject.AudioSource = DissolvingRefAudioSource;
+                audioSourceObject.AudioObject = new AudioObject(dissolvingRefAudioSource, dissolvingRefAudioSource.volume);
+                audioSourceObject.AudioSource = dissolvingRefAudioSource;
                 audioSourceManager.CreateNewAudioSourceAndPlay(audioSourceObject);
             }
             while (dissolve.CurrentDissolve < 0.95f && timeElapsed < spawnAfter)
@@ -108,7 +113,7 @@ namespace LocationManagementNS
                 yield return null;
             }
             dissolve.SetDissolve(1);
-            dissolve.StartEmerging(DissolvingTime);
+            dissolve.StartEmerging(dissolvingTime);
             while (dissolve.CurrentDissolve > -0.95f)
                 yield return new WaitForSeconds(0.05f);
             currentDisolveCoroutines[gameObjectToTeleport] = null;
@@ -125,19 +130,20 @@ namespace LocationManagementNS
             }
             if (creature != null)
                 creature.BlockMovement();
-            if (IsConnectedToMapData)
+            if (isConnectedToMapData)
             {
-                GameObject connectedLoc = connectedLocIndex == -1 ? MapData.Instance.TheFirstLocation.MapData
-                         : connectedLocIndex == -2 ? MapData.Instance.TheLastLocation.MapData : MapData.Instance.ActiveLocations[connectedLocIndex].MapData;
+
+                GameObject connectedLoc = MapData.Instance.GetLocationByIndex(connectedLocIndex).MapData;
                 connectedLoc.SetActive(true);
-                if (connectedLocIndex == -2)
+                if (connectedLocIndex == (int)LocationIndex.TheLastLocation)
                 {
-                    MapData.Instance.TheLastLocation.EntryTeleportTrigger.TeleportPoint = TeleportPointToHere;
-                    MapData.Instance.TheLastLocation.EntryTeleportTrigger.ConnectedLocIndex = ThisLocIndex;
+                    Location theLastLocation = MapData.Instance.GetLocationByIndex((int)LocationIndex.TheLastLocation);
+                    theLastLocation.EntryTeleportTrigger.TeleportPoint = TeleportPointToHere;
+                    theLastLocation.EntryTeleportTrigger.ConnectedLocIndex = ThisLocIndex;
                 }
             }
             yield return new WaitForSeconds(0.05f);
-            while (IsConnectedToMapData && TeleportPoint == null)
+            while (isConnectedToMapData && TeleportPoint == null)
                 yield return null;
             gameObjectToTeleport.transform.position = TeleportPoint.position;
             gameObjectToTeleport.transform.localRotation = TeleportPoint.rotation;
@@ -146,10 +152,9 @@ namespace LocationManagementNS
                 dimming?.DimmingDisable();
             if (creature != null)
                 creature.UnBlockMovement();
-            if (IsConnectedToMapData)
+            if (isConnectedToMapData)
             {
-                GameObject thisLoc = ThisLocIndex == -1 ? MapData.Instance.TheFirstLocation.MapData
-                    : ThisLocIndex == -2 ? MapData.Instance.TheLastLocation.MapData : MapData.Instance.ActiveLocations[ThisLocIndex].MapData;
+                GameObject thisLoc = MapData.Instance.GetLocationByIndex(thisLocIndex).MapData;
                 if (isPlayer)
                     thisLoc.SetActive(false);
             }

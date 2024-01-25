@@ -203,14 +203,15 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 855079969149436442}
-        m_TargetAssemblyTypeName: DestroyAfterTime, Assembly-CSharp
-        m_MethodName: DestroyAfter
-        m_Mode: 3
+        m_TargetAssemblyTypeName: GameObjectsControllingNS.DestroyOrDisableAfterTime,
+          GameObjects
+        m_MethodName: DisableAfter
+        m_Mode: 4
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 3
-          m_FloatArgument: 0
+          m_FloatArgument: 3
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
@@ -329,7 +330,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PauseSourcesInGameMenu: 1
   audioSource: {fileID: 5865365970613947462}
-  audioType: 0
 --- !u!82 &5865365970613947462
 AudioSource:
   m_ObjectHideFlags: 0
@@ -339,7 +339,7 @@ AudioSource:
   m_GameObject: {fileID: 7443580314428200760}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 069867f2dea556948a654cfe7840b5bb, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1

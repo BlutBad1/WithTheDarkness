@@ -41,7 +41,7 @@ AudioSource:
   m_GameObject: {fileID: 1258518768994910271}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -28771752453103961, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 17ef40e0b27c77542a435439535edaea, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -1161,6 +1161,7 @@ MonoBehaviour:
   meshRenderers:
   - {fileID: 1258518770203561641}
   referenceMat: {fileID: 2100000, guid: 57854568d07548d4081eed2a7fbee7a0, type: 2}
+  hightLightEmissionColor: {r: 0, g: 0, b: 0, a: 0}
   MinDistance: 7
   MaxIntensity: 0.8
   MinIntensity: 0
@@ -1183,9 +1184,9 @@ MonoBehaviour:
   IsGeneric: 1
   KeyName: fromChest
   GenericKeyName: main_exit
-  Key:
-    IsGeneric: 1
-    KeyName: main_exit
+  key:
+    IsGeneric: 0
+    KeyName: 
     GenericKeyName: 
     Amount: 1
   AvailableKeyData: {fileID: 11400000, guid: 62c147480aa3bb149a78ac93efec608d, type: 2}

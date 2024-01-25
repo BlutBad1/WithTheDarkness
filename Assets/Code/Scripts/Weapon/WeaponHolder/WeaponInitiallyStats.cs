@@ -1,32 +1,20 @@
 using ScriptableObjectNS.Weapon;
-using ScriptableObjectNS.Weapon.Gun;
-using ScriptableObjectNS.Weapon.Gun.ReserveAmmo;
-using System;
 using UnityEngine;
+using WeaponNS.DataNS;
 
 namespace WeaponManagement
 {
-    [Serializable]
-    public class CurrentAmmoObject
-    {
-        public WeaponData WeaponData;
-        public int CurrentAmmo;
-    }
-    [Serializable]
-    public class ReserveAmmoObject
-    {
-        public ReserveAmmoData ReserveAmmoData;
-        public int ReserveAmmo;
-    }
     public class WeaponInitiallyStats : MonoBehaviour
     {
         [Header("ActiveWeapon")]
         public SerializableActiveWeapon ActiveWeapons;
         public ActiveWeapon ActiveWeaponData;
+        [Header("CurrentMeleeDurabilityData")]
+        public MeleeDurabilityDataObject[] MeleeObjects;
         [Header("CurrentAmmoData")]
-        public CurrentAmmoObject[] GunObjects;
+        public CurrentAmmoDataObject[] GunObjects;
         [Header("ReserveAmmoData")]
-        public ReserveAmmoObject[] AmmoObjects;
+        public ReserveAmmoDataObject[] AmmoObjects;
         private void Start()
         {
             InitializeWeaponStats();
@@ -34,14 +22,12 @@ namespace WeaponManagement
         public void InitializeWeaponStats()
         {
             ActiveWeaponData.ActiveWeapons = ActiveWeapons;
-            foreach (var weaponData in GunObjects)
-            {
-                GunData gunData = (GunData)weaponData.WeaponData;
-                if (gunData != null)
-                    gunData.CurrentAmmo = weaponData.CurrentAmmo > gunData.MagSize ? gunData.MagSize : weaponData.CurrentAmmo;
-            }
+            foreach (var durabilityData in MeleeObjects)
+                durabilityData.SetData();
+            foreach (var gunData in GunObjects)
+                gunData.SetData();
             foreach (var ammoData in AmmoObjects)
-                ammoData.ReserveAmmoData.ReserveAmmo = ammoData.ReserveAmmo;
+                ammoData.SetData();
         }
     }
 }

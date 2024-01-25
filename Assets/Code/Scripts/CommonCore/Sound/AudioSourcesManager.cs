@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UtilitiesNS;
-using static SettingsNS.AudioSettings;
 
 namespace SoundNS
 {
@@ -16,9 +15,8 @@ namespace SoundNS
         public AudioSource AudioSource
         {
             get { return audioSource; }
-            set { audioSource = value; AudioObject?.ChangeAudioSource(AudioSource); }
+            set { audioSource = value; AudioObject.AudioSource = AudioSource; }
         }
-        public AudioKind AudioKind;
         [HideInInspector]
         public AudioObject AudioObject;
     }
@@ -26,30 +24,26 @@ namespace SoundNS
     {
         public AudioSourceObject[] AudioSourceObjects;
         private Dictionary<AudioSource, Coroutine> currentCoroutines;
-        private new void Awake()
-        {
-            base.Awake();
-            InitializeAudioSourceManager();
-        }
-        public void PlayRandomSound() =>
-            PlayAudioSource(GetRandomSound());
-        public AudioSourceObject GetRandomSound()
-        {
-            int rIndex = UnityEngine.Random.Range(0, AudioSourceObjects.Length);
-            return AudioSourceObjects[rIndex];
-        }
-        public void InitializeAudioSourceManager()
+        private void Start() =>
+            InitializeAudioObjects();
+        public void InitializeAudioObjects()
         {
             if (AudioSourceObjects != null && AudioSourceObjects.Length > 0)
             {
                 foreach (var audioSourceObject in AudioSourceObjects)
                 {
-                    availableSources.Add(audioSourceObject.AudioObject = new AudioObject(audioSourceObject.AudioSource,
-                        audioSourceObject.AudioSource.volume, audioSourceObject.AudioKind));
+                    audioObjects.Add(audioSourceObject.AudioObject = new AudioObject(audioSourceObject.AudioSource,
+                        audioSourceObject.AudioSource.volume));
                 }
-                VolumeChange();
             }
         }
+        public AudioSourceObject GetRandomSound()
+        {
+            int rIndex = UnityEngine.Random.Range(0, AudioSourceObjects.Length);
+            return AudioSourceObjects[rIndex];
+        }
+        public void PlayRandomSound() =>
+        PlayAudioSource(GetRandomSound());
         public void PlayAudioSource(string AudioSourceObjectName)
         {
             AudioSourceObject audioSourceObject = Array.Find(AudioSourceObjects, clip => clip.Name == AudioSourceObjectName);
@@ -60,7 +54,7 @@ namespace SoundNS
 #endif
                 return;
             }
-            audioSourceObject.AudioSource.Play();
+            PlayAudioSource(audioSourceObject);
         }
         public void PlayAudioSource(AudioSourceObject audioSourceObject) =>
             audioSourceObject.AudioSource.Play();
@@ -74,8 +68,7 @@ namespace SoundNS
 #endif
                 return;
             }
-            if (!audioSourceObject.AudioSource.isPlaying)
-                audioSourceObject.AudioSource.Play();
+            PlayAudioSourceOnceAtTime(audioSourceObject);
         }
         public void PlayAudioSourceOnceAtTime(AudioSourceObject audioSourceObject)
         {
@@ -92,7 +85,7 @@ namespace SoundNS
 #endif
                 return;
             }
-            audioSourceObject.AudioSource.Stop();
+            StopAudioSource(audioSourceObject);
         }
         public void StopAudioSource(AudioSourceObject audioSourceObject) =>
             audioSourceObject.AudioSource.Stop();
@@ -106,13 +99,7 @@ namespace SoundNS
 #endif
                 return;
             }
-            if (currentCoroutines.ContainsKey(audioSourceObject.AudioSource))
-            {
-                StopCoroutine(currentCoroutines[audioSourceObject.AudioSource]);
-                currentCoroutines.Remove(audioSourceObject.AudioSource);
-            }
-            currentCoroutines.Add(audioSourceObject.AudioSource, StartCoroutine(ChangeVolumeSmoothly(audioSourceObject.AudioSource, 0, transitionTime,
-                audioSourceObject.AudioKind)));
+            StopAudioSourceSmoothly(audioSourceObject, transitionTime);
         }
         public void StopAudioSourceSmoothly(AudioSourceObject audioSourceObject, float transitionTime)
         {
@@ -121,8 +108,7 @@ namespace SoundNS
                 StopCoroutine(currentCoroutines[audioSourceObject.AudioSource]);
                 currentCoroutines.Remove(audioSourceObject.AudioSource);
             }
-            currentCoroutines.Add(audioSourceObject.AudioSource, StartCoroutine(ChangeVolumeSmoothly(audioSourceObject.AudioSource, 0, transitionTime,
-                audioSourceObject.AudioKind)));
+            currentCoroutines.Add(audioSourceObject.AudioSource, StartCoroutine(ChangeVolumeSmoothly(audioSourceObject.AudioSource, 0, transitionTime)));
         }
         public void CreateNewAudioSourceAndPlay(string AudioSourceObjectName)
         {
@@ -140,33 +126,27 @@ namespace SoundNS
         {
             AudioSourceObject newAudioSourceObject = new AudioSourceObject();
             AudioSource audioSource = audioSourceObject.AudioSource.gameObject.AddComponent<AudioSource>();
-            Utilities.CopyAudioSourceSettings(audioSourceObject.AudioSource, audioSource);
-            availableSources.Add(newAudioSourceObject.AudioObject = new AudioObject(audioSource,
-                  audioSourceObject.AudioObject.GetStartedVolume(), audioSourceObject.AudioKind));
-            newAudioSourceObject.AudioKind = audioSourceObject.AudioKind;
+            AudioUtilities.CopyAudioSourceSettings(audioSourceObject.AudioSource, audioSource);
+            audioObjects.Add(newAudioSourceObject.AudioObject = new AudioObject(audioSource,
+                  audioSourceObject.AudioObject.StartedVolume));
             newAudioSourceObject.AudioSource = audioSource;
+            newAudioSourceObject.AudioSource.outputAudioMixerGroup = audioSourceObject.AudioSource.outputAudioMixerGroup;
             newAudioSourceObject.AudioSource.Play();
             StartCoroutine(DeleteAudioSourceObjectAfterPlaying(newAudioSourceObject));
-        }
-        IEnumerator DeleteAudioSourceAfterPlaying(AudioSource source)
-        {
-            while (source.isPlaying)
-                yield return null;
-            Destroy(source);
         }
         IEnumerator DeleteAudioSourceObjectAfterPlaying(AudioSourceObject audioSourceObject)
         {
             while (audioSourceObject.AudioSource.isPlaying)
                 yield return null;
             Destroy(audioSourceObject.AudioSource);
-            availableSources.Remove(audioSourceObject.AudioObject);
+            audioObjects.Remove(audioSourceObject.AudioObject);
         }
-        IEnumerator ChangeVolumeSmoothly(AudioSource audioSource, float newVolume, float transitionTime, AudioKind audioKind)
+        IEnumerator ChangeVolumeSmoothly(AudioSource audioSource, float newVolume, float transitionTime)
         {
             float percentage = 0;
             while (audioSource.volume != newVolume)
             {
-                audioSource.volume = Mathf.Lerp(audioSource.volume, newVolume * SettingsNS.AudioSettings.GetVolumeOfType(audioKind), percentage);
+                audioSource.volume = Mathf.Lerp(audioSource.volume, newVolume, percentage);
                 percentage += Time.deltaTime / transitionTime;
                 yield return null;
             }

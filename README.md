@@ -1,5 +1,4 @@
 # WithTheDarkness
-## [Gameplay and video report  (Ukrainian)](https://www.youtube.com/watch?v=tZQDrA5Vypk&ab_channel=%D0%84%D0%B2%D0%B3%D0%B5%D0%BD%D1%96%D0%B9%D0%9F%D1%88%D0%BE%D0%BD%D0%BE%D0%B2%D1%81%D1%8C%D0%BA%D0%B8%D0%B9)
 
 ### About the project 
   This is a 3D first-person horror game with survival and roguelike elements. 
@@ -9,12 +8,6 @@ Each game session has its own path, consisting of pre-created locations. Alterna
 
 You have to fight the enemies and try to survive, and to do this you have to constantly move around the locations in search of oil for the light or you will die. And this is prevented by the above-mentioned random locational distribution. The main trick besides the random path is light and dark. You literally can't see further than your nose in the game, so you don't know what will be waiting for you ahead. So be wary.
 
-Some screenshots: 
-
-![Here was the main menu img :(](https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81prhHhv9HThiBoaVok9qOibTz-lNGub2j8jIyMBsgPVXN8TV8y348N2G07C0KTm8AuqtMkFckQjsZUKw5V7T01KQwlf=w1920-h968)
-
-![Here was the img1 :(](https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81oA1VN90mdeTMUibTbOJtAHlm6pMY-GIDTmiVzU2tF8UbNN9U-uEmCHsAeHekYA93GNVW9EfdqOJkUrgvO36IbqO2RAKA=w1920-h968)
-![Here was the img2 :(](https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81p1rYRvPrD9ntsiutc6J57i--dKd0YwS368c88Ainx-f34rCxjR3XqU90-sfkJ_I1aXKN1F8YV6nI_xHCBWS5JSXTRoyg=w1920-h969)
 
   The game is still under development. 
   

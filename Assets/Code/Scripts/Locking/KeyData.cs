@@ -6,14 +6,24 @@ using UnityEngine;
 namespace ScriptableObjectNS.Locking
 {
     [Serializable]
-    public class KeyData : Key
+    public class KeyData : ISerializationCallbackReceiver
     {
-        [HideInInspector]
         public static List<string> LockingTypes;
+
+        public bool IsGeneric = false;
+        public string KeyName;
         [ListToPopup(typeof(KeyData), "LockingTypes", "Gen Key Name")]
         public string GenericKeyName;
-        [Min(0)]
-        public int Amount = 1;
+
+        public KeyData(bool isGeneric, string keyName, string genericKeyName)
+        {
+            GenericKeyName = genericKeyName;
+            IsGeneric = isGeneric;
+            KeyName = keyName;
+        }
+        public void OnAfterDeserialize() { }
+        public void OnBeforeSerialize() =>
+            LockingTypes = LockingTypeData.Instance?.LockingTypes;
     }
 #if UNITY_EDITOR
     [CustomPropertyDrawer(typeof(KeyData))]
@@ -39,7 +49,6 @@ namespace ScriptableObjectNS.Locking
                 SerializedProperty isGenericProp = property.FindPropertyRelative("IsGeneric");
                 SerializedProperty keyNameProp = property.FindPropertyRelative("KeyName");
                 SerializedProperty genericKeyNameProp = property.FindPropertyRelative("GenericKeyName");
-                SerializedProperty amountProp = property.FindPropertyRelative("Amount");
                 EditorGUI.indentLevel++;
                 position.y += EditorGUIUtility.singleLineHeight + padding;
                 EditorGUI.PropertyField(new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight), isGenericProp);
@@ -49,7 +58,6 @@ namespace ScriptableObjectNS.Locking
                 else
                     EditorGUI.PropertyField(new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight), keyNameProp);
                 position.y += EditorGUIUtility.singleLineHeight + padding;
-                EditorGUI.PropertyField(new Rect(position.x, position.y, position.width, EditorGUIUtility.singleLineHeight), amountProp);
                 EditorGUI.indentLevel--;
             }
             EditorGUI.EndProperty();

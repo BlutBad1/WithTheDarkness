@@ -2038,6 +2038,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4245012535500561487}
   - component: {fileID: 4245012535500561486}
+  - component: {fileID: 520375885137102750}
   m_Layer: 0
   m_Name: Settings
   m_TagString: Untagged
@@ -2077,6 +2078,19 @@ MonoBehaviour:
   AudioSettings: {fileID: 4384307018519625427}
   VideoSettings: {fileID: 3885101872045261807}
   GameSettingsUI: {fileID: 8064763895019498069}
+--- !u!114 &520375885137102750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4245012535500561484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c29ffdd4037a9294583a0740dc3e2887, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AudioMixer: {fileID: 24100000, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
 --- !u!1 &4245012535526422868
 GameObject:
   m_ObjectHideFlags: 0

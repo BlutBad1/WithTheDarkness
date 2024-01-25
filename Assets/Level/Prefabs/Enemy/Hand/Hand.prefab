@@ -516,7 +516,6 @@ MonoBehaviour:
   distanceBetweenSteps: 0.56
   Agent: {fileID: 5079124951260837741}
   audioSource: {fileID: 6346306090142330147}
-  audioKind: 0
   minVolume: 0.3
   maxVolume: 0.5
   landVolume: 0.6
@@ -620,7 +619,6 @@ MonoBehaviour:
   AudioSourceObjects:
   - Name: hand_attack
     audioSource: {fileID: 6346306090789367937}
-    AudioKind: 0
 --- !u!114 &7957073754112288490
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -634,6 +632,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseSourcesInGameMenu: 1
+  AudioType: 0
   Damageable: {fileID: 5079124951260837656}
   OnTakeDamageSounds:
   - name: TakeDamage1
@@ -6404,7 +6403,6 @@ MonoBehaviour:
   AudioSourceObjects:
   - Name: DissolvingSound_1
     audioSource: {fileID: 6346306089773656980}
-    AudioKind: 2
 --- !u!82 &6346306089773656980
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6414,7 +6412,7 @@ AudioSource:
   m_GameObject: {fileID: 6346306089773656982}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3142095646204127613, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 4a93da1c428dcc643879aa5bcffdc0ef, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.15
@@ -6601,7 +6599,7 @@ AudioSource:
   m_GameObject: {fileID: 6346306089918041874}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -6934,7 +6932,7 @@ AudioSource:
   m_GameObject: {fileID: 6346306090142330149}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 0.48
@@ -7107,7 +7105,7 @@ AudioSource:
   m_GameObject: {fileID: 6346306090274797776}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -7624,7 +7622,7 @@ GameObject:
   - component: {fileID: 6346306090671679054}
   - component: {fileID: 6346306090671679050}
   - component: {fileID: 6346306090671679049}
-  - component: {fileID: 6346306090671679041}
+  - component: {fileID: 995410657715983529}
   m_Layer: 0
   m_Name: Hand
   m_TagString: Untagged
@@ -7701,7 +7699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d244673a707068e42bd0e4191e05308d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6346306090671679041
+--- !u!114 &995410657715983529
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7710,7 +7708,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6346306090671679042}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b0ba918cef87544e9a0c9f58e79c5d8, type: 3}
+  m_Script: {fileID: 11500000, guid: 660f941aced08144591557c22b59a46c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   chance: 100
@@ -7787,7 +7785,7 @@ AudioSource:
   m_GameObject: {fileID: 6346306090789367936}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: a92f4b3302bfdf34aa3a8fbe794af45f, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -8338,7 +8336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   RagdollRoot: {fileID: 6346306089252595683}
   Animator: {fileID: 0}
-  Aagent: {fileID: 0}
+  Agent: {fileID: 0}
   EnableRagdollOnStart: 1
 --- !u!114 &6346306088994057165
 MonoBehaviour:

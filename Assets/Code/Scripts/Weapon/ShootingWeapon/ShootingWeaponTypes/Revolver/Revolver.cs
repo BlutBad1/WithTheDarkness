@@ -11,28 +11,28 @@ namespace WeaponNS.ShootingWeaponNS.RevolverNS
         private GameObject lamp;
         protected override IEnumerator Reload()
         {
-            difference = gunData.ReserveAmmoData.ReserveAmmo >= (gunData.MagSize - gunData.CurrentAmmo) ? gunData.MagSize - gunData.CurrentAmmo : gunData.ReserveAmmoData.ReserveAmmo;
-            gunData.ReserveAmmoData.ReserveAmmo -= difference;
-            gunData.CurrentAmmo += difference;
-            gunData.Reloading = true;
+            difference = GunData.ReserveAmmoData.ReserveAmmo >= (GunData.MagSize - GunData.CurrentAmmo) ? GunData.MagSize - GunData.CurrentAmmo : GunData.ReserveAmmoData.ReserveAmmo;
+            GunData.ReserveAmmoData.ReserveAmmo -= difference;
+            GunData.CurrentAmmo += difference;
+            GunData.Reloading = true;
             ReloadAnim();
-            yield return new WaitForSeconds(1.40f + (difference * gunData.ReloadTime));
+            yield return new WaitForSeconds(1.40f + (difference * GunData.ReloadTime));
         }
         public override void ReloadAnim()
         {
             AnimatorStateInfo info = animator.GetCurrentAnimatorStateInfo(0);
-            if (gunData.Reloading && info.IsName(RevolverConstants.RELOADING_ENDING))
+            if (GunData.Reloading && info.IsName(RevolverConstants.RELOADING_ENDING))
             {
                 animator.SetTrigger(RevolverConstants.RELOADING_ENDING);
                 lamp.GetComponent<Animator>().SetTrigger(RevolverConstants.RELOADING_ENDING);
-                gunData.Reloading = false;
+                GunData.Reloading = false;
             }
-            else if (gunData.Reloading)
+            else if (GunData.Reloading)
             {
                 base.ReloadAnim();
                 lamp.GetComponent<Animator>().SetTrigger(MainShootingWeaponConstants.RELOADING);
-                animator.SetFloat(RevolverConstants.RELOADING_ANIMATION_SPEED, 1 / (difference * gunData.ReloadTime));
-                lamp.GetComponent<Animator>().SetFloat(RevolverConstants.RELOADING_ANIMATION_SPEED, 1 / (difference * gunData.ReloadTime));
+                animator.SetFloat(RevolverConstants.RELOADING_ANIMATION_SPEED, 1 / (difference * GunData.ReloadTime));
+                lamp.GetComponent<Animator>().SetFloat(RevolverConstants.RELOADING_ANIMATION_SPEED, 1 / (difference * GunData.ReloadTime));
             }
         }
         public void ReloadingSound()

@@ -16,7 +16,7 @@ namespace UINS.Settings.Audio
             if (IsMasterVolume)
                 Slider.value = SettingsNS.AudioSettings.MasterVolume * 100f;
             else
-                Slider.value = SettingsNS.AudioSettings.GetVolumeOfType(AudioKind, false) * 100f;
+                Slider.value = SettingsNS.AudioSettings.GetVolumeOfType(AudioKind) * 100f;
             base.Start();
         }
         public void PlaySound()

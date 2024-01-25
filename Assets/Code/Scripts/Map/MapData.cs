@@ -23,26 +23,31 @@ namespace LocationManagementNS
     }
     public class MapData : MonoBehaviour
     {
-        [Header("Settings"), Min(0)]
-        public int MinAmountOfActiveLocations = 0;
-        [Header("LocationsArrays")]
-        [SerializeField]
-        public Location TheFirstLocation;
+        private static MapData instance;
+        public static MapData Instance { get => instance; set => instance = value; }
+
+        [Header("Settings"), SerializeField, Min(0)]
+        private int minAmountOfActiveLocations = 0;
+        [Header("LocationsArrays"), SerializeField]
+        private Location theFirstLocation;
         [SerializeField]
         private List<Location> locations; //contains all locations 
         [SerializeField]
-        public Location TheLastLocation;
-        [HideInInspector]
-        public List<Location> ActiveLocations; //is using after shuffling, contains only active locations 
-        [HideInInspector]
-        public int LocationsIterator = 0;
-        [Header("Multithreading")]
-        public bool alwaysMultithreading = false;
-        [Tooltip("If amount of locations greater that this number, then multithreading would be enable automatically. -1 to disable.")]
-        public int automaticallyEnableAfter = 800;
+        private Location theLastLocation;
+        [Header("Multithreading"), SerializeField]
+        private bool alwaysMultithreading = false;
+        [SerializeField, Tooltip("If amount of locations greater that this number, then multithreading would be enable automatically. -1 to disable.")]
+        private int automaticallyEnableAfter = 800;
+
+        private int locationsIterator = 0;
+        private List<Location> activeLocations; //is using after shuffling, contains only active locations 
         private int currentMapSpawnPositionY = 40;
-        [HideInInspector]
-        public static MapData Instance;
+
+        public bool AlwaysMultithreading { get => alwaysMultithreading; }
+        public int AutomaticallyEnableAfter { get => automaticallyEnableAfter; }
+        public int LocationsIterator { get => locationsIterator; set => locationsIterator = value; }
+        public List<Location> ActiveLocations { get => activeLocations; }
+
         private void Awake()
         {
             if (Instance == null)
@@ -54,17 +59,13 @@ namespace LocationManagementNS
             }
             if (locations != null && locations?.Count > 0)
                 ShuffleLocations();
-            DefineLocationElements(TheFirstLocation, true);
-            DefineLocationElements(TheLastLocation, TheLastLocation.EntryTeleportTrigger == TheFirstLocation.EntryTeleportTrigger);
-        }
-        public void AddNewLocation(Location location)
-        {
-            locations.Add(location);
+            DefineLocationElements(theFirstLocation, true);
+            DefineLocationElements(theLastLocation, theLastLocation.EntryTeleportTrigger == theFirstLocation.EntryTeleportTrigger);
         }
         public void ShuffleLocations()
         {
-            ActiveLocations = new List<Location>();
-            if ((locations?.Count > automaticallyEnableAfter && automaticallyEnableAfter != -1) || alwaysMultithreading)
+            activeLocations = new List<Location>();
+            if ((locations?.Count > AutomaticallyEnableAfter && AutomaticallyEnableAfter != -1) || AlwaysMultithreading)
             {
                 var locationsSpawnChance = new NativeArray<float>(locations.Count, Allocator.TempJob);
                 var isLocationSpawned = new NativeArray<bool>(locations.Count, Allocator.TempJob);
@@ -95,7 +96,7 @@ namespace LocationManagementNS
                 locations = locations.OrderBy(x => new System.Random().Next()).ToList();
                 for (int i = 0; i < locations?.Count; i++)
                 {
-                    if (locations[i].SpawnChance > new System.Random().Next() % 100 || (ActiveLocations.Count < MinAmountOfActiveLocations && locations.Count - i <= MinAmountOfActiveLocations))
+                    if (locations[i].SpawnChance > new System.Random().Next() % 100 || (ActiveLocations.Count < minAmountOfActiveLocations && locations.Count - i <= minAmountOfActiveLocations))
                         AddLocationToActive(locations[i]);
                     else
                     {
@@ -104,7 +105,7 @@ namespace LocationManagementNS
                     }
                 }
             }
-            ActiveLocations = ActiveLocations.OrderBy(x => new System.Random().Next()).ToList();
+            activeLocations = ActiveLocations.OrderBy(x => new System.Random().Next()).ToList();
         }
         public void DefineLocationElements(Location loc, bool lastStatus = false)
         {
@@ -139,13 +140,17 @@ namespace LocationManagementNS
         public Location GetLocationByIndex(int index)
         {
             if (index == -1)
-                return TheFirstLocation;
+                return theFirstLocation;
             else if (index == -2)
-                return TheLastLocation;
+                return theLastLocation;
             else if (index >= 0)
                 return ActiveLocations[index];
             return null;
         }
+        public void AddNewLocation(Location location) =>
+            locations.Add(location);
+        public int GetAmountOfRemainingMaps() =>
+            ActiveLocations.Count - LocationsIterator;
         private void AddLocationToActive(Location location)
         {
             if (location.LocaionType != LocaionType.Scene)

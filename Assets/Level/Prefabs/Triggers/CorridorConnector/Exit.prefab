@@ -11,6 +11,10 @@ PrefabInstance:
       propertyPath: DefineNextLocation
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6435970272654170551, guid: 49b0192a51767ea4cbaf367d9c02e3f4, type: 3}
+      propertyPath: defineNextLocation
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6435970274201769729, guid: 49b0192a51767ea4cbaf367d9c02e3f4, type: 3}
       propertyPath: m_Icon
       value: 

@@ -2,7 +2,6 @@ using EnemyNS.Base;
 using SoundNS;
 using UnityEngine;
 using UnityEngine.AI;
-using static SettingsNS.AudioSettings;
 
 namespace EnemyNS.Sound
 {
@@ -16,7 +15,6 @@ namespace EnemyNS.Sound
         [SerializeField] NavMeshAgent Agent;
         [Tooltip("You need an audio source to play a footstep sound.")]
         [SerializeField] AudioSource audioSource;
-        [SerializeField] AudioKind audioKind;
         // Random volume between this limits
         [SerializeField] float minVolume = 0.3f;
         [SerializeField] float maxVolume = 0.5f;
@@ -45,7 +43,7 @@ namespace EnemyNS.Sound
             thisTransform = transform;
             string errorMessage = "";
             if (!audioSource) errorMessage = "No audio source assigned in the inspector, footsteps cannot be played";
-            availableSources.Add(new AudioObject(audioSource, audioSource.volume, audioKind));
+            audioObjects.Add(new AudioObject(audioSource, audioSource.volume));
             if (errorMessage != "")
             {
                 Debug.LogError(errorMessage);
@@ -70,7 +68,7 @@ namespace EnemyNS.Sound
                 PlayFootstep();
         }
         public void PlayLandSound() =>
-           audioSource.PlayOneShot(surfaceEnemyManager.GetLandsound(currentGroundInfo.collider, currentGroundInfo.point), landVolume * GetVolumeOfType(audioKind));
+           audioSource.PlayOneShot(surfaceEnemyManager.GetLandsound(currentGroundInfo.collider, currentGroundInfo.point), landVolume);
         private void AdvanceStepCycle(float increment)
         {
             stepCycleProgress += increment;
@@ -85,7 +83,7 @@ namespace EnemyNS.Sound
             AudioClip randomFootstep = surfaceEnemyManager.GetFootstep(currentGroundInfo.collider, currentGroundInfo.point);
             float randomVolume = Random.Range(minVolume, maxVolume);
             if (randomFootstep)
-                audioSource.PlayOneShot(randomFootstep, randomVolume * GetVolumeOfType(audioKind));
+                audioSource.PlayOneShot(randomFootstep, randomVolume);
         }
         private void OnDrawGizmos()
         {

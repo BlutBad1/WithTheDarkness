@@ -8,19 +8,25 @@ namespace WeaponNS.ShootingWeaponNS
 {
     public class ShootingWeapon : MonoBehaviour
     {
+        private static bool hasBeenInitialized = false;
+
         [SerializeField]
-        public GunData gunData;
+        private GunData gunData;
         [SerializeField]
         protected Animator animator;
+
         protected float timeSinceLastShot;
         protected int difference;
+
         public delegate void BulletSpread(GunData gunData);
         public BulletSpread OnShootRaycast;
-        private static bool hasBeenInitialized = false;
+
+        public GunData GunData { get => gunData; set => gunData = value; }
+
         private void OnEnable()
         {
             if (animator && !animator.GetBool(MainShootingWeaponConstants.RELOADING))
-                gunData.Reloading = false;
+                GunData.Reloading = false;
             timeSinceLastShot = 0;
             if (hasBeenInitialized)
                 AttachActions();
@@ -29,8 +35,7 @@ namespace WeaponNS.ShootingWeaponNS
         {
             if (!animator)
                 animator = GetComponent<Animator>();
-            //gunData.CurrentAmmo = gunData.MagSize;
-            gunData.Reloading = false;
+            GunData.Reloading = false;
             timeSinceLastShot = 2;
         }
         private void Start()
@@ -57,26 +62,26 @@ namespace WeaponNS.ShootingWeaponNS
         }
         public void StartReload()
         {
-            if (gunData.CurrentAmmo != gunData.MagSize && gunData.ReserveAmmoData.ReserveAmmo != 0)
-                if (!gunData.Reloading && !animator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN))
+            if (GunData.CurrentAmmo != GunData.MagSize && GunData.ReserveAmmoData.ReserveAmmo != 0)
+                if (!GunData.Reloading && !animator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN))
                     StartCoroutine(Reload());
         }
         public virtual void ReloadAnim() => animator?.SetTrigger(MainShootingWeaponConstants.RELOADING);
-        public virtual void ShootRaycast() => OnShootRaycast?.Invoke(gunData);
+        public virtual void ShootRaycast() => OnShootRaycast?.Invoke(GunData);
         public virtual void Shoot()
         {
             if (CanShoot())
             {
                 if (animator && (animator.GetBool(MainShootingWeaponConstants.FIRING) || animator.GetCurrentAnimatorStateInfo(0).IsName(MainWeaponConstants.PUTTING_DOWN))) //if some anim is triggered => false
                     return;
-                if (gunData.CurrentAmmo > 0)
+                if (GunData.CurrentAmmo > 0)
                 {
                     animator?.SetTrigger(MainShootingWeaponConstants.FIRING);
-                    gunData.CurrentAmmo--;
+                    GunData.CurrentAmmo--;
                     timeSinceLastShot = 0;
                     return;
                 }
-                else if (gunData.CurrentAmmo == 0)
+                else if (GunData.CurrentAmmo == 0)
                 {
                     animator?.SetTrigger(MainShootingWeaponConstants.OUT_OF_AMMO);
                     timeSinceLastShot = 0;
@@ -84,18 +89,18 @@ namespace WeaponNS.ShootingWeaponNS
                 }
             }
         }
-        public void GetAmmo(int ammo) => gunData.ReserveAmmoData.ReserveAmmo += ammo;
+        public void GetAmmo(int ammo) => GunData.ReserveAmmoData.ReserveAmmo += ammo;
         public virtual void AltFire() { return; }
-        protected bool CanShoot() => !gunData.Reloading && timeSinceLastShot > (2f / (gunData.FireRate / 60f));
+        protected bool CanShoot() => !GunData.Reloading && timeSinceLastShot > (2f / (GunData.FireRate / 60f));
         protected virtual IEnumerator Reload()
         {
-            gunData.Reloading = true;
-            difference = gunData.ReserveAmmoData.ReserveAmmo >= (gunData.MagSize - gunData.CurrentAmmo) ? gunData.MagSize - gunData.CurrentAmmo : gunData.ReserveAmmoData.ReserveAmmo;
-            gunData.ReserveAmmoData.ReserveAmmo -= difference;
-            gunData.CurrentAmmo += difference;
+            GunData.Reloading = true;
+            difference = GunData.ReserveAmmoData.ReserveAmmo >= (GunData.MagSize - GunData.CurrentAmmo) ? GunData.MagSize - GunData.CurrentAmmo : GunData.ReserveAmmoData.ReserveAmmo;
+            GunData.ReserveAmmoData.ReserveAmmo -= difference;
+            GunData.CurrentAmmo += difference;
             ReloadAnim();
-            yield return new WaitForSeconds(gunData.ReloadTime);
-            gunData.Reloading = false;
+            yield return new WaitForSeconds(GunData.ReloadTime);
+            GunData.Reloading = false;
         }
     }
 }

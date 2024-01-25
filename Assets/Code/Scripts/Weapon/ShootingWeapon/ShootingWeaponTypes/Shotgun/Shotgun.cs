@@ -14,25 +14,25 @@ namespace WeaponNS.ShootingWeaponNS.ShotgunNS
         }
         protected override IEnumerator Reload()
         {
-            gunData.Reloading = true;
-            difference = gunData.ReserveAmmoData.ReserveAmmo >= (gunData.MagSize - gunData.CurrentAmmo) ? gunData.MagSize - gunData.CurrentAmmo : gunData.ReserveAmmoData.ReserveAmmo;
-            gunData.ReserveAmmoData.ReserveAmmo -= difference;
-            gunData.CurrentAmmo += difference;
+            GunData.Reloading = true;
+            difference = GunData.ReserveAmmoData.ReserveAmmo >= (GunData.MagSize - GunData.CurrentAmmo) ? GunData.MagSize - GunData.CurrentAmmo : GunData.ReserveAmmoData.ReserveAmmo;
+            GunData.ReserveAmmoData.ReserveAmmo -= difference;
+            GunData.CurrentAmmo += difference;
             ReloadAnim();
             yield return new WaitForSeconds(0.1f);
             while (!animator.GetCurrentAnimatorStateInfo(0).IsName(MainShootingWeaponConstants.IDLE) || animator.GetBool(MainShootingWeaponConstants.RELOADING))
                 yield return new WaitForSeconds(0.05f);
             yield return new WaitForSeconds(0.2f);
-            gunData.Reloading = false;
+            GunData.Reloading = false;
         }
         public override void AltFire()
         {
             if (CanShoot())
             {
-                if (gunData.CurrentAmmo >= 2)
+                if (GunData.CurrentAmmo >= 2)
                 {
                     animator?.SetTrigger(MainShootingWeaponConstants.ALT_FIRING);
-                    gunData.CurrentAmmo -= 2;
+                    GunData.CurrentAmmo -= 2;
                     timeSinceLastShot = 0;
                     return;
                 }
@@ -42,8 +42,8 @@ namespace WeaponNS.ShootingWeaponNS.ShotgunNS
         }
         public void ShootAltFireRaycast()
         {
-            OnShootRaycast?.Invoke(gunData);
-            OnShootRaycast?.Invoke(gunData);
+            OnShootRaycast?.Invoke(GunData);
+            OnShootRaycast?.Invoke(GunData);
         }
     }
 }

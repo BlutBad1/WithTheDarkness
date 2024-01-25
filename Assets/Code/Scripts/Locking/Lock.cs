@@ -1,134 +1,93 @@
-using Data.Text;
-using HudNS;
 using ScriptableObjectNS.Locking;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Serialization;
 
 namespace InteractableNS.Usable.Locking
 {
-    public class Lock : Interactable, ISerializationCallbackReceiver
+    public class Lock : Interactable
     {
-        [HideInInspector]
-        public bool IsGeneric = false;
-        [HideInInspector]
-        public static List<string> LockingTypes;
-        [HideInInspector, ListToPopup(typeof(Lock), "LockingTypes")]
-        public string GenericKeyName;
-        [HideInInspector]
-        public string KeyName;
-        [HideInInspector]
-        public KeyInteractable ConnectedKey;
-        [HideInInspector]
-        public AvailableKeyData AvailableKeyData;
-        [HideInInspector]
-        public bool IsLocked = true;
-        [HideInInspector]
-        public TextData LockedMessage;
-        [HideInInspector]
-        public TextData UnlockMessage;
-        [HideInInspector]
-        public float DisapperingSpeed;
-        [HideInInspector]
-        public UnityEvent OnUnlockEvent;
-        [HideInInspector]
-        public UnityEvent OnLockedEvent;
+        [SerializeField]
+        private KeyData requiredKey;
+        [SerializeField]
+        private bool addKeyToRegularRequired = true;
+        [SerializeField, FormerlySerializedAs("isLocked")]
+        private bool isLocked = true;
+        [SerializeField, FormerlySerializedAs("OnUnlockEvent")]
+        private UnityEvent onUnlockEvent;
+        [SerializeField]
+        private UnityEvent onLockEvent; //When you lock a door
+        [SerializeField, FormerlySerializedAs("OnLockedEvent")]
+        private UnityEvent onLockedEvent;
+
+        protected KeysOnLevelManager keysOnLevelManager;
+
+        private bool prevLockedState;
+
+        public virtual bool IsLocked
+        {
+            get => isLocked;
+            protected set
+            {
+                prevLockedState = IsLocked;
+                isLocked = value;
+            }
+        }
+        public UnityEvent OnUnlockEvent { get => onUnlockEvent; }
+        public UnityEvent OnLockedEvent { get => onLockedEvent; }
+
+        protected override void Start()
+        {
+            base.Start();
+            keysOnLevelManager = KeysOnLevelManager.Instance;
+            if (addKeyToRegularRequired)
+                keysOnLevelManager.AddKeyToRegularRequired(requiredKey);
+            prevLockedState = IsLocked;
+        }
         public virtual void OpenLock()
         {
-            OpenLockWithoutEvents();
-            OnUnlockEvent?.Invoke();
+            OpenLockWithoutEvent();
+            onUnlockEvent?.Invoke();
         }
-        public virtual void OpenLockWithoutEvents() =>
-            IsLocked = false;
-        public virtual void CloseLock() =>
-            IsLocked = true;
-        public virtual bool CheckIfDataHasKey()
+        public virtual void CloseLock()
         {
-            if (IsGeneric)
-            {
-                KeyData key = AvailableKeyData.AvailableKeys.Find(x => x.IsGeneric && x.GenericKeyName == GenericKeyName);
-                if (key != null)
-                {
-                    key.Amount--;
-                    if (key.Amount <= 0)
-                        AvailableKeyData.AvailableKeys.Remove(key);
-                    return true;
-                }
-            }
-            else
-            {
-                Key key = AvailableKeyData.AvailableKeys.Find(x => x.KeyName == KeyName && x.IsGeneric == false);
-                if (key != null)
-                    return true;
-            }
-            return false;
+            CloseLockWithoutEvent();
+            onLockEvent?.Invoke();
         }
-        public void OnBeforeSerialize() =>
-            LockingTypes = LockingTypeData.Instance.LockingTypes;
-        public void OnAfterDeserialize()
+        public void OpenLockWithoutEvent()
         {
+            isLocked = false;
+            prevLockedState = false;
+        }
+        public void CloseLockWithoutEvent()
+        {
+            isLocked = true;
+            prevLockedState = true;
         }
         protected override void Interact()
         {
-            if (IsLocked && CheckIfDataHasKey())
-                OpenLock();
-            if (!IsLocked)
-                PrintMessage(UnlockMessage?.GetText());
-            else
-            {
-                PrintMessage(LockedMessage?.GetText());
-                OnLockedEvent?.Invoke();
-            }
+            SetLockState();
+            LockStateChange();
         }
-        public void PrintMessage(string message) =>
-            GameObject.FindAnyObjectByType<MessagePrint>().PrintMessage(message, DisapperingSpeed);
-    }
-#if UNITY_EDITOR
-    [CustomEditor(typeof(Lock))]
-    public class LockCustomEditor : Editor
-    {
-        public override void OnInspectorGUI()
+        protected virtual void SetLockState()
         {
-            DrawDefaultInspector(); // for other non-HideInInspector fields
-            Lock script = (Lock)target;
-            SerializedProperty property;
-            //Locking Data
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Locking Data", EditorStyles.boldLabel);
-            property = serializedObject.FindProperty("IsGeneric");
-            EditorGUILayout.PropertyField(property, new GUIContent("IsGeneric"), true);
-            if (!script.IsGeneric) // if bool is true, show other fields
+            if (IsLocked)
             {
-                script.KeyName = EditorGUILayout.TextField("KeyName", script.KeyName);
-                property = serializedObject.FindProperty("ConnectedKey");
-                EditorGUILayout.PropertyField(property, new GUIContent("ConnectedKey"));
-                if (script.ConnectedKey != null)
-                    script.KeyName = script.ConnectedKey.Key.KeyName;
+                IsLocked = !keysOnLevelManager.HaveKeyInAvailable(requiredKey);
+                keysOnLevelManager.RemoveKeyFromAvailable(requiredKey);
             }
-            else
+        }
+        private void LockStateChange()
+        {
+            if (IsLocked != prevLockedState)
             {
-                property = serializedObject.FindProperty("GenericKeyName");
-                EditorGUILayout.PropertyField(property, new GUIContent("KeyName"), true);
+                if (prevLockedState && !IsLocked)
+                    OpenLock();
+                else if (!prevLockedState && IsLocked)
+                    CloseLock();
             }
-            property = serializedObject.FindProperty("AvailableKeyData");
-            EditorGUILayout.PropertyField(property, new GUIContent("AvailableKeyData"), true);
-            //Locking Settings
-            EditorGUILayout.Space();
-            EditorGUILayout.LabelField("Locking Settings", EditorStyles.boldLabel);
-            script.IsLocked = EditorGUILayout.Toggle("IsLocked", script.IsLocked);
-            property = serializedObject.FindProperty("LockedMessage");
-            EditorGUILayout.PropertyField(property, new GUIContent("LockedMessage"), true);
-            property = serializedObject.FindProperty("UnlockMessage");
-            EditorGUILayout.PropertyField(property, new GUIContent("UnlockMessage"), true);
-            script.DisapperingSpeed = EditorGUILayout.FloatField("DisapperingSpeed", script.DisapperingSpeed);
-            EditorGUILayout.Space();
-            property = serializedObject.FindProperty("OnUnlockEvent");
-            EditorGUILayout.PropertyField(property, new GUIContent("OnUnlockEvent"), true);
-            property = serializedObject.FindProperty("OnLockedEvent");
-            EditorGUILayout.PropertyField(property, new GUIContent("OnLockedEvent"), true);
-            serializedObject.ApplyModifiedProperties();
+            else if (IsLocked)
+                onLockedEvent?.Invoke();
         }
     }
-#endif
 }

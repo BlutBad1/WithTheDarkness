@@ -504,7 +504,7 @@ AudioSource:
   m_GameObject: {fileID: 8976250932043484080}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 760ec7a6df1917443bfb1c74a2d0ad91, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3
@@ -632,7 +632,7 @@ AudioSource:
   m_GameObject: {fileID: 8976250932332529759}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: f5d9f09e38305d84b8655db78f1a1b2e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
@@ -760,7 +760,7 @@ AudioSource:
   m_GameObject: {fileID: 8976250932393735076}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: ab61ada0707add54ca914c9843e662e9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.2
@@ -1166,16 +1166,12 @@ MonoBehaviour:
   AudioSourceObjects:
   - Name: Chest_Locked
     audioSource: {fileID: 8976250932332529757}
-    AudioKind: 0
   - Name: Chest_Creaking
     audioSource: {fileID: 8976250932043484046}
-    AudioKind: 0
   - Name: Padlock_Opening
     audioSource: {fileID: 8976250933374652805}
-    AudioKind: 0
   - Name: Padlock_Fall
     audioSource: {fileID: 8976250932393735074}
-    AudioKind: 0
 --- !u!1 &8976250933374652807
 GameObject:
   m_ObjectHideFlags: 0
@@ -1217,7 +1213,7 @@ AudioSource:
   m_GameObject: {fileID: 8976250933374652807}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 3ef34e4d733cbc54fb5af06cd36c1ead, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6

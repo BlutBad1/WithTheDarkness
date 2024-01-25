@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Audio;
 
 namespace SoundNS
 {
@@ -8,29 +9,45 @@ namespace SoundNS
     {
         public AudioManager(Sound[] sounds) =>
             this.sounds = sounds;
-        //NOTE: Don't rename otherwise all sounds and their settings will be gone!!
+        //NOTE: Do not rename, otherwise all sounds and their settings will be lost!!
         public Sound[] sounds;
-        new void Awake()
-        {
-            base.Awake();
+        private void Start() =>
             AssignVariables();
+        public void CreateNewAudioSourceNCopySettignsFromSound(Sound s)
+        {
+            s.source = gameObject.AddComponent<AudioSource>();
+            s.source.clip = s.clip;
+            s.source.volume = s.volume;
+            s.source.pitch = s.pitch;
+            s.source.loop = s.loop;
+            s.source.playOnAwake = false;
+            audioObjects.Add(new AudioObject(s.source, s.volume));
+            s.source.volume = s.volume;
+            s.source.outputAudioMixerGroup = MixerVolumeChanger.Instance.GetAudioMixerGroup(s.audioKind);
         }
         public void AssignVariables()
         {
             if (sounds != null)
             {
                 foreach (Sound s in sounds)
-                {
-                    s.source = gameObject.AddComponent<AudioSource>();
-                    s.source.clip = s.clip;
-                    s.source.volume = s.volume;
-                    s.source.pitch = s.pitch;
-                    s.source.loop = s.loop;
-                    s.source.playOnAwake = false;
-                    availableSources.Add(new AudioObject(s.source, s.volume, s.audioKind));
-                    s.source.volume = s.volume * SettingsNS.AudioSettings.GetVolumeOfType(s.audioKind);
-                }
+                    CreateNewAudioSourceNCopySettignsFromSound(s);
             }
+        }
+        public AudioSource CreateAndPlay(Sound s)
+        {
+            AudioMixerGroup audioMixerGroup = null;
+            if (s.source)
+            {
+                StartCoroutine(DeleteAudioSourceAfterPlaying(s.source));
+                audioMixerGroup = s.source.outputAudioMixerGroup;
+            }
+            else
+                audioMixerGroup = MixerVolumeChanger.Instance.GetAudioMixerGroup(s.audioKind);
+            CreateNewAudioSourceNCopySettignsFromSound(s);
+            s.source.outputAudioMixerGroup = audioMixerGroup;
+            s.source.Play();
+            StartCoroutine(DeleteAudioSourceAfterPlaying(s.source));
+            return s.source;
         }
         public void Play(string name)
         {
@@ -85,32 +102,16 @@ namespace SoundNS
             }
             return CreateAndPlay(s);
         }
-        public AudioSource CreateAndPlay(Sound s)
-        {
-            if (s.source)
-                StartCoroutine(DeleteAudioSourceAfterPlaying(s.source));
-            s.source = gameObject.AddComponent<AudioSource>();
-            s.source.clip = s.clip;
-            s.source.volume = s.volume;
-            s.source.pitch = s.pitch;
-            s.source.loop = s.loop;
-            s.source.playOnAwake = false;
-            s.source.Play();
-            availableSources.Add(new AudioObject(s.source, s.volume, s.audioKind));
-            s.source.volume = s.volume * SettingsNS.AudioSettings.GetVolumeOfType(s.audioKind);
-            StartCoroutine(DeleteAudioSourceAfterPlaying(s.source));
-            return s.source;
-        }
-        IEnumerator DeleteAudioSourceAfterPlaying(AudioSource source)
+        public void PlayAFewTimes(string[] names, int times) =>
+            StartCoroutine(PlayTimes(names, times));
+        private IEnumerator DeleteAudioSourceAfterPlaying(AudioSource source)
         {
             while (source != null && source.isPlaying)
                 yield return null;
-            availableSources.Remove(availableSources.Find(x => x.AudioSource == source));
+            audioObjects.Remove(audioObjects.Find(x => x.AudioSource == source));
             Destroy(source);
         }
-        public void PlayAFewTimes(string[] names, int times) =>
-            StartCoroutine(PlayTimes(names, times));
-        IEnumerator PlayTimes(string[] names, int times)
+        private IEnumerator PlayTimes(string[] names, int times)
         {
             yield return null;
             Sound[] currentSounds = new Sound[name.Length];

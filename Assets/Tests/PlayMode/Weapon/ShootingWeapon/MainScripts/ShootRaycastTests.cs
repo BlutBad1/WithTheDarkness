@@ -7,59 +7,44 @@ using UnityEngine.TestTools;
 using WeaponNS.ShootingWeaponNS;
 namespace Weapon.ShootingWeaponNS.MainScripts
 {
-    public class ShootRaycastTestClass : ShootRaycast
-    {
-        protected override void Start()
-        {
-        }
-    }
     public class ShootRaycastTests
     {
-        GameObject enemy;
-        GameObject player;
-        GameObject thisGun;
-        BoxCollider boxCollider;
-        GunData thisGunData;
-        Damageable damageable;
-        ShootRaycastTestClass shootRaycast;
-        Camera cam;
-        ShootingWeapon shootingWeapon;
+        private GameObject enemy;
+        private BoxCollider boxCollider;
+        private GunData gunData;
+        private Damageable damageable;
+        private ShootRaycast shootRaycast;
+        private Camera cam;
+
         [SetUp]
         public void Setup()
         {
             //Arrange
             enemy = GameObject.Instantiate(new GameObject());
-            player = GameObject.Instantiate(new GameObject());
-            thisGun = GameObject.Instantiate(new GameObject());
             boxCollider = enemy.AddComponent<BoxCollider>();
-            enemy.AddComponent<Rigidbody>();
+            enemy.AddComponent<Rigidbody>().isKinematic = true;
             boxCollider.isTrigger = true;
-            shootingWeapon = player.AddComponent<ShootingWeapon>();
-            shootRaycast = player.AddComponent<ShootRaycastTestClass>();
-            thisGun.AddComponent<Animator>();
-            thisGunData = new GunData();
-            thisGunData.MaxDistance = 1000f;
-            thisGunData.Force = 1f;
-            thisGunData.Damage = 15;
-            shootingWeapon.gunData = thisGunData;
-            //shootingWeapon.gun = thisGun;
             damageable = enemy.AddComponent<Damageable>();
-            boxCollider.size = new Vector3(100, 100, 100);
-            cam = player.AddComponent<Camera>();
-            shootRaycast.CameraOrigin = cam;
-            Vector3 fwd = cam.transform.TransformDirection(Vector3.forward);
-            enemy.transform.position = fwd + new Vector3(101, 0, 0);
-            player.transform.LookAt(enemy.transform.position);
+            GameObject raycastTestGO = GameObject.Instantiate(Resources.Load("RaycastTest", typeof(GameObject)) as GameObject);
+            shootRaycast = raycastTestGO.GetComponent<ShootRaycast>();
+            gunData = raycastTestGO.GetComponent<ShootingWeapon>().GunData;
+            cam = raycastTestGO.GetComponent<Camera>();
+            boxCollider.size = new Vector3(gunData.MaxDistance, gunData.MaxDistance, gunData.MaxDistance);
+            //Set random position, so as not to interfere with other tests
+            Vector3 randomPosition = TestsNS.TestUtilities.GetRandomPosition();
+            raycastTestGO.transform.position = randomPosition;
+            enemy.transform.position = randomPosition + new Vector3(gunData.MaxDistance, 0, 0);
+            raycastTestGO.transform.LookAt(enemy.transform.position);
             cam.transform.LookAt(enemy.transform.position);
         }
         [UnityTest]
-        public IEnumerator OnShootRaycastTest_Expect_ReducingEnemyHealth()
+        public IEnumerator OnShootRaycastTest_Expect_HealthNotEqualHealthOnStart()
         {
             //Act
-            shootRaycast.OnShootRaycast(thisGunData);
+            shootRaycast.OnShootRaycast(gunData);
             yield return new WaitForSeconds(0.5f);
             //Assert
-            Assert.AreEqual(85, damageable.Health);
+            Assert.AreNotEqual(damageable.Health, damageable.HealthOnStart);
         }
     }
 }

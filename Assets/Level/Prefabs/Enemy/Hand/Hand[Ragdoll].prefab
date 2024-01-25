@@ -160,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   InvokeOnTakeDamageAfterDead: 1
-  OriginalHealth: 0
+  HealthOnStart: 0
 --- !u!1 &393107261041508739
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,7 +357,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   InvokeOnTakeDamageAfterDead: 1
-  OriginalHealth: 0
+  HealthOnStart: 0
 --- !u!1 &393107261292491491
 GameObject:
   m_ObjectHideFlags: 0
@@ -611,7 +611,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   InvokeOnTakeDamageAfterDead: 1
-  OriginalHealth: 0
+  HealthOnStart: 0
 --- !u!1 &393107261430039359
 GameObject:
   m_ObjectHideFlags: 0
@@ -747,7 +747,6 @@ MonoBehaviour:
   AudioSourceObjects:
   - Name: TakeDamage
     audioSource: {fileID: 393107262434510168}
-    AudioKind: 0
 --- !u!205 &7581892158980931626
 LODGroup:
   m_ObjectHideFlags: 0
@@ -925,7 +924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   InvokeOnTakeDamageAfterDead: 1
-  OriginalHealth: 0
+  HealthOnStart: 0
 --- !u!1 &393107261592642065
 GameObject:
   m_ObjectHideFlags: 0
@@ -1085,7 +1084,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   InvokeOnTakeDamageAfterDead: 1
-  OriginalHealth: 0
+  HealthOnStart: 0
 --- !u!1 &393107261751024904
 GameObject:
   m_ObjectHideFlags: 0
@@ -1276,7 +1275,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   InvokeOnTakeDamageAfterDead: 1
-  OriginalHealth: 0
+  HealthOnStart: 0
 --- !u!1 &393107261979878358
 GameObject:
   m_ObjectHideFlags: 0
@@ -1434,7 +1433,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   InvokeOnTakeDamageAfterDead: 1
-  OriginalHealth: 0
+  HealthOnStart: 0
 --- !u!1 &393107262011798997
 GameObject:
   m_ObjectHideFlags: 0
@@ -1689,7 +1688,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Health: 100
   InvokeOnTakeDamageAfterDead: 1
-  OriginalHealth: 0
+  HealthOnStart: 0
 --- !u!1 &393107262187764793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1939,7 +1938,7 @@ AudioSource:
   m_GameObject: {fileID: 393107262434510169}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: df430d8510df4b743a4c6889fc413b33, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.7

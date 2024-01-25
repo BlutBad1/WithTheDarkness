@@ -200,8 +200,8 @@ MonoBehaviour:
   ConnectedKey: {fileID: 0}
   AvailableKeyData: {fileID: 11400000, guid: 62c147480aa3bb149a78ac93efec608d, type: 2}
   IsLocked: 0
-  LockedMessage: 
-  UnlockMessage: 
+  LockedMessage: {fileID: 0}
+  UnlockMessage: {fileID: 0}
   DisapperingSpeed: 0.8
   OnUnlockEvent:
     m_PersistentCalls:
@@ -313,7 +313,7 @@ AudioSource:
   m_GameObject: {fileID: 4643276094265951740}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -28771752453103961, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 202618729c896fb44aa3582a0887936e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.8
@@ -442,7 +442,7 @@ AudioSource:
   m_GameObject: {fileID: 4643276095098572598}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: -28771752453103961, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: bbf2dd46a61dcba4e845de87e3bfbdbd, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.3

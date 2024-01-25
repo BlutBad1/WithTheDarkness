@@ -15,7 +15,7 @@ namespace OnDeath
         public LayerMask WhatIsRayCastIgnore;
         public float MaxDistance;
         private GameObject initializedBloodstain;
-        static ObjectPool objectPool;
+        public static ObjectPool objectPool;
         private void Start()
         {
             if (!Damageable)

@@ -27,6 +27,7 @@ public class ObjectPool
     public GameObject GetObject()
     {
         GameObject instance;
+        AvailableObjectsInPool.RemoveAll(x => x.gameObject == null);
         if (AvailableObjectsInPool.Count > 0)
         {
             instance = AvailableObjectsInPool[0];

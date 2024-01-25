@@ -6,16 +6,6 @@ namespace SoundNS
     [System.Serializable]
     public class Sound
     {
-        public Sound(Sound s)
-        {
-            this.name = s.name;
-            this.clip = s.clip;
-            this.source = s.source;
-            this.loop = s.loop;
-            this.volume = s.volume;
-            this.audioKind = s.audioKind;
-            this.pitch = s.pitch;
-        }
         public string name;
         public AudioClip clip;
         [Range(0f, 1f)]
@@ -26,5 +16,15 @@ namespace SoundNS
         public AudioKind audioKind;
         [HideInInspector]
         public AudioSource source;
+        public Sound(Sound s)
+        {
+            this.name = s.name;
+            this.clip = s.clip;
+            this.source = s.source;
+            this.loop = s.loop;
+            this.volume = s.volume;
+            this.audioKind = s.audioKind;
+            this.pitch = s.pitch;
+        }
     }
 }

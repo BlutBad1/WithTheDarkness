@@ -44,11 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7666cd7cc399bf04886ceace681a33df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RequiredKeys:
+  requiredKeys:
   - IsGeneric: 1
     KeyName: 
     GenericKeyName: main_exit
     Amount: 1
-  SetKeysOnStart: 1
-  AvailableKeysOnStart: []
-  AvailableKeyData: {fileID: 11400000, guid: 62c147480aa3bb149a78ac93efec608d, type: 2}
+  setKeysOnStart: 1
+  availableKeysOnStart:
+  - IsGeneric: 1
+    KeyName: 
+    GenericKeyName: main_exit
+    Amount: 0
+  availableKeyData: {fileID: 11400000, guid: 62c147480aa3bb149a78ac93efec608d, type: 2}

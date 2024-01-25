@@ -41,7 +41,7 @@ AudioSource:
   m_GameObject: {fileID: 4183971913370787889}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 17ef40e0b27c77542a435439535edaea, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
@@ -267,7 +267,6 @@ MonoBehaviour:
   AudioSourceObjects:
   - Name: Key_Picking
     audioSource: {fileID: 4183971913370787888}
-    AudioKind: 0
 --- !u!114 &3332303858360159949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,7 +393,6 @@ MonoBehaviour:
   AudioSourceObjects:
   - Name: CollideSound
     audioSource: {fileID: 9024908794659169722}
-    AudioKind: 0
 --- !u!82 &9024908794659169722
 AudioSource:
   m_ObjectHideFlags: 0
@@ -404,7 +402,7 @@ AudioSource:
   m_GameObject: {fileID: 5710614298285820673}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: ab61ada0707add54ca914c9843e662e9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.2

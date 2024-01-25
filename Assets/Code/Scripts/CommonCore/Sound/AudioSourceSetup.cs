@@ -25,7 +25,7 @@ namespace SoundNS
             foreach (var s in availableSources.Where(kv => !kv.Key).ToList())
                 availableSources.Remove(s.Key);
             foreach (var item in availableSources)
-                item.Key.volume = item.Value * SettingsNS.AudioSettings.GetVolumeOfType(AudioType);
+                item.Key.volume = item.Value;
         }
     }
 }

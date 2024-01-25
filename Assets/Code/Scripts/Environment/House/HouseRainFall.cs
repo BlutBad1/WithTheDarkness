@@ -54,12 +54,12 @@ namespace EnvironmentNS
             if (IsWindowOpened)
             {
                 RainInsideAudioSourceManager.StopAudioSourceSmoothly(TransitionStopTime);
-                RainOutsideAudioSourceManager.ChangeSound(s, TransitionOutChangeClipTime, TransitionInChangeClipTime, true);
+                RainOutsideAudioSourceManager.ChangeSoundSmoothly(s, TransitionOutChangeClipTime, TransitionInChangeClipTime, true);
             }
             else
             {
                 RainOutsideAudioSourceManager.StopAudioSourceSmoothly(TransitionStopTime);
-                RainInsideAudioSourceManager.ChangeSound(s, TransitionOutChangeClipTime, TransitionInChangeClipTime, true);
+                RainInsideAudioSourceManager.ChangeSoundSmoothly(s, TransitionOutChangeClipTime, TransitionInChangeClipTime, true);
             }
         }
         private void Update()
@@ -69,7 +69,7 @@ namespace EnvironmentNS
                 timeToThunder = 0f;
                 if (ThunderChance > Random.Range(0, 100))
                 {
-                    ThunderAudioSourceManager.ChangeSound(ThunderSounds[Random.Range(0, ThunderSounds.Length)], TransitionOutChangeClipTime, TransitionInChangeClipTime, true);
+                    ThunderAudioSourceManager.ChangeSoundSmoothly(ThunderSounds[Random.Range(0, ThunderSounds.Length)], TransitionOutChangeClipTime, TransitionInChangeClipTime, true);
                     ThunderAudioSourceManager.ChangeAudioSourceVolumeSmoothly(IsWindowOpened ? 1f : 0.7f, TransitionThunderVolumeTime);
                 }
             }

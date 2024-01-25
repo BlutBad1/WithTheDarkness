@@ -41,7 +41,7 @@ AudioSource:
   m_GameObject: {fileID: 2031366190474662133}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: f5d9f09e38305d84b8655db78f1a1b2e, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.5
@@ -320,10 +320,8 @@ MonoBehaviour:
   AudioSourceObjects:
   - Name: Padlock_Opening
     audioSource: {fileID: 4741615317784939907}
-    AudioKind: 0
   - Name: Padlock_Locked
     audioSource: {fileID: 5039047487903860238}
-    AudioKind: 0
 --- !u!114 &4741615316299504782
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,7 +526,7 @@ AudioSource:
   m_GameObject: {fileID: 4741615317784939933}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 3ef34e4d733cbc54fb5af06cd36c1ead, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
@@ -664,7 +662,6 @@ MonoBehaviour:
   AudioSourceObjects:
   - Name: Padlock_Fall
     audioSource: {fileID: 4741615317891460095}
-    AudioKind: 0
 --- !u!82 &4741615317891460095
 AudioSource:
   m_ObjectHideFlags: 0
@@ -674,7 +671,7 @@ AudioSource:
   m_GameObject: {fileID: 4741615317891460089}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: ab61ada0707add54ca914c9843e662e9, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.2

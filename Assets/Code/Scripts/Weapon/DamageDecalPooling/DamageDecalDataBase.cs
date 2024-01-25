@@ -24,11 +24,15 @@ namespace WeaponNS.ShootingWeaponNS
     {
         public DamageDecalObject[] DamageDecalObjects;
         protected DamageDecalPoolsManager DamageDecalPoolMng;
-        protected virtual void Start()
-        {
+        protected virtual void Start() =>
             DamageDecalPoolMng = GameObject.FindObjectOfType<DamageDecalPoolsManager>();
-        }
         public void MakeBulletHoleByInfo(RaycastHit hitInfo, Vector3 rayCastOrigin, WeaponEntity weaponType)
+        {
+            DamageDecalObject[] damageDecals = DefineAvailableDecalsByInfo(hitInfo, weaponType);
+            int randomNumber = UnityEngine.Random.Range(0, damageDecals.Length);
+            CreateBulletHoleAndPlayParticleSystems(damageDecals[randomNumber].DamageDecalType, hitInfo, rayCastOrigin);
+        }
+        protected DamageDecalObject[] DefineAvailableDecalsByInfo(RaycastHit hitInfo, WeaponEntity weaponType)
         {
             DamageDecalObject[] damageDecals = new DamageDecalObject[0];
             if (hitInfo.collider != null)
@@ -48,10 +52,9 @@ namespace WeaponNS.ShootingWeaponNS
                 damageDecals = new DamageDecalObject[1] { new DamageDecalObject { DamageDecalType = MainWeaponConstants.DEFAULT_DAMAGE_DECAL } };
             if (damageDecals.Length > 1)
                 damageDecals = damageDecals.Where(x => x.DamageDecalType != MainWeaponConstants.DEFAULT_DAMAGE_DECAL).ToArray();
-            int randomNumber = UnityEngine.Random.Range(0, damageDecals.Length);
-            CreateBulletHole(damageDecals[randomNumber].DamageDecalType, hitInfo, rayCastOrigin);
+            return damageDecals;
         }
-        protected virtual void CreateBulletHole(string damageDecalName, RaycastHit hitInfo, Vector3 rayCastOrigin)
+        private void CreateBulletHoleAndPlayParticleSystems(string damageDecalName, RaycastHit hitInfo, Vector3 rayCastOrigin)
         {
             GameObject damageDecal = DamageDecalPoolMng.GetObject(damageDecalName);
             damageDecal.SetActive(false);
@@ -63,7 +66,16 @@ namespace WeaponNS.ShootingWeaponNS
             }
             damageDecal.transform.parent = null;
             //Rotation
-            Quaternion originalRot = DamageDecalPoolMng.GetPrefab(damageDecalName).transform.rotation;
+            DefineDecalRotation(damageDecal, hitInfo, rayCastOrigin);
+            //Position and new parent
+            DefineDecalPositionAndParent(damageDecal, hitInfo);
+            ParticleSystem[] particleSystems = Utilities.FindAllComponentsInGameObject<ParticleSystem>(damageDecal).ToArray();
+            foreach (var particleSystem in particleSystems)
+                particleSystem.Play();
+        }
+        private void DefineDecalRotation(GameObject damageDecal, RaycastHit hitInfo, Vector3 rayCastOrigin)
+        {
+            Quaternion originalRot = damageDecal.transform.rotation;
             damageDecal.transform.rotation = Quaternion.identity;
             Vector3 playerToHitDirection = (hitInfo.point - rayCastOrigin).normalized;
             Vector3 referenceDirection = Vector3.up;  // By default it is world up
@@ -72,20 +84,10 @@ namespace WeaponNS.ShootingWeaponNS
             Vector3 projectedDirection = referenceDirection - Vector3.Dot(referenceDirection, hitInfo.normal) * hitInfo.normal;
             Quaternion targetRotation = Quaternion.LookRotation(hitInfo.normal, projectedDirection.normalized);
             damageDecal.transform.rotation = targetRotation * Quaternion.Inverse(originalRot);
-            //Position and new parent
-            DefinePositionAndParent(damageDecal, hitInfo);
-            if (!damageDecal.TryGetComponent(out ParticleSystem particleSystem))
-            {
-                if (damageDecal.GetComponentInChildren<ParticleSystem>())
-                    damageDecal.GetComponentInChildren<ParticleSystem>().Play();
-            }
-            else
-                particleSystem.Play();
         }
-        protected void DefinePositionAndParent(GameObject damageDecal, RaycastHit hitInfo)
+        private void DefineDecalPositionAndParent(GameObject damageDecal, RaycastHit hitInfo)
         {
             SkinnedMeshRenderer renderer = Utilities.GetClosestComponentInGameObject<SkinnedMeshRenderer>(hitInfo.point, hitInfo.collider.gameObject.transform.root.gameObject);//HARDCODE
-            //renderer = renderer == null ? Utilities.GetClosestComponentInGameObject<SkinnedMeshRenderer>(hitInfo.point, hitInfo.rigidbody.gameObject) : renderer;//HARDCODE
             if (renderer)
             {
                 Vector3 localTargetPoint = renderer.transform.InverseTransformPoint(hitInfo.point);

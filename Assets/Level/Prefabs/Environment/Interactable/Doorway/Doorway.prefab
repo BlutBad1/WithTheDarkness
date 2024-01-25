@@ -154,7 +154,7 @@ AudioSource:
   m_GameObject: {fileID: 4876789655794607588}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 15bee8c9dada18a46a2b96d60897fd24, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
@@ -255,7 +255,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PauseSourcesInGameMenu: 1
   audioSource: {fileID: 4876789655794607590}
-  audioType: 0
 --- !u!1 &4876789655818721079
 GameObject:
   m_ObjectHideFlags: 0
@@ -297,7 +296,7 @@ AudioSource:
   m_GameObject: {fileID: 4876789655818721079}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: be73fa8d9fc3dc5499f310b2e5899cfe, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
@@ -435,13 +434,10 @@ MonoBehaviour:
   AudioSourceObjects:
   - Name: Doorway_Locked
     audioSource: {fileID: 4876789655818721073}
-    AudioKind: 0
   - Name: Doorway_OpenClose
     audioSource: {fileID: 4876789655794607590}
-    AudioKind: 0
   - Name: Doorway_Unlocked
     audioSource: {fileID: 4876789656725331674}
-    AudioKind: 0
 --- !u!1 &4876789656725331672
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,7 +479,7 @@ AudioSource:
   m_GameObject: {fileID: 4876789656725331672}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 284350417067887945, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 3ef34e4d733cbc54fb5af06cd36c1ead, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.6
@@ -677,8 +673,8 @@ MonoBehaviour:
   ConnectedKey: {fileID: 0}
   AvailableKeyData: {fileID: 11400000, guid: 62c147480aa3bb149a78ac93efec608d, type: 2}
   IsLocked: 1
-  LockedMessage: 
-  UnlockMessage: 
+  LockedMessage: {fileID: 0}
+  UnlockMessage: {fileID: 0}
   DisapperingSpeed: 0.8
   OnUnlockEvent:
     m_PersistentCalls:

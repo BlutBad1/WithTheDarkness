@@ -9,7 +9,7 @@ namespace InteractableNS
         public string promptMessage;
         [HideInInspector]
         public EntityInteract LastWhoInteracted;
-        protected void Start()
+        protected virtual void Start()
         {
         }
         public virtual string OnLook()
@@ -21,7 +21,7 @@ namespace InteractableNS
             LastWhoInteracted = creatureInteract;
             Interact();
             if (useEvents)
-                GetComponent<InteractionEvent>().OnInteract.Invoke();
+                GetComponent<InteractionEvent>().OnInteract?.Invoke();
         }
         public virtual void EndInteraction(EntityInteract creatureInteract)
         {

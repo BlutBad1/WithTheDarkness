@@ -2,10 +2,10 @@ using LightNS;
 using PlayerScriptsNS;
 using ScriptableObjectNS.Player;
 using ScriptableObjectNS.Weapon;
-using ScriptableObjectNS.Weapon.Gun;
 using UnityEditor;
 using UnityEngine;
-using WeaponManagement;
+using UnityEngine.Serialization;
+using WeaponNS.DataNS;
 
 namespace Data.Player
 {
@@ -32,8 +32,11 @@ namespace Data.Player
         [Header("WeaponData")]
         public SerializableActiveWeapon ActiveWeapons;
         public ActiveWeapon ActiveWeaponData;
-        public CurrentAmmoObject[] GunObjects;
-        public ReserveAmmoObject[] AmmoObjects;
+        public MeleeDurabilityDataObject[] MeleeDurabilityData;
+        [FormerlySerializedAs("GunObjects")]
+        public CurrentAmmoDataObject[] CurrentAmmoData;
+        [FormerlySerializedAs("AmmoObjects")]
+        public ReserveAmmoDataObject[] ReserveAmmoData;
         [Header("Light"), Min(0)]
         public float GlowTime = 100f;
         [Min(0)]
@@ -42,6 +45,7 @@ namespace Data.Player
         public float LightRange = 22;
         public float LightUpRange = 20;
         public float LightUpSpotAngle = 60;
+
         private void Awake()
         {
             GetDataFromScriptableObject();
@@ -49,7 +53,7 @@ namespace Data.Player
             InitializePlayerStats();
             LightInitazlie();
         }
-        public void GetDataFromScriptableObject()
+        private void GetDataFromScriptableObject()
         {
             if (PlayerData)
             {
@@ -65,8 +69,9 @@ namespace Data.Player
                 //Weapon
                 ActiveWeapons = copiedPlayerData.ActiveWeapons;
                 ActiveWeaponData = copiedPlayerData.ActiveWeaponData;
-                GunObjects = copiedPlayerData.GunObjects;
-                AmmoObjects = copiedPlayerData.AmmoObjects;
+                MeleeDurabilityData = copiedPlayerData.MeleeDurabilityData;
+                CurrentAmmoData = copiedPlayerData.CurrentAmmoData;
+                ReserveAmmoData = copiedPlayerData.ReserveAmmoData;
                 //Light
                 GlowTime = copiedPlayerData.GlowTime;
                 MaxGlowTime = copiedPlayerData.MaxGlowTime;
@@ -76,7 +81,7 @@ namespace Data.Player
                 LightUpSpotAngle = copiedPlayerData.LightUpSpotAngle;
             }
         }
-        public void InitializePlayerStats()
+        private void InitializePlayerStats()
         {
             PlayerHealth[] health = GameObject.FindObjectsOfType<PlayerHealth>();
             foreach (var h in health)
@@ -102,19 +107,17 @@ namespace Data.Player
                 //sprint.StaminaRestoreMultiplier = StaminaRestoreMultiplier;
             }
         }
-        public void InitializeWeapon()
+        private void InitializeWeapon()
         {
             ActiveWeaponData.ActiveWeapons = ActiveWeapons;
-            foreach (var weaponData in GunObjects)
-            {
-                GunData gunData = (GunData)weaponData.WeaponData;
-                if (gunData != null)
-                    gunData.CurrentAmmo = weaponData.CurrentAmmo > gunData.MagSize ? gunData.MagSize : weaponData.CurrentAmmo;
-            }
-            foreach (var ammoData in AmmoObjects)
-                ammoData.ReserveAmmoData.ReserveAmmo = ammoData.ReserveAmmo;
+            foreach (var durabilityData in MeleeDurabilityData)
+                durabilityData.SetData();
+            foreach (var weaponData in CurrentAmmoData)
+                weaponData.SetData();
+            foreach (var ammoData in ReserveAmmoData)
+                ammoData.SetData();
         }
-        public void LightInitazlie()
+        private void LightInitazlie()
         {
             LightGlowTimer[] lightGlowTimers = GameObject.FindObjectsOfType<LightGlowTimer>();
 
@@ -170,10 +173,12 @@ namespace Data.Player
                 EditorGUILayout.PropertyField(property, new GUIContent("ActiveWeapons"), true);
                 property = serializedObject.FindProperty("ActiveWeaponData");
                 EditorGUILayout.PropertyField(property, new GUIContent("ActiveWeaponData"), true);
-                property = serializedObject.FindProperty("GunObjects");
-                EditorGUILayout.PropertyField(property, new GUIContent("GunObjects"), true);
-                property = serializedObject.FindProperty("AmmoObjects");
-                EditorGUILayout.PropertyField(property, new GUIContent("AmmoObjects"), true);
+                property = serializedObject.FindProperty("MeleeDurabilityData");
+                EditorGUILayout.PropertyField(property, new GUIContent("MeleeDurabilityData"), true);
+                property = serializedObject.FindProperty("CurrentAmmoData");
+                EditorGUILayout.PropertyField(property, new GUIContent("CurrentAmmoData"), true);
+                property = serializedObject.FindProperty("ReserveAmmoData");
+                EditorGUILayout.PropertyField(property, new GUIContent("ReserveAmmoData"), true);
                 //LightData
                 property = serializedObject.FindProperty("GlowTime");
                 EditorGUILayout.PropertyField(property, new GUIContent("GlowTime"), true);

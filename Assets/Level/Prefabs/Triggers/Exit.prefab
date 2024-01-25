@@ -109,14 +109,14 @@ MonoBehaviour:
     m_Bits: 2048
   TeleportPointToHere: {fileID: 684367256000196917}
   TeleportPoint: {fileID: 0}
+  IsConnectedToMapData: 1
+  DefineNextLocation: 1
   spawnAfter: 2
   dimming: {fileID: 0}
   audioManager: {fileID: 0}
-  IsConnectedToMapData: 1
   DissolvingRefMat: {fileID: 2100000, guid: 78876caaf0904b345bf8973f3c9d053e, type: 2}
   DissolvingTime: 5
   DissolvingRefAudioSource: {fileID: 6447143076335601132}
-  ConnectedLocIndex: -2
 --- !u!114 &684367255631593589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,7 +233,7 @@ AudioSource:
   m_GameObject: {fileID: 5747747683228809907}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 3142095646204127613, guid: d3c8f7c083975d142ab5c2b86d44a1c9, type: 2}
   m_audioClip: {fileID: 8300000, guid: 142459afaba355444a8f93eb617e1993, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1

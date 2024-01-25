@@ -15,7 +15,7 @@ namespace SoundNS
         {
             Sounds.RemoveAll(x => !x.source);
             foreach (var item in Sounds)
-                item.source.volume = item.volume * SettingsNS.AudioSettings.GetVolumeOfType(item.audioKind);
+                item.source.volume = item.volume;
         }
     }
 }

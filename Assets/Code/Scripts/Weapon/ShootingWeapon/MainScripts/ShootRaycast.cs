@@ -8,20 +8,21 @@ namespace WeaponNS.ShootingWeaponNS
     public class ShootRaycast : MonoBehaviour
     {
         [SerializeField, Tooltip("if not set, will be the main camera")]
-        public Camera CameraOrigin;
+        private Camera cameraOrigin;
         [SerializeField]
-        public LayerMask WhatIsRayCastIgnore;
-        [Tooltip("if not set, will be the main dataBase")]
-        public DamageDecalDataBase bulletHolesDataBase;
-        [Tooltip("Spread coeff")]
-        float maxDeviation;
+        private LayerMask whatIsRayCastIgnore;
+        [SerializeField, Tooltip("if not set, will be the main dataBase")]
+        private DamageDecalDataBase bulletHolesDataBase;
+
+        private float maxDeviation;
+
         protected virtual void Start()
         {
-            if (!CameraOrigin)
-                CameraOrigin = Camera.main;
+            if (!cameraOrigin)
+                cameraOrigin = Camera.main;
             GetComponent<ShootingWeapon>().OnShootRaycast = null;
             GetComponent<ShootingWeapon>().OnShootRaycast += OnShootRaycast;
-            maxDeviation = GetComponent<ShootingWeapon>().gunData.MaxDeviation;
+            maxDeviation = GetComponent<ShootingWeapon>().GunData.MaxDeviation;
             if (!bulletHolesDataBase)
                 bulletHolesDataBase = GameObject.Find(MainWeaponConstants.DAMAGE_DECALS_DATA_BASE).GetComponent<DamageDecalDataBase>();
         }
@@ -32,13 +33,15 @@ namespace WeaponNS.ShootingWeaponNS
             float angle = UnityEngine.Random.Range(0f, 360f);
             forwardVector = Quaternion.AngleAxis(deviation, Vector3.up) * forwardVector;
             forwardVector = Quaternion.AngleAxis(angle, Vector3.forward) * forwardVector;
-            forwardVector = CameraOrigin.transform.rotation * forwardVector;
-            if (Physics.Raycast(CameraOrigin.transform.position, forwardVector, out RaycastHit hitInfo, gunData.MaxDistance, ~WhatIsRayCastIgnore))
-            {
-                IDamageable damageable = IDamageable.GetDamageableFromGameObject(hitInfo.transform.gameObject);
-                damageable?.TakeDamage(new TakeDamageData(damageable, gunData.Damage, gunData.Force, new HitData(hitInfo), GameObject.Find(MyConstants.CommonConstants.PLAYER)));
-                bulletHolesDataBase.MakeBulletHoleByInfo(hitInfo, CameraOrigin.transform.position, gunData.WeaponEntity);
-            }
+            forwardVector = cameraOrigin.transform.rotation * forwardVector;
+            if (Physics.Raycast(cameraOrigin.transform.position, forwardVector, out RaycastHit hitInfo, gunData.MaxDistance, ~whatIsRayCastIgnore))
+                OnRaycastHit(hitInfo, gunData);
+        }
+        protected virtual void OnRaycastHit(RaycastHit hitInfo, GunData gunData)
+        {
+            IDamageable damageable = IDamageable.GetDamageableFromGameObject(hitInfo.transform.gameObject);
+            damageable?.TakeDamage(new TakeDamageData(damageable, gunData.Damage, gunData.Force, new HitData(hitInfo), gameObject));
+            bulletHolesDataBase?.MakeBulletHoleByInfo(hitInfo, cameraOrigin.transform.position, gunData.WeaponEntity);
         }
     }
 }

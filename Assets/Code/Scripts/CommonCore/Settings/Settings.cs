@@ -12,16 +12,16 @@ namespace SettingsNS
         }
         public delegate void VolumeChangeEvent();
         static public VolumeChangeEvent OnVolumeChangeEvent;
-        public static float GetVolumeOfType(AudioKind audioType, bool masterScale = true)
+        public static float GetVolumeOfType(AudioKind audioType)
         {
             switch (audioType)
             {
                 case AudioKind.Sound:
-                    return masterScale ? SoundVolume * MasterVolume : SoundVolume;
+                    return SoundVolume;
                 case AudioKind.Music:
-                    return masterScale ? MusicVolume * MasterVolume : MusicVolume;
+                    return MusicVolume;
                 case AudioKind.SFX:
-                    return masterScale ? SFXVolume * MasterVolume : SFXVolume;
+                    return SFXVolume;
                 default:
                     return 1f;
             }

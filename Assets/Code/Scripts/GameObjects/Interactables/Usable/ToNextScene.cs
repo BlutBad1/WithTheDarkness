@@ -45,7 +45,7 @@ namespace ScenesManagementNS
             {
                 SceneDeterminant sceneManager = GameObject.Find(MyConstants.SceneConstants.PROGRESS_MANAGER).GetComponent<SceneDeterminant>();
                 if (sceneManager)
-                    Loader.Load(sceneManager.GetRandomScene(sceneManager.NextScenes, sceneManager.NextScenesSpawnChances));
+                    Loader.Load(sceneManager.GetRandomNextScene());
                 else
                     Loader.Load(MyConstants.SceneConstants.MAIN_MENU);
             }
