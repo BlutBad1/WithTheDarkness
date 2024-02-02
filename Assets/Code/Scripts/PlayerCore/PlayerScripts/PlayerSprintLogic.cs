@@ -1,42 +1,52 @@
 using SoundNS;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 namespace PlayerScriptsNS
 {
     [RequireComponent(typeof(PlayerMotor))]
     public class PlayerSprintLogic : MonoBehaviour
     {
-        public float SprintingTime = 5f;
-        public float TimeBeforeRestore = 5f;
-        public float StaminaRestoreMultiplier = 1.5f;
-        [Header("Audio Effect")]
-        public float PercentWhenEnableAudioEffect = 10f; // When will breathing start work
-        public Sound StaminaLackSound;
+        [SerializeField, FormerlySerializedAs("SprintingTime")]
+        private float sprintingTime = 5f;
+        [SerializeField, FormerlySerializedAs("TimeBeforeRestore")]
+        private float timeBeforeRestore = 5f;
+        [SerializeField, FormerlySerializedAs("StaminaRestoreMultiplier")]
+        private float staminaRestoreMultiplier = 1.5f;
+        [Header("Audio Effect"), SerializeField, FormerlySerializedAs("PercentWhenEnableAudioEffect")]
+        private float percentWhenEnableAudioEffect = 10f; // When will breathing start work
+        [SerializeField, FormerlySerializedAs("StaminaLackSound")]
+        private Sound staminaLackSound;
+        [SerializeField, FormerlySerializedAs("CurrentTime"), Min(0)]
+        private float currentTime = 0f;
+
         protected PlayerMotor motor;
         protected AudioSourceManager audioSourceManager;
-        [Min(0)]
-        protected float currentTime = 0f;
         protected Coroutine currentStartSprintCoroutine = null;
         protected Coroutine currentStaminaRestoreCoroutine = null;
         private bool isActive = false;
+
+        public float SprintingTime { get => sprintingTime; set => sprintingTime = value; }
+
         private void Start()
         {
             AudioSource audioSource = gameObject.AddComponent<AudioSource>();
-            audioSource.pitch = StaminaLackSound.pitch;
-            audioSource.loop = StaminaLackSound.loop;
-            audioSource.clip = StaminaLackSound.clip;
-            audioSource.volume = StaminaLackSound.volume;
-            StaminaLackSound.source = audioSource;
+            audioSource.pitch = staminaLackSound.pitch;
+            audioSource.loop = staminaLackSound.loop;
+            audioSource.clip = staminaLackSound.clip;
+            audioSource.volume = staminaLackSound.volume;
+            staminaLackSound.source = audioSource;
             audioSourceManager = gameObject.AddComponent<AudioSourceManager>();
-            audioSource.outputAudioMixerGroup = MixerVolumeChanger.Instance.GetAudioMixerGroup(StaminaLackSound.audioKind);
+            audioSource.outputAudioMixerGroup = MixerVolumeChanger.Instance.GetAudioMixerGroup(staminaLackSound.audioKind);
             audioSourceManager.SetAudioSource(audioSource);
         }
         private void Update()
         {
-            if (currentTime >= SprintingTime * PercentWhenEnableAudioEffect / 100)
+            if (currentTime >= SprintingTime * percentWhenEnableAudioEffect / 100)
             {
-                float soundVolumeCoef = (currentTime - SprintingTime * PercentWhenEnableAudioEffect / 100) /
-                    (SprintingTime - SprintingTime * PercentWhenEnableAudioEffect / 100);
+                float soundVolumeCoef = (currentTime - SprintingTime * percentWhenEnableAudioEffect / 100) /
+                    (SprintingTime - SprintingTime * percentWhenEnableAudioEffect / 100);
                 //Example:
                 //currentTime >= 10% :
                 //  soundVolumeCoef = (currentTime - 10% of SprintingTime) / (SprintingTime - 10% of SprintingTime)
@@ -45,7 +55,7 @@ namespace PlayerScriptsNS
                 //currentTime == 4 it will work on 1/3 volume 
                 //currentTime == 10 it will work of full volume
                 soundVolumeCoef = Mathf.Clamp01(soundVolumeCoef);
-                audioSourceManager.ChangeAudioSourceVolume(StaminaLackSound.volume * soundVolumeCoef);
+                audioSourceManager.ChangeAudioSourceVolume(staminaLackSound.volume * soundVolumeCoef);
                 if (!isActive)
                     audioSourceManager.PlayAudioSource();
                 isActive = true;
@@ -67,7 +77,7 @@ namespace PlayerScriptsNS
             motor.OnSprintStartEvent -= OnSprintStart;
             motor.OnSprintCanceltEvent -= OnSprintCancel;
         }
-        public void OnSprintStart()
+        private void OnSprintStart()
         {
             if (currentStaminaRestoreCoroutine != null && currentTime <= SprintingTime)
             {
@@ -78,7 +88,7 @@ namespace PlayerScriptsNS
                 return;
             currentStartSprintCoroutine = StartCoroutine(SprintStartCoroutine());
         }
-        public void OnSprintCancel()
+        private void OnSprintCancel()
         {
             if (currentStartSprintCoroutine != null)
             {
@@ -105,10 +115,10 @@ namespace PlayerScriptsNS
         }
         private IEnumerator SprintStaminaRestore()
         {
-            yield return new WaitForSeconds(TimeBeforeRestore);
+            yield return new WaitForSeconds(timeBeforeRestore);
             while (currentTime > 0)
             {
-                currentTime -= StaminaRestoreMultiplier * Time.deltaTime;
+                currentTime -= staminaRestoreMultiplier * Time.deltaTime;
                 yield return null;
             }
         }

@@ -1,19 +1,26 @@
 using HudNS;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 namespace InteractableNS.Common
 {
     [RequireComponent(typeof(Interactable))]
-    public class WriteInfoByInteractable : MonoBehaviour
+    public class WriteInfoByInteractable : Interactable
     {
-        [SerializeField]
-        public string Message;
-        [SerializeField]
-        public float DisapperingSpeed;
-        public void WriteInformationMessage()
+        [SerializeField, FormerlySerializedAs("Message")]
+        private string message;
+        [SerializeField, FormerlySerializedAs("DisapperingSpeed")]
+        private float disapperingSpeed;
+
+        protected override void Interact()
         {
-            MessagePrint messagePrint = UtilitiesNS.Utilities.GetComponentFromGameObject<MessagePrint>(GetComponent<Interactable>().LastWhoInteracted.gameObject);
+            WriteInformationMessage();
+        }
+        private void WriteInformationMessage()
+        {
+            MessagePrint messagePrint = UtilitiesNS.Utilities.GetComponentFromGameObject<MessagePrint>(lastWhoInteracted.gameObject);
             if (messagePrint)
-                messagePrint.PrintMessage(Message, DisapperingSpeed);
+                messagePrint.PrintMessage(message, disapperingSpeed);
         }
     }
 }

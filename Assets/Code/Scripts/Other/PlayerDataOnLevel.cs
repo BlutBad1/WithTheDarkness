@@ -11,40 +11,46 @@ namespace Data.Player
 {
     public class PlayerDataOnLevel : MonoBehaviour
     {
-        public PlayerData PlayerData;
-        [Header("Player Stats")]
-        [Min(0)]
-        public float Health = 100;
-        public float TimeAfterHitToRegen = 3f;
-        public float InvincibilityTime = 1f;
-        [Min(0)]
-        public float PlayerInteracteDistance = 3f;
-        [Min(0)]
-        public float DefaultSpeed = 5f;
-        [Min(0)]
-        public float SprintingSpeed = 5f;
-        [Min(0)]
-        public float SprintingTime = 5f;
-        //[Min(0)]
-        //public float TimeBeforeStaminaRestore = 5f;
-        //[Min(0)]
-        //public float StaminaRestoreMultiplier = 1f;
-        [Header("WeaponData")]
-        public SerializableActiveWeapon ActiveWeapons;
-        public ActiveWeapon ActiveWeaponData;
-        public MeleeDurabilityDataObject[] MeleeDurabilityData;
-        [FormerlySerializedAs("GunObjects")]
-        public CurrentAmmoDataObject[] CurrentAmmoData;
-        [FormerlySerializedAs("AmmoObjects")]
-        public ReserveAmmoDataObject[] ReserveAmmoData;
-        [Header("Light"), Min(0)]
-        public float GlowTime = 100f;
-        [Min(0)]
-        public float MaxGlowTime = 100f;
-        public float LightIntensity = 2.5f;
-        public float LightRange = 22;
-        public float LightUpRange = 20;
-        public float LightUpSpotAngle = 60;
+        [SerializeField, FormerlySerializedAs("PlayerData")]
+        private PlayerData playerData;
+        [Header("Player Stats"), SerializeField, FormerlySerializedAs("Health"), Min(0)]
+        private float health = 100;
+        [SerializeField, FormerlySerializedAs("TimeAfterHitToRegen")]
+        private float timeAfterHitToRegen = 3f;
+        [SerializeField, FormerlySerializedAs("InvincibilityTime")]
+        private float invincibilityTime = 1f;
+        [SerializeField, FormerlySerializedAs("PlayerInteracteDistance"), Min(0)]
+        private float playerInteracteDistance = 3f;
+        [SerializeField, FormerlySerializedAs("DefaultSpeed"), Min(0)]
+        private float defaultSpeed = 5f;
+        [SerializeField, FormerlySerializedAs("SprintingSpeed"), Min(0)]
+        private float sprintingSpeed = 5f;
+        [SerializeField, FormerlySerializedAs("SprintingTime"), Min(0)]
+        private float sprintingTime = 5f;
+        [Header("WeaponData"), SerializeField, FormerlySerializedAs("ActiveWeapons")]
+        private SerializableActiveWeapon activeWeapons;
+        [SerializeField, FormerlySerializedAs("ActiveWeaponData")]
+        private ActiveWeapon activeWeaponData;
+        [SerializeField, FormerlySerializedAs("MeleeDurabilityData")]
+        private MeleeDurabilityDataObject[] meleeDurabilityData;
+        [SerializeField, FormerlySerializedAs("CurrentAmmoData")]//
+        private CurrentAmmoDataObject[] currentAmmoData;
+        [SerializeField, FormerlySerializedAs("ReserveAmmoData")]//
+        private ReserveAmmoDataObject[] reserveAmmoData;
+        [Header("Light"), SerializeField, FormerlySerializedAs("GlowTime"), Min(0)]
+        private float glowTime = 100f;
+        [Header("Light"), SerializeField, FormerlySerializedAs("MaxGlowTime"), Min(0)]
+        private float maxGlowTime = 100f;
+        [SerializeField, FormerlySerializedAs("LightIntensity")]
+        private float lightIntensity = 2.5f;
+        [SerializeField, FormerlySerializedAs("LightRange")]
+        private float lightRange = 22;
+        [SerializeField, FormerlySerializedAs("LightUpRange")]
+        private float lightUpRange = 20;
+        [SerializeField, FormerlySerializedAs("LightUpSpotAngle")]
+        private float lightUpSpotAngle = 60;
+
+        public PlayerData PlayerData { get => playerData; set => playerData = value; }
 
         private void Awake()
         {
@@ -55,30 +61,30 @@ namespace Data.Player
         }
         private void GetDataFromScriptableObject()
         {
-            if (PlayerData)
+            if (playerData)
             {
-                PlayerData copiedPlayerData = PlayerData.GetCoppiedValues();
+                PlayerData copiedPlayerData = playerData.GetCoppiedValues();
                 //Player
-                Health = copiedPlayerData.Health;
-                TimeAfterHitToRegen = copiedPlayerData.TimeAfterHitToRegen;
-                InvincibilityTime = copiedPlayerData.InvincibilityTime;
-                PlayerInteracteDistance = copiedPlayerData.PlayerInteracteDistance;
-                DefaultSpeed = copiedPlayerData.DefaultSpeed;
-                SprintingSpeed = copiedPlayerData.SprintingSpeed;
-                SprintingTime = copiedPlayerData.SprintingTime;
+                health = copiedPlayerData.Health;
+                timeAfterHitToRegen = copiedPlayerData.TimeAfterHitToRegen;
+                invincibilityTime = copiedPlayerData.InvincibilityTime;
+                playerInteracteDistance = copiedPlayerData.PlayerInteracteDistance;
+                defaultSpeed = copiedPlayerData.DefaultSpeed;
+                sprintingSpeed = copiedPlayerData.SprintingSpeed;
+                sprintingTime = copiedPlayerData.SprintingTime;
                 //Weapon
-                ActiveWeapons = copiedPlayerData.ActiveWeapons;
-                ActiveWeaponData = copiedPlayerData.ActiveWeaponData;
-                MeleeDurabilityData = copiedPlayerData.MeleeDurabilityData;
-                CurrentAmmoData = copiedPlayerData.CurrentAmmoData;
-                ReserveAmmoData = copiedPlayerData.ReserveAmmoData;
+                activeWeapons = copiedPlayerData.ActiveWeapons;
+                activeWeaponData = copiedPlayerData.ActiveWeaponData;
+                meleeDurabilityData = copiedPlayerData.MeleeDurabilityData;
+                currentAmmoData = copiedPlayerData.CurrentAmmoData;
+                reserveAmmoData = copiedPlayerData.ReserveAmmoData;
                 //Light
-                GlowTime = copiedPlayerData.GlowTime;
-                MaxGlowTime = copiedPlayerData.MaxGlowTime;
-                LightIntensity = copiedPlayerData.LightIntensity;
-                LightRange = copiedPlayerData.LightRange;
-                LightUpRange = copiedPlayerData.LightUpRange;
-                LightUpSpotAngle = copiedPlayerData.LightUpSpotAngle;
+                glowTime = copiedPlayerData.GlowTime;
+                maxGlowTime = copiedPlayerData.MaxGlowTime;
+                lightIntensity = copiedPlayerData.LightIntensity;
+                lightRange = copiedPlayerData.LightRange;
+                lightUpRange = copiedPlayerData.LightUpRange;
+                lightUpSpotAngle = copiedPlayerData.LightUpSpotAngle;
             }
         }
         private void InitializePlayerStats()
@@ -86,35 +92,31 @@ namespace Data.Player
             PlayerHealth[] health = GameObject.FindObjectsOfType<PlayerHealth>();
             foreach (var h in health)
             {
-                h.Health = Health;
-                h.TimeAfterHitToRegen = TimeAfterHitToRegen;
-                h.InvincibilityTime = InvincibilityTime;
+                h.Health = this.health;
+                h.TimeAfterHitToRegen = timeAfterHitToRegen;
+                h.InvincibilityTime = invincibilityTime;
             }
             PlayerInteract[] interacts = GameObject.FindObjectsOfType<PlayerInteract>();
             foreach (var interacte in interacts)
-                interacte.InteracteDistance = PlayerInteracteDistance;
+                interacte.InteracteDistance = playerInteracteDistance;
             PlayerMotor[] playerMotors = GameObject.FindObjectsOfType<PlayerMotor>();
             foreach (var motor in playerMotors)
             {
-                motor.DefaultSpeed = DefaultSpeed;
-                motor.SprintingSpeed = SprintingSpeed;
+                motor.defaultSpeed = defaultSpeed;
+                motor.sprintingSpeed = sprintingSpeed;
             }
             PlayerSprintLogic[] playerSprintLogic = GameObject.FindObjectsOfType<PlayerSprintLogic>();
             foreach (var sprint in playerSprintLogic)
-            {
-                sprint.SprintingTime = SprintingTime;
-                //sprint.TimeBeforeRestore = TimeBeforeStaminaRestore;
-                //sprint.StaminaRestoreMultiplier = StaminaRestoreMultiplier;
-            }
+                sprint.SprintingTime = sprintingTime;
         }
         private void InitializeWeapon()
         {
-            ActiveWeaponData.ActiveWeapons = ActiveWeapons;
-            foreach (var durabilityData in MeleeDurabilityData)
+            activeWeaponData.ActiveWeapons = activeWeapons;
+            foreach (var durabilityData in meleeDurabilityData)
                 durabilityData.SetData();
-            foreach (var weaponData in CurrentAmmoData)
+            foreach (var weaponData in currentAmmoData)
                 weaponData.SetData();
-            foreach (var ammoData in ReserveAmmoData)
+            foreach (var ammoData in reserveAmmoData)
                 ammoData.SetData();
         }
         private void LightInitazlie()
@@ -123,20 +125,20 @@ namespace Data.Player
 
             foreach (var lightGlowTimer in lightGlowTimers)
             {
-                lightGlowTimer.CurrentTimeLeftToGlow = GlowTime;
-                lightGlowTimer.MaxTimeOfGlowing = MaxGlowTime;
+                lightGlowTimer.CurrentTimeLeftToGlow = glowTime;
+                lightGlowTimer.MaxTimeOfGlowing = maxGlowTime;
             }
             PlayerMainLampLight[] playerMainLampLights = GameObject.FindObjectsOfType<PlayerMainLampLight>();
             foreach (var playerMainLampLight in playerMainLampLights)
             {
-                playerMainLampLight.SpotLight.range = LightRange;
-                playerMainLampLight.SpotLight.intensity = LightIntensity;
+                playerMainLampLight.SpotLight.range = lightRange;
+                playerMainLampLight.SpotLight.intensity = lightIntensity;
             }
             PlayerLightUp[] playerLightUp = GameObject.FindObjectsOfType<PlayerLightUp>();
             foreach (var pLU in playerLightUp)
             {
-                pLU.LightUpRange = LightUpRange;
-                pLU.LightUpSpotAngle = LightUpSpotAngle;
+                pLU.LightUpRange = lightUpRange;
+                pLU.LightUpSpotAngle = lightUpSpotAngle;
             }
         }
     }
@@ -149,48 +151,48 @@ namespace Data.Player
             //DrawDefaultInspector(); // for other non-HideInInspector fields
             PlayerDataOnLevel script = (PlayerDataOnLevel)target;
             SerializedProperty property;
-            property = serializedObject.FindProperty("PlayerData");
+            property = serializedObject.FindProperty("playerData");
             EditorGUILayout.PropertyField(property, new GUIContent("PlayerData"), true);
             if (!script.PlayerData)
             {
                 //PlayerStats
-                property = serializedObject.FindProperty("Health");
+                property = serializedObject.FindProperty("health");
                 EditorGUILayout.PropertyField(property, new GUIContent("Health"), true);
-                property = serializedObject.FindProperty("TimeAfterHitToRegen");
+                property = serializedObject.FindProperty("timeAfterHitToRegen");
                 EditorGUILayout.PropertyField(property, new GUIContent("TimeAfterHitToRegen"), true);
-                property = serializedObject.FindProperty("InvincibilityTime");
+                property = serializedObject.FindProperty("invincibilityTime");
                 EditorGUILayout.PropertyField(property, new GUIContent("InvincibilityTime"), true);
-                property = serializedObject.FindProperty("PlayerInteracteDistance");
+                property = serializedObject.FindProperty("playerInteracteDistance");
                 EditorGUILayout.PropertyField(property, new GUIContent("PlayerInteracteDistance"), true);
-                property = serializedObject.FindProperty("DefaultSpeed");
+                property = serializedObject.FindProperty("defaultSpeed");
                 EditorGUILayout.PropertyField(property, new GUIContent("DefaultSpeed"), true);
-                property = serializedObject.FindProperty("SprintingSpeed");
+                property = serializedObject.FindProperty("sprintingSpeed");
                 EditorGUILayout.PropertyField(property, new GUIContent("SprintingSpeed"), true);
-                property = serializedObject.FindProperty("SprintingTime");
+                property = serializedObject.FindProperty("sprintingTime");
                 EditorGUILayout.PropertyField(property, new GUIContent("SprintingTime"), true);
                 //WeaponData
-                property = serializedObject.FindProperty("ActiveWeapons");
+                property = serializedObject.FindProperty("activeWeapons");
                 EditorGUILayout.PropertyField(property, new GUIContent("ActiveWeapons"), true);
-                property = serializedObject.FindProperty("ActiveWeaponData");
+                property = serializedObject.FindProperty("activeWeaponData");
                 EditorGUILayout.PropertyField(property, new GUIContent("ActiveWeaponData"), true);
-                property = serializedObject.FindProperty("MeleeDurabilityData");
+                property = serializedObject.FindProperty("meleeDurabilityData");
                 EditorGUILayout.PropertyField(property, new GUIContent("MeleeDurabilityData"), true);
-                property = serializedObject.FindProperty("CurrentAmmoData");
+                property = serializedObject.FindProperty("currentAmmoData");
                 EditorGUILayout.PropertyField(property, new GUIContent("CurrentAmmoData"), true);
-                property = serializedObject.FindProperty("ReserveAmmoData");
+                property = serializedObject.FindProperty("reserveAmmoData");
                 EditorGUILayout.PropertyField(property, new GUIContent("ReserveAmmoData"), true);
                 //LightData
-                property = serializedObject.FindProperty("GlowTime");
+                property = serializedObject.FindProperty("glowTime");
                 EditorGUILayout.PropertyField(property, new GUIContent("GlowTime"), true);
-                property = serializedObject.FindProperty("MaxGlowTime");
+                property = serializedObject.FindProperty("maxGlowTime");
                 EditorGUILayout.PropertyField(property, new GUIContent("MaxGlowTime"), true);
-                property = serializedObject.FindProperty("LightIntensity");
+                property = serializedObject.FindProperty("lightIntensity");
                 EditorGUILayout.PropertyField(property, new GUIContent("LightIntensity"), true);
-                property = serializedObject.FindProperty("LightRange");
+                property = serializedObject.FindProperty("lightRange");
                 EditorGUILayout.PropertyField(property, new GUIContent("LightRange"), true);
-                property = serializedObject.FindProperty("LightUpRange");
+                property = serializedObject.FindProperty("lightUpRange");
                 EditorGUILayout.PropertyField(property, new GUIContent("LightUpRange"), true);
-                property = serializedObject.FindProperty("LightUpSpotAngle");
+                property = serializedObject.FindProperty("lightUpSpotAngle");
                 EditorGUILayout.PropertyField(property, new GUIContent("LightUpSpotAngle"), true);
             }
             serializedObject.ApplyModifiedProperties();

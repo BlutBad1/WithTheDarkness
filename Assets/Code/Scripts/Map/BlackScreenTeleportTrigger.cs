@@ -68,7 +68,7 @@ namespace LocationManagementNS
                 if (currentDisolveCoroutines.ContainsKey(gameObjectToTeleport) && currentDisolveCoroutines[gameObjectToTeleport] != null)
                     return;
                 if (((int)ObjectToTeleport & (1 << Utilities.GetIndexOfElementInEnum(TypeObjectToTeleport.Creature))) != 0
-                    && ICreature.GetICreatureComponent(gameObjectToTeleport) != null)
+                    && Utilities.GetComponentFromGameObject<ICreature>(gameObjectToTeleport) != null)
                 {
                     currentTeleportCoroutines[gameObjectToTeleport] = StartCoroutine(Teleport(gameObjectToTeleport, false));
                     currentDisolveCoroutines[gameObjectToTeleport] = StartCoroutine(DissolveTeleportEffectForNonPlayer(gameObjectToTeleport));
@@ -122,7 +122,7 @@ namespace LocationManagementNS
         private IEnumerator Teleport(GameObject gameObjectToTeleport, bool isPlayer)
         {
             float timeElapsed = 0f;
-            ICreature creature = ICreature.GetICreatureComponent(gameObjectToTeleport);
+            ICreature creature = Utilities.GetComponentFromGameObject<ICreature>(gameObjectToTeleport);
             while ((dimming?.BlackScreen.color.a < 1f && isPlayer) || timeElapsed < spawnAfter)
             {
                 timeElapsed += Time.deltaTime;
@@ -151,7 +151,7 @@ namespace LocationManagementNS
             if (isPlayer)
                 dimming?.DimmingDisable();
             if (creature != null)
-                creature.UnBlockMovement();
+                creature.UnblockMovement();
             if (isConnectedToMapData)
             {
                 GameObject thisLoc = MapData.Instance.GetLocationByIndex(thisLocIndex).MapData;

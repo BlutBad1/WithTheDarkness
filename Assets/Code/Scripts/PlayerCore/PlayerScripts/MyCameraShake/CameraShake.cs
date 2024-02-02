@@ -5,22 +5,26 @@ namespace PlayerScriptsNS
     public class CameraShake : MonoBehaviour
     {
         [SerializeField]
-        public float magnitude;
+        private float magnitude;
         [SerializeField]
-        public float roughness;
+        private float roughness;
         [SerializeField]
-        public float fadeInTime;
+        private float fadeInTime;
         [SerializeField]
-        public float fadeOutTime;
+        private float fadeOutTime;
+
+        public float Magnitude { get => magnitude; }
+        public float Roughness { get => roughness; }
+
         public void FooCameraShake()
         {
             foreach (var shaker in CameraShaker.AllShakeInstances)
-                shaker.ShakeOnce(magnitude, roughness, fadeInTime, fadeOutTime);
+                shaker.ShakeOnce(Magnitude, Roughness, fadeInTime, fadeOutTime);
         }
         public void FooCameraShake(float coeffOfShaking)
         {
             foreach (var shaker in CameraShaker.AllShakeInstances)
-                shaker.ShakeOnce(magnitude * coeffOfShaking, roughness * coeffOfShaking, fadeInTime, fadeOutTime);
+                shaker.ShakeOnce(Magnitude * coeffOfShaking, Roughness * coeffOfShaking, fadeInTime, fadeOutTime);
         }
         public void FooCameraShake(float magnitude, float roughness, float fadeInTime, float fadeOutTime)
         {

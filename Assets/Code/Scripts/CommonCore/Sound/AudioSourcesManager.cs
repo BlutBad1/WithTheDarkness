@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UtilitiesNS;
 
 namespace SoundNS
@@ -22,6 +23,7 @@ namespace SoundNS
     }
     public class AudioSourcesManager : AudioSetup
     {
+        [SerializeField, FormerlySerializedAs("AudioSourceObjects")]
         public AudioSourceObject[] AudioSourceObjects;
         private Dictionary<AudioSource, Coroutine> currentCoroutines;
         private void Start() =>

@@ -4,43 +4,51 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 namespace EnemyNS.Death
 {
     public class FadeOutRagdollSpawn : EnemyDeadEvent
     {
-        public RagdollEnabler RagdollEnabler;
-        public Dissolve Dissolve;
-        [Tooltip("Delay to fade out.")]
-        public float FadeOutDelay = 1f;
-        [Tooltip("Fade out time.")]
-        public float FadeOutTime = 0.05f;
-        [Tooltip("At what point does the ragdoll dissolve turn off."), Range(-1, 1)]
-        public float WhenDisableRagdoll = 0f;
-        protected Coroutine fadeOutCoroutine;
-        protected bool isEnabled = false;
-        public GameObject MainGameObjectBody;
-        public GameObject FadeOutRagdollBody;
-        private void OnDisable()
+        [SerializeField, FormerlySerializedAs("RagdollEnabler")]
+        private RagdollEnabler ragdollEnabler;
+        [SerializeField, FormerlySerializedAs("Dissolve")]
+        private Dissolve dissolve;
+        [SerializeField, FormerlySerializedAs("FadeOutDelay"), Tooltip("Time before the object will start to fade out.")]
+        private float fadeOutDelay = 1f;
+        [SerializeField, FormerlySerializedAs("FadeOutTime"), Tooltip("How much time the object need to full fade out.")]
+        private float fadeOutTime = 0.05f;
+        [SerializeField, FormerlySerializedAs("WhenDisableRagdoll"), Tooltip("At what point does the ragdoll dissolve turn off."), Range(-1, 1)]
+        private float whenDisableRagdoll = 0f;
+        [SerializeField, FormerlySerializedAs("MainGameObjectBody")]
+        private GameObject mainGameObjectBody;
+        [SerializeField, FormerlySerializedAs("FadeOutRagdollBody")]
+        private GameObject fadeOutRagdollBody;
+
+        private Coroutine fadeOutCoroutine;
+        private bool isEnabled = false;
+
+        protected override void OnDisable()
         {
             if ((fadeOutCoroutine != null || isEnabled) && gameObject.scene.IsValid())
                 gameObject.SetActive(false);
         }
-        public override void OnDead()
+        protected override void OnDeadEvent()
         {
-            base.OnDead();
+            base.OnDeadEvent();
             fadeOutCoroutine = StartCoroutine(FadeOutCoroutine());
             isEnabled = true;
-            List<Decal> decals = UtilitiesNS.Utilities.FindAllComponentsInGameObject<Decal>(MainGameObjectBody);
+            List<Decal> decals = UtilitiesNS.Utilities.FindAllComponentsInGameObject<Decal>(mainGameObjectBody);
             foreach (Decal decal in decals)
                 MoveDecal(decal);
-            MainGameObjectBody.SetActive(false);
-            FadeOutRagdollBody.SetActive(true);
+            mainGameObjectBody.SetActive(false);
+            fadeOutRagdollBody.SetActive(true);
         }
         private void MoveDecal(Decal decal)
         {
             // Get the original path within the hierarchy
             string originalPath = GetGameObjectPath(decal.gameObject);
-            string newPath = originalPath.Replace($"/{MainGameObjectBody.name}/", "~").Replace("/" + decal.gameObject.name, "");
+            string newPath = originalPath.Replace($"/{mainGameObjectBody.name}/", "~").Replace("/" + decal.gameObject.name, "");
             ParticleSystem[] enabledPaticles = UtilitiesNS.Utilities.FindAllComponentsInGameObject<ParticleSystem>(decal.gameObject).Where(x => x.isPlaying).ToArray();
             newPath = newPath.Remove(0, newPath.IndexOf("~") + 1);
             Transform newTransform = FindTransformByPath(newPath);
@@ -61,7 +69,7 @@ namespace EnemyNS.Death
         }
         private Transform FindTransformByPath(string path)
         {
-            Transform foundTransform = FadeOutRagdollBody.transform.Find(path.Substring(0, path.IndexOf("/") < 0 ? path.Length : path.IndexOf("/"))), nextTransform;
+            Transform foundTransform = fadeOutRagdollBody.transform.Find(path.Substring(0, path.IndexOf("/") < 0 ? path.Length : path.IndexOf("/"))), nextTransform;
             nextTransform = foundTransform;
             // If the transform is not found, iteratively remove the last part of the path until found
             while (nextTransform != null && path.Length > 0)
@@ -74,13 +82,13 @@ namespace EnemyNS.Death
         }
         private IEnumerator FadeOutCoroutine()
         {
-            yield return new WaitForSeconds(FadeOutDelay);
-            Dissolve.InitializeMat();
-            Dissolve.StartDissolving(FadeOutTime);
-            while (Dissolve.CurrentDissolve < 1)
+            yield return new WaitForSeconds(fadeOutDelay);
+            dissolve.InitializeMat();
+            dissolve.StartDissolving(fadeOutTime);
+            while (dissolve.CurrentDissolve < 1)
             {
-                if (Dissolve.CurrentDissolve >= WhenDisableRagdoll && RagdollEnabler.IsRagdollEnabled)
-                    RagdollEnabler.DisableAllRigidbodies();
+                if (dissolve.CurrentDissolve >= whenDisableRagdoll && ragdollEnabler.IsRagdollEnabled)
+                    ragdollEnabler.DisableAllRigidbodies();
                 yield return null;
             }
             gameObject.SetActive(false);

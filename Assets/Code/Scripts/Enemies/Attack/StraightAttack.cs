@@ -1,97 +1,84 @@
 using DamageableNS;
 using EnemyNS.Base;
-using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace EnemyNS.Attack
 {
-    public class StraightAttack : EnemyAttack
+    public class StraightAttack : EnemyStateAttack
     {
-        [HideInInspector]
-        public SphereCollider AttackColider;
-        public LayerMask WhatIsRayCastIgnore;
+        [SerializeField]
+        private SphereCollider attackColider;
+        [SerializeField, FormerlySerializedAs("WhatIsRayCastIgnore")]
+        private LayerMask whatIsRayCastIgnore;
+
         private float timeBetweenAttacks = 0;
-        protected new void Start()
+
+        protected void Start()
         {
-            base.Start();
-            if (!TryGetComponent(out AttackColider))
-            {
-                AttackColider = GetComponentInChildren(typeof(SphereCollider)) as SphereCollider;
-#if UNITY_EDITOR
-                if (AttackColider == null)
-                    Debug.LogError("SphereCollider is not found!");
-#endif
-            }
-            AttackColider.radius = AttackRadius;
-            AttackColider.enabled = false;
+            attackColider.radius = AttackRadius;
+            attackColider.enabled = false;
         }
         private void Update()
         {
             timeBetweenAttacks += Time.deltaTime;
         }
+        private void OnTriggerEnter(Collider other)
+        {
+            Attack(other);
+        }
         public override void StopAttack()
         {
             base.StopAttack();
-            AttackColider.enabled = false;
-        }
-        public void TryAttackAnim()
-        {
-            IsAttacking = true;
-            AttackColider.enabled = true;
+            attackColider.enabled = false;
         }
         public override void TryAttack()
         {
-            if (Enemy.Movement.State != EnemyState.UsingAbility)
+            StateInfo stateInfo = enemyStateHandler.GenerateStateInfo();
+            if (CanAttack() || stateInfo.State == EnemyState.UsingAbility)
                 base.TryAttack();
-            else
-                TryAttackAnim();
         }
-        public override bool CanAttack(GameObject creture)
+        public void AttackAnim() =>
+                attackColider.enabled = true;
+        protected override bool CanAttack()
         {
-            if (base.CanAttack(creture))
+            if (base.CanAttack())
             {
-                if (Enemy.Health > 0)
+                StateInfo stateInfo = enemyStateHandler.GenerateStateInfo();
+                Transform targetTransform = stateInfo.PursuedTarget.transform;
+                Vector3 origin = transform.position;
+                origin.y = (targetTransform.position.y + origin.y) / 2;
+                Ray ray = new Ray(origin, targetTransform.position - origin);
+                // if (Physics.SphereCast(ray, 0.3f, (player.transform.position - enemy.transform.position).magnitude, ~WhatIsRayCastIgnore))
+                if (Physics.Raycast(ray, out RaycastHit hit, (targetTransform.position - transform.position).magnitude, ~whatIsRayCastIgnore))
                 {
-                    Vector3 origin = transform.position;
-                    origin.y = (creture.transform.position.y + origin.y) / 2;
-                    Ray ray = new Ray(origin, creture.transform.position - origin);
-                    // if (Physics.SphereCast(ray, 0.3f, (player.transform.position - enemy.transform.position).magnitude, ~WhatIsRayCastIgnore))
-                    if (Physics.Raycast(ray, out RaycastHit hit, (creture.transform.position - transform.position).magnitude, ~WhatIsRayCastIgnore))
-                    {
-                        if (creture.layer != hit.collider.gameObject.layer)
-                            return false;
-                    }
-                    return true;
+                    if (stateInfo.PursuedTarget.layer != hit.collider.gameObject.layer)
+                        return false;
                 }
+                return true;
             }
-            StopAttack();
             return false;
         }
-        protected override IEnumerator Attack(IDamageable objectToDamage)
+        private void Attack(Collider other)
         {
-            WaitForSeconds Wait = new WaitForSeconds(AttackDelay);
-            while (objectToDamage != null)
-            {
-                OnAttack?.Invoke(objectToDamage);
-                yield return Wait;
-            }
-        }
-        private void OnTriggerEnter(Collider other)
-        {
-            ILastTouched ilt = other.GetComponent<ILastTouched>();
-            if (other.gameObject == Enemy.Movement.PursuedTarget && (!ilt || ilt && ilt.iLastEntered == AttackColider))
+            if (CheckColliderConditions(other))
             {
                 if (timeBetweenAttacks > AttackDelay)
                 {
-                    HitData hitData = new HitData((Enemy.Movement.PursuedTarget.transform.position - gameObject.transform.position).normalized);
+                    StateInfo stateInfo = enemyStateHandler.GenerateStateInfo();
+                    HitData hitData = new HitData((stateInfo.PursuedTarget.transform.position - gameObject.transform.position).normalized);
                     IDamageable damageable = UtilitiesNS.Utilities.GetComponentFromGameObject<IDamageable>(other.gameObject);
-                    TakeDamageData takeDamageData = new TakeDamageData(damageable, Damage, AttackForce,
-                    hitData, gameObject);
-                    if (IsAttacking && damageable != null)
+                    TakeDamageData takeDamageData = new TakeDamageData(damageable, Damage, AttackForce, hitData, gameObject);
+                    if (isAttacking && damageable != null)
                         damageable.TakeDamage(takeDamageData);
                     timeBetweenAttacks = 0;
                 }
             }
+        }
+        private bool CheckColliderConditions(Collider other)
+        {
+            StateInfo stateInfo = enemyStateHandler.GenerateStateInfo();
+            return other.gameObject == stateInfo.PursuedTarget;
         }
     }
 }

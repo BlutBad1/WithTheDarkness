@@ -1,6 +1,7 @@
 using InteractableNS.Pickups.PropNS;
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 using WeaponManagement;
 using WeaponNS;
 
@@ -8,32 +9,36 @@ namespace InteractableNS.Pickups
 {
     public class WeaponPickups : Interactable
     {
-        public WeaponEntity WeaponEntity;
-        public Prop Prop;
-        public Action ActionIfWeaponTypeIsNotOccupied;
-        public Action ActionIfWeaponTypeIsOccupiedBySame;
-        public Action ActionIfWeaponTypeIsOccupiedByOther;
+        [SerializeField, FormerlySerializedAs("WeaponEntity")]
+        protected WeaponEntity weaponEntity;
+        [SerializeField, FormerlySerializedAs("Prop")]
+        protected Prop prop;
+
+        protected Action actionIfWeaponTypeIsNotOccupied;
+        protected Action actionIfWeaponTypeIsOccupiedBySame;
+        protected Action actionIfWeaponTypeIsOccupiedByOther;
+
         protected virtual new void Start()
         {
             base.Start();
         }
         protected override void Interact()
         {
-            WeaponManager weaponManager = UtilitiesNS.Utilities.GetComponentFromGameObject<WeaponManager>(LastWhoInteracted.gameObject);
+            WeaponManager weaponManager = UtilitiesNS.Utilities.GetComponentFromGameObject<WeaponManager>(lastWhoInteracted.gameObject);
             if (weaponManager != null)
             {
-                Weapon thisWeapon = Array.Find(weaponManager.Weapons, x => x.WeaponData.WeaponEntity == WeaponEntity);
+                Weapon thisWeapon = Array.Find(weaponManager.Weapons, x => x.WeaponData.WeaponEntity == weaponEntity);
                 Weapon currentActiveWeapon = Array.Find(weaponManager.Weapons, x => x.WeaponData.WeaponType == thisWeapon.WeaponData.WeaponType && weaponManager.IsActiveWeapon(x.WeaponData));
                 if (currentActiveWeapon == null)
                 {
                     weaponManager.ChangeActiveWeapon(thisWeapon.WeaponData.WeaponType, thisWeapon.WeaponData);
-                    ActionIfWeaponTypeIsNotOccupied?.Invoke();
+                    actionIfWeaponTypeIsNotOccupied?.Invoke();
                 }
                 else if (thisWeapon == currentActiveWeapon)
-                    ActionIfWeaponTypeIsOccupiedBySame?.Invoke();
+                    actionIfWeaponTypeIsOccupiedBySame?.Invoke();
                 else
                 {
-                    Prop.PropBody.SetActive(false);
+                    prop.PropBody.SetActive(false);
                     Action methodToExecute = null;
                     methodToExecute = () =>
                     {
@@ -58,7 +63,7 @@ namespace InteractableNS.Pickups
             Transform newPropTran = null;
             foreach (var prop in props)
             {
-                if (prop.name.Contains(prefab.name) && prop != Prop)
+                if (prop.name.Contains(prefab.name) && prop != this.prop)
                 {
                     prop.PropBody.SetActive(true);
                     newPropTran = prop.gameObject.transform;
@@ -72,7 +77,7 @@ namespace InteractableNS.Pickups
             }
             newProp.transform.parent = propRoot.transform;
             transform.parent = propRoot.transform;
-            ActionIfWeaponTypeIsOccupiedByOther?.Invoke();
+            actionIfWeaponTypeIsOccupiedByOther?.Invoke();
             newProp.SetActive(true);
             gameObject.SetActive(false);
             return newProp;

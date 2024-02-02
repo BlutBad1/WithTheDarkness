@@ -1,26 +1,35 @@
 using PlayerScriptsNS;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace EnvironmentEffects.MatEffect.Highlight
 {
     public class DistanceHighlightEffect : HighlightEffect
     {
-        [Tooltip("Distance where effect starts to work")]
-        public float MinDistance = 10f;
-        public float MaxIntensity = 1f;
-        public float MinIntensity = 0f;
-        public float IntensityUpdateDelay = 0.1f;
-        protected float startDistanceOfEffect;
+
+        [SerializeField, FormerlySerializedAs("MinDistance"), Tooltip("Distance where effect starts to work")]
+        private float minDistance = 10f;
+        [SerializeField, FormerlySerializedAs("MaxIntensity")]
+        private float maxIntensity = 1f;
+        [SerializeField, FormerlySerializedAs("MinIntensity")]
+        private float minIntensity = 0f;
+        [SerializeField, FormerlySerializedAs("IntensityUpdateDelay")]
+        private float intensityUpdateDelay = 0.1f;
+
+        private float startDistanceOfEffect;
         private bool isEnable = true;
         private float currentIntensity;
         private GameObject player;
         private Coroutine currentCoroutine;
+
+        protected float MinDistance { get => minDistance; }
+        protected float StartDistanceOfEffect { get => startDistanceOfEffect; set => startDistanceOfEffect = value; }
+
         protected override void Start()
         {
-            startIntensity = MinIntensity;
-            startDistanceOfEffect = MinDistance;
-            //player = UtilitiesNS.Utilities.GetClosestComponent<PlayerCreature>(transform.position).gameObject;
+            startIntensity = minIntensity;
+            startDistanceOfEffect = minDistance;
             player = GameObject.FindAnyObjectByType<PlayerCreature>().gameObject;
             base.Start();
         }
@@ -52,14 +61,14 @@ namespace EnvironmentEffects.MatEffect.Highlight
             float previuslyIntensity = float.MinValue;
             while (Vector3.Distance(player.gameObject.transform.position, transform.position) <= startDistanceOfEffect)
             {
-                currentIntensity = Mathf.Lerp(MaxIntensity, MinIntensity, Vector3.Distance(player.gameObject.transform.position, transform.position) / startDistanceOfEffect);
+                currentIntensity = Mathf.Lerp(maxIntensity, minIntensity, Vector3.Distance(player.gameObject.transform.position, transform.position) / startDistanceOfEffect);
                 //Prevents to update same intensity
                 if (previuslyIntensity != currentIntensity)
                     SetIntensity(currentIntensity);
                 previuslyIntensity = currentIntensity;
-                yield return new WaitForSeconds(IntensityUpdateDelay);
+                yield return new WaitForSeconds(intensityUpdateDelay);
             }
-            SetIntensity(MinIntensity);
+            SetIntensity(minIntensity);
             currentCoroutine = null;
         }
     }

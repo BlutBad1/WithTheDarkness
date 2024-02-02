@@ -18,7 +18,7 @@ namespace InteractableNS.Pickups
             message = HUDConstants.AMMO_GET_MESSAGES[Random.Range(0, HUDConstants.AMMO_GET_MESSAGES.Length)] + $"{amountOfBulletsToAdd} bullets";
             base.Interact();
             gun.ReserveAmmoData.ReserveAmmo += amountOfBulletsToAdd;
-            ShowAmmo showAmmo = Utilities.GetComponentFromGameObject<ShowAmmo>(LastWhoInteracted.gameObject);
+            ShowAmmo showAmmo = Utilities.GetComponentFromGameObject<ShowAmmo>(lastWhoInteracted.gameObject);
             if (showAmmo)
                 showAmmo.ShowAmmoLeftOfWeapon(gun.WeaponEntity);
         }

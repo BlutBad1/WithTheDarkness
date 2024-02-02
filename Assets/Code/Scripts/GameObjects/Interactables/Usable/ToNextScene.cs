@@ -20,7 +20,7 @@ namespace ScenesManagementNS
         private BlackScreenDimming bSD;
         protected override void Interact()
         {
-            bSD = LastWhoInteracted.gameObject.transform.parent.GetComponentInChildren<BlackScreenDimming>();
+            bSD = lastWhoInteracted.gameObject.transform.parent.GetComponentInChildren<BlackScreenDimming>();
             if (bSD)
             {
                 bSD.FadeSpeed = BlackScreenFadeSpeed;
@@ -33,7 +33,7 @@ namespace ScenesManagementNS
         {
             if (UseAsTrigger)
             {
-                if (other.gameObject.TryGetComponent(out LastWhoInteracted))
+                if (other.gameObject.TryGetComponent(out lastWhoInteracted))
                     Interact();
             }
         }

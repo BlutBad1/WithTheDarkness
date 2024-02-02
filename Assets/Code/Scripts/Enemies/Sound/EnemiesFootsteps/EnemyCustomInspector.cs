@@ -40,10 +40,6 @@ namespace EnemyNS.Sound
             // Audio Source
             rect.y = rect.yMax + 2;
             EditorGUI.PropertyField(rect, audioSource);
-            // AudioType Volume
-            rect.y = rect.yMax + 2;
-            SerializedProperty audioKind = serializedObject.FindProperty("audioKind");
-            audioKind.intValue = EditorGUI.Popup(rect, "AudioKind", audioKind.intValue, Enum.GetNames(typeof(AudioKind)));
             // Min Volume
             rect.y = rect.yMax + 2;
             EditorGUI.PropertyField(rect, minVolume);

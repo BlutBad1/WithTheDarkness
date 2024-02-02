@@ -1,23 +1,24 @@
 using ScriptableObjectNS.Locking;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 namespace InteractableNS.Usable.Locking
 {
-    public class Lock : Interactable
+    public class Lock : Interactable, ILockingInteractable
     {
+        [SerializeField, HideInInspector]
+        private bool addKeyToRegularRequired = true;
         [SerializeField]
         private KeyData requiredKey;
-        [SerializeField]
-        private bool addKeyToRegularRequired = true;
-        [SerializeField, FormerlySerializedAs("isLocked")]
-        private bool isLocked = true;
-        [SerializeField, FormerlySerializedAs("OnUnlockEvent")]
+        [SerializeField, FormerlySerializedAs("IsLocked"), HideInInspector]
+        private bool isLocked = false;
+        [SerializeField, FormerlySerializedAs("OnUnlockEvent"), HideInInspector]
         private UnityEvent onUnlockEvent;
-        [SerializeField]
+        [SerializeField, HideInInspector]
         private UnityEvent onLockEvent; //When you lock a door
-        [SerializeField, FormerlySerializedAs("OnLockedEvent")]
+        [SerializeField, FormerlySerializedAs("OnLockedEvent"), HideInInspector]
         private UnityEvent onLockedEvent;
 
         protected KeysOnLevelManager keysOnLevelManager;
@@ -64,6 +65,11 @@ namespace InteractableNS.Usable.Locking
             isLocked = true;
             prevLockedState = true;
         }
+        public KeyData GetKeyData() =>
+            requiredKey;
+
+        public void SetKeyData(KeyData keyData) =>
+           requiredKey = keyData;
         protected override void Interact()
         {
             SetLockState();
@@ -90,4 +96,32 @@ namespace InteractableNS.Usable.Locking
                 onLockedEvent?.Invoke();
         }
     }
+#if UNITY_EDITOR
+    [CustomEditor(typeof(Lock))]
+    public class LockCustomEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector(); // for other non-HideInInspector fields
+            Lock script = (Lock)target;
+            SerializedProperty property;
+            //Locking Data
+            EditorGUILayout.Space();
+            property = serializedObject.FindProperty("addKeyToRegularRequired");
+            EditorGUILayout.PropertyField(property, new GUIContent("Add Key ToRegular Required"), true);
+            property = serializedObject.FindProperty("isLocked");
+            EditorGUILayout.PropertyField(property, new GUIContent("Is Locked"), true);
+            //Locking Settings
+            EditorGUILayout.Space();
+            EditorGUILayout.LabelField("Locking Events", EditorStyles.boldLabel);
+            property = serializedObject.FindProperty("onUnlockEvent");
+            EditorGUILayout.PropertyField(property, new GUIContent("On Unlock Event"), true);
+            property = serializedObject.FindProperty("onLockEvent");
+            EditorGUILayout.PropertyField(property, new GUIContent("On Lock Event"), true);
+            property = serializedObject.FindProperty("onLockedEvent");
+            EditorGUILayout.PropertyField(property, new GUIContent("On Locked Event"), true);
+            serializedObject.ApplyModifiedProperties();
+        }
+    }
+#endif
 }

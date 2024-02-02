@@ -1,33 +1,34 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 using static DamageableNS.IDamageable;
 
 namespace DamageableNS
 {
     public class Damageable : MonoBehaviour, IDamageable
     {
-        public event DamageWIthData OnTakeDamageWithDamageData;
-        public event DamageWithoutData OnTakeDamageWithoutDamageData;
-        public event DamageWithoutData OnDead;
-        /// <summary>
-        /// Current Health
-        /// </summary>
-        public float Health = 100;
-        public bool InvokeOnTakeDamageAfterDead = true;
-        [HideInInspector]
-        public float HealthOnStart;
-        [HideInInspector]
+        [SerializeField, FormerlySerializedAs("Health")]
+        private float health = 100;
+        [SerializeField, FormerlySerializedAs("InvokeOnTakeDamageAfterDead")]
+        private bool invokeOnTakeDamageAfterDead = true;
+
+        private float healthOnStart;
         private bool isDead = false;
+
         public bool IsDead
         {
             get { return isDead; }
             set { isDead = value; if (isDead) OnDead?.Invoke(); }
         }
-        /// <summary>
-        /// Health on Start
-        /// </summary>
+        public float Health { get => health; set => health = value; }
+        public float HealthOnStart { get => healthOnStart; }
+
+        public event DamageWIthData OnTakeDamageWithDamageData;
+        public event DamageWithoutData OnTakeDamageWithoutDamageData;
+        public event DamageWithoutData OnDead;
+
         protected void Start()
         {
-            HealthOnStart = Health;
+            healthOnStart = Health;
         }
         public virtual GameObject GetGameObject() =>
             gameObject;
@@ -43,7 +44,7 @@ namespace DamageableNS
             if (Health <= 0)
             {
                 IsDead = true;
-                if (!InvokeOnTakeDamageAfterDead)
+                if (!invokeOnTakeDamageAfterDead)
                 {
                     OnTakeDamageWithDamageData = null;
                     OnTakeDamageWithoutDamageData = null;

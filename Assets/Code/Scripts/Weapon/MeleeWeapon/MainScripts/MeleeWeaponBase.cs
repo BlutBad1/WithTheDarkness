@@ -101,7 +101,7 @@ namespace WeaponNS.MeleeWeaponNS
         {
             if (Physics.SphereCast(cameraOrigin.transform.position, meleeData.AttackRadius, cameraOrigin.transform.forward, out RaycastHit hitInfo, meleeData.AttackDistance, ~whatIsRayCastIgnore))
             {
-                IDamageable damageable = IDamageable.GetDamageableFromGameObject(hitInfo.transform.gameObject);
+                IDamageable damageable = UtilitiesNS.Utilities.GetComponentFromGameObject<IDamageable>(hitInfo.transform.gameObject);
                 if (damageable != null && !damageable.Equals(null))
                 {
                     damageable.TakeDamage(new TakeDamageData(damageable, meleeData.Damage * damageAndForceMultiplier, meleeData.Force * damageAndForceMultiplier, new HitData(hitInfo), GameObject.Find(MyConstants.CommonConstants.PLAYER)));

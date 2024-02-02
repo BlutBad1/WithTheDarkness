@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   availableKeys:
   - IsGeneric: 1
-    KeyName: 
-    GenericKeyName: main_exit
-    Amount: 2
+    KeyName: main_exit
+    Amount: 1
+  - IsGeneric: 1
+    KeyName: main_exit
+    Amount: 1

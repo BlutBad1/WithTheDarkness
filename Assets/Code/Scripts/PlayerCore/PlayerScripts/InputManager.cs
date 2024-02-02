@@ -1,44 +1,44 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace PlayerScriptsNS
 {
     [RequireComponent(typeof(PlayerMotor)), RequireComponent(typeof(PlayerLook)), DefaultExecutionOrder(-100)]
     public class InputManager : MonoBehaviour
     {
-        public PlayerInput.OnFootActions OnFoot;
-        public PlayerInput.UIActions UIActions;
+        [SerializeField, FormerlySerializedAs("OnFoot")]
+        private PlayerInput.OnFootActions onFoot;
+        [SerializeField, FormerlySerializedAs("UIActions")]
+        private PlayerInput.UIActions uIActions;
+
         private PlayerInput playerInput;
         private PlayerMotor motor;
         private PlayerLook look;
         private bool IsMovingLocked = false;
+
+        public PlayerInput.OnFootActions OnFoot { get => onFoot;  }
+        public PlayerInput.UIActions UIActions { get => uIActions; }
+
         private void Awake()
         {
-            playerInput = SettingsNS.GameSettings.PlayerInput;
-            OnFoot = playerInput.OnFoot;
-            UIActions = playerInput.UI;
-            motor = GetComponent<PlayerMotor>();
-            look = GetComponent<PlayerLook>();
-            OnFoot.Jump.performed += PefrormJump;
-            OnFoot.Crouch.performed += PefrormCrounch;
-            OnFoot.Sprint.started += StartSprint;
-            OnFoot.Sprint.canceled += CancelSprint;
+            InitializeFields();
         }
         private void FixedUpdate()
         {
             if (!IsMovingLocked)
-                motor.ProcessMove(OnFoot.Movement.ReadValue<Vector2>());
+                motor.ProcessMove(onFoot.Movement.ReadValue<Vector2>());
         }
         private void LateUpdate() =>
-            look.ProcessLook(OnFoot.Look.ReadValue<Vector2>());
+            look.ProcessLook(onFoot.Look.ReadValue<Vector2>());
         private void OnEnable() =>
-            OnFoot.Enable();
+            onFoot.Enable();
         private void OnDisable()
         {
-            OnFoot.Jump.performed -= PefrormJump;
-            OnFoot.Crouch.performed -= PefrormCrounch;
-            OnFoot.Sprint.started -= StartSprint;
-            OnFoot.Sprint.canceled -= CancelSprint;
-            OnFoot.Disable();
+            onFoot.Jump.performed -= PefrormJump;
+            onFoot.Crouch.performed -= PefrormCrounch;
+            onFoot.Sprint.started -= StartSprint;
+            onFoot.Sprint.canceled -= CancelSprint;
+            onFoot.Disable();
         }
         public void SetMovingLock(bool lockStatus, bool isResetVelocity = false)
         {
@@ -54,9 +54,17 @@ namespace PlayerScriptsNS
             motor.OnStartSprint();
         private void CancelSprint(UnityEngine.InputSystem.InputAction.CallbackContext obj) =>
           motor.OnCancelSprint();
-        //void BindTest()
-        //{
-        // OnFoot.SwitchWeapon.ChangeBinding(1).WithPath("<Keyboard>/k");
-        //}
+        private void InitializeFields()
+        {
+            playerInput = SettingsNS.GameSettings.PlayerInput;
+            onFoot = playerInput.OnFoot;
+            uIActions = playerInput.UI;
+            motor = GetComponent<PlayerMotor>();
+            look = GetComponent<PlayerLook>();
+            onFoot.Jump.performed += PefrormJump;
+            onFoot.Crouch.performed += PefrormCrounch;
+            onFoot.Sprint.started += StartSprint;
+            onFoot.Sprint.canceled += CancelSprint;
+        }
     }
 }

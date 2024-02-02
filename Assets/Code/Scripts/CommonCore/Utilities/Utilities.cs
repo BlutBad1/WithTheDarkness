@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace UtilitiesNS
 {
@@ -94,6 +95,18 @@ namespace UtilitiesNS
                 components.AddRange(childComponents);
             }
             return components;
+        }
+        public static bool CheckIfAgentHasArrived(NavMeshAgent agent)
+        {
+            if (agent.enabled && agent.isOnNavMesh && agent.pathStatus == NavMeshPathStatus.PathComplete)
+            {
+                if (agent.enabled && agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    if (!agent.hasPath || agent.velocity.sqrMagnitude == 0f)
+                        return true;
+                }
+            }
+            return false;
         }
     }
 }

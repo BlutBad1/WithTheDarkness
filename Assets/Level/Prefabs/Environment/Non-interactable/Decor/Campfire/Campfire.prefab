@@ -28,7 +28,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5624580164642642997}
   - {fileID: 8367390782494380451}
   - {fileID: 8367390782391545476}
   - {fileID: 8367390782312968198}
@@ -67,7 +66,7 @@ Transform:
   - {fileID: 8367390784191006763}
   - {fileID: 8367390782933981125}
   m_Father: {fileID: 8367390782198215331}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8367390782312968197
 MonoBehaviour:
@@ -122,7 +121,7 @@ Transform:
   - {fileID: 8367390783263450919}
   - {fileID: 8367390783885188329}
   m_Father: {fileID: 8367390782198215331}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8367390782448929491
 GameObject:
@@ -199,7 +198,7 @@ Transform:
   - {fileID: 8367390782448929490}
   - {fileID: 8367390783929750575}
   m_Father: {fileID: 8367390782198215331}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8367390782933981126
 GameObject:
@@ -305,7 +304,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 2095705501206503823}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: set_layer
         m_Mode: 3
@@ -965,7 +964,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
-      - m_Target: {fileID: 2095705501206503823}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
         m_MethodName: set_layer
         m_Mode: 3
@@ -1672,97 +1671,6 @@ MonoBehaviour:
 Transform:
   m_CorrespondingSourceObject: {fileID: 607455844156788574, guid: ba57c20c019b4e94ea50a1b432e28a98, type: 3}
   m_PrefabInstance: {fileID: 8367390782549451479}
-  m_PrefabAsset: {fileID: 0}
---- !u!1001 &8367390782706695088
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 8367390782198215331}
-    m_Modifications:
-    - target: {fileID: 102111417385581921, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578754, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: MinDistance
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578755, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578755, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: GenericKeyName
-      value: regular_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578755, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: key.GenericKeyName
-      value: regular_1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578757, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578757, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.37109756
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578757, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.07168865
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578757, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -0.056396484
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578757, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578757, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578757, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578757, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578757, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578757, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578757, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4183971913395578814, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_Name
-      value: Key
-      objectReference: {fileID: 0}
-    - target: {fileID: 7569284995041385023, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-      propertyPath: m_Layer
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
---- !u!1 &2095705501206503823 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7569284995041385023, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-  m_PrefabInstance: {fileID: 8367390782706695088}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &5624580164642642997 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4183971913395578757, guid: e16b7ea0b7d31ff40be8c58911c83211, type: 3}
-  m_PrefabInstance: {fileID: 8367390782706695088}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &8367390782708754164
 PrefabInstance:

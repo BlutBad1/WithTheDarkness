@@ -36,7 +36,7 @@ namespace EffectsNS.PlayerEffects
                 targetPosition = defaultPosition;
             else
             {
-                float speedFactor = (characterController.GetCharacterVelocity()).magnitude / characterController.DefaultSpeed;
+                float speedFactor = (characterController.GetCharacterVelocity()).magnitude / characterController.defaultSpeed;
                 if (IsSpeedFactorLimited)
                     speedFactor = Mathf.Clamp(speedFactor, MinLimit, MaxLimit);
                 Vector3 shakeDirection = characterController.transform.InverseTransformDirection(characterController.GetCharacterVelocity()).normalized;

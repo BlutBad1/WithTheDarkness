@@ -3,87 +3,100 @@ using MyConstants.CreatureConstants.EnemyConstants;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace EnemyNS.Skills
 {
-    public enum Axis
-    {
-        X, Y, Z
-    }
     [CreateAssetMenu(fileName = "Jump Skill", menuName = "ScriptableObject/Enemy/Skills/Jump")]
     public class JumpSkill : SkillScriptableObject
     {
-        public float MinJumpDistance = 1.5f;
-        public float MaxJumpDistance = 5f;
-        public AnimationCurve HeightCurve;
-        public float JumpSpeed = 1;
-        public LayerMask LayersToIgnore;
-        public Axis UpAxis;
-        public override bool CanUseSkill(Enemy enemy, GameObject target)
+        [SerializeField, FormerlySerializedAs("MinJumpDistance")]
+        private float minJumpDistance = 1.5f;
+        [SerializeField, FormerlySerializedAs("MaxJumpDistance")]
+        private float maxJumpDistance = 5f;
+        [SerializeField, FormerlySerializedAs("HeightCurve")]
+        private AnimationCurve heightCurve;
+        [SerializeField, FormerlySerializedAs("JumpSpeed")]
+        private float jumpSpeed = 1;
+        [SerializeField, FormerlySerializedAs("LayersToIgnore")]
+        private LayerMask layersToIgnore;
+        [SerializeField, FormerlySerializedAs("UpAxis")]
+        private Axis upAxis;
+
+        public override bool CanUseSkill(EnemySkillInfo enemySkillInfo)
         {
-            if (base.CanUseSkill(enemy, target) && enemy.Movement.State == EnemyState.Chase)
+            if (base.CanUseSkill(enemySkillInfo) && enemySkillInfo.EnemyMovement.State == EnemyState.Chase)
             {
-                float distance = Vector3.Distance(enemy.transform.position, target.transform.position);
-                Ray ray = new Ray(enemy.transform.position, target.transform.position - enemy.transform.position);
-                if (Physics.SphereCast(ray, 0.6f, (target.transform.position - enemy.transform.position).magnitude, ~(LayersToIgnore |= (1 << target.layer))))
+                Vector3 enemyPosition = enemySkillInfo.EnemyMovement.transform.position, targetPosition = enemySkillInfo.PursuedTarget.transform.position;
+                float distance = Vector3.Distance(enemyPosition, targetPosition);
+                Ray ray = new Ray(enemyPosition, targetPosition - enemyPosition);
+                if (Physics.SphereCast(ray, 0.6f, (targetPosition - enemyPosition).magnitude, ~(layersToIgnore |= (1 << enemySkillInfo.PursuedTarget.layer))))
                     return false;
-                return !IsActivating && UseTime + Cooldown < Time.time && distance >= MinJumpDistance && distance <= MaxJumpDistance;
+                return distance >= minJumpDistance && distance <= maxJumpDistance;
             }
             return false;
         }
-        public override void UseSkill(Enemy enemy, GameObject target)
+        public override void UseSkill(EnemySkillInfo enemySkillInfo)
         {
-            base.UseSkill(enemy, target);
-            enemy.skillCoroutine = enemy.StartCoroutine(Jump(enemy, target));
+            base.UseSkill(enemySkillInfo);
+            enemySkillInfo.SkillCoroutine = enemySkillInfo.Damageable.StartCoroutine(Jump(enemySkillInfo));
         }
-        private IEnumerator Jump(Enemy enemy, GameObject target)
+        private IEnumerator Jump(EnemySkillInfo enemySkillInfo)
         {
-            RaycastHit groundHit;
-            Vector3 endingPosition = target.transform.position,
-            startingPosition = enemy.transform.position;
-            Ray ray = new Ray(enemy.transform.position, -Vector3.up);
-            if (Physics.Raycast(ray, out groundHit))
-                startingPosition.y = groundHit.point.y;
-            enemy.Movement.Agent.enabled = false;
-            // enemy.Movement.enabled = false;
-            enemy.Movement.State = EnemyState.UsingAbility;
-            enemy.Animator?.SetTrigger(MainEnemyConstants.JUMP);
-            Quaternion startRotation = enemy.transform.rotation;
-            enemy.EnemyAttack.TryAttack();
-            for (float time = 0; time < 1; time += Time.deltaTime * JumpSpeed)
+            Transform enemyTransform = enemySkillInfo.EnemyMovement.transform, targetTransform = enemySkillInfo.PursuedTarget.transform;
+            Vector3 endPosition = targetTransform.position;
+            Vector3 startPosition = GetEnemyStartPosition(enemyTransform);
+            Quaternion startRotation = enemyTransform.rotation;
+            PrepareEnemyToJump(enemySkillInfo);
+            for (float time = 0; time < 1; time += Time.deltaTime * jumpSpeed)
             {
                 if (time <= 0.6f)
-                    endingPosition = target.transform.position;
-                ray = new Ray(enemy.transform.position, -Vector3.up);
-                if (Physics.Raycast(ray, out groundHit))
-                    endingPosition.y = groundHit.point.y + 0.1f;
-                enemy.transform.position = Vector3.Lerp(startingPosition, endingPosition, time) + Vector3.up * HeightCurve.Evaluate(time);
+                    endPosition = targetTransform.position;
+                Ray ray = new Ray(enemyTransform.position, -Vector3.up);
+                if (Physics.Raycast(ray, out RaycastHit groundHit))
+                    endPosition.y = groundHit.point.y + 0.1f;
+                enemyTransform.position = Vector3.Lerp(startPosition, endPosition, time) + Vector3.up * heightCurve.Evaluate(time);
                 if (time <= 0.6f)
-                    enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation, Quaternion.LookRotation(endingPosition - enemy.transform.position), time);
+                    enemyTransform.rotation = Quaternion.Slerp(enemyTransform.rotation, Quaternion.LookRotation(endPosition - enemyTransform.position), time);
                 else
-                    enemy.transform.rotation = Quaternion.Slerp(enemy.transform.rotation,
-                        DefineHeightRotation(enemy.transform.rotation, startRotation), time);
+                    enemyTransform.rotation = Quaternion.Slerp(enemyTransform.rotation, DefineHeightRotation(enemyTransform.rotation, startRotation), time);
                 yield return null;
             }
-            enemy.EnemyAttack.StopAttack();
-            enemy.Animator?.SetTrigger(MainEnemyConstants.LANDED);
-            UseTime = Time.time;
-            enemy.enabled = true;
-            // enemy.Movement.enabled = true;
-            enemy.Movement.Agent.enabled = true;
-            if (NavMesh.SamplePosition(endingPosition, out NavMeshHit hit, 1f, enemy.Movement.Agent.areaMask))
-            {
-                // enemy.Agent.Warp(hit.position);
-                enemy.Movement.State = EnemyState.Chase;
-            }
+            EnemyAfterJump(enemySkillInfo, endPosition);
+            timeFromLastUse = Time.time;
+            isSkillActive = false;
+        }
+        private Vector3 GetEnemyStartPosition(Transform enemyTransform)
+        {
+            Vector3 startingPosition = enemyTransform.position;
+            Ray ray = new Ray(startingPosition, -Vector3.up);
+            if (Physics.Raycast(ray, out RaycastHit groundHit))
+                startingPosition.y = groundHit.point.y;
+            return startingPosition;
+        }
+        private void PrepareEnemyToJump(EnemySkillInfo enemySkillInfo)
+        {
+            EnemyMovement enemyMovement = enemySkillInfo.EnemyMovement;
+            enemyMovement.Agent.enabled = false;
+            enemyMovement.State = EnemyState.UsingAbility;
+            enemySkillInfo.Animator?.SetTrigger(MainEnemyConstants.JUMP);
+            enemySkillInfo.EnemyAttack.TryAttack();
+        }
+        private void EnemyAfterJump(EnemySkillInfo enemySkillInfo, Vector3 endPosition)
+        {
+            EnemyMovement enemyMovement = enemySkillInfo.EnemyMovement;
+            enemySkillInfo.EnemyAttack.StopAttack();
+            enemySkillInfo.Animator?.SetTrigger(MainEnemyConstants.LANDED);
+            enemyMovement.Agent.enabled = true;
+            if (NavMesh.SamplePosition(endPosition, out NavMeshHit hit, 1f, enemyMovement.Agent.areaMask))
+                enemyMovement.State = EnemyState.Chase;
             else
-                enemy.Movement.State = enemy.Movement.DefaultState;
-            IsActivating = false;
+                enemyMovement.State = enemyMovement.DefaultState;
         }
         private Quaternion DefineHeightRotation(Quaternion currentRotation, Quaternion startRotation)
         {
             Quaternion definedRot = new Quaternion(currentRotation.x, currentRotation.y, currentRotation.z, currentRotation.w);
-            switch (UpAxis)
+            switch (upAxis)
             {
                 case Axis.X:
                     definedRot.x = startRotation.x;

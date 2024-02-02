@@ -17,7 +17,7 @@ namespace InteractableNS
         {
             ResetProgress(creatureInteract);
             IsInteracting = true;
-            LastWhoInteracted = creatureInteract;
+            lastWhoInteracted = creatureInteract;
             InteractingCoroutine = StartCoroutine(InteractionProgressing(creatureInteract));
         }
         public override void EndInteraction(EntityInteract creatureInteract)
@@ -53,6 +53,9 @@ namespace InteractableNS
             Interact();
             EndInteraction(creatureInteract);
             InteractingCoroutine = null;
+        }
+        protected override void Interact()
+        {
         }
     }
 }

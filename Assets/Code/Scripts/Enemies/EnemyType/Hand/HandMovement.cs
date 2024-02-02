@@ -1,4 +1,5 @@
 using EnemyNS.Base;
+using EnemyNS.Navigation;
 using UnityEngine;
 using UnityEngine.AI;
 

@@ -6,6 +6,7 @@ namespace PlayerScriptsNS
     {
         [SerializeField]
         private TextMeshProUGUI promptText;
+
         public void UpdateText(string promptMessage) =>
             promptText.text = promptMessage;
     }

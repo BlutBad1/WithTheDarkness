@@ -274,7 +274,6 @@ MonoBehaviour:
   AudioSourceObjects:
   - Name: AxePulling
     audioSource: {fileID: 3722959017925117424}
-    AudioKind: 0
 --- !u!1001 &4958115495949953308
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -368,14 +367,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promptMessage: 
-  LastWhoInteracted: {fileID: 0}
-  WeaponEntity: 0
-  Prop: {fileID: 8914577966757235470}
-  RandomDurability: 1
-  Durability: 100
-  MinDurability: 50
-  MaxDurability: 100
-  IfWeaponNotUnlocked:
+  weaponEntity: 0
+  prop: {fileID: 8914577966757235470}
+  randomDurability: 1
+  durability: 100
+  minMaxDurability: {x: 20, y: 100}
+  ifWeaponNotUnlocked:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2843864766129671860}
@@ -403,7 +400,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  IfWeaponTypeIsOccupiedByOther:
+  ifWeaponTypeIsOccupiedByOther:
     m_PersistentCalls:
       m_Calls: []
 --- !u!114 &7215037515790863202

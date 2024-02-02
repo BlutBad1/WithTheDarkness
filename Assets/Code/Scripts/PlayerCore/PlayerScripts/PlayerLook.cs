@@ -3,20 +3,24 @@ namespace PlayerScriptsNS
 {
     public class PlayerLook : MonoBehaviour
     {
-        public Camera cam;
+        [SerializeField]
+        private Camera cam;
+
         private float xRotation = 0f;
-        private InputManager inputManager;//dev delete it when developing ended  
+        private InputManager inputManager;
         private bool isLookingInputLocked = false;
-        public Vector3 PlayerCameraCurRotation { get; private set; } = Vector3.zero;
+
+        public Vector3 PlayerCameraCurRotation { get; private set; }
+
         private void Start()
         {
             Cursor.visible = false;
 #if UNITY_EDITOR
-            inputManager = GetComponent<InputManager>();//dev
+            inputManager = GetComponent<InputManager>();
 #endif
         }
 #if UNITY_EDITOR
-        private void Update()//dev all Update method for testing   
+        private void Update()
         {
             if (inputManager != null && inputManager.OnFoot.CurFreeze.triggered)
             {
@@ -39,12 +43,12 @@ namespace PlayerScriptsNS
             {
                 float mouseX = input.x;
                 float mouseY = input.y;
-                xRotation -= (mouseY / 80f/* * Time.deltaTime*/) * SettingsNS.GameSettings.YSensitivity;
+                xRotation -= (mouseY / 80f) * SettingsNS.GameSettings.YSensitivity;
                 xRotation = Mathf.Clamp(xRotation, -80f, 70f);
                 cam.transform.localRotation = Quaternion.Euler(xRotation, 0, 0);
                 float yRotation = (mouseX / 80f) * SettingsNS.GameSettings.XSensitivity;
                 PlayerCameraCurRotation = new Vector3(xRotation, yRotation, 0);
-                transform.Rotate(Vector3.up * (mouseX / 80f /** Time.deltaTime*/) * SettingsNS.GameSettings.XSensitivity);
+                transform.Rotate(Vector3.up * (mouseX / 80f) * SettingsNS.GameSettings.XSensitivity);
             }
         }
     }

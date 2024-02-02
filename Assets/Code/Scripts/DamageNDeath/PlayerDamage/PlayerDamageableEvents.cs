@@ -59,7 +59,7 @@ namespace PlayerScriptsNS
         {
             if (TryGetComponent(out CameraShake cameraShake))
                 if ((float)takeDamageData.Damage / 50f > 1f)
-                    cameraShake.FooCameraShake(cameraShake.magnitude * ((float)takeDamageData.Damage / 50f), cameraShake.roughness);
+                    cameraShake.FooCameraShake(cameraShake.Magnitude * ((float)takeDamageData.Damage / 50f), cameraShake.Roughness);
                 else
                     cameraShake.FooCameraShake();
             OnPlayerTakeDamageWithoutData();

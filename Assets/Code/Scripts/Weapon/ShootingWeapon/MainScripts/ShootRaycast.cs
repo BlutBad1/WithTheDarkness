@@ -39,7 +39,7 @@ namespace WeaponNS.ShootingWeaponNS
         }
         protected virtual void OnRaycastHit(RaycastHit hitInfo, GunData gunData)
         {
-            IDamageable damageable = IDamageable.GetDamageableFromGameObject(hitInfo.transform.gameObject);
+            IDamageable damageable = UtilitiesNS.Utilities.GetComponentFromGameObject<IDamageable>(hitInfo.transform.gameObject);
             damageable?.TakeDamage(new TakeDamageData(damageable, gunData.Damage, gunData.Force, new HitData(hitInfo), gameObject));
             bulletHolesDataBase?.MakeBulletHoleByInfo(hitInfo, cameraOrigin.transform.position, gunData.WeaponEntity);
         }

@@ -177,21 +177,28 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5079124951260837734}
-  - component: {fileID: 5079124951260837735}
   - component: {fileID: 5079124951260837736}
+  - component: {fileID: 5079124951260837735}
   - component: {fileID: 5079124951260837651}
   - component: {fileID: 3749772080359825912}
   - component: {fileID: 2063183444982298565}
+  - component: {fileID: 8835620669945720420}
+  - component: {fileID: 1818655816826317202}
+  - component: {fileID: 7153860253725842045}
+  - component: {fileID: 5079124951260837656}
   - component: {fileID: 5079124951260837652}
   - component: {fileID: 5079124951260837653}
-  - component: {fileID: 5079124951260837656}
-  - component: {fileID: 183499515813607971}
-  - component: {fileID: 5079124951260837741}
+  - component: {fileID: 552667455470847174}
+  - component: {fileID: 3465888700476240764}
+  - component: {fileID: 2040762859037517223}
+  - component: {fileID: 3412863237792565969}
   - component: {fileID: 5915790900735131413}
   - component: {fileID: 5079124951260837742}
   - component: {fileID: 5079124951260837654}
   - component: {fileID: 5079124951260837650}
   - component: {fileID: 5079124951260837649}
+  - component: {fileID: 4973814721366747465}
+  - component: {fileID: 5079124951260837741}
   - component: {fileID: 5079124951260837738}
   - component: {fileID: 5079124951260837739}
   - component: {fileID: 4976554312113744295}
@@ -223,22 +230,6 @@ Transform:
   m_Father: {fileID: 6346306090671679053}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &5079124951260837735
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5079124951260837733}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 10
-  m_AngularDrag: 10
-  m_UseGravity: 1
-  m_IsKinematic: 1
-  m_Interpolate: 0
-  m_Constraints: 36
-  m_CollisionDetection: 0
 --- !u!95 &5079124951260837736
 Animator:
   serializedVersion: 5
@@ -260,6 +251,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!54 &5079124951260837735
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5079124951260837733}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 10
+  m_AngularDrag: 10
+  m_UseGravity: 1
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 36
+  m_CollisionDetection: 0
 --- !u!114 &5079124951260837651
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,17 +279,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6e4ea5925c9d34892ba1bd2be269d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemy: {fileID: 5079124951260837656}
-  GameObjectForRay: {fileID: 5340214654828098121}
-  GapBetweenRay: 7
-  FieldOfView: 140
-  ViewDistance: 10
-  YDeviation: 4
-  OriginOffset: {x: 0, y: 0, z: 0}
-  LayersForProcessing:
+  enemy: {fileID: 5079124951260837656}
+  layersForProcessing:
     serializedVersion: 2
     m_Bits: 2048
-  RayCastIgnore:
+  gameObjectForRay: {fileID: 5340214654828098121}
+  gapBetweenRay: 7
+  fieldOfView: 140
+  viewDistance: 6
+  yDeviation: 4
+  originOffset: {x: 0, y: 0, z: 0}
+  rayCastIgnore:
     serializedVersion: 2
     m_Bits: 1566646
 --- !u!114 &3749772080359825912
@@ -297,17 +304,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae6e4ea5925c9d34892ba1bd2be269d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemy: {fileID: 5079124951260837656}
-  GameObjectForRay: {fileID: 5340214654828098121}
-  GapBetweenRay: 7
-  FieldOfView: 360
-  ViewDistance: 1.8
-  YDeviation: 4
-  OriginOffset: {x: 0, y: 0, z: 0}
-  LayersForProcessing:
+  enemy: {fileID: 5079124951260837656}
+  layersForProcessing:
     serializedVersion: 2
     m_Bits: 2048
-  RayCastIgnore:
+  gameObjectForRay: {fileID: 5340214654828098121}
+  gapBetweenRay: 7
+  fieldOfView: 360
+  viewDistance: 1.8
+  yDeviation: 4
+  originOffset: {x: 0, y: 0, z: 0}
+  rayCastIgnore:
     serializedVersion: 2
     m_Bits: 1566646
 --- !u!114 &2063183444982298565
@@ -325,6 +332,18 @@ MonoBehaviour:
   Events:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 3749772080359825912}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 5079124951260837651}
         m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
         m_MethodName: set_enabled
@@ -337,7 +356,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
---- !u!114 &5079124951260837652
+      - m_Target: {fileID: 2040762859037517223}
+        m_TargetAssemblyTypeName: UnityEngine.Behaviour, UnityEngine
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+--- !u!114 &8835620669945720420
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -346,20 +377,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 5079124951260837733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2416ae1b72af11e44bfdfceb4c4f529c, type: 3}
+  m_Script: {fileID: 11500000, guid: 850d9ee83498ef94c94f1aa0285e0a96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CreatureType: Hand
-  OpponentsMask: 3
-  PursuedTarget: {fileID: 0}
-  DontLoseSightIfDistanceLess: 4
-  IdleMovespeedMultiplier: 1
-  Animator: {fileID: 5079124951260837736}
-  DefaultPositon: {x: 0, y: 0, z: 0}
-  LastPursuedTargetPosition: {fileID: 0}
-  UpdateRate: 0.1
-  DefaultState: 1
---- !u!114 &5079124951260837653
+  creatureType: Hand
+  opponentsMask: 2
+  agent: {fileID: 5079124951260837741}
+--- !u!114 &1818655816826317202
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -368,20 +392,27 @@ MonoBehaviour:
   m_GameObject: {fileID: 5079124951260837733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: def655277b846ce4da400cb816356395, type: 3}
+  m_Script: {fileID: 11500000, guid: 121c4029f65012a4ca07a697c23ffe14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemy: {fileID: 5079124951260837656}
-  Damage: 10
-  AttackForce: 5
-  AttackDelay: 0.5
-  AttackDistance: 2
-  AttackRadius: 2
-  IsAttacking: 0
-  AttackColider: {fileID: 0}
-  WhatIsRayCastIgnore:
-    serializedVersion: 2
-    m_Bits: 1061284
+  enemyCreature: {fileID: 8835620669945720420}
+  dontLoseSightIfDistanceLess: 1
+--- !u!114 &7153860253725842045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5079124951260837733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85b7d169b92fde94ca227b1e34efe3d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateRate: 0.1
+  agent: {fileID: 5079124951260837741}
+  spotTarget: {fileID: 1818655816826317202}
+  idleMovespeedMultiplier: 1
 --- !u!114 &5079124951260837656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -397,13 +428,10 @@ MonoBehaviour:
   Health: 100
   InvokeOnTakeDamageAfterDead: 1
   HealthOnStart: 0
-  Animator: {fileID: 5079124951260837736}
-  Movement: {fileID: 5079124951260837652}
-  EnemyAttack: {fileID: 5079124951260837653}
-  EnemyScriptableObject: {fileID: 11400000, guid: 8724e3aa2dd35784da9d50ff86ef571e, type: 2}
-  Skills: []
-  EnemySize: 0
---- !u!114 &183499515813607971
+  movement: {fileID: 5079124951260837652}
+  spotTarget: {fileID: 1818655816826317202}
+  enemySize: 0
+--- !u!114 &5079124951260837652
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -412,33 +440,99 @@ MonoBehaviour:
   m_GameObject: {fileID: 5079124951260837733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53e64600d9b67344280eeb40720724bb, type: 3}
+  m_Script: {fileID: 11500000, guid: 2416ae1b72af11e44bfdfceb4c4f529c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PatrolPoints:
-  - {fileID: 0}
---- !u!195 &5079124951260837741
-NavMeshAgent:
+  stateHandler: {fileID: 7153860253725842045}
+  animator: {fileID: 5079124951260837736}
+  defaultState: 1
+--- !u!114 &5079124951260837653
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5079124951260837733}
   m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3
-  m_Acceleration: 10
-  avoidancePriority: 50
-  m_AngularSpeed: 150
-  m_StoppingDistance: 1
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 0.86
-  m_BaseOffset: 0.2
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: def655277b846ce4da400cb816356395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  attackForce: 5
+  attackDelay: 0.5
+  attackDistance: 2
+  attackRadius: 2
+  enemyStateHandler: {fileID: 7153860253725842045}
+  animator: {fileID: 5079124951260837736}
+  attackColider: {fileID: 5385677238716728629}
+  whatIsRayCastIgnore:
+    serializedVersion: 2
+    m_Bits: 1061284
+--- !u!114 &552667455470847174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5079124951260837733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fe42a4421b036049b733a329b373522, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateHandler: {fileID: 7153860253725842045}
+  enemy: {fileID: 5079124951260837656}
+  enemySkillInfo:
+    Damageable: {fileID: 5079124951260837656}
+    EnemyMovement: {fileID: 5079124951260837652}
+    Animator: {fileID: 5079124951260837736}
+    EnemyAttack: {fileID: 5079124951260837653}
+    PursuedTarget: {fileID: 0}
+--- !u!114 &3465888700476240764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5079124951260837733}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53e64600d9b67344280eeb40720724bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  patrolPoints: []
+  enemyStateHandler: {fileID: 0}
+  enemyMovement: {fileID: 0}
+--- !u!114 &2040762859037517223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5079124951260837733}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0be0ebba56c0bfa478153c34c197315d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateHandler: {fileID: 7153860253725842045}
+  moveRadius: 15
+  pickTime: 3
+--- !u!114 &3412863237792565969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5079124951260837733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a9cadaea255f684ca14964b9fac41ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageable: {fileID: 5079124951260837656}
+  stateHandler: {fileID: 7153860253725842045}
 --- !u!114 &5915790900735131413
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,10 +589,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageable: {fileID: 5079124951260837656}
-  Rigidbody: {fileID: 5079124951260837735}
-  PushForce: 1
-  KnockoutEnable: 1
-  InKnockoutTime: 0.5
+  damageableRigidbody: {fileID: 5079124951260837735}
+  pushForce: 1
+  creature: {fileID: 8835620669945720420}
+  knockoutEnable: 1
+  inKnockoutTime: 0.3
 --- !u!114 &5079124951260837650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,6 +658,45 @@ MonoBehaviour:
     surfaceIndex: 0
     attachedSurfaces:
     - HandGrass
+--- !u!114 &4973814721366747465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5079124951260837733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 602883b00be5b5b4895ec685f552b453, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemyScriptableObject: {fileID: 11400000, guid: 8724e3aa2dd35784da9d50ff86ef571e, type: 2}
+  agent: {fileID: 5079124951260837741}
+  enemy: {fileID: 5079124951260837656}
+  enemyAttack: {fileID: 5079124951260837653}
+  enemyUseSkills: {fileID: 552667455470847174}
+--- !u!195 &5079124951260837741
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5079124951260837733}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3
+  m_Acceleration: 10
+  avoidancePriority: 50
+  m_AngularSpeed: 150
+  m_StoppingDistance: 1
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 0.86
+  m_BaseOffset: 0.2
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!114 &5079124951260837738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7679,14 +7813,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 120c5fa3cce286a4fb3fee47468cc413, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Enemy: {fileID: 5079124951260837656}
-  RagdollEnabler: {fileID: 6346306088994057162}
-  Dissolve: {fileID: 6346306088994057165}
-  FadeOutDelay: 30
-  FadeOutTime: 34
-  WhenDisableRagdoll: 0
-  MainGameObjectBody: {fileID: 5385677238716728627}
-  FadeOutRagdollBody: {fileID: 6346306088994057155}
+  enemy: {fileID: 5079124951260837656}
+  enemyMovement: {fileID: 5079124951260837652}
+  creatureInSightChecker: {fileID: 5079124951260837651}
+  enemyAttack: {fileID: 5079124951260837653}
+  enemyUseSkills: {fileID: 552667455470847174}
+  animator: {fileID: 5079124951260837736}
+  stateBehaviours:
+  - {fileID: 2040762859037517223}
+  - {fileID: 3465888700476240764}
+  - {fileID: 3412863237792565969}
+  ragdollEnabler: {fileID: 6346306088994057162}
+  dissolve: {fileID: 6346306088994057165}
+  fadeOutDelay: 30
+  fadeOutTime: 34
+  whenDisableRagdoll: -0.663
+  mainGameObjectBody: {fileID: 5385677238716728627}
+  fadeOutRagdollBody: {fileID: 6346306088994057155}
 --- !u!114 &6346306090671679049
 MonoBehaviour:
   m_ObjectHideFlags: 0

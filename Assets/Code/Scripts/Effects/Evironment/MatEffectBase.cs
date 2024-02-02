@@ -17,12 +17,12 @@ namespace EnvironmentEffects.MatEffect
     public class MatEffectBase : MonoBehaviour
     {
         protected List<OriginalMatPropBlock> originalMatPropBlocks = new List<OriginalMatPropBlock>();
-        public virtual void ResetAllRenderers()
+        protected virtual void ResetAllRenderers()
         {
             foreach (var originalMPB in originalMatPropBlocks)
                 ResetRenderer(originalMPB.Renderer);
         }
-        public virtual void ResetRenderer(Renderer renderer)
+        protected virtual void ResetRenderer(Renderer renderer)
         {
             OriginalMatPropBlock originalMatPropBlock = originalMatPropBlocks.Find(x => x.Renderer == renderer);
             if (originalMatPropBlock != null)

@@ -13,7 +13,7 @@ namespace InteractableNS.Pickups
         private int percentMaxTime;
         protected override void Interact()
         {
-            LightGlowTimer lightGlowTimer = UtilitiesNS.Utilities.GetComponentFromGameObject<LightGlowTimer>(LastWhoInteracted.gameObject);
+            LightGlowTimer lightGlowTimer = UtilitiesNS.Utilities.GetComponentFromGameObject<LightGlowTimer>(lastWhoInteracted.gameObject);
             if (lightGlowTimer)
             {
                 int addingTime;

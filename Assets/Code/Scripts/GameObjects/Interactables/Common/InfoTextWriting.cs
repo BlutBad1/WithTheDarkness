@@ -14,7 +14,7 @@ namespace InteractableNS.Common
         protected float disapperingSpeed;
         protected override void Interact()
         {
-            MessagePrint messagePrint = Utilities.GetComponentFromGameObject<MessagePrint>(LastWhoInteracted.gameObject);
+            MessagePrint messagePrint = Utilities.GetComponentFromGameObject<MessagePrint>(lastWhoInteracted.gameObject);
             messagePrint.PrintMessage(Text ? Text.GetText() : message, disapperingSpeed);
         }
     }

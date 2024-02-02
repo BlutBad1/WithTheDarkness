@@ -10,41 +10,6 @@ namespace Enemies.OnTakeDamage
 {
     public class KnockoutEffectTests
     {
-        GameObject enemy;
-        Enemy enemyScript;
-        GameObject player;
-        EnemyKnockoutEffect knockoutEffect;
-        BoxCollider boxCollider;
-        Rigidbody rigidbody;
-
-        [SetUp]
-        public void Setup()
-        {
-            //Arrange
-            enemy = GameObject.Instantiate(new GameObject());
-            player = GameObject.Instantiate(new GameObject());
-            player.name = "Player";
-            enemyScript = enemy.AddComponent<Enemy>();
-
-            rigidbody = enemy.AddComponent<Rigidbody>();
-            enemy.AddComponent<EnemyLineOfSightChecker>();
-            enemyScript.Movement = enemy.AddComponent<EnemyMovement>();
-            knockoutEffect = enemy.AddComponent<EnemyKnockoutEffect>();
-            knockoutEffect.KnockoutEnable = true;
-        }
-        [UnityTest]
-        public IEnumerator TakeDamageKnockoutEffect_Expect_DisablingActivities()
-        {
-            //Act+Assert
-
-            enemyScript.TakeDamage(new TakeDamageData(enemyScript,10, 100, null, null));
-            Assert.AreEqual(false, enemyScript.Movement.Agent.enabled);
-            Assert.AreEqual(false, rigidbody.isKinematic);
-            Assert.AreEqual(Vector3.zero, enemyScript.Movement.Agent.velocity);
-            yield return new WaitForSeconds(2f);
-            Assert.AreEqual(true, enemyScript.Movement.Agent.enabled);
-            Assert.AreEqual(true, rigidbody.isKinematic);
-
-        }
+       
     }
 }

@@ -16,7 +16,7 @@ MonoBehaviour:
   AttackDelay: 1
   Damage: 5
   AttackForce: 5
-  AttackRadius: 8
+  AttackRadius: 10
   AttackDistance: 1.5
   EnemySize: 0
   Skills: []

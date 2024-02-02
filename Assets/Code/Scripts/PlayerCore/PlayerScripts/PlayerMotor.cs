@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 namespace PlayerScriptsNS
 {
     public class PlayerMotor : MonoBehaviour
@@ -15,34 +17,32 @@ namespace PlayerScriptsNS
         [SerializeField, Range(0f, 1f)]
         private float inertiaWeight = 0.65f;
         [Header("Speed")]
-        [SerializeField]
-        public float DefaultSpeed = 5;
-        [SerializeField]
-        public float SprintingSpeed = 8;
+        [SerializeField, FormerlySerializedAs("DefaultSpeed")]
+        public float defaultSpeed = 5;
+        [SerializeField, FormerlySerializedAs("SprintingSpeed")]
+        public float sprintingSpeed = 8;
         [SerializeField]
         private float crounchingSpeed = 2.5f;
-        [HideInInspector]
+
         private bool isGrounded;
-        [HideInInspector]
-        public Vector3 CurrentScaledByTimeVelocity;
-        public event Action OnSprintStartEvent;
-        public event Action OnSprintCanceltEvent;
-        private Vector3 lastVelocity = Vector3.zero;
+        private Vector3 lastVelocity;
         private float speedCoef = 1f;
         private float speed;
         private bool lerpCrounch;
-        private bool crounching;
-        private bool sprinting;
         private float crounchTimer;
         private CharacterController character;
         private Vector3 playerYVelocity;
+
+        public event Action OnSprintStartEvent;
+        public event Action OnSprintCanceltEvent;
+
         public float CurrentSpeed
         {
             get { return speed * speedCoef; }
             set { speed = value; }
         }
-        public bool IsCrounching { get => crounching; set => crounching = value; }
-        public bool IsSprinting { get => sprinting; set => sprinting = value; }
+        public bool IsCrounching { get; protected set; }
+        public bool IsSprinting { get; protected set; }
         public bool IsGrounded
         {
             get => isGrounded;
@@ -53,10 +53,12 @@ namespace PlayerScriptsNS
                     OnCancelSprint();
             }
         }
+        public Vector3 CurrentScaledByTimeVelocity { get; protected set; }
+
         private void Awake()
         {
             character = GetComponent<CharacterController>();
-            CurrentSpeed = DefaultSpeed;
+            CurrentSpeed = defaultSpeed;
             IsSprinting = false;
         }
         private void Update()
@@ -75,7 +77,7 @@ namespace PlayerScriptsNS
                 else
                 {
                     character.height = Mathf.Lerp(character.height, 2, p);
-                    CurrentSpeed = DefaultSpeed;
+                    CurrentSpeed = defaultSpeed;
                 }
                 if (p > 1)
                 {
@@ -85,7 +87,7 @@ namespace PlayerScriptsNS
             }
         }
         /// <summary>
-        /// Default is 1, speedt is multiplied by this coefficient
+        /// Default is 1, a speed is multiplied by this coefficient
         /// </summary>
         /// <param name="coef"></param>
         public void SetSpeedCoef(float coef = 1f) =>
@@ -105,10 +107,10 @@ namespace PlayerScriptsNS
         }
         public void OnStartSprint()
         {
-            if (!IsCrounching && IsGrounded && DefaultSpeed != SprintingSpeed)
+            if (!IsCrounching && IsGrounded && defaultSpeed != sprintingSpeed)
             {
                 IsSprinting = true;
-                CurrentSpeed = SprintingSpeed;
+                CurrentSpeed = sprintingSpeed;
                 OnSprintStartEvent?.Invoke();
             }
         }
@@ -120,7 +122,7 @@ namespace PlayerScriptsNS
         public void CancelSprint()
         {
             IsSprinting = false;
-            CurrentSpeed = DefaultSpeed;
+            CurrentSpeed = defaultSpeed;
         }
         public void ProcessMove(Vector2 input)
         {

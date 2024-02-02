@@ -11,6 +11,14 @@ PrefabInstance:
       propertyPath: IsLocked
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3995389507993936227, guid: 4e81de23ee772274686359d2a5e6798c, type: 3}
+      propertyPath: isLocked
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5608167441706031853, guid: 4e81de23ee772274686359d2a5e6798c, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8976250932393735074, guid: 4e81de23ee772274686359d2a5e6798c, type: 3}
       propertyPath: m_Volume
       value: 0

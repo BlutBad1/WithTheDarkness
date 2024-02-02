@@ -1,25 +1,27 @@
 using DamageableNS;
+using EnemyNS.Base;
 using UnityEngine;
 
 namespace EnemyNS.Attack
 {
     [RequireComponent(typeof(SphereCollider))]
-    public class AttackRadius : EnemyAttack
+    public class AttackRadius : EnemyStateAttack
     {
-        [HideInInspector]
-        public SphereCollider Collider;
+        private SphereCollider sphereCollider;
+        private StateInfo stateInfo;
+
         protected void Awake()
         {
-            Collider = GetComponent<SphereCollider>();
-            Collider.radius = AttackRadius;
+            sphereCollider = GetComponent<SphereCollider>();
+            sphereCollider.radius = AttackRadius;
         }
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject == Enemy.Movement.PursuedTarget)
+            if (other.gameObject == stateInfo.PursuedTarget)
             {
-                if (IsAttacking && Enemy.Movement.PursuedTarget.TryGetComponent(out IDamageable damageable))
+                if (isAttacking && stateInfo.PursuedTarget.TryGetComponent(out IDamageable damageable))
                 {
-                    HitData hitData = new HitData((Enemy.Movement.PursuedTarget.transform.position - gameObject.transform.position).normalized);
+                    HitData hitData = new HitData((stateInfo.PursuedTarget.transform.position - gameObject.transform.position).normalized);
                     TakeDamageData takeDamageData = new TakeDamageData(damageable, Damage, AttackForce,
                       hitData, gameObject);
                     damageable.TakeDamage(takeDamageData);
@@ -28,8 +30,16 @@ namespace EnemyNS.Attack
         }
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject == Enemy.Movement.gameObject)
+            if (other.gameObject == stateInfo.PursuedTarget)
                 StopAttack();
         }
+        public override void TryAttack()
+        {
+            base.TryAttack();
+            StateInfo stateInfo = enemyStateHandler.GenerateStateInfo();
+            this.stateInfo = stateInfo;
+        }
+        protected override bool CanAttack() =>
+            Vector3.Distance(transform.position, stateInfo.PursuedTarget.transform.position) > AttackDistance;
     }
 }

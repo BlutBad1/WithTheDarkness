@@ -1,22 +1,28 @@
-using EnemyNS.Base;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 namespace EnemyNS.Skills
 {
     public class SkillScriptableObject : ScriptableObject
     {
-        public float Cooldown = 10f;
-        public int Damage = 5;
-        [HideInInspector]
-        public bool IsActivating;
-        protected float UseTime = 0f;
+        [SerializeField, FormerlySerializedAs("Cooldown")]
+        protected float cooldown = 10f;
+        [SerializeField, FormerlySerializedAs("Damage")]
+        protected int damage = 5;
+
+        protected float timeFromLastUse = 0f;
+        protected bool isSkillActive;
+
+        public bool IsSkillActive { get => isSkillActive; }
+
         private void OnEnable()
         {
-            UseTime = 0f;
-            IsActivating = false;
+            timeFromLastUse = 0f;
+            isSkillActive = false;
         }
-        public virtual void UseSkill(Enemy enemy, GameObject target) =>
-            IsActivating = true;
-        public virtual bool CanUseSkill(Enemy enemy, GameObject target) =>
-             !enemy.IsDead;
+        public virtual void UseSkill(EnemySkillInfo enemySkillInfo) =>
+            isSkillActive = true;
+        public virtual bool CanUseSkill(EnemySkillInfo enemySkillInfo) =>
+             !enemySkillInfo.Damageable.IsDead&& !isSkillActive && timeFromLastUse + cooldown < Time.time;
     }
 }

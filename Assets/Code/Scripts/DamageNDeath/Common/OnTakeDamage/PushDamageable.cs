@@ -36,5 +36,4 @@ namespace DamageableNS.OnTakeDamage
             }
         }
     }
-
 }

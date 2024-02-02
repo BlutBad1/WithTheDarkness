@@ -7,6 +7,7 @@ namespace EnemyNS.Base
         Spawn,
         Idle,
         Patrol,
+        Investigate,
         Chase,
         UsingAbility,
         LostTarget,

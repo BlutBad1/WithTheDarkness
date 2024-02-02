@@ -1,69 +1,48 @@
-using CreatureNS;
-using ScriptableObjectNS.Creature;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.PostProcessing;
+using UnityEngine.Serialization;
 
 namespace PlayerScriptsNS
 {
-    public class PlayerCreature : MonoBehaviour, ICreature, ISerializationCallbackReceiver
+    public class PlayerCreature : Creature
     {
-        [HideInInspector]
-        public static List<string> CreatureNames;
-        [ListToPopup(typeof(PlayerCreature), "CreatureNames")]
-        public string CreatureType;
-        public PlayerMotor PlayerMotor;
-        public PostProcessVolume PostProcessVolumeMotionBlur;
+        [SerializeField, FormerlySerializedAs("PlayerMotor")]
+        private PlayerMotor playerMotor;
+        [SerializeField, FormerlySerializedAs("PostProcessVolumeMotionBlur")]
+        private PostProcessVolume postProcessVolumeMotionBlur;
+
         private Coroutine teleportCoroutine;
         private MotionBlur motionBlur;
-        void Start()
+
+        private void Start()
         {
-            PostProcessVolumeMotionBlur.profile.TryGetSettings(out motionBlur);
+            postProcessVolumeMotionBlur.profile.TryGetSettings(out motionBlur);
         }
-        public string GetCreatureName() =>
-               CreatureType;
-        public GameObject GetCreatureGameObject() =>
-            gameObject;
-        public void OnBeforeSerialize() =>
-            CreatureNames = CreatureTypes.Instance.Names;
-        public void OnAfterDeserialize()
-        {
-        }
-        public void SetPositionAndRotation(Vector3 position, Quaternion rotation)
+        public override void SetPositionAndRotation(Vector3 position, Quaternion rotation)
         {
             if (teleportCoroutine != null)
                 StopCoroutine(teleportCoroutine);
             teleportCoroutine = StartCoroutine(Teleport(position, rotation));
         }
-        public void SetPositionAndRotationWithoutBlur(Vector3 position, Quaternion rotation)
-        {
-            if (teleportCoroutine != null)
-                StopCoroutine(teleportCoroutine);
-            teleportCoroutine = StartCoroutine(Teleport(position, rotation, false));
-        }
+        public override void BlockMovement() =>
+            playerMotor.GetCharacterController().enabled = false;
+        public override void UnblockMovement() =>
+            playerMotor.GetCharacterController().enabled = true;
+        public override void SetSpeedCoef(float speedCoef) =>
+            playerMotor.SetSpeedCoef(speedCoef);
+        private void SetMotionBlurState(bool state) =>
+          motionBlur.active = state;
         private IEnumerator Teleport(Vector3 position, Quaternion rotation, bool enableBlurAfterTeleport = true)
         {
             SetMotionBlurState(false);
-            PlayerMotor.GetCharacterController().enabled = false;
+            playerMotor.GetCharacterController().enabled = false;
             transform.position = position;
             transform.rotation = rotation;
             yield return new WaitForSeconds(0.005f);
-            PlayerMotor.GetCharacterController().enabled = true;
+            playerMotor.GetCharacterController().enabled = true;
             SetMotionBlurState(enableBlurAfterTeleport);
             teleportCoroutine = null;
-        }
-        public void SetMotionBlurState(bool state)
-        {
-            motionBlur.active = state;
-        }
-        public void BlockMovement()
-        {
-            PlayerMotor.GetCharacterController().enabled = false;
-        }
-        public void UnBlockMovement()
-        {
-            PlayerMotor.GetCharacterController().enabled = true;
         }
     }
 }

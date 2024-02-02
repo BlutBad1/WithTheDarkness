@@ -1,27 +1,49 @@
+using EnemyNS.Attack;
 using EnemyNS.Base;
+using EnemyNS.Base.StateBehaviourNS;
+using EnemyNS.Skills;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace EnemyNS.Death
 {
     public class EnemyDeadEvent : MonoBehaviour
     {
-        public Enemy Enemy;
-        protected virtual void Start()
+        [SerializeField, FormerlySerializedAs("Enemy")]
+        protected Enemy enemy;
+        [SerializeField]
+        protected EnemyMovement enemyMovement;
+        [SerializeField]
+        protected CreatureInSightChecker creatureInSightChecker;
+        [SerializeField]
+        protected EnemyAttack enemyAttack;
+        [SerializeField]
+        protected EnemyUseSkills enemyUseSkills;
+        [SerializeField]
+        protected Animator animator;
+        [SerializeField]
+        protected StateBehaviour[] stateBehaviours;
+        protected virtual void OnEnable()
         {
-            if (!Enemy)
-                Enemy = GetComponent<Enemy>();
-            Enemy.OnDead += OnDead;
+            enemy.OnDead += OnDeadEvent;
         }
-        public virtual void OnDead()
+        protected virtual void OnDisable()
         {
-            if (Enemy.skillCoroutine != null)
-                Enemy.StopCoroutine(Enemy.skillCoroutine);
-            Enemy.Movement.State = EnemyState.Dead;
-            Enemy.Movement.Agent.enabled = false;
-            Enemy.EnemyAttack.StopAttack();
-            Enemy.EnemyAttack.enabled = false;
-            Enemy.Movement.enabled = false;
-            Enemy.enabled = false;
+            enemy.OnDead -= OnDeadEvent;
+        }
+        protected virtual void OnDeadEvent()
+        {
+            enemyUseSkills?.StopSkills();
+            creatureInSightChecker.enabled = false;
+            enemyMovement.State = EnemyState.Dead;
+            enemyMovement.Agent.enabled = false;
+            enemyAttack.StopAttack();
+            enemyAttack.enabled = false;
+            enemyMovement.enabled = false;
+            enemy.enabled = false;
+            animator.enabled = false;
+            foreach (var behaviour in stateBehaviours)
+                behaviour.enabled = false;
         }
     }
 }

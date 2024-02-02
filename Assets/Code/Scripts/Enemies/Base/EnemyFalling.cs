@@ -1,14 +1,13 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.Serialization;
 
 namespace EnemyNS.Base
 {
     public class EnemyFalling : MonoBehaviour
     {
-        [SerializeField]
-        public NavMeshAgent Agent;
-        [HideInInspector]
-        public bool IsGrounded = true;
+        [SerializeField, FormerlySerializedAs("Agent")]
+        private NavMeshAgent agent;
         [SerializeField]
         private float gravity = -9.8f;
         [SerializeField, Tooltip("How high, relative to the character's pivot point the start of the ray is.")]
@@ -21,16 +20,12 @@ namespace EnemyNS.Base
         private LayerMask groundLayers;
         [SerializeField]
         private bool debugModeOn = false;
+
         private void FixedUpdate()
         {
-            if (Agent.enabled && !Agent.isOnNavMesh)
+            if (agent.enabled && !agent.isOnNavMesh)
             {
-                if (CheckGround())
-                {
-                    Agent.enabled = false;
-                    Agent.enabled = true;
-                }
-                else
+                if (!CheckGround())
                     transform.position = new Vector3(transform.position.x, transform.position.y + gravity * Time.deltaTime, transform.position.z);
             }
         }

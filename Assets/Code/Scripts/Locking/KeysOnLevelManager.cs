@@ -1,4 +1,6 @@
+using LocationManagementNS;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace ScriptableObjectNS.Locking
@@ -17,7 +19,7 @@ namespace ScriptableObjectNS.Locking
         [SerializeField]
         private AvailableKeysData availableKeyData;
 
-        private List<AvailableKeyData> requiredRegularKeys;
+        private List<AvailableKeyData> requiredRegularKeys = new List<AvailableKeyData>();
 
         private void OnEnable()
         {
@@ -37,19 +39,24 @@ namespace ScriptableObjectNS.Locking
         public KeyData GetRandomRegularReguiredKey()
         {
             KeyData randomKey = requiredRegularKeys[Random.Range(0, requiredRegularKeys.Count)];
-            RemoveKeyFromAvailable(randomKey);
+            RemoveKeyFromCollection(requiredRegularKeys, randomKey);
             return randomKey;
         }
-        public void RemoveKeyFromRequired(KeyData key) =>
-            RemoveKeyFromCollection(requiredKeysToCompleteLevel, key);
         public void RemoveKeyFromAvailable(KeyData key) =>
             RemoveKeyFromCollection(availableKeyData.AvailableKeys, key);
         public bool HaveKeyInAvailable(KeyData key) =>
             HaveKeyInCollection(availableKeyData.AvailableKeys, key);
         public bool HaveKeyInRequired(KeyData key) =>
             HaveKeyInCollection(requiredKeysToCompleteLevel, key);
-        public int GetAmountKeyFromRequired(KeyData key) =>
-            GetKeyAmount(requiredKeysToCompleteLevel, key);
+        public KeyData GetMostImportantRequiredKey()
+        {
+            int maxAmount = requiredKeysToCompleteLevel.Max(x => x.Amount);
+            KeyData theMostImportantKey = null;
+            if (MapData.Instance.GetAmountOfRemainingMaps() <= requiredKeysToCompleteLevel.Sum(x => x.Amount))
+                theMostImportantKey = requiredKeysToCompleteLevel.First(x => x.Amount == maxAmount && x.Amount != 0);
+            RemoveKeyFromCollection(requiredKeysToCompleteLevel, theMostImportantKey);
+            return theMostImportantKey;
+        }
         private void SetKeysData() =>
             availableKeyData.AvailableKeys = availableKeysOnStart;
         private void AddKeyToCollection(List<AvailableKeyData> keyCollection, KeyData key)
@@ -68,7 +75,8 @@ namespace ScriptableObjectNS.Locking
             AvailableKeyData keyDataInDB = GetKeyFromCollection(keyCollection, key);
             if (keyDataInDB != null)
             {
-                keyDataInDB.Amount--;
+                if (keyDataInDB.IsGeneric)
+                    keyDataInDB.Amount--;
                 keyDataInDB.Amount = keyDataInDB.Amount < 0 ? 0 : keyDataInDB.Amount;
             }
         }
@@ -79,14 +87,7 @@ namespace ScriptableObjectNS.Locking
                 return keyDataInDB.Amount > 0;
             return false;
         }
-        private int GetKeyAmount(List<AvailableKeyData> keyCollection, KeyData key) =>
-            GetKeyFromCollection(keyCollection, key).Amount;
-        private AvailableKeyData GetKeyFromCollection(List<AvailableKeyData> keyCollection, KeyData key)
-        {
-            if (key.IsGeneric)
-                return keyCollection.Find(x => x.IsGeneric == true && x.GenericKeyName == key.GenericKeyName);
-            else
-                return keyCollection.Find(x => x.IsGeneric == false && x.KeyName == key.KeyName);
-        }
+        private AvailableKeyData GetKeyFromCollection(List<AvailableKeyData> keyCollection, KeyData key) =>
+            keyCollection.Find(x => x.IsGeneric == key.IsGeneric && x.KeyName == key.KeyName);
     }
 }

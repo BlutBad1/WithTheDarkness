@@ -21,7 +21,6 @@ namespace CommonCore.PlayerScripts
             camera.transform.parent = player.transform;
             camera.AddComponent<Camera>();
             playerLook = player.AddComponent<PlayerLook>();
-            playerLook.cam = camera.GetComponent<Camera>();
         }
         [UnityTest]
         public IEnumerator PlayerLookTestInput50xAnd50y_Expect_Equal()

@@ -2,43 +2,51 @@ using InteractableNS;
 using SettingsNS;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 
 namespace PlayerScriptsNS
 {
-    [RequireComponent(typeof(InputManager)), RequireComponent(typeof(PlayerLook))]
+    [RequireComponent(typeof(InputManager))]
     public class PlayerInteract : EntityInteract
     {
-        private Camera cam;
         [SerializeField]
-        public float InteracteDistance = 3f;
-        public float InteracteRadius = 0.15f;
+        private Camera cam;
+        [SerializeField, FormerlySerializedAs("InteracteDistance")]
+        private float interacteDistance = 3f;
+        [SerializeField, FormerlySerializedAs("InteracteRadius")]
+        private float interacteRadius = 0.15f;
         [SerializeField]
         private LayerMask interactableLayers;
         [SerializeField]
         private LayerMask obstacleLayers;
+
         private PlayerUi playerUi;
         private InputManager inputManager;
         private Interactable interactable = null;
         private Ray ray;
         private string promptMessageifEmpty;
+        private float distance = 0;
+
+        public float InteracteDistance { get => interacteDistance; set => interacteDistance = value; }
+
         private void Start()
         {
-            cam = GetComponent<PlayerLook>().cam;
-            playerUi = GetComponent<PlayerUi>();
-            inputManager = GetComponent<InputManager>();
-            GameSettings.OnInteracteRebind += CheckInteractKey;
+            GetComponents();
             CheckInteractKey();
+        }
+        private void OnEnable()
+        {
+            GameSettings.OnInteracteRebind += CheckInteractKey;
         }
         private void OnDisable()
         {
             GameSettings.OnInteracteRebind -= CheckInteractKey;
         }
-        float distance = 0;
         private void Update()
         {
             playerUi?.UpdateText(string.Empty);
             ray = new Ray(cam.transform.position, cam.transform.forward);
-            if (Physics.SphereCast(ray, InteracteRadius, out RaycastHit hitInfo, InteracteDistance, interactableLayers))
+            if (Physics.SphereCast(ray, interacteRadius, out RaycastHit hitInfo, interacteDistance, interactableLayers))
             {
                 distance = hitInfo.distance;
                 if (!Physics.Raycast(ray, out RaycastHit hitInfo1, hitInfo.distance, obstacleLayers) || (obstacleLayers.value & (1 << hitInfo1.collider.gameObject.layer)) == 0)
@@ -48,10 +56,10 @@ namespace PlayerScriptsNS
                     {
                         if (playerUi)
                         {
-                            if (interactable.promptMessage == "")
+                            if (string.IsNullOrEmpty(interactable.OnLook()))
                                 playerUi?.UpdateText(promptMessageifEmpty);
                             else
-                                playerUi?.UpdateText(interactable.promptMessage);
+                                playerUi?.UpdateText(interactable.OnLook());
                         }
                         if (inputManager.OnFoot.Interact.triggered)
                             interactable.StartBaseInteraction(this);
@@ -74,17 +82,22 @@ namespace PlayerScriptsNS
                 interactable = null;
             }
         }
-        public void CheckInteractKey()
+        private void CheckInteractKey()
         {
             InputManager inputManager = GameObject.Find(MyConstants.CommonConstants.PLAYER).GetComponent<InputManager>();
             int bindingIndex = inputManager.OnFoot.Interact.GetBindingIndexForControl(inputManager.OnFoot.Interact.controls[0]);
             promptMessageifEmpty = @$"[{InputControlPath.ToHumanReadableString(inputManager.OnFoot.Interact.bindings[bindingIndex].effectivePath,
                 InputControlPath.HumanReadableStringOptions.OmitDevice).ToUpper()}]";
         }
+        private void GetComponents()
+        {
+            playerUi = GetComponent<PlayerUi>();
+            inputManager = GetComponent<InputManager>();
+        }
         private void OnDrawGizmos()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawWireSphere(ray.origin + ray.direction * InteracteDistance, InteracteRadius);
+            Gizmos.DrawWireSphere(ray.origin + ray.direction * interacteDistance, interacteRadius);
             Gizmos.color = Color.white;
             Gizmos.DrawRay(ray.origin, ray.direction * distance);
         }

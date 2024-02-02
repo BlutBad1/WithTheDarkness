@@ -1,63 +1,31 @@
-using DamageableNS;
-using EnemyNS.Base;
-using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 namespace EnemyNS.Attack
 {
-    public class EnemyAttack : MonoBehaviour
+    public abstract class EnemyAttack : MonoBehaviour
     {
-        public Enemy Enemy;
-        public int Damage = 10;
-        public float AttackForce = 5f;
-        public float AttackDelay = 0.5f;
-        public float AttackDistance = 2f;
-        public float AttackRadius = 2f;
-        public delegate void AttackEvent(IDamageable Target);
-        public AttackEvent OnAttack;
-        protected Coroutine attackCoroutine;
-        [HideInInspector]
-        public bool IsAttacking = false;
-        protected void Start()
-        {
-            if (!Enemy)
-                Enemy = GetComponent<Enemy>();
-            Enemy.Movement.OnFollow += TryAttack;
-        }
-        public virtual bool CanAttack(GameObject creature)
-        {
-            if (Enemy.Movement.State == EnemyState.Chase && Vector3.Distance(transform.position, creature.transform.position) <= AttackDistance)
-                return true;
-            return false;
-        }
-        public virtual void StopAttack()
-        {
-            if (attackCoroutine != null)
-                StopCoroutine(attackCoroutine);
-            attackCoroutine = null;
-            IsAttacking = false;
-        }
-        public virtual void TryAttack()
-        {
-            if (Enemy.Movement.PursuedTarget && CanAttack(Enemy.Movement.PursuedTarget))
-            {
-                if (attackCoroutine == null)
-                {
-                    IDamageable damageable = Enemy.Movement.PursuedTarget.GetComponent<Damageable>();
-                    if (damageable == null)
-                        damageable = Enemy.Movement.PursuedTarget.GetComponentInParent<Damageable>();
-                    attackCoroutine = StartCoroutine(Attack(damageable));
-                }
-                IsAttacking = true;
-            }
-        }
-        protected virtual IEnumerator Attack(IDamageable objectToDamage)
-        {
-            while (objectToDamage != null)
-            {
-                OnAttack?.Invoke(objectToDamage);
-                objectToDamage.TakeDamage(Damage);
-                yield return new WaitForSeconds(AttackDelay);
-            }
-        }
+        [SerializeField, FormerlySerializedAs("Damage")]
+        private int damage = 10;
+        [SerializeField, FormerlySerializedAs("AttackForce")]
+        private float attackForce = 5f;
+        [SerializeField, FormerlySerializedAs("AttackDelay")]
+        private float attackDelay = 0.5f;
+        [SerializeField, FormerlySerializedAs("AttackDistance")]
+        private float attackDistance = 2f;
+        [SerializeField, FormerlySerializedAs("attackRadius")]
+        private float attackRadius = 2f;
+
+        protected bool isAttacking = false;
+
+        public int Damage { get => damage; set => damage = value; }
+        public float AttackForce { get => attackForce; set => attackForce = value; }
+        public float AttackDelay { get => attackDelay; set => attackDelay = value; }
+        public float AttackDistance { get => attackDistance; set => attackDistance = value; }
+        public float AttackRadius { get => attackRadius; set => attackRadius = value; }
+
+        public abstract void StopAttack();
+        public abstract void TryAttack();
+        protected abstract bool CanAttack();
     }
 }

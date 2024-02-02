@@ -22,10 +22,6 @@ namespace ScriptableObjectNS.Player
         public float SprintingSpeed = 5f;
         [Min(0)]
         public float SprintingTime = 5f;
-        //[Min(0)]
-        //public float TimeBeforeStaminaRestore = 5f;
-        //[Min(0)]
-        //public float StaminaRestoreMultiplier = 1f;
         [Header("WeaponData")]
         public SerializableActiveWeapon ActiveWeapons;
         public ActiveWeapon ActiveWeaponData;
@@ -42,6 +38,7 @@ namespace ScriptableObjectNS.Player
         public float LightRange = 22;
         public float LightUpRange = 20;
         public float LightUpSpotAngle = 60;
+
         public PlayerData GetCoppiedValues()
         {
             PlayerData newPlayerData = new PlayerData();

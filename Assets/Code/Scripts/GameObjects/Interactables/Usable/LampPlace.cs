@@ -20,7 +20,7 @@ namespace InteractableNS
         {
             if (!IsLampPlaced)
             {
-                WeaponManager weaponManager = UtilitiesNS.Utilities.GetComponentFromGameObject<WeaponManager>(LastWhoInteracted.gameObject);
+                WeaponManager weaponManager = UtilitiesNS.Utilities.GetComponentFromGameObject<WeaponManager>(lastWhoInteracted.gameObject);
                 if (weaponManager)
                 {
                     weaponManager.Lamp.SetActive(false);
@@ -31,7 +31,7 @@ namespace InteractableNS
             }
             else
             {
-                WeaponManager weaponManager = UtilitiesNS.Utilities.GetComponentFromGameObject<WeaponManager>(LastWhoInteracted.gameObject);
+                WeaponManager weaponManager = UtilitiesNS.Utilities.GetComponentFromGameObject<WeaponManager>(lastWhoInteracted.gameObject);
                 if (weaponManager && !weaponManager.Lamp.activeInHierarchy)
                 {
                     weaponManager.Lamp.SetActive(true);

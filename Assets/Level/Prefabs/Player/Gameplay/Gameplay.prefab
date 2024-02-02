@@ -36297,10 +36297,9 @@ MonoBehaviour:
     m_Bits: 4097
   jumpHeight: 0
   inertiaWeight: 0.6
-  DefaultSpeed: 3.5
-  SprintingSpeed: 3.5
+  defaultSpeed: 3.5
+  sprintingSpeed: 3.5
   crounchingSpeed: 1.99
-  CurrentScaledByTimeVelocity: {x: 0, y: 0, z: 0}
 --- !u!114 &5585224956060846443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36339,9 +36338,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e6ab4ef6bcabd42b6af3a72583a526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CreatureType: Player
-  PlayerMotor: {fileID: 7586647954285710574}
-  PostProcessVolumeMotionBlur: {fileID: 2222288487463377971}
+  creatureType: Player
+  playerMotor: {fileID: 7586647954285710574}
+  postProcessVolumeMotionBlur: {fileID: 2222288487463377971}
 --- !u!114 &7586647954285710585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36355,8 +36354,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ProgressImage: {fileID: 3327448963066431158}
-  InteracteDistance: 3
-  InteracteRadius: 0.15
+  cam: {fileID: 7586647952835918771}
+  interacteDistance: 3
+  interacteRadius: 0.15
   interactableLayers:
     serializedVersion: 2
     m_Bits: 12582976
@@ -36387,9 +36387,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a85e5c81ea6841a4fb0504dd3a7cbac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
-  InvokeOnTakeDamageAfterDead: 0
-  HealthOnStart: 0
+  health: 100
+  invokeOnTakeDamageAfterDead: 0
   HealthRegenPerCycle: 0.25
   TimeAfterHitToRegen: 6
   HeatlhRegenCycleTime: 0.1
@@ -36568,11 +36567,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 767ed26d7fa4a804aab2360b3f9f1964, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SprintingTime: 7
-  TimeBeforeRestore: 2
-  StaminaRestoreMultiplier: 1.5
-  PercentWhenEnableAudioEffect: 40
-  StaminaLackSound:
+  sprintingTime: 7
+  timeBeforeRestore: 2
+  staminaRestoreMultiplier: 1.5
+  percentWhenEnableAudioEffect: 40
+  staminaLackSound:
     name: 
     clip: {fileID: 8300000, guid: 291ef6aec31f5bd4893bb51b6a8c9279, type: 3}
     volume: 0.501
@@ -36580,6 +36579,7 @@ MonoBehaviour:
     loop: 1
     audioKind: 2
     source: {fileID: 0}
+  currentTime: 0
 --- !u!1 &7329977167135293124
 GameObject:
   m_ObjectHideFlags: 0

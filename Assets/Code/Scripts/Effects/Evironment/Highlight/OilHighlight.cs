@@ -19,9 +19,9 @@ namespace EnvironmentEffects.MatEffect.Highlight
         protected new void FixedUpdate()
         {
             if (lightGlowTimer && lightGlowTimer.GetGlowingLeftTimeInPercantage() <= LevelOfLowOil)
-                startDistanceOfEffect = MinDistanceOnLowOil;
+                StartDistanceOfEffect = MinDistanceOnLowOil;
             else if (lightGlowTimer)
-                startDistanceOfEffect = MinDistance;
+                StartDistanceOfEffect = MinDistance;
             base.FixedUpdate();
         }
     }

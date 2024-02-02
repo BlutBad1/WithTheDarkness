@@ -1,14 +1,17 @@
+using AYellowpaper;
+using CreatureNS;
 using DamageableNS;
 using DamageableNS.OnTakeDamage;
 using EnemyNS.Base;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace EnemyNS.OnTakeDamage
 {
     public class EnemyKnockoutEffect : PushDamageable
     {
+        [SerializeField, RequireInterface(typeof(ICreature))]
+        private MonoBehaviour creature;
         [SerializeField]
         private bool knockoutEnable = false;
         [SerializeField]
@@ -19,6 +22,7 @@ namespace EnemyNS.OnTakeDamage
         private Coroutine knockoutCoroutine;
 
         public bool KnockoutEnable { get => knockoutEnable; set => knockoutEnable = value; }
+        private ICreature Creature { get => (ICreature)creature; }
 
         protected override void OnTakeDamage(TakeDamageData takeDamageData)
         {
@@ -27,11 +31,9 @@ namespace EnemyNS.OnTakeDamage
             {
                 if (!isInKnockout)
                 {
-                    agentBeforeDestination = enemy.Movement.Agent.destination;
-                    enemy.Movement.Agent.enabled = false;
+                    Creature.BlockMovement();
                     DamageableRigidbody.isKinematic = false;
                     isInKnockout = true;
-                    enemy.Movement.Agent.velocity = Vector3.zero;
                     PushRigidbody(DamageableRigidbody, takeDamageData);
                     if (knockoutCoroutine == null)
                         knockoutCoroutine = StartCoroutine(InKnockout(DamageableRigidbody, enemy));
@@ -43,8 +45,7 @@ namespace EnemyNS.OnTakeDamage
             yield return new WaitForSeconds(inKnockoutTime);
             if (enemy.Health > 0)
             {
-                enemy.Movement.Agent.enabled = true;
-                enemy.Movement.Agent.SetDestination(agentBeforeDestination);
+                Creature.UnblockMovement();
                 if (hittedRigidbody != null)
                     hittedRigidbody.isKinematic = true;
             }

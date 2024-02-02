@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-namespace EnemyNS.Base
+
+namespace EnemyNS.Navigation
 {
     public enum OffMeshLinkMoveMethod
     {
