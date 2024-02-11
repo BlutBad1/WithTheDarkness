@@ -1,5 +1,6 @@
 using DamageableNS;
 using EffectsNS.PlayerEffects;
+using SceneConstantsNS;
 using ScenesManagementNS;
 using SoundNS;
 using System.Collections;
@@ -136,7 +137,7 @@ namespace PlayerScriptsNS
             if (sceneManager)
                 Loader.Load(sceneManager.GetRandomLoseScene());
             else
-                Loader.Load(MyConstants.SceneConstants.MAIN_MENU);
+                Loader.Load(SceneConstants.MAIN_MENU);
         }
     }
 }

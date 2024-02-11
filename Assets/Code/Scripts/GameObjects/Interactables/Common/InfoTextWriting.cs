@@ -1,21 +1,28 @@
 using Data.Text;
-using HudNS;
+using HUDConstantsNS;
 using UnityEngine;
-using UtilitiesNS;
+using UnityEngine.Serialization;
 
 namespace InteractableNS.Common
 {
-    public class InfoTextWriting : Interactable
-    {
-        [SerializeField]
-        protected string message;
-        public TextData Text;
-        [SerializeField]
-        protected float disapperingSpeed;
-        protected override void Interact()
-        {
-            MessagePrint messagePrint = Utilities.GetComponentFromGameObject<MessagePrint>(lastWhoInteracted.gameObject);
-            messagePrint.PrintMessage(Text ? Text.GetText() : message, disapperingSpeed);
-        }
-    }
+	public class InfoTextWriting : Interactable
+	{
+		[SerializeField, FormerlySerializedAs("Text")]
+		protected TextData text;
+
+		protected IMessagePrinter messagePrint;
+
+		protected override void Start()
+		{
+			GetMessagePrinter();
+		}
+		protected virtual void GetMessagePrinter()
+		{
+			messagePrint = HUDConstants.MessagePrinter;
+		}
+		protected override void Interact()
+		{
+			messagePrint.PrintMessage(text.GetText(), gameObject);
+		}
+	}
 }

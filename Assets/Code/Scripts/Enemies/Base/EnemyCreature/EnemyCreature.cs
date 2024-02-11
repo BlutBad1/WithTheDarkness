@@ -1,5 +1,5 @@
+using CreatureConstantsNS;
 using CreatureNS;
-using MyConstants.CreatureConstants;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -66,7 +66,7 @@ namespace EnemyNS.Base
         protected List<string> GetOpponentsList()
         {
             List<string> list = new List<string>();
-            if (CreatureType == MainCreatureConstants.ALONE_CREATURE_TYPE)
+            if (CreatureType == CreatureConstants.ALONE_CREATURE_TYPE)
                 list = CreatureNames;
             else
             {

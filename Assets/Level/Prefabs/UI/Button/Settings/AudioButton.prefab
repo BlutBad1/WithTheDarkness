@@ -172,6 +172,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 661061308170361178}
     - target: {fileID: 5455025555213896770, guid: c7afeecc33cc1c14699f8f5ce5d11ec0, type: 3}
+      propertyPath: m_Navigation.m_Mode
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5455025555213896770, guid: c7afeecc33cc1c14699f8f5ce5d11ec0, type: 3}
+      propertyPath: m_Navigation.m_SelectOnDown
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5455025555213896770, guid: c7afeecc33cc1c14699f8f5ce5d11ec0, type: 3}
+      propertyPath: m_Navigation.m_SelectOnRight
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5455025555213896770, guid: c7afeecc33cc1c14699f8f5ce5d11ec0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 5
       objectReference: {fileID: 0}

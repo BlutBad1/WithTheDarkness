@@ -1,0 +1,17 @@
+{
+    "name": "FootstepSystem",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c5ee2e1b2c570564c9bd1e6fe39430e7",
+        "GUID:ae4051ae2ee194a4da6891de7df54637"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

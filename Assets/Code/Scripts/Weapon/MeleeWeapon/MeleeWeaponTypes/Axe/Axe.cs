@@ -76,7 +76,7 @@ public class Axe : MeleeWeaponBase
 		playerHealth.PercentResistance = 0;
 		playerHealth.OnTakeDamageWithoutDamageData -= DecreaseDurability;
 	}
-	public override void DecreaseDurability()
+	protected override void DecreaseDurability()
 	{
 		meleeData.CurrentDurability -= meleeData.MoveDurabilityCost;
 		meleeData.CurrentDurability = meleeData.CurrentDurability <= 0 ? 0 : meleeData.CurrentDurability;
@@ -91,7 +91,7 @@ public class Axe : MeleeWeaponBase
 	{
 		audioSourcesManager.CreateNewAudioSourceAndPlay(AxeConstants.HIT_SOUND);
 	}
-	public override bool CanAttack()
+	protected override bool CanAttack()
 	{
 		if (animator.GetNextAnimatorStateInfo(0).IsName(WeaponConstants.PUTTING_DOWN) ||
 				  animator.GetCurrentAnimatorStateInfo(0).IsName(WeaponConstants.PUTTING_DOWN) ||

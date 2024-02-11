@@ -1,5 +1,5 @@
+using GameObjectsConstantsNS.UsableConstants;
 using InteractableNS.Usable.Locking;
-using MyConstants.EnironmentConstants.DecorConstants;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;

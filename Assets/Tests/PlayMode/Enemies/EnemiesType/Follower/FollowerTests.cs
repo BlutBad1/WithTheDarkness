@@ -16,7 +16,7 @@ public class FollowerTests
         //Arrange
         player = GameObject.Instantiate(new GameObject());
         gameObject = GameObject.Instantiate(new GameObject());
-        player.gameObject.name = MyConstants.CommonConstants.PLAYER;
+        //player.gameObject.name = CommonConstantsNS.Constants.PLAYER;
         player.transform.position = new Vector3(0, 0, 10);
         stopwatch = new Stopwatch();
     }

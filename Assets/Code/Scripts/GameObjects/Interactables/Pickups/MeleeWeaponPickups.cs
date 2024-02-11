@@ -36,7 +36,7 @@ namespace InteractableNS.Pickups
         }
         protected override void Interact()
         {
-            WeaponManager weaponManager = UtilitiesNS.Utilities.GetComponentFromGameObject<WeaponManager>(lastWhoInteracted.gameObject);
+            WeaponManager weaponManager = UtilitiesNS.Utilities.GetComponentFromGameObject<WeaponManager>(LastWhoInteracted.gameObject);
             if (weaponManager != null)
             {
                 Weapon thisWeapon = Array.Find(weaponManager.Weapons, x => x.WeaponData.WeaponEntity == weaponEntity);

@@ -1,50 +1,40 @@
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace HudNS
 {
-    public class MessagePrint : MonoBehaviour
-    {
-        public TextMeshProUGUI DefaultShowcaser;
-        private TextMeshProUGUI showcaser;
-        Dictionary<TextMeshProUGUI, Coroutine> coroutinesLeft = new Dictionary<TextMeshProUGUI, Coroutine>();
-        public void PrintMessage(string message, float disapperingSpeed, TextMeshProUGUI showcaser)
-        {
-            this.showcaser = showcaser;
-            printMessage(message, disapperingSpeed);
-        }
-        public void PrintMessage(string message, float disapperingSpeed)
-        {
-            this.showcaser = DefaultShowcaser;
-            printMessage(message, disapperingSpeed);
-        }
-        void printMessage(string message, float disapperingSpeed)
-        {
-            showcaser.text = message;
-            showcaser.alpha = 1;
-            if (!coroutinesLeft.ContainsKey(showcaser))
-                coroutinesLeft.Add(showcaser, StartCoroutine(MessageDisappering(showcaser, disapperingSpeed)));
-            else
-            {
-                StopCoroutine(coroutinesLeft[showcaser]);
-                coroutinesLeft[showcaser] = StartCoroutine(MessageDisappering(showcaser, disapperingSpeed));
-            }
-        }
-        IEnumerator MessageDisappering(TextMeshProUGUI ShowcaserCoroutine, float disapperingSpeed)
-        {
-            float tempAlpha = ShowcaserCoroutine.alpha;
-            while (tempAlpha > 0)
-            {
-                ShowcaserCoroutine.color = new Color(ShowcaserCoroutine.color.r, ShowcaserCoroutine.color.g, ShowcaserCoroutine.color.b, tempAlpha);
-                if (tempAlpha >= 0.01)
-                    tempAlpha -= Time.deltaTime * disapperingSpeed;
-                else
-                    tempAlpha = 0;
-                yield return null;
-            }
-            ShowcaserCoroutine.text = "";
-        }
-    }
+	public class MessagePrint : MonoBehaviour, IMessagePrinter
+	{
+		[SerializeField, FormerlySerializedAs("DefaultShowcaser")]
+		private TextMeshProUGUI showcaser;
+		[SerializeField]
+		private float disapperingSpeed = 0.8f;
+
+		private Coroutine currentCoroutine;
+
+		public void PrintMessage(string message, GameObject fromGO)
+		{
+			showcaser.text = message;
+			showcaser.alpha = 1;
+			if (currentCoroutine != null)
+				StopCoroutine(currentCoroutine);
+			currentCoroutine = StartCoroutine(MessageDisappering(showcaser, disapperingSpeed));
+		}
+		private IEnumerator MessageDisappering(TextMeshProUGUI showcaser, float disapperingSpeed)
+		{
+			float tempAlpha = showcaser.alpha;
+			while (tempAlpha > 0)
+			{
+				showcaser.color = new Color(showcaser.color.r, showcaser.color.g, showcaser.color.b, tempAlpha);
+				if (tempAlpha >= 0.01)
+					tempAlpha -= Time.deltaTime * disapperingSpeed;
+				else
+					tempAlpha = 0;
+				yield return null;
+			}
+			showcaser.text = "";
+		}
+	}
 }

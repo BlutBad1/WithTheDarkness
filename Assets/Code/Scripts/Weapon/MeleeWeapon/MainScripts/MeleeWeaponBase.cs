@@ -1,9 +1,10 @@
 using DamageableNS;
-using WeaponConstantsNS.MeleeWeaponConstantsNS;
+using PlayerScriptsNS;
 using ScriptableObjectNS.Weapon;
 using System;
 using UnityEngine;
 using WeaponConstantsNS;
+using WeaponConstantsNS.MeleeWeaponConstantsNS;
 using WeaponNS.ShootingWeaponNS;
 
 namespace WeaponNS.MeleeWeaponNS
@@ -23,6 +24,7 @@ namespace WeaponNS.MeleeWeaponNS
 		[SerializeField]
 		protected DurabilityChange weaponDurabilityEnd;
 
+		protected GameObject player;
 		protected float damageAndForceMultiplier = 1f;
 		protected event Action<RaycastHit> OnHit;
 		protected bool attacking = false;
@@ -37,12 +39,7 @@ namespace WeaponNS.MeleeWeaponNS
 		}
 		private void Start()
 		{
-			if (!bulletHolesDataBase)
-				bulletHolesDataBase = GameObject.Find(WeaponConstants.DAMAGE_DECALS_DATA_BASE).GetComponent<DamageDecalDataBase>();
-			if (!animator)
-				animator = GetComponent<Animator>();
-			if (!cameraOrigin)
-				cameraOrigin = Camera.main;
+			player = UtilitiesNS.Utilities.GetComponentFromGameObject<PlayerCreature>(gameObject).gameObject;
 			if (!hasBeenInitialized)
 				AttachActions();
 			hasBeenInitialized = true;
@@ -89,7 +86,7 @@ namespace WeaponNS.MeleeWeaponNS
 			attacking = true;
 			Invoke(nameof(ResetAttack), meleeData.AttackTime);
 		}
-		public virtual bool CanAttack()
+		protected virtual bool CanAttack()
 		{
 			if (attacking) return false;
 			if (animator.GetNextAnimatorStateInfo(0).IsName(WeaponConstants.PUTTING_DOWN) ||
@@ -104,15 +101,14 @@ namespace WeaponNS.MeleeWeaponNS
 				IDamageable damageable = UtilitiesNS.Utilities.GetComponentFromGameObject<IDamageable>(hitInfo.transform.gameObject);
 				if (damageable != null && !damageable.Equals(null))
 				{
-					damageable.TakeDamage(new TakeDamageData(damageable, meleeData.Damage * damageAndForceMultiplier, meleeData.Force * damageAndForceMultiplier, new HitData(hitInfo), GameObject.Find(MyConstants.CommonConstants.PLAYER)));
+					damageable.TakeDamage(new TakeDamageData(damageable, meleeData.Damage * damageAndForceMultiplier,
+						meleeData.Force * damageAndForceMultiplier, new HitData(hitInfo), player));
 					DecreaseDurability();
 				}
 				OnHit?.Invoke(hitInfo);
-				//if (Physics.Raycast(CameraOrigin.transform.position, CameraOrigin.transform.forward, out RaycastHit hitInfo2, MeleeData.AttackDistance + 2 * MeleeData.AttackRadius, ~WhatIsRayCastIgnore))
-				//    OnHit?.Invoke(hitInfo2);
 			}
 		}
-		public virtual void DecreaseDurability()
+		protected virtual void DecreaseDurability()
 		{
 			meleeData.CurrentDurability -= meleeData.MoveDurabilityCost;
 			meleeData.CurrentDurability = meleeData.CurrentDurability <= 0 ? 0 : meleeData.CurrentDurability;

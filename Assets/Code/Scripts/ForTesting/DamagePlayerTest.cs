@@ -9,8 +9,6 @@ namespace ForTestingNS
         void Start()
         {
             if (!player)
-                player = GameObject.Find(MyConstants.CommonConstants.PLAYER);
-            if (!player)
             {
 #if UNITY_EDITOR
                 Debug.LogWarning("Player is not found!");

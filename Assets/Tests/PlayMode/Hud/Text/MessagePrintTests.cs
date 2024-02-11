@@ -1,3 +1,4 @@
+using HUDConstantsNS;
 using HudNS;
 using NUnit.Framework;
 using System.Collections;
@@ -7,7 +8,6 @@ using UnityEngine.TestTools;
 
 namespace Hud.Text
 {
-
     public class MessagePrintTests
     {
         MessagePrint messagePrint;
@@ -19,14 +19,14 @@ namespace Hud.Text
             //Arrange
             infoMessenger = GameObject.Instantiate(new GameObject());
             infoMessenger.AddComponent<TextMeshProUGUI>();
-            infoMessenger.name = MyConstants.HUDConstants.TEXTSHOWER;
+            infoMessenger.name = HUDConstants.TEXTSHOWER;
             messagePrint = infoMessenger.AddComponent<MessagePrint>();
         }
         [UnityTest]
         public IEnumerator PrintMessageTest_Expect_PrintedMessageAndChangedOpacity()
         {
             //Act
-            messagePrint.PrintMessage("aaa", 1);
+            messagePrint.PrintMessage("aaa", infoMessenger);
             //Assert
             Assert.AreEqual("aaa", infoMessenger.GetComponent<TextMeshProUGUI>().text);
             Assert.IsTrue(infoMessenger.GetComponent<TextMeshProUGUI>().alpha == 1f);

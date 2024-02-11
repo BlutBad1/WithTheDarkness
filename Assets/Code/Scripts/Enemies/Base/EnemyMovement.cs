@@ -1,6 +1,6 @@
 using AYellowpaper;
+using EnemyConstantsNS;
 using EnemyNS.Navigation;
-using MyConstants.CreatureConstants.EnemyConstants;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Serialization;
@@ -53,7 +53,7 @@ namespace EnemyNS.Base
                 if (!animator)
                     Debug.LogWarning("Enemy movement animator is not set!");
 #endif
-                animator?.SetBool(MainEnemyConstants.IS_WALKING, Agent.velocity.magnitude > 0.01f);
+				animator?.SetBool(EnemyConstants.IS_WALKING, Agent.velocity.magnitude > 0.01f);
             }
         }
         protected virtual void OnDisable()
@@ -66,14 +66,14 @@ namespace EnemyNS.Base
         private void HandleLinkStart(OffMeshLinkMoveMethod MoveMethod)
         {
             if (MoveMethod == OffMeshLinkMoveMethod.NormalSpeed)
-                animator.SetBool(MainEnemyConstants.IS_WALKING, true);
+				animator.SetBool(EnemyConstants.IS_WALKING, true);
             else if (MoveMethod != OffMeshLinkMoveMethod.Teleport)
-                animator.SetTrigger(MainEnemyConstants.JUMP);
+				animator.SetTrigger(EnemyConstants.JUMP);
         }
         private void HandleLinkEnd(OffMeshLinkMoveMethod MoveMethod)
         {
             if (MoveMethod != OffMeshLinkMoveMethod.Teleport && MoveMethod != OffMeshLinkMoveMethod.NormalSpeed)
-                animator.SetTrigger(MainEnemyConstants.LANDED);
+				animator.SetTrigger(EnemyConstants.LANDED);
         }
     }
 }

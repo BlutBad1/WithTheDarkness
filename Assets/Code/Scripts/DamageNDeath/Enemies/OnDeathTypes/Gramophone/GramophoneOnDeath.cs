@@ -1,6 +1,6 @@
 using DamageableNS;
+using EnemyConstantsNS.Gramophone;
 using InteractableNS.Common;
-using MyConstants.CreatureConstants.EnemyConstants;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;

@@ -10,9 +10,8 @@ namespace ScenesManagementNS
             if (isFirstUpdate)
             {
                 isFirstUpdate = false;
-                Loader.LoaderCallbackInstance = this;
+                Loader.LoaderCallbackInstance1 = this;
                 Loader.LoaderCallback();
-                   
             }
         }
     }

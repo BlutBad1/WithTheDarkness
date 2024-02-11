@@ -6,7 +6,7 @@ namespace InteractableNS
     {
         protected override void Interact()
         {
-            WeaponManager weaponManager = UtilitiesNS.Utilities.GetComponentFromGameObject<WeaponManager>(lastWhoInteracted.gameObject);
+            WeaponManager weaponManager = UtilitiesNS.Utilities.GetComponentFromGameObject<WeaponManager>(LastWhoInteracted.gameObject);
             if (weaponManager)
             {
                 weaponManager.Lamp.SetActive(true);

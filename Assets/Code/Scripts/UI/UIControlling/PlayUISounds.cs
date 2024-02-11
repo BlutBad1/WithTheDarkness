@@ -1,5 +1,5 @@
-using MyConstants.UIConstants;
 using SoundNS;
+using UIConstantsNS;
 using UnityEngine;
 
 namespace UIControlling
@@ -9,7 +9,7 @@ namespace UIControlling
         private AudioSourcesManager audioSourcesManager;
         private void Start()
         {
-            GameObject.Find(MainUIConstants.UI_SOUNDS).TryGetComponent(out audioSourcesManager);
+            GameObject.Find(UISoundsNameConstants.UI_SOUNDS).TryGetComponent(out audioSourcesManager);
         }
         public void PlaySound(string soundName)
         {

@@ -1,5 +1,5 @@
+using EnemyConstantsNS;
 using EnemyNS.Base;
-using MyConstants.CreatureConstants.EnemyConstants;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -79,14 +79,14 @@ namespace EnemyNS.Skills
             EnemyMovement enemyMovement = enemySkillInfo.EnemyMovement;
             enemyMovement.Agent.enabled = false;
             enemyMovement.State = EnemyState.UsingAbility;
-            enemySkillInfo.Animator?.SetTrigger(MainEnemyConstants.JUMP);
+            enemySkillInfo.Animator?.SetTrigger(EnemyConstants.JUMP);
             enemySkillInfo.EnemyAttack.TryAttack();
         }
         private void EnemyAfterJump(EnemySkillInfo enemySkillInfo, Vector3 endPosition)
         {
             EnemyMovement enemyMovement = enemySkillInfo.EnemyMovement;
             enemySkillInfo.EnemyAttack.StopAttack();
-            enemySkillInfo.Animator?.SetTrigger(MainEnemyConstants.LANDED);
+            enemySkillInfo.Animator?.SetTrigger(EnemyConstants.LANDED);
             enemyMovement.Agent.enabled = true;
             if (NavMesh.SamplePosition(endPosition, out NavMeshHit hit, 1f, enemyMovement.Agent.areaMask))
                 enemyMovement.State = EnemyState.Chase;

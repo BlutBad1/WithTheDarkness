@@ -1,7 +1,7 @@
 using AYellowpaper;
 using CreatureNS;
+using EnemyConstantsNS.Gramophone;
 using EnemyNS.Base;
-using MyConstants.CreatureConstants.EnemyConstants;
 using UnityEngine;
 using UnityEngine.Serialization;
 

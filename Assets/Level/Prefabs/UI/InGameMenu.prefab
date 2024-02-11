@@ -286,11 +286,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21fa7c6cb463af54eb59db46f810ba51, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Menu:
+  menu:
     Name: GameMenu
     WindowGameObjects:
     - {fileID: 3235160136744333027}
-  Windows:
+  windows:
   - Name: SureMenu(ToMainMenu)
     WindowGameObjects:
     - {fileID: 3917870702948106031}
@@ -1107,7 +1107,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18538c95d58de3948889922c8be76611, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GameMenu: {fileID: 1067693641684026300}
+  gameMenu: {fileID: 1067693641684026300}
+  windowsManagement: {fileID: 8698682105524362913}
+  interactableText: {fileID: 0}
 --- !u!114 &8229807401124891125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1621,7 +1623,6 @@ GameObject:
   - component: {fileID: 233509209948619731}
   - component: {fileID: 1717689407222440472}
   - component: {fileID: 1848224010618324115}
-  - component: {fileID: 1668384018082376111}
   m_Layer: 5
   m_Name: GameMenuBackgroundImg
   m_TagString: Untagged
@@ -1689,33 +1690,6 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &1668384018082376111
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3235160136744333027}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae60aec4739e57749b284606539ea2ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  UnityEvent:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6753757189435814916}
-        m_TargetAssemblyTypeName: UINS.InGameMenu, Ui
-        m_MethodName: DisableInGameMenu
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &3539368426390170351
 GameObject:
   m_ObjectHideFlags: 0
@@ -2290,7 +2264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae60aec4739e57749b284606539ea2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UnityEvent:
+  unityEvent:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8698682105524362913}
@@ -3254,6 +3228,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3467171019606698957, guid: 41124d0af524671498b19670a1829f71, type: 3}
       propertyPath: UnityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 8698682105524362913}
+    - target: {fileID: 3467171019606698957, guid: 41124d0af524671498b19670a1829f71, type: 3}
+      propertyPath: unityEvent.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 8698682105524362913}
     - target: {fileID: 3882677995787747640, guid: 41124d0af524671498b19670a1829f71, type: 3}
