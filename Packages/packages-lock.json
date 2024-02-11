@@ -7,6 +7,18 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.blutbad.enemy-base": {
+      "version": "file:enemy-base",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.blutbad.main-core": {
+      "version": "file:main-core",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.robproductions.opengraphgui": {
       "version": "https://github.com/RobProductions/OpenGraphGUI.git",
       "depth": 0,

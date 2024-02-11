@@ -1,6 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -19,10 +17,9 @@ namespace EnemyNS.Base
         private Transform lastPursuedTargetPosition;
         private Coroutine followCoroutine;
         private bool isStateChangeBlocked = false;
-        private List<PriorityTask> priorityTasks = new List<PriorityTask>();
 
         protected SpotTarget SpotTarget { get => spotTarget; }
-        public List<PriorityTask> PriorityTasks { get => priorityTasks; }
+
         public override GameObject PursuedTarget
         {
             get => pursuedTarget;
@@ -173,22 +170,8 @@ namespace EnemyNS.Base
         protected virtual IEnumerator DoPriority()
         {
             isStateChangeBlocked = true;
-            Vector3 currentDestination = Vector3.zero;
-            while (PriorityTasks.Count > 0 || !IsArrived())
-            {
-                InvokeDoPriorityEvent();
-                if (IsArrived() || agent.destination != currentDestination)
-                {
-                    PriorityTask highestPriorityTask = PriorityTasks.OrderByDescending(t => t.Priority).FirstOrDefault();
-                    if (highestPriorityTask != null && agent.CalculatePath(highestPriorityTask.Destination, agent.path))
-                    {
-                        currentDestination = highestPriorityTask.Destination;
-                        Destination = currentDestination;
-                    }
-                    PriorityTasks.Remove(highestPriorityTask);
-                }
+            while (InvokeDoPriorityEvent())
                 yield return null;
-            }
             isStateChangeBlocked = false;
             State = DefaultState;
         }

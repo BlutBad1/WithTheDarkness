@@ -26,6 +26,6 @@ namespace EnemyNS.Attack
             HandleGameObject(takeDamageData.FromGameObject);
         }
         protected override bool CheckGameObjectInSight(GameObject gameObject) =>
-            Vector3.Distance(transform.position, gameObject.transform.position) <= sphereCollider.radius * 1.1f;
+            Vector3.Distance(transform.position, gameObject.transform.position) <= sphereCollider.radius * 2f;
     }
 }

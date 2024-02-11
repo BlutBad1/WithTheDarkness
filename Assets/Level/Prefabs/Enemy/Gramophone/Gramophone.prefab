@@ -744,6 +744,7 @@ GameObject:
   - component: {fileID: 3646586626959350748}
   - component: {fileID: 243094645810529476}
   - component: {fileID: 243094645810529477}
+  - component: {fileID: 5759733307484121758}
   - component: {fileID: 6762554739433188666}
   - component: {fileID: 1285822928695384938}
   - component: {fileID: 784355909804007056}
@@ -876,6 +877,21 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &5759733307484121758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4165996351121408356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9b8020169df74844a5d7dd9c8219dd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentType: 2
+  agent: {fileID: 243094645810529477}
+  updateRate: 1
 --- !u!114 &6762554739433188666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -937,7 +953,6 @@ MonoBehaviour:
   updateRate: 0.1
   agent: {fileID: 243094645810529477}
   spotTarget: {fileID: 784355909804007056}
-  idleMovespeedMultiplier: 1
 --- !u!114 &243094645810529473
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -965,9 +980,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4feac654f6f05574d9f929f980fd5d66, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
-  InvokeOnTakeDamageAfterDead: 1
-  HealthOnStart: 0
+  health: 100
+  invokeOnTakeDamageAfterDead: 1
   movement: {fileID: 243094645810529473}
   spotTarget: {fileID: 784355909804007056}
   enemySize: 0
@@ -1191,8 +1205,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ce69f70bc73c249a3b7008b82aff23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Agent: {fileID: 243094645810529477}
-  IsGrounded: 1
+  agent: {fileID: 243094645810529477}
   gravity: -9.8
   groundCheckHeight: 0.2
   groundCheckRadius: 0.5

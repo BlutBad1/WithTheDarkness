@@ -2,6 +2,7 @@ using CreatureNS;
 using DamageableNS;
 using EnemyNS.Attack;
 using EnemyNS.Base;
+using EnemyNS.Base.StateBehaviourNS.Priority;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,8 +28,7 @@ namespace EnemyNS.Type.Gramophone.Attack
         private Dictionary<GameObject, Coroutine> currentDamageCoroutines = new Dictionary<GameObject, Coroutine>();
         //float - default speed
         private Dictionary<GameObject, float> defaultSpeedMultipliers = new Dictionary<GameObject, float>();
-
-        public bool IsEnable { get => isEnable; set => isEnable = value; } //is using in an event
+        public bool IsEnable { get => isEnable; set => isEnable = value; } //is using in an animation event
 
         private void Start()
         {
@@ -71,8 +71,7 @@ namespace EnemyNS.Type.Gramophone.Attack
         {
             GameObject damageObject = objectToDamage.GetGameObject();
             Transform damageObjectTran = damageObject.transform;
-            NavMeshAgent navMeshAgent = damageObject.GetComponent<NavMeshAgent>();
-            EnemyStateHandler enemyStateHandler = UtilitiesNS.Utilities.GetComponentFromGameObject<EnemyStateHandler>(damageObject);
+            PriorityBehaviour priorityBehaviour = UtilitiesNS.Utilities.GetComponentFromGameObject<PriorityBehaviour>(damageObject);
             Coroutine runAwayCoroutine = null;
             float gameObjectDefaultSpeed = 1f;
             defaultSpeedMultipliers[damageObject] = gameObjectDefaultSpeed;
@@ -82,7 +81,7 @@ namespace EnemyNS.Type.Gramophone.Attack
                 float distanceCoeff = CalculateDistanceCoeff(damageObjectTran);
                 objectToDamage.TakeDamage(Damage * distanceCoeff);
                 float currentCreauteSpeed = gameObjectDefaultSpeed * (speedMultiplier / distanceCoeff);
-                SetOtherEnemyBehaviour(enemyStateHandler, navMeshAgent, runAwayCoroutine);
+                SetOtherEnemyBehaviour(priorityBehaviour, runAwayCoroutine);
                 SetGameObjectSpeed(creature, currentCreauteSpeed);
                 yield return new WaitForSeconds(AttackDelay);
             }
@@ -94,37 +93,36 @@ namespace EnemyNS.Type.Gramophone.Attack
             ICreature creature = UtilitiesNS.Utilities.GetComponentFromGameObject<ICreature>(gameObject);
             SetGameObjectSpeed(creature, defaultSpeedMultipliers[gameObject]);
         }
-        private void SetOtherEnemyBehaviour(EnemyStateHandler enemyStateHandler, NavMeshAgent navMeshAgent, Coroutine currentCoroutine)
+        private void SetOtherEnemyBehaviour(PriorityBehaviour priorityBehaviour, Coroutine currentCoroutine)
         {
-            if (enemyStateHandler && navMeshAgent && currentCoroutine == null)
-                currentCoroutine = StartCoroutine(RunAwayFromGameObjectCoroutine(enemyStateHandler, navMeshAgent, currentCoroutine));
+            if (priorityBehaviour && currentCoroutine == null)
+                currentCoroutine = StartCoroutine(RunAwayFromGameObjectCoroutine(priorityBehaviour, currentCoroutine));
         }
         private float CalculateDistanceCoeff(Transform attackObjectTran) =>
             Mathf.Lerp(maxDistanceMultiplier, 1, Vector3.Distance(gameObject.transform.position, attackObjectTran.position) / AttackRadius);
         private void SetGameObjectSpeed(ICreature creature, float speed) =>
             creature.SetSpeedCoef(speed);
-        private IEnumerator RunAwayFromGameObjectCoroutine(EnemyStateHandler enemyStateHandler, NavMeshAgent navMeshAgent, Coroutine currentCoroutine)
+        private IEnumerator RunAwayFromGameObjectCoroutine(PriorityBehaviour priorityBehaviour, Coroutine currentCoroutine)
         {
-            Vector3 destination = CalculateRunAwayPosition(enemyStateHandler);
-            NavMesh.SamplePosition(destination, out NavMeshHit hit, AttackRadius * 2, navMeshAgent.areaMask);
+            Vector3 destination = CalculateRunAwayPosition(priorityBehaviour.gameObject);
+            NavMesh.SamplePosition(destination, out NavMeshHit hit, AttackRadius * 2, NavMesh.AllAreas);
             Vector3 finalDestination = hit.position;
-            SetEnemyPriority(enemyStateHandler, finalDestination);
-            while (!UtilitiesNS.Utilities.CheckIfAgentHasArrived(navMeshAgent))
+            SetEnemyPriority(priorityBehaviour, finalDestination);
+            while (priorityBehaviour.CheckIfHasPriority())
                 yield return new WaitForSeconds(0.1f);
             currentCoroutine = null;
         }
-        private Vector3 CalculateRunAwayPosition(EnemyStateHandler enemyStateHandler)
+        private Vector3 CalculateRunAwayPosition(GameObject enemyGO)
         {
-            Vector3 enemyPosition = enemyStateHandler.gameObject.transform.position;
+            Vector3 enemyPosition = enemyGO.transform.position;
             Vector3 directionToFlee = enemyPosition - gameObject.transform.position;
             directionToFlee.Normalize();
             Vector3 destination = enemyPosition + directionToFlee * (AttackRadius * 2);
             return destination;
         }
-        private void SetEnemyPriority(EnemyStateHandler enemyStateHandler, Vector3 finalDestination)
+        private void SetEnemyPriority(PriorityBehaviour priorityBehaviour, Vector3 finalDestination)
         {
-            enemyStateHandler.PriorityTasks.Add(new PriorityTask(finalDestination, 1));
-            enemyStateHandler.State = EnemyState.DoPriority;
+            priorityBehaviour.AddNewPriorityTasks(new PriorityTask(finalDestination, 1));
         }
     }
 }

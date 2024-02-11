@@ -1,3 +1,4 @@
+using AudioConstantsNS;
 using MyConstants;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,8 +12,7 @@ namespace SoundNS.Ambient
 {
     public class AmbientSoundController : MonoBehaviour
     {
-        private static AmbientSoundController instance;
-        public static AmbientSoundController Instance { get => instance; set => instance = value; }
+        public static AmbientSoundController Instance { get; private set ; }
 
         [SerializeField]
         private AmbientSound[] ambientSounds;

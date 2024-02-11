@@ -191,6 +191,7 @@ GameObject:
   - component: {fileID: 552667455470847174}
   - component: {fileID: 3465888700476240764}
   - component: {fileID: 2040762859037517223}
+  - component: {fileID: 4472096748748641491}
   - component: {fileID: 3412863237792565969}
   - component: {fileID: 5915790900735131413}
   - component: {fileID: 5079124951260837742}
@@ -199,6 +200,7 @@ GameObject:
   - component: {fileID: 5079124951260837649}
   - component: {fileID: 4973814721366747465}
   - component: {fileID: 5079124951260837741}
+  - component: {fileID: 2738454846825208095}
   - component: {fileID: 5079124951260837738}
   - component: {fileID: 5079124951260837739}
   - component: {fileID: 4976554312113744295}
@@ -283,15 +285,15 @@ MonoBehaviour:
   layersForProcessing:
     serializedVersion: 2
     m_Bits: 2048
+  rayCastIgnore:
+    serializedVersion: 2
+    m_Bits: 1566646
   gameObjectForRay: {fileID: 5340214654828098121}
   gapBetweenRay: 7
   fieldOfView: 140
   viewDistance: 6
   yDeviation: 4
   originOffset: {x: 0, y: 0, z: 0}
-  rayCastIgnore:
-    serializedVersion: 2
-    m_Bits: 1566646
 --- !u!114 &3749772080359825912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -308,15 +310,15 @@ MonoBehaviour:
   layersForProcessing:
     serializedVersion: 2
     m_Bits: 2048
+  rayCastIgnore:
+    serializedVersion: 2
+    m_Bits: 1566646
   gameObjectForRay: {fileID: 5340214654828098121}
   gapBetweenRay: 7
   fieldOfView: 360
   viewDistance: 1.8
   yDeviation: 4
   originOffset: {x: 0, y: 0, z: 0}
-  rayCastIgnore:
-    serializedVersion: 2
-    m_Bits: 1566646
 --- !u!114 &2063183444982298565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,7 +398,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyCreature: {fileID: 8835620669945720420}
-  dontLoseSightIfDistanceLess: 1
+  dontLoseSightIfDistanceLess: 2
 --- !u!114 &7153860253725842045
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,7 +414,6 @@ MonoBehaviour:
   updateRate: 0.1
   agent: {fileID: 5079124951260837741}
   spotTarget: {fileID: 1818655816826317202}
-  idleMovespeedMultiplier: 1
 --- !u!114 &5079124951260837656
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -425,9 +426,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 641b9ecab343c6e4fa52738f8c2a52c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Health: 100
-  InvokeOnTakeDamageAfterDead: 1
-  HealthOnStart: 0
+  health: 100
+  invokeOnTakeDamageAfterDead: 1
   movement: {fileID: 5079124951260837652}
   spotTarget: {fileID: 1818655816826317202}
   enemySize: 0
@@ -519,6 +519,19 @@ MonoBehaviour:
   stateHandler: {fileID: 7153860253725842045}
   moveRadius: 15
   pickTime: 3
+--- !u!114 &4472096748748641491
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5079124951260837733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b570b68f6e281114fbb4617fde56ca34, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateHandler: {fileID: 7153860253725842045}
 --- !u!114 &3412863237792565969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -545,8 +558,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c7ce69f70bc73c249a3b7008b82aff23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Agent: {fileID: 5079124951260837741}
-  IsGrounded: 1
+  agent: {fileID: 5079124951260837741}
   gravity: -9.8
   groundCheckHeight: 0.2
   groundCheckRadius: 0.5
@@ -697,6 +709,21 @@ NavMeshAgent:
   m_BaseOffset: 0.2
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &2738454846825208095
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5079124951260837733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9b8020169df74844a5d7dd9c8219dd2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  agentType: 1
+  agent: {fileID: 5079124951260837741}
+  updateRate: 1
 --- !u!114 &5079124951260837738
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7823,6 +7850,7 @@ MonoBehaviour:
   - {fileID: 2040762859037517223}
   - {fileID: 3465888700476240764}
   - {fileID: 3412863237792565969}
+  - {fileID: 4472096748748641491}
   ragdollEnabler: {fileID: 6346306088994057162}
   dissolve: {fileID: 6346306088994057165}
   fadeOutDelay: 30
