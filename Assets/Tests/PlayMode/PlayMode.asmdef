@@ -4,16 +4,17 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "Enemies",
+        "com.blutbad.main-core",
+        "com.blutbad.player-core",
+        "com.blutbad.player-core-fps",
         "Unity.TextMeshPro",
         "Map",
         "Weapon",
         "LampNLight",
-        "PlayerCore",
-        "CommonCore",
         "Effects",
         "DamageNDeath",
-        "UI"
+        "UI",
+        "Entities"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -23,7 +23,6 @@ namespace GameObjectsControllingNS.Spawner
         protected virtual void Start()
         {
             SpawnGameObject(SpawningGameObjects);
-            //gameObject.SetActive(false);
         }
         protected virtual SpawningGameObject SpawnGameObject(List<T> spawningGameObjects)
         {
@@ -49,6 +48,7 @@ namespace GameObjectsControllingNS.Spawner
                 else
                     gameobjectToSpawn.GameObject.transform.position = spawnTransform.position;
                 gameobjectToSpawn.GameObject.transform.parent = gameobjectToSpawn.Parent;
+                gameobjectToSpawn.GameObject.SetActive(true);
             }
             foreach (var spawningGameObject in spawningGameObjects)
             {

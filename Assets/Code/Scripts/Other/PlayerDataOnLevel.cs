@@ -89,7 +89,7 @@ namespace Data.Player
         }
         private void InitializePlayerStats()
         {
-            PlayerHealth[] health = GameObject.FindObjectsOfType<PlayerHealth>();
+            ExtendedPlayerHealth[] health = GameObject.FindObjectsOfType<ExtendedPlayerHealth>();
             foreach (var h in health)
             {
                 h.Health = this.health;
@@ -102,8 +102,8 @@ namespace Data.Player
             PlayerMotor[] playerMotors = GameObject.FindObjectsOfType<PlayerMotor>();
             foreach (var motor in playerMotors)
             {
-                motor.defaultSpeed = defaultSpeed;
-                motor.sprintingSpeed = sprintingSpeed;
+                motor.DefaultSpeed = defaultSpeed;
+                motor.SprintingSpeed = sprintingSpeed;
             }
             PlayerSprintLogic[] playerSprintLogic = GameObject.FindObjectsOfType<PlayerSprintLogic>();
             foreach (var sprint in playerSprintLogic)

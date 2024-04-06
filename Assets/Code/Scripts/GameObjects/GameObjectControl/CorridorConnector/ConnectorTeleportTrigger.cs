@@ -77,7 +77,7 @@ namespace LocationConnector
             connector.OriginGameObject.SetActive(false);
             if (isConnectedToMapData)
             {
-                Location connectedLoc = MapData.Instance.GetLocationByIndex(connectedLocIndex);
+                Location connectedLoc = spawnController.GetLocationByIndex(connectedLocIndex);
                 StartCoroutine(DisableLoc(connectedLoc.MapData));
             }
         }
@@ -102,7 +102,7 @@ namespace LocationConnector
         {
             if (isConnectedToMapData)
             {
-                Location connectedLoc = MapData.Instance.GetLocationByIndex(connectedLocIndex);
+                Location connectedLoc = spawnController.GetLocationByIndex(connectedLocIndex);
                 connectedLoc.MapData.SetActive(true);
                 if (connectedLocIndex == -2)
                 {
@@ -112,13 +112,13 @@ namespace LocationConnector
                 //Disable not needed locations (only if a player on the current location)
                 if (isPlayer)
                 {
-                    foreach (var location in MapData.Instance.ActiveLocations.Where(x => x.MapData.activeInHierarchy))
+                    foreach (var location in spawnController.ActiveLocations.Where(x => x.MapData.activeInHierarchy))
                     {
                         if (location.MapData != connectedLoc.MapData)
                             StartCoroutine(DisableLoc(location.MapData));
                     }
-                    Location theFirstLocation = MapData.Instance.GetLocationByIndex((int)LocationIndex.TheFirstLocation);
-                    Location theLastLocation = MapData.Instance.GetLocationByIndex((int)LocationIndex.TheLastLocation);
+                    Location theFirstLocation = spawnController.GetLocationByIndex((int)LocationIndex.TheFirstLocation);
+                    Location theLastLocation = spawnController.GetLocationByIndex((int)LocationIndex.TheLastLocation);
                     if (connectedLoc.MapData != theFirstLocation.MapData)
                         StartCoroutine(DisableLoc(theFirstLocation.MapData));
                     if (connectedLoc.MapData != theLastLocation.MapData)
@@ -129,7 +129,7 @@ namespace LocationConnector
         private IEnumerator DisableLoc(GameObject locToDisable)
         {
             yield return null;
-            if (locToDisable != MapData.Instance.GetLocationByIndex(thisLocIndex).MapData)
+            if (locToDisable != spawnController.GetLocationByIndex(thisLocIndex).MapData)
                 locToDisable.SetActive(false);
         }
         private IEnumerator TeleportNonPlayer(GameObject gameObjectToTeleport)
@@ -138,7 +138,7 @@ namespace LocationConnector
             Dissolve dissolve = SetAndEnableDisolving(gameObjectToTeleport);
             while (dissolve.CurrentDissolve < 0.95f)
                 yield return null;
-            Location connectedLoc = MapData.Instance.GetLocationByIndex(connectedLocIndex);
+            Location connectedLoc = spawnController.GetLocationByIndex(connectedLocIndex);
             ConnectorTeleportTrigger connectedTrigger = (ConnectorTeleportTrigger)connectedLoc.EntryTeleportTrigger;
             Transform teleportToPoint = connectedTrigger == null ? TeleportPoint : connectedTrigger.nonPlayerGameObjectSpawnPointToHere;
             TeleportGameobjectObject(gameObjectToTeleport, teleportToPoint);

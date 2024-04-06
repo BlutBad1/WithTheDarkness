@@ -14,8 +14,9 @@ namespace WeaponNS.ShootingWeaponNS
         public static Action AltAttackInputCanceled;
         public static Action ReloadInputStarted;
         public static Action ReloadInputCanceled;
+
         private InputManager inputManager;
-        //  [SerializeField] private KeyCode reloadKey;
+
         private void Awake()
         {
             inputManager = GetComponent<InputManager>();

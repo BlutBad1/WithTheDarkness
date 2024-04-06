@@ -25,7 +25,7 @@ namespace PlayerScriptsNS
         [SerializeField]
         private float dimmingWaitTime = 0.001f;
         [SerializeField]
-        private PlayerLook playerLook;
+        private FPSPlayerLook playerLook;
         [SerializeField]
         private InputManager playerInputManager;
         [Header("Sounds"), SerializeField]

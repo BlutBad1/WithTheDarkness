@@ -10,7 +10,7 @@ namespace CommonCore.PlayerScripts
     {
         GameObject player;
         GameObject camera;
-        PlayerLook playerLook;
+        FPSPlayerLook playerLook;
         float xRotation = 0;
         [SetUp]
         public void Setup()
@@ -20,7 +20,7 @@ namespace CommonCore.PlayerScripts
             camera = GameObject.Instantiate(new GameObject());
             camera.transform.parent = player.transform;
             camera.AddComponent<Camera>();
-            playerLook = player.AddComponent<PlayerLook>();
+            playerLook = player.AddComponent<FPSPlayerLook>();
         }
         [UnityTest]
         public IEnumerator PlayerLookTestInput50xAnd50y_Expect_Equal()

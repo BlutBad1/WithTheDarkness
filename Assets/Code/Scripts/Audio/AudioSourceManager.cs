@@ -7,6 +7,7 @@ namespace SoundNS
     {
         [SerializeField]
         protected AudioSource audioSource;
+
         private Coroutine ChangeClipCoroutine;
         private Coroutine VolumeChangeCoroutine;
         private AudioObject audioObject;

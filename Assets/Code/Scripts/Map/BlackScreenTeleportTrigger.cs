@@ -131,11 +131,11 @@ namespace LocationManagementNS
 			if (isConnectedToMapData)
 			{
 
-				GameObject connectedLoc = MapData.Instance.GetLocationByIndex(connectedLocIndex).MapData;
+				GameObject connectedLoc = spawnController.GetLocationByIndex(connectedLocIndex).MapData;
 				connectedLoc.SetActive(true);
 				if (connectedLocIndex == (int)LocationIndex.TheLastLocation)
 				{
-					Location theLastLocation = MapData.Instance.GetLocationByIndex((int)LocationIndex.TheLastLocation);
+					Location theLastLocation = spawnController.GetLocationByIndex((int)LocationIndex.TheLastLocation);
 					theLastLocation.EntryTeleportTrigger.TeleportPoint = TeleportPointToHere;
 					theLastLocation.EntryTeleportTrigger.ConnectedLocIndex = ThisLocIndex;
 				}
@@ -152,7 +152,7 @@ namespace LocationManagementNS
 				creature.UnblockMovement();
 			if (isConnectedToMapData)
 			{
-				GameObject thisLoc = MapData.Instance.GetLocationByIndex(thisLocIndex).MapData;
+				GameObject thisLoc = spawnController.GetLocationByIndex(thisLocIndex).MapData;
 				if (isPlayer)
 					thisLoc.SetActive(false);
 			}

@@ -67,12 +67,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fc25dcb73d2aa0448e4b76f05559fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OriginalTransformRoot: {fileID: 6050071780573954791}
-  DestinationTransformRoot: {fileID: 995494984885629304}
-  TeleportLayers:
+  originalTransformRoot: {fileID: 6050071780573954791}
+  destinationTransformRoot: {fileID: 995494984885629304}
+  teleportLayers:
     serializedVersion: 2
     m_Bits: 2048
-  IsTrigger: 1
+  isTrigger: 1
 --- !u!1 &7434983456240385066
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,12 +140,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fc25dcb73d2aa0448e4b76f05559fe2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OriginalTransformRoot: {fileID: 995494984885629304}
-  DestinationTransformRoot: {fileID: 6050071780573954791}
-  TeleportLayers:
+  originalTransformRoot: {fileID: 995494984885629304}
+  destinationTransformRoot: {fileID: 6050071780573954791}
+  teleportLayers:
     serializedVersion: 2
     m_Bits: 2048
-  IsTrigger: 1
+  isTrigger: 1
 --- !u!1 &8378328403122868178
 GameObject:
   m_ObjectHideFlags: 0
@@ -4471,7 +4471,8 @@ PrefabInstance:
       propertyPath: m_Mesh
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 766379550311399073, guid: 5c403cbc2fa06b84daad4e41f776ce71, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5c403cbc2fa06b84daad4e41f776ce71, type: 3}
 --- !u!4 &6931070871019502148 stripped
 Transform:

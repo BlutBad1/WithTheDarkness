@@ -1,0 +1,17 @@
+{
+    "name": "com.blutbad.player-core",
+    "rootNamespace": "",
+    "references": [
+        "GUID:1d69e243af6f7ab4395e454a237efa9d",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -1,7 +1,7 @@
 using DamageableNS;
-using EnemyNS.Attack;
-using EnemyNS.Base;
-using EnemyNS.OnTakeDamage;
+using EntityNS.Attack;
+using EntityNS.Base;
+using EntityNS.OnTakeDamage;
 using NUnit.Framework;
 using System.Collections;
 using UnityEngine;

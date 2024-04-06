@@ -1,0 +1,22 @@
+{
+  "name": "com.blutbad.entity-core",
+  "version": "1.0.0",
+  "displayName": "Entity Core",
+  "description": "A simple entity carcas for extending.",
+  "unity": "2021.3",
+  "keywords": [
+    "library",
+    "enemy",
+    "base",
+    "carcas",
+    "attack",
+    "core"
+  ],
+  "author": {
+    "name": "TEGTO",
+    "url": "https://github.com/TEGTO"
+  },
+   "dependencies": {
+    "com.blutbad.main-core": "1.0.0"
+  }
+}

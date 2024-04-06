@@ -371,7 +371,7 @@ MonoBehaviour:
   prop: {fileID: 8914577966757235470}
   randomDurability: 1
   durability: 100
-  minMaxDurability: {x: 20, y: 100}
+  minMaxDurability: {x: 60, y: 100}
   ifWeaponNotUnlocked:
     m_PersistentCalls:
       m_Calls:

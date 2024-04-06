@@ -6,8 +6,6 @@ using UnityEngine.TestTools;
 
 namespace CommonCore.PlayerScripts
 {
-
-
     public class PlayerHealthTests
     {
         GameObject player;

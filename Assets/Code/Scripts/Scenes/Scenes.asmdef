@@ -2,7 +2,7 @@
     "name": "Scenes",
     "rootNamespace": "",
     "references": [
-        "CommonCore"
+        "com.blutbad.main-core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

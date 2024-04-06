@@ -763,6 +763,7 @@ GameObject:
   - component: {fileID: 4165996351121408354}
   - component: {fileID: 4165996351121408350}
   - component: {fileID: 4165996351121408352}
+  - component: {fileID: 8795319354122288683}
   m_Layer: 13
   m_Name: Gramophone
   m_TagString: Metal
@@ -886,7 +887,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4165996351121408356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9b8020169df74844a5d7dd9c8219dd2, type: 3}
+  m_Script: {fileID: 11500000, guid: 769b0f8058b1b99409228abff4079339, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agentType: 2
@@ -901,7 +902,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4165996351121408356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 850d9ee83498ef94c94f1aa0285e0a96, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c60444d52df5fc4ea0fbdd4387ae9aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   creatureType: Gramophone
@@ -919,7 +920,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3536fae27df3bc4f971ed17831692e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 243094645810529470}
+  entityBehaviour: {fileID: 243094645810529470}
   layersForProcessing:
     serializedVersion: 2
     m_Bits: 10240
@@ -933,10 +934,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 4165996351121408356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 121c4029f65012a4ca07a697c23ffe14, type: 3}
+  m_Script: {fileID: 11500000, guid: b39c16ac6b4eb5b49b8f8c42ebd145b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyCreature: {fileID: 6762554739433188666}
+  entityCreature: {fileID: 6762554739433188666}
   dontLoseSightIfDistanceLess: 0
 --- !u!114 &367338133767371860
 MonoBehaviour:
@@ -947,7 +948,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4165996351121408356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85b7d169b92fde94ca227b1e34efe3d6, type: 3}
+  m_Script: {fileID: 11500000, guid: a7b920c04c595a24c84960221235e788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   updateRate: 0.1
@@ -984,12 +985,13 @@ MonoBehaviour:
   invokeOnTakeDamageAfterDead: 1
   movement: {fileID: 243094645810529473}
   spotTarget: {fileID: 784355909804007056}
-  enemySize: 0
+  entitySize: 0
   creature: {fileID: 6762554739433188666}
   stateHandler: {fileID: 367338133767371860}
   gramophoneRenders:
   - {fileID: 5360333099148447658}
   - {fileID: 243094644806929481}
+  animator: {fileID: 3646586626959350751}
 --- !u!114 &243094645810529471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1007,7 +1009,7 @@ MonoBehaviour:
   attackDelay: 0.5
   attackDistance: 2
   attackRadius: 2
-  enemyStateHandler: {fileID: 367338133767371860}
+  stateHandler: {fileID: 367338133767371860}
   animator: {fileID: 3646586626959350751}
   sphereColliderAttack: {fileID: 243094644746534085}
   enemySpotTarget: {fileID: 784355909804007056}
@@ -1122,11 +1124,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86202766de1f88a4bb3856d5461d620b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemy: {fileID: 243094645810529470}
-  enemyMovement: {fileID: 243094645810529473}
+  entityBehaviour: {fileID: 243094645810529470}
+  entityMovement: {fileID: 243094645810529473}
   creatureInSightChecker: {fileID: 1285822928695384938}
-  enemyAttack: {fileID: 243094645810529471}
-  enemyUseSkills: {fileID: 0}
+  entityAttack: {fileID: 243094645810529471}
+  entityUseSkills: {fileID: 0}
   animator: {fileID: 3646586626959350751}
   stateBehaviours:
   - {fileID: 101382552972266566}
@@ -1185,14 +1187,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4165996351121408356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 602883b00be5b5b4895ec685f552b453, type: 3}
+  m_Script: {fileID: 11500000, guid: c4e0a09f53b90604d87a59ad0ca52158, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyScriptableObject: {fileID: 11400000, guid: efdf221de8cd61a43a21cb81f71c81f8, type: 2}
+  entityScriptableObject: {fileID: 11400000, guid: efdf221de8cd61a43a21cb81f71c81f8, type: 2}
   agent: {fileID: 243094645810529477}
-  enemy: {fileID: 243094645810529470}
-  enemyAttack: {fileID: 243094645810529471}
-  enemyUseSkills: {fileID: 0}
+  entityBehaviour: {fileID: 243094645810529470}
+  entityAttack: {fileID: 243094645810529471}
+  entityUseSkills: {fileID: 0}
 --- !u!114 &648377510473195735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1202,14 +1204,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 4165996351121408356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c7ce69f70bc73c249a3b7008b82aff23, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a07bbf3096745a49b71a80402cfd3c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 243094645810529477}
   gravity: -9.8
-  groundCheckHeight: 0.2
+  groundCheckHeight: 0.5
   groundCheckRadius: 0.5
-  groundCheckDistance: 0.6
+  groundCheckDistance: 0.3
   groundLayers:
     serializedVersion: 2
     m_Bits: 4097
@@ -1223,7 +1225,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4165996351121408356}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f7d263b2133767248bbc8b7288d9a33e, type: 3}
+  m_Script: {fileID: 11500000, guid: 882edd9fedd7ea04bb6d3d86ec7ddc92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   DefaultMoveMethod: 2
@@ -1281,6 +1283,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chance: 100
   IsConnectedToSupply: 0
+--- !u!114 &8795319354122288683
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4165996351121408356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 882edd9fedd7ea04bb6d3d86ec7ddc92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  DefaultMoveMethod: 2
+  Curve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  ParabolaHeight: 8
+  NavMeshLinkTraversalTypes: []
 --- !u!1 &5337403511393429277
 GameObject:
   m_ObjectHideFlags: 0

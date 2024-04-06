@@ -20,6 +20,8 @@ namespace SoundNS.Ambient
 		private float soundChangeTransitionOut = 7f;
 		[SerializeField]
 		private bool autoPlayOn = true;
+		[SerializeField]
+		private bool pauseSourceInGameMenu = false;
 
 		private AmbientSound currentPlayingSound;
 		private AudioSourceManager audioSourceManager;
@@ -36,6 +38,7 @@ namespace SoundNS.Ambient
 				Destroy(this);
 			audioSourceManager = gameObject.AddComponent<AudioSourceManager>();
 			audioSourceManager.SetAudioSource(gameObject.AddComponent<AudioSource>());
+			audioSourceManager.PauseSourcesInGameMenu = pauseSourceInGameMenu;
 			ChooseAndPlayRandomAmbientSound();
 		}
 		private void FixedUpdate()

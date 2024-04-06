@@ -1,0 +1,25 @@
+{
+  "name": "com.blutbad.player-core-fps",
+  "version": "1.0.0",
+  "displayName": "Player Core FPS",
+  "description": "FPS Core",
+  "unity": "2021.3",
+  "keywords": [
+    "library",
+    "player",
+    "base",
+    "carcas",
+    "fps",
+    "FPS",
+    "core"
+  ],
+  "author": {
+    "name": "TEGTO",
+    "url": "https://github.com/TEGTO"
+  },
+  "dependencies": {
+    "com.blutbad.main-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/main-core",
+    "com.blutbad.player-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/player-core",
+    "com.unity.inputsystem" : "1.5.1"
+  }
+}

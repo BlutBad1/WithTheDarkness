@@ -174,7 +174,7 @@ AudioMixerController:
     - 098137a07f682524ca0daff01af700f8
     - 6871eb1eec27d8449aa1cc37296b5c2e
     name: All
-  m_CurrentViewIndex: 0
+  m_CurrentViewIndex: 1
   m_TargetSnapshot: {fileID: 24500006}
 --- !u!243 &24300002
 AudioMixerGroupController:

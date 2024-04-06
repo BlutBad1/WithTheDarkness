@@ -13,7 +13,7 @@ namespace GameObjectsControllingNS
     }
     public class ObjectsSupply
     {
-        static protected float ObjectSupplyLevelPercentage(ObjectsSupplyLevel level)
+        protected static float ObjectSupplyLevelPercentage(ObjectsSupplyLevel level)
         {
             switch (level)
             {

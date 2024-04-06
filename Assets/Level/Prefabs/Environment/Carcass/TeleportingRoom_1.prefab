@@ -338,12 +338,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9efd47454d76d17499cbafe9dbf0c3cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OriginalTransformRoot: {fileID: 6174203688701925479}
-  DestinationTransformRoot: {fileID: 6174203688701925479}
-  TeleportLayers:
+  originalTransformRoot: {fileID: 6174203688701925479}
+  destinationTransformRoot: {fileID: 6174203688701925479}
+  teleportLayers:
     serializedVersion: 2
     m_Bits: 2048
-  IsTrigger: 1
+  isTrigger: 1
   ConnectedHiddenTeleport: {fileID: 0}
   PlaceRenders:
   - {fileID: 6185887654967461326}
@@ -2136,6 +2136,10 @@ PrefabInstance:
       propertyPath: IsLocked
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6828134266655027221, guid: f6dfd32d17b2abd49b1f18f247cd8837, type: 3}
+      propertyPath: isLocked
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7093109853304661586, guid: f6dfd32d17b2abd49b1f18f247cd8837, type: 3}
       propertyPath: m_SelectedEditorRenderState
       value: 3
@@ -3423,6 +3427,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6828134266655027221, guid: f6dfd32d17b2abd49b1f18f247cd8837, type: 3}
       propertyPath: IsLocked
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6828134266655027221, guid: f6dfd32d17b2abd49b1f18f247cd8837, type: 3}
+      propertyPath: isLocked
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7289209730077520768, guid: f6dfd32d17b2abd49b1f18f247cd8837, type: 3}

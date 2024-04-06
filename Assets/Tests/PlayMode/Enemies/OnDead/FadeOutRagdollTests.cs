@@ -1,6 +1,6 @@
-using EnemyNS.Attack;
-using EnemyNS.Base;
-using EnemyNS.Death;
+using EntityNS.Attack;
+using EntityNS.Base;
+using EntityNS.Death;
 using NUnit.Framework;
 using System.Collections;
 using UnityEngine;

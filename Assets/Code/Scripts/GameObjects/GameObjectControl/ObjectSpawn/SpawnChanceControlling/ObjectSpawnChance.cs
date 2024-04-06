@@ -1,7 +1,7 @@
 using UnityEngine;
 namespace GameObjectsControllingNS
 {
-    public class ObjectSpawnChance<T, SupplyType> : ObjectSpawnChanceBase
+    public abstract class ObjectSpawnChance<T, SupplyType> : ObjectSpawnChanceBase
         where T : MonoBehaviour
         where SupplyType : ObjectsSupply, new()
     {
@@ -19,15 +19,17 @@ namespace GameObjectsControllingNS
         protected override void Start()
         {
             AssignSupplyType();
+            TrySpawnObject();
+        }
+        private void TrySpawnObject()
+        {
             if (IsConnectedToSupply)
             {
                 if (!objectsSupplyInstance.CalculateObjectChances(Chance))
                     gameObject.SetActive(false);
-                //Destroy(gameObject);
             }
             else if (Chance <= Random.Range(0, 100))
                 gameObject.SetActive(false);
-            //Destroy(gameObject);
         }
     }
 }

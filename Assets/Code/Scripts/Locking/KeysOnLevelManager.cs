@@ -52,7 +52,7 @@ namespace ScriptableObjectNS.Locking
         {
             int maxAmount = requiredKeysToCompleteLevel.Max(x => x.Amount);
             KeyData theMostImportantKey = null;
-            if (MapData.Instance.GetAmountOfRemainingMaps() <= requiredKeysToCompleteLevel.Sum(x => x.Amount))
+            if (LocationsSpawnController.Instance.GetAmountOfRemainingMaps() <= requiredKeysToCompleteLevel.Sum(x => x.Amount))
                 theMostImportantKey = requiredKeysToCompleteLevel.First(x => x.Amount == maxAmount && x.Amount != 0);
             RemoveKeyFromCollection(requiredKeysToCompleteLevel, theMostImportantKey);
             return theMostImportantKey;

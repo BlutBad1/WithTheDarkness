@@ -7,17 +7,38 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.blutbad.enemy-base": {
-      "version": "file:enemy-base",
+    "com.blutbad.entity-core": {
+      "version": "file:entity-core",
       "depth": 0,
       "source": "embedded",
-      "dependencies": {}
+      "dependencies": {
+        "com.blutbad.main-core": "1.0.0"
+      }
     },
     "com.blutbad.main-core": {
       "version": "file:main-core",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
+    },
+    "com.blutbad.player-core": {
+      "version": "file:player-core",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.blutbad.main-core": "1.0.0",
+        "com.unity.inputsystem": "1.5.1"
+      }
+    },
+    "com.blutbad.player-core-fps": {
+      "version": "file:player-core-fps",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {
+        "com.blutbad.main-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/main-core",
+        "com.blutbad.player-core": "https://github.com/BlutBad1/BlutBadPackages.git?path=Packages/player-core",
+        "com.unity.inputsystem": "1.5.1"
+      }
     },
     "com.robproductions.opengraphgui": {
       "version": "https://github.com/RobProductions/OpenGraphGUI.git",
@@ -31,6 +52,15 @@
       "depth": 0,
       "source": "builtin",
       "dependencies": {}
+    },
+    "com.unity.ai.navigation": {
+      "version": "1.0.0-exp.4",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.modules.ai": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
     },
     "com.unity.animation.rigging": {
       "version": "1.1.1",

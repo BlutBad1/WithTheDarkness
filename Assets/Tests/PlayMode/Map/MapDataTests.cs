@@ -10,7 +10,7 @@ namespace Map
     {
         GameObject gameObject;
         GameObject placeholder;
-        MapData mapData;
+        LocationsSpawnController mapData;
         Stopwatch stopwatch;
         [SetUp]
         public void Setup()
@@ -19,7 +19,7 @@ namespace Map
 
             gameObject = GameObject.Instantiate(new GameObject());
             placeholder = GameObject.Instantiate(new GameObject());
-            mapData = gameObject.AddComponent<MapData>();
+            mapData = gameObject.AddComponent<LocationsSpawnController>();
             placeholder.AddComponent<BlackScreenTeleportTrigger>();
             stopwatch = new Stopwatch();
         }

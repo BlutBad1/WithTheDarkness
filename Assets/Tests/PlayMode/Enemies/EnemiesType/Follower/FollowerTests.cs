@@ -1,4 +1,4 @@
-using EnemyNS.Type.Follower;
+using EntityNS.Type.Follower;
 using NUnit.Framework;
 using System.Collections;
 using System.Diagnostics;

@@ -20,7 +20,7 @@ public class Axe : MeleeWeaponBase
 	[SerializeField, Range(0, 100)]
 	private float percentBlockingResistance = 35f;
 	[SerializeField]
-	private PlayerHealth playerHealth;
+	private ExtendedPlayerHealth playerHealth;
 
 	private bool isHoldingUp = false;
 	private bool isBlocking = false;

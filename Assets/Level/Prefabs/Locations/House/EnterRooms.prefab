@@ -559,6 +559,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 338687740567524068}
     - target: {fileID: 477317406529425629, guid: 9b485470de695634385e0a339c1790ab, type: 3}
+      propertyPath: destinationTransformRoot
+      value: 
+      objectReference: {fileID: 338687740567524068}
+    - target: {fileID: 477317406529425629, guid: 9b485470de695634385e0a339c1790ab, type: 3}
       propertyPath: PlaceRenders.Array.data[0]
       value: 
       objectReference: {fileID: 338687740016012794}
@@ -4211,6 +4215,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6828134266655027221, guid: f6dfd32d17b2abd49b1f18f247cd8837, type: 3}
       propertyPath: IsLocked
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6828134266655027221, guid: f6dfd32d17b2abd49b1f18f247cd8837, type: 3}
+      propertyPath: isLocked
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6922978581535471396, guid: f6dfd32d17b2abd49b1f18f247cd8837, type: 3}
@@ -13390,6 +13398,10 @@ PrefabInstance:
       propertyPath: IsLocked
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6828134266655027221, guid: f6dfd32d17b2abd49b1f18f247cd8837, type: 3}
+      propertyPath: isLocked
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6922978581535471396, guid: f6dfd32d17b2abd49b1f18f247cd8837, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -13828,6 +13840,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 477317406529425629, guid: 9b485470de695634385e0a339c1790ab, type: 3}
       propertyPath: DestinationTransformRoot
+      value: 
+      objectReference: {fileID: 5844668730546271299}
+    - target: {fileID: 477317406529425629, guid: 9b485470de695634385e0a339c1790ab, type: 3}
+      propertyPath: destinationTransformRoot
       value: 
       objectReference: {fileID: 5844668730546271299}
     - target: {fileID: 477317406529425629, guid: 9b485470de695634385e0a339c1790ab, type: 3}

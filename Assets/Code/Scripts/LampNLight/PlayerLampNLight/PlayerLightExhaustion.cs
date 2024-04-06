@@ -1,37 +1,41 @@
 using DamageableNS;
 using PlayerScriptsNS;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 namespace LightNS.Player
 {
 	public class PlayerLightExhaustion : MonoBehaviour
 	{
-		public LightGlowTimer LightGlowTimer;
-		public float Damage = 20f;
-		public float TimeBetweenAttacks = 5f;
-		public PlayerHealth PlayerHealth;
-		[HideInInspector]
-		public bool IsExhastionEnabled = false;
+		[SerializeField, FormerlySerializedAs("LightGlowTimer")]
+		private LightGlowTimer lightGlowTimer;
+		[SerializeField, FormerlySerializedAs("Damage")]
+		private float damage = 20f;
+		[SerializeField, FormerlySerializedAs("TimeBetweenAttacks")]
+		private float timeBetweenAttacks = 5f;
+		[SerializeField, FormerlySerializedAs("PlayerHealth")]
+		private PlayerHealth playerHealth;
+
 		private float timeSinceLastAttack = 0f;
-		private void Start()
-		{
-			if (!LightGlowTimer)
-				LightGlowTimer = UtilitiesNS.Utilities.GetComponentFromGameObject<LightGlowTimer>(gameObject);
-		}
+
+		public bool IsExhastionEnabled { get; set; }
+		public LightGlowTimer LightGlowTimer { get => lightGlowTimer; }
+
 		private void Update()
 		{
 			if (LightGlowTimer.CurrentTimeLeftToGlow <= 0)
 				IsExhastionEnabled = true;
 			LightExhastion();
 		}
-		public void LightExhastion()
+		private void LightExhastion()
 		{
 			if (IsExhastionEnabled)
 			{
 				timeSinceLastAttack += Time.deltaTime;
-				if (timeSinceLastAttack > TimeBetweenAttacks)
+				if (timeSinceLastAttack > timeBetweenAttacks)
 				{
 					timeSinceLastAttack = 0;
-					PlayerHealth?.TakeDamage(new TakeDamageData(PlayerHealth, Damage, 0, null, null));
+					playerHealth?.TakeDamage(new TakeDamageData(playerHealth, damage, 0, null, null));
 				}
 			}
 			else

@@ -9,7 +9,7 @@ namespace LocationManagementNS
     {
         TheFirstLocation = -1, TheLastLocation = -2
     }
-    public class TeleportTrigger : MonoBehaviour
+    public abstract class TeleportTrigger : MonoBehaviour
     {
         [EnumMask]
         public TypeObjectToTeleport ObjectToTeleport;
@@ -22,6 +22,7 @@ namespace LocationManagementNS
         [SerializeField]
         protected bool defineNextLocation = true;
 
+        protected LocationsSpawnController spawnController;
         protected int thisLocIndex = (int)LocationIndex.TheFirstLocation;
         protected int connectedLocIndex = (int)LocationIndex.TheLastLocation;
         protected bool isLocIndexSet = false;
@@ -41,6 +42,7 @@ namespace LocationManagementNS
         {
             if (isConnectedToMapData)
                 nextTeleportPointDefinition = gameObject.AddComponent<NextTeleportPointDefinition>();
+            spawnController = LocationsSpawnController.Instance;
         }
         protected void DefineNextLoc()
         {

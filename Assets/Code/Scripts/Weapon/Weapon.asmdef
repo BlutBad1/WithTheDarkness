@@ -2,9 +2,11 @@
     "name": "Weapon",
     "rootNamespace": "",
     "references": [
-        "GUID:c5ee2e1b2c570564c9bd1e6fe39430e7",
+        "GUID:1d69e243af6f7ab4395e454a237efa9d",
+        "GUID:2b075d5d04c303547936bc3a34626662",
+        "GUID:2da30371b4163604e8ee32360b747b33",
+        "GUID:5eb6c63ec71275641b301e1f5810fd62",
         "GUID:75469ad4d38634e559750d17036d5f7c",
-        "GUID:2a8b6f87de7a3754eb5b9726b9982ce3",
         "GUID:ae4051ae2ee194a4da6891de7df54637",
         "GUID:78146f6733cd9094f8ef9da6f6c3d3b4",
         "GUID:7b4a39ee50e17384db2d7c0a9de491fb"

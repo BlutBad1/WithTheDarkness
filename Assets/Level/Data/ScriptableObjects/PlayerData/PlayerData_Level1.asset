@@ -24,16 +24,17 @@ MonoBehaviour:
     ActiveOneHandedGun: {fileID: 0}
     ActiveTwoHandedGun: {fileID: 0}
   ActiveWeaponData: {fileID: 11400000, guid: 32680db33575ebf408c11759d77dac64, type: 2}
-  GunObjects:
-  - WeaponData: {fileID: 11400000, guid: 993ce40b0bc1cdf4d8411ecd74dc82de, type: 2}
-    CurrentAmmo: 7
-  - WeaponData: {fileID: 11400000, guid: 3424be93d5a376b438f64d59164bd657, type: 2}
-    CurrentAmmo: 2
-  AmmoObjects:
-  - ReserveAmmoData: {fileID: 11400000, guid: a527334e743c06e45928881c442208fd, type: 2}
-    ReserveAmmo: 0
-  - ReserveAmmoData: {fileID: 11400000, guid: 45dabed2131961b4ca3087f8a31e8700, type: 2}
-    ReserveAmmo: 0
+  MeleeDurabilityData: []
+  CurrentAmmoData:
+  - weaponData: {fileID: 11400000, guid: 993ce40b0bc1cdf4d8411ecd74dc82de, type: 2}
+    currentAmmo: 7
+  - weaponData: {fileID: 11400000, guid: 3424be93d5a376b438f64d59164bd657, type: 2}
+    currentAmmo: 2
+  ReserveAmmoData:
+  - reserveAmmoData: {fileID: 11400000, guid: a527334e743c06e45928881c442208fd, type: 2}
+    reserveAmmo: 0
+  - reserveAmmoData: {fileID: 11400000, guid: 45dabed2131961b4ca3087f8a31e8700, type: 2}
+    reserveAmmo: 0
   GlowTime: 360
   MaxGlowTime: 360
   LightIntensity: 2.5

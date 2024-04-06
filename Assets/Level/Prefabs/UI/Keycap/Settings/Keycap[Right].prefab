@@ -95,6 +95,10 @@ PrefabInstance:
       propertyPath: BindingIndex
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1527900957609682749, guid: d846345ac0ae72e488cd949ed2c063f2, type: 3}
+      propertyPath: rebindingActionReference
+      value: 
+      objectReference: {fileID: -6564088077387221707, guid: 14c51e6815cc79a438a43fae4a134a7c, type: 3}
     - target: {fileID: 1753175265734589522, guid: d846345ac0ae72e488cd949ed2c063f2, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 

@@ -6,20 +6,26 @@ namespace LocationManagementNS
     [RequireComponent(typeof(TeleportTrigger))]
     public class NextTeleportPointDefinition : MonoBehaviour
     {
-        private MapData mapData;
+        private LocationsSpawnController locationController;
+
+        public NextTeleportPointDefinition(LocationsSpawnController locationController)
+        {
+            this.locationController = locationController;
+        }
+
         private TeleportTrigger teleportTrigger;
         private bool isActivated = false;
 
         private void Start()
         {
             teleportTrigger = GetComponent<TeleportTrigger>();
-            mapData = MapData.Instance;
+            locationController = LocationsSpawnController.Instance;
         }
         public void DefineNextLoc()
         {
             if (!isActivated)
             {
-                if (mapData.LocationsIterator < mapData.ActiveLocations.Count && mapData.ActiveLocations[mapData.LocationsIterator].LocaionType == LocaionType.Scene)
+                if (locationController.LocationsIterator < locationController.ActiveLocations.Count && locationController.ActiveLocations[locationController.LocationsIterator].LocaionType == LocaionType.Scene)
                     StartCoroutine(CreateSceneLocation());
                 else
                     DefineNextLocation();
@@ -28,20 +34,20 @@ namespace LocationManagementNS
         }
         private void DefineNextLocation()
         {
-            if (mapData.LocationsIterator < mapData.ActiveLocations.Count)
+            if (locationController.LocationsIterator < locationController.ActiveLocations.Count)
             {
-                teleportTrigger.TeleportPoint = mapData.ActiveLocations[mapData.LocationsIterator].EntryTeleportTrigger.TeleportPointToHere;
-                mapData.ActiveLocations[mapData.LocationsIterator].EntryTeleportTrigger.TeleportPoint = teleportTrigger.TeleportPointToHere;
-                teleportTrigger.ConnectedLocIndex = mapData.LocationsIterator;
-                mapData.ActiveLocations[mapData.LocationsIterator].EntryTeleportTrigger.ConnectedLocIndex = teleportTrigger.ThisLocIndex;
-                TeleportTrigger[] teleportTriggers = mapData.ActiveLocations[mapData.LocationsIterator].MapData.GetComponentsInChildren<TeleportTrigger>();
+                teleportTrigger.TeleportPoint = locationController.ActiveLocations[locationController.LocationsIterator].EntryTeleportTrigger.TeleportPointToHere;
+                locationController.ActiveLocations[locationController.LocationsIterator].EntryTeleportTrigger.TeleportPoint = teleportTrigger.TeleportPointToHere;
+                teleportTrigger.ConnectedLocIndex = locationController.LocationsIterator;
+                locationController.ActiveLocations[locationController.LocationsIterator].EntryTeleportTrigger.ConnectedLocIndex = teleportTrigger.ThisLocIndex;
+                TeleportTrigger[] teleportTriggers = locationController.ActiveLocations[locationController.LocationsIterator].MapData.GetComponentsInChildren<TeleportTrigger>();
                 for (int i = 0; i < teleportTriggers.Length; i++)
-                    teleportTriggers[i].ThisLocIndex = mapData.LocationsIterator;
-                mapData.LocationsIterator++;
+                    teleportTriggers[i].ThisLocIndex = locationController.LocationsIterator;
+                locationController.LocationsIterator++;
             }
             else
             {
-                Location theLastLocation = mapData.GetLocationByIndex((int)LocationIndex.TheLastLocation);
+                Location theLastLocation = locationController.GetLocationByIndex((int)LocationIndex.TheLastLocation);
                 teleportTrigger.TeleportPoint = theLastLocation.EntryTeleportTrigger.TeleportPointToHere;
                 theLastLocation.EntryTeleportTrigger.TeleportPoint = teleportTrigger.TeleportPointToHere;
                 TeleportTrigger[] teleportTriggers = theLastLocation.MapData.GetComponentsInChildren<TeleportTrigger>();
@@ -51,11 +57,11 @@ namespace LocationManagementNS
         }
         private IEnumerator CreateSceneLocation()
         {
-            AsyncOperation isLoaded = SceneManager.LoadSceneAsync(mapData.ActiveLocations[mapData.LocationsIterator].MapName, LoadSceneMode.Additive);
+            AsyncOperation isLoaded = SceneManager.LoadSceneAsync(locationController.ActiveLocations[locationController.LocationsIterator].MapName, LoadSceneMode.Additive);
             while (isLoaded.progress < 0.9)
                 yield return null;
-            mapData.DefineLocationElements(mapData.ActiveLocations[mapData.LocationsIterator]);
-            while (!mapData.ActiveLocations[mapData.LocationsIterator].MapData)
+            locationController.SpawnLocation(locationController.ActiveLocations[locationController.LocationsIterator]);
+            while (!locationController.ActiveLocations[locationController.LocationsIterator].MapData)
                 yield return null;
             DefineNextLocation();
         }

@@ -228,10 +228,10 @@ MonoBehaviour:
   - {fileID: 2192340979925922581}
   referenceMat: {fileID: 2100000, guid: 57854568d07548d4081eed2a7fbee7a0, type: 2}
   hightLightEmissionColor: {r: 0.7490196, g: 0.24705882, b: 0.023529412, a: 1}
-  MinDistance: 5
-  MaxIntensity: 1
-  MinIntensity: 0
-  IntensityUpdateDelay: 0.1
+  minDistance: 5
+  maxIntensity: 1
+  minIntensity: 0
+  intensityUpdateDelay: 0.1
 --- !u!114 &2192340978202397895
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -322,12 +322,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 1
   promptMessage: 
-  LastWhoInteracted: {fileID: 0}
-  message: 
-  Text: {fileID: 0}
-  disapperingSpeed: 0.8
+  text: {fileID: 11400000, guid: 9187ac769be4d654ebc63fbb7a1d80ed, type: 2}
   gun: {fileID: 11400000, guid: 3424be93d5a376b438f64d59164bd657, type: 2}
-  AmountOfBullets: {x: 2, y: 2}
+  amountOfBullets: {x: 2, y: 2}
 --- !u!114 &2192340979925267117
 MonoBehaviour:
   m_ObjectHideFlags: 0
