@@ -70,17 +70,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   useEvents: 0
   promptMessage: 
-  LastWhoInteracted: {fileID: 0}
   InteractingSpeed: 1.5
   CoroutineDelay: 0.01
   IsInteracting: 0
   InteractionProgress: 0
-  MuteSound: {fileID: 3316152430223207276}
-  BlackScreenFadeSpeed: 0.8
-  MuteSoundTranTime: 10
-  UseAsTrigger: 1
-  DefineByProgressManager: 1
-  NextScene: 
+  muteSound: {fileID: 3316152430223207276}
+  blackScreenFadeSpeed: 0.8
+  muteSoundTranTime: 10
+  useAsTrigger: 1
+  defineByProgressManager: 1
 --- !u!114 &3316152430223207276
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,4 +91,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd59186459fe5d24a8d2bfff6ba13234, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AudioKind: -1
+  AudioKindToMute: -1

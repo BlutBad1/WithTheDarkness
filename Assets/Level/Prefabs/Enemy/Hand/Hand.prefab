@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 5079124951260837742}
   - component: {fileID: 5079124951260837654}
   - component: {fileID: 5079124951260837650}
-  - component: {fileID: 5079124951260837649}
+  - component: {fileID: 6895178684502931343}
   - component: {fileID: 4973814721366747465}
   - component: {fileID: 5079124951260837741}
   - component: {fileID: 2738454846825208095}
@@ -619,7 +619,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PauseSourcesInGameMenu: 1
-  surfaceEntityManager: {fileID: 0}
+  surfaceEntityManager: {fileID: 6895178684502931343}
   distanceBetweenSteps: 0.56
   Agent: {fileID: 5079124951260837741}
   audioSource: {fileID: 6346306090142330147}
@@ -633,7 +633,7 @@ MonoBehaviour:
   groundLayers:
     serializedVersion: 2
     m_Bits: 4097
---- !u!114 &5079124951260837649
+--- !u!114 &6895178684502931343
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -642,20 +642,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 5079124951260837733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: efd771b8daedadc47a1363e28836b08c, type: 3}
+  m_Script: {fileID: 11500000, guid: f651f585bbd3e494ea7ab5262f76fe8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultSurface:
-    name: HandGrass
-    volume: 1
-    footsteps:
-    - {fileID: 8300000, guid: 24dda6d1ec6bddd4f82ef4a4c06d6e59, type: 3}
-    - {fileID: 8300000, guid: cd0e5b7bea1c0b04a935d01b07d5468d, type: 3}
-    landsounds:
-    - {fileID: 8300000, guid: cd0e5b7bea1c0b04a935d01b07d5468d, type: 3}
   definedSurfaces:
   - name: HandGrass
-    volume: 0
+    volume: 1
     footsteps:
     - {fileID: 8300000, guid: 24dda6d1ec6bddd4f82ef4a4c06d6e59, type: 3}
     - {fileID: 8300000, guid: cd0e5b7bea1c0b04a935d01b07d5468d, type: 3}
@@ -664,12 +656,20 @@ MonoBehaviour:
   registeredTextures:
   - texture: {fileID: 2800000, guid: f8143ab3e8f11a049ba6b9dec2811fc2, type: 3}
     surfaceIndex: 0
+    attachedSurfaces:
+    - HandGrass
   - texture: {fileID: 2800000, guid: 7b6629a170ebc95418f184f49ff24eb5, type: 3}
     surfaceIndex: 0
+    attachedSurfaces:
+    - HandGrass
   - texture: {fileID: 2800000, guid: c8124cda02456dd45a1c97a1b26d2d07, type: 3}
     surfaceIndex: 0
+    attachedSurfaces:
+    - HandGrass
   - texture: {fileID: 2800000, guid: f9262a914f9fcc8429b04bd32e72b0a4, type: 3}
     surfaceIndex: 0
+    attachedSurfaces:
+    - HandGrass
 --- !u!114 &4973814721366747465
 MonoBehaviour:
   m_ObjectHideFlags: 0
